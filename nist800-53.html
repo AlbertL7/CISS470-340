@@ -1,0 +1,3041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIST SP 800-53: Security and Privacy Controls - Interactive Learning Module</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #16305e 0%, #1e3a70 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .slide-content h2 {
+            color: #1e3c72;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #2a5298;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce7ff 100%);
+            border-left: 5px solid #2a5298;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .concept-box {
+            background: #f0f7ff;
+            border-left: 5px solid #1e3c72;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .control-family-card {
+            background: white;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .control-family-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+            background: #f8fbff;
+        }
+        
+        .family-code {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable {
+            background: #f8fbff;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #16305e 0%, #1e3a70 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-selector {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .selector-title {
+            color: #1976d2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .baseline-button {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .baseline-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        }
+        
+        .baseline-button.selected {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        }
+        
+        .control-display {
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #2a5298;
+        }
+        
+        .control-item {
+            background: #f5f5f5;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .control-enhancement {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .baseline-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .baseline-card {
+            background: white;
+            border: 3px solid #2a5298;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .baseline-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+        }
+        
+        .baseline-level {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .baseline-low { color: #4caf50; }
+        .baseline-moderate { color: #ff9800; }
+        .baseline-high { color: #f44336; }
+        
+        .key-learning {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .example-box {
+            background: #fff5f0;
+            border-left: 5px solid #ff6a00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .control-matrix {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        
+        tr:hover td {
+            background: #f8fbff;
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #2a5298;
+            font-weight: bold;
+        }
+        
+        .control-count-box {
+            background: #e8f4fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .control-count {
+            font-size: 48px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        
+        .analogy-box {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border-left: 5px solid #9c27b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .real-world-box {
+            background: #f0f4c3;
+            border-left: 5px solid #827717;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .baseline-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 NIST SP 800-53: SECURITY CONTROLS</h1>
+            <p style="font-size: 24px; margin-top: 10px;">Security and Privacy Controls for Information Systems and Organizations</p>
+            <p style="font-size: 18px; margin-top: 5px;">Interactive Learning Module - Revision 5</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Introduction & Relationship to FIPS 199 -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Understanding NIST SP 800-53 and Its Connection to FIPS 199</span>
+                <span class="slide-number">Part 1 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🔗 From Risk Assessment to Protection</h2>
+                
+                <div class="highlight-box">
+                    <h3>The Security Control Lifecycle</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">
+                        Think of NIST SP 800-53 as your comprehensive security toolkit. While FIPS 199 helps you understand how critical your systems are (like determining if you're protecting a garden shed or Fort Knox), NIST SP 800-53 provides the actual locks, cameras, and guards you'll need based on that assessment. It transforms your risk categorization into actionable security measures.
+                    </p>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🏡 Real-World Analogy: Home Security</h4>
+                    <p>Imagine securing your home:</p>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>FIPS 199 = Neighborhood Assessment:</strong> Is this a low-crime suburb or downtown area? What valuables are inside?</li>
+                        <li><strong>NIST 800-53 = Security Catalog:</strong> Based on your assessment, choose from: basic locks, deadbolts, alarm systems, cameras, guards, safes, etc.</li>
+                        <li><strong>Your Security Plan:</strong> Select and implement the right combination for your specific situation</li>
+                    </ul>
+                </div>
+
+                <h3>📊 The Connection Flow Explained</h3>
+                
+                <div class="concept-box">
+                    <h4>The Complete Journey from Risk to Protection:</h4>
+                    <ol style="font-size: 18px; line-height: 2.5;">
+                        <li><strong>FIPS 199 - Categorization:</strong> 
+                            <br><em style="margin-left: 30px; color: #666;">You determine your system handles patient medical records (HIGH confidentiality impact)</em></li>
+                        <li><strong>FIPS 200 - Requirements:</strong> 
+                            <br><em style="margin-left: 30px; color: #666;">Federal standards say you must protect authentication, audit, and encryption</em></li>
+                        <li><strong>NIST SP 800-53 - Control Selection:</strong> 
+                            <br><em style="margin-left: 30px; color: #666;">You pick specific controls: multi-factor authentication, 365-day audit log retention, AES-256 encryption</em></li>
+                        <li><strong>Implementation:</strong> 
+                            <br><em style="margin-left: 30px; color: #666;">You deploy Microsoft Authenticator, configure SIEM tools, enable database encryption</em></li>
+                        <li><strong>Assessment & Monitoring:</strong> 
+                            <br><em style="margin-left: 30px; color: #666;">You test controls quarterly and monitor effectiveness continuously</em></li>
+                    </ol>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📚 Why SP 800-53 is Revolutionary</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Before NIST SP 800-53:</h4>
+                        <ul>
+                            <li>Organizations guessed at what security measures they needed</li>
+                            <li>No standard way to prove adequate protection</li>
+                            <li>Inconsistent security across federal agencies</li>
+                            <li>Difficulty comparing security postures</li>
+                        </ul>
+                        
+                        <h4 style="margin-top: 20px;">What SP 800-53 Provides:</h4>
+                        <ul>
+                            <li><strong>Comprehensive Coverage:</strong> 1,000+ controls covering every aspect of security</li>
+                            <li><strong>Scalability:</strong> Works for a 5-person office or the Department of Defense</li>
+                            <li><strong>Risk-Based Approach:</strong> More valuable systems get more protection</li>
+                            <li><strong>Technology-Neutral:</strong> Apply to mainframes, cloud, mobile, IoT</li>
+                            <li><strong>Privacy Integration:</strong> Not just security—privacy is built in</li>
+                            <li><strong>Global Adoption:</strong> Used worldwide, not just in US government</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>🎯 Control Baselines: Pre-Built Security Packages</h3>
+                
+                <div class="real-world-box">
+                    <h4>Think of Baselines as Security "Meal Deals"</h4>
+                    <p>Instead of ordering security à la carte, NIST provides three pre-selected combinations:</p>
+                </div>
+                
+                <div class="baseline-grid">
+                    <div class="baseline-card">
+                        <div class="baseline-level baseline-low">LOW</div>
+                        <p><strong>The Economy Package</strong></p>
+                        <p style="font-size: 14px; margin-top: 10px;">Basic locks on all doors, smoke detectors, simple alarm</p>
+                        <div class="control-count-box" style="margin-top: 15px;">
+                            <div style="font-size: 24px; font-weight: bold;">~120</div>
+                            <div style="font-size: 12px;">Base Controls</div>
+                        </div>
+                        <p style="font-size: 12px; margin-top: 10px; color: #666;">Perfect for: Public websites, training systems, non-sensitive data</p>
+                    </div>
+                    <div class="baseline-card">
+                        <div class="baseline-level baseline-moderate">MODERATE</div>
+                        <p><strong>The Standard Package</strong></p>
+                        <p style="font-size: 14px; margin-top: 10px;">Deadbolts, motion sensors, cameras at entrances, monitoring service</p>
+                        <div class="control-count-box" style="margin-top: 15px;">
+                            <div style="font-size: 24px; font-weight: bold;">~260</div>
+                            <div style="font-size: 12px;">Controls + Enhancements</div>
+                        </div>
+                        <p style="font-size: 12px; margin-top: 10px; color: #666;">Perfect for: Business systems, PII, financial records</p>
+                    </div>
+                    <div class="baseline-card">
+                        <div class="baseline-level baseline-high">HIGH</div>
+                        <p><strong>The Premium Package</strong></p>
+                        <p style="font-size: 14px; margin-top: 10px;">Biometric locks, 24/7 guards, panic room, full camera coverage</p>
+                        <div class="control-count-box" style="margin-top: 15px;">
+                            <div style="font-size: 24px; font-weight: bold;">~420</div>
+                            <div style="font-size: 12px;">Maximum Protection</div>
+                        </div>
+                        <p style="font-size: 12px; margin-top: 10px; color: #666;">Perfect for: National security, healthcare, critical infrastructure</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4>🏥 Real Scenario: Hospital System Categorization</h4>
+                    <p><strong>Step 1:</strong> FIPS 199 Analysis</p>
+                    <ul style="list-style-type: disc; padding-left: 30px;">
+                        <li>System contains: Patient records, treatment plans, medical imaging</li>
+                        <li>Confidentiality: HIGH (HIPAA violations, patient privacy)</li>
+                        <li>Integrity: HIGH (wrong meds could kill someone)</li>
+                        <li>Availability: MODERATE (doctors can use paper temporarily)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Step 2:</strong> System Categorization = {(C:HIGH), (I:HIGH), (A:MODERATE)}</p>
+                    <p style="margin-top: 10px;"><strong>Step 3:</strong> Required Baseline = HIGH (always use the highest impact level)</p>
+                    <p style="margin-top: 10px;"><strong>Result:</strong> Must implement ~420 security controls to adequately protect patient data!</p>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Critical Concept: Tailoring is Essential</h4>
+                    <p>The baseline is your starting point, not your ending point. You can:</p>
+                    <ul>
+                        <li><strong>Add controls:</strong> Your industry may require extras (HIPAA, PCI-DSS, state laws)</li>
+                        <li><strong>Remove controls:</strong> Some may not apply (no USB ports? Skip removable media controls)</li>
+                        <li><strong>Adjust implementation:</strong> Modify controls to fit your environment</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Important:</strong> All changes must be documented and justified!</p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Takeaway: NIST SP 800-53 is your security control catalog. Your FIPS 199 categorization determines which "security package" (baseline) you start with. Higher risk = more controls = better protection.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Control Structure and Families -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Control Families and Structure</span>
+                <span class="slide-number">Part 2 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🏗️ How Controls Are Organized</h2>
+                
+                <div class="highlight-box">
+                    <h3>The 20 Control Families - Your Security Departments</h3>
+                    <p style="font-size: 18px;">Think of control families like departments in a large company. Each family specializes in one aspect of security, and together they provide complete protection. Each family has a two-letter code, like airport codes for quick reference.</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🏢 Analogy: Security as a Company</h4>
+                    <p>If your security program was a company, the control families would be your departments:</p>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>AC (Access Control):</strong> The badge office and door security</li>
+                        <li><strong>AU (Audit):</strong> The compliance and recording department</li>
+                        <li><strong>IA (Authentication):</strong> The ID verification desk</li>
+                        <li><strong>IR (Incident Response):</strong> The emergency response team</li>
+                    </ul>
+                </div>
+
+                <h3>📁 Understanding Each Security Control Family</h3>
+                
+                <div class="control-family-card" onclick="expandFamily('AC')">
+                    <span class="family-code">AC</span>
+                    <h4 style="margin-top:25px;">Access Control - The Gatekeepers</h4>
+                    <p style="margin-top:15px;">Controls who gets in, what they can see, and what they can do. Like bouncers at different doors of your organization.</p>
+                    <div id="AC-details" class="expandable-content" style="display:none; margin-top:15px;">
+                        <strong>Key Controls You'll Use Daily:</strong>
+                        <ul>
+                            <li><strong>AC-2 Account Management:</strong> Creating/deleting user accounts (like employee onboarding/offboarding)</li>
+                            <li><strong>AC-3 Access Enforcement:</strong> Making sure permissions actually work (can't access HR files without HR role)</li>
+                            <li><strong>AC-7 Unsuccessful Logon Attempts:</strong> Lock account after 3 failed passwords</li>
+                            <li><strong>AC-11 Session Lock:</strong> Screen locks after 15 minutes idle</li>
+                        </ul>
+                        <div class="real-world-box" style="margin-top: 15px;">
+                            <strong>Real Implementation:</strong> When an employee is promoted from junior to senior analyst, AC controls ensure their system access is updated to match their new responsibilities.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-family-card" onclick="expandFamily('AU')">
+                    <span class="family-code">AU</span>
+                    <h4 style="margin-top:25px;">Audit and Accountability - The Record Keepers</h4>
+                    <p style="margin-top:15px;">Creates a paper trail of everything that happens. Your security cameras and visitor logs.</p>
+                    <div id="AU-details" class="expandable-content" style="display:none; margin-top:15px;">
+                        <strong>What This Family Tracks:</strong>
+                        <ul>
+                            <li><strong>AU-2 Audit Events:</strong> What to record (logins, file access, configuration changes)</li>
+                            <li><strong>AU-3 Content of Audit Records:</strong> What details to capture (who, what, when, where, result)</li>
+                            <li><strong>AU-4 Audit Storage Capacity:</strong> Ensuring you don't run out of log space</li>
+                            <li><strong>AU-11 Audit Record Retention:</strong> How long to keep logs (often 90 days minimum)</li>
+                        </ul>
+                        <div class="example-box" style="margin-top: 15px;">
+                            <strong>Why This Matters:</strong> When suspicious activity occurs at 2 AM on Saturday, audit logs show exactly which account was used, what they accessed, and from where—crucial for investigations.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-family-card" onclick="expandFamily('IA')">
+                    <span class="family-code">IA</span>
+                    <h4 style="margin-top:25px;">Identification and Authentication - The Identity Verifiers</h4>
+                    <p style="margin-top:15px;">Ensures people are who they claim to be. Your ID badge checkers and fingerprint scanners.</p>
+                    <div id="IA-details" class="expandable-content" style="display:none; margin-top:15px;">
+                        <strong>Modern Authentication Controls:</strong>
+                        <ul>
+                            <li><strong>IA-2 Authentication:</strong> Basic login (username/password)</li>
+                            <li><strong>IA-2(1) Multi-Factor for Network:</strong> Adding phone verification for remote access</li>
+                            <li><strong>IA-2(2) Multi-Factor for All Users:</strong> Everyone needs two-factor, even on-site</li>
+                            <li><strong>IA-5 Authenticator Management:</strong> Password rules, token distribution, biometric enrollment</li>
+                        </ul>
+                        <div class="warning-box" style="margin-top: 15px;">
+                            <strong>Evolution:</strong> Passwords alone are no longer sufficient. Modern systems require at least two factors: something you know (password) + something you have (phone) or something you are (fingerprint).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📋 View All 20 Control Families with Real-World Examples</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>The Complete Security Organization</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Family Name</th>
+                                    <th>Real-World Purpose</th>
+                                    <th>Example Implementation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>AC</strong></td>
+                                    <td>Access Control</td>
+                                    <td>Who can do what</td>
+                                    <td>Role-based permissions in Office 365</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>AT</strong></td>
+                                    <td>Awareness and Training</td>
+                                    <td>Security education</td>
+                                    <td>Annual security training, phishing tests</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>AU</strong></td>
+                                    <td>Audit and Accountability</td>
+                                    <td>Recording events</td>
+                                    <td>SIEM tools, Windows Event Logs</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CA</strong></td>
+                                    <td>Assessment and Authorization</td>
+                                    <td>Security testing</td>
+                                    <td>Annual penetration tests, vulnerability scans</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CM</strong></td>
+                                    <td>Configuration Management</td>
+                                    <td>System settings</td>
+                                    <td>Group Policy, baseline configurations</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CP</strong></td>
+                                    <td>Contingency Planning</td>
+                                    <td>Disaster recovery</td>
+                                    <td>Backups, alternate sites, recovery plans</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IA</strong></td>
+                                    <td>Identification and Authentication</td>
+                                    <td>Verify identity</td>
+                                    <td>Active Directory, MFA solutions</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IR</strong></td>
+                                    <td>Incident Response</td>
+                                    <td>Handle breaches</td>
+                                    <td>SOC team, incident playbooks</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MA</strong></td>
+                                    <td>Maintenance</td>
+                                    <td>System upkeep</td>
+                                    <td>Patch management, change windows</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MP</strong></td>
+                                    <td>Media Protection</td>
+                                    <td>Data storage security</td>
+                                    <td>Encryption, secure disposal, USB blocking</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PE</strong></td>
+                                    <td>Physical and Environmental</td>
+                                    <td>Building security</td>
+                                    <td>Badge readers, cameras, fire suppression</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PL</strong></td>
+                                    <td>Planning</td>
+                                    <td>Security documentation</td>
+                                    <td>Security plans, policies, procedures</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PM</strong></td>
+                                    <td>Program Management</td>
+                                    <td>Overall governance</td>
+                                    <td>CISO office, risk committee</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PS</strong></td>
+                                    <td>Personnel Security</td>
+                                    <td>People screening</td>
+                                    <td>Background checks, NDAs, termination process</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PT</strong></td>
+                                    <td>PII Processing and Transparency</td>
+                                    <td>Privacy protection</td>
+                                    <td>Privacy notices, consent forms, data mapping</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>RA</strong></td>
+                                    <td>Risk Assessment</td>
+                                    <td>Find vulnerabilities</td>
+                                    <td>Risk registers, threat modeling</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SA</strong></td>
+                                    <td>System and Services Acquisition</td>
+                                    <td>Secure purchasing</td>
+                                    <td>Vendor assessments, secure coding requirements</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SC</strong></td>
+                                    <td>System and Communications Protection</td>
+                                    <td>Technical safeguards</td>
+                                    <td>Firewalls, encryption, network segmentation</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SI</strong></td>
+                                    <td>System and Information Integrity</td>
+                                    <td>Keep systems clean</td>
+                                    <td>Antivirus, integrity monitoring, patching</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SR</strong></td>
+                                    <td>Supply Chain Risk Management</td>
+                                    <td>Vendor security</td>
+                                    <td>Supplier audits, software bill of materials</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h3>🔍 Decoding Control Structure</h3>
+                
+                <div class="concept-box">
+                    <h4>The Control Numbering System Explained:</h4>
+                    <p style="font-size: 18px; font-family: monospace; margin: 15px 0; text-align: center; background: white; padding: 15px; border-radius: 5px;">
+                        <span style="color: #1976d2;">XX</span>-<span style="color: #388e3c;">##</span> (<span style="color: #f57c00;">Enhancement</span>)
+                    </p>
+                    <ul>
+                        <li><strong style="color: #1976d2;">XX:</strong> Two-letter family code (like AC for Access Control)</li>
+                        <li><strong style="color: #388e3c;">##:</strong> Control number within that family (numbered sequentially)</li>
+                        <li><strong style="color: #f57c00;">(Enhancement):</strong> Optional add-ons for stronger security</li>
+                    </ul>
+                    
+                    <div class="example-box" style="margin-top: 20px;">
+                        <h4>Reading Example: AC-2(1)</h4>
+                        <ul>
+                            <li><strong>AC</strong> = Access Control family (the department)</li>
+                            <li><strong>2</strong> = Account Management (the specific control)</li>
+                            <li><strong>(1)</strong> = Automated Account Management (the enhancement)</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Translation:</strong> "Use automated tools to manage user accounts instead of doing it manually"</p>
+                    </div>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">🎯 Explore How Controls Build Up</div>
+                    <p>Select a control to see how enhancements add security layers:</p>
+                    <button class="baseline-button" onclick="showControlDetail('basic')">AC-2: Account Management</button>
+                    <button class="baseline-button" onclick="showControlDetail('enhanced')">IA-2: Authentication</button>
+                    <button class="baseline-button" onclick="showControlDetail('complex')">SC-7: Boundary Protection</button>
+                    <div id="control-detail-display" class="control-display" style="display:none;"></div>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Takeaway: The 20 control families work together like departments in a company. Each family handles a specific security domain. Controls within families can have enhancements that add more rigor for higher-risk systems. Think: Basic lock → Deadbolt → Smart lock with camera.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Control Baselines in Detail -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Deep Dive: Control Baselines and FIPS 199 Impact Levels</span>
+                <span class="slide-number">Part 3 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📊 How FIPS 199 Categories Map to Control Baselines</h2>
+                
+                <div class="highlight-box">
+                    <h3>Understanding the Baseline Concept</h3>
+                    <p style="font-size: 18px;">Control baselines are like pre-configured security packages. Instead of choosing 420+ controls individually (which would be overwhelming), NIST gives you three pre-selected sets based on your FIPS 199 impact level. It's like choosing a car trim level—base, premium, or fully-loaded—each builds on the previous with more features.</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🏠 Think of it Like Home Insurance</h4>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>Basic Coverage (LOW):</strong> Covers fire and theft—the essentials</li>
+                        <li><strong>Standard Coverage (MODERATE):</strong> Adds liability, personal property, additional living expenses</li>
+                        <li><strong>Premium Coverage (HIGH):</strong> Adds flood, earthquake, valuable items, identity theft protection</li>
+                    </ul>
+                    <p style="margin-top: 15px;">You don't pick individual coverages—you choose a package based on what you're protecting!</p>
+                </div>
+
+                <h3>🔄 The Critical Connection: FIPS 199 → Baseline</h3>
+                
+                <div class="concept-box">
+                    <h4>Remember Your FIPS 199 Formula:</h4>
+                    <p style="font-size: 20px; text-align: center; margin: 20px 0; font-family: monospace;">
+                        SC = {(Confidentiality, impact), (Integrity, impact), (Availability, impact)}
+                    </p>
+                    <p style="text-align: center; font-weight: bold; color: #1976d2; font-size: 18px;">
+                        ↓<br>
+                        Highest Impact = Your Baseline<br>
+                        ↓<br>
+                        Your Starting Set of Controls
+                    </p>
+                    
+                    <div class="warning-box" style="margin-top: 20px;">
+                        <strong>⚠️ The High Water Mark Rule:</strong> If ANY of your CIA ratings is HIGH, you need the HIGH baseline. It doesn't matter if the other two are LOW—the highest one wins!
+                    </div>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">📈 See How Baselines Build on Each Other</div>
+                    <p>Click each baseline to understand what you get at each level:</p>
+                    <button class="baseline-button" onclick="showDetailedBaseline('low')">LOW Baseline Details</button>
+                    <button class="baseline-button" onclick="showDetailedBaseline('moderate')">MODERATE Baseline Details</button>
+                    <button class="baseline-button" onclick="showDetailedBaseline('high')">HIGH Baseline Details</button>
+                    <div id="detailed-baseline-display" class="control-display" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <h3>📋 How Controls Stack Up Across Baselines</h3>
+                
+                <div class="real-world-box">
+                    <h4>Example: Password Requirements by Baseline</h4>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>LOW:</strong> 8 characters, change annually</li>
+                        <li><strong>MODERATE:</strong> 12 characters, complexity requirements, change every 90 days, can't reuse last 5</li>
+                        <li><strong>HIGH:</strong> 15+ characters, high complexity, change every 60 days, can't reuse last 12, plus multi-factor required</li>
+                    </ul>
+                </div>
+                
+                <div class="control-matrix">
+                    <h4 style="margin-bottom: 15px;">Sample Control Progression: Access Control Family</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Control</th>
+                                <th>Description</th>
+                                <th>LOW</th>
+                                <th>MODERATE</th>
+                                <th>HIGH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>AC-1</strong></td>
+                                <td>Access Control Policy</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AC-2</strong></td>
+                                <td>Account Management</td>
+                                <td style="background:#c8e6c9; text-align:center;">Base only</td>
+                                <td style="background:#fff9c4; text-align:center;">+ 4 enhancements</td>
+                                <td style="background:#ffccbc; text-align:center;">+ 8 enhancements</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AC-3</strong></td>
+                                <td>Access Enforcement</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AC-4</strong></td>
+                                <td>Information Flow</td>
+                                <td style="background:#ffcdd2; text-align:center;">Not Required</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                                <td style="background:#ffccbc; text-align:center;">+ enhancements</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AC-5</strong></td>
+                                <td>Separation of Duties</td>
+                                <td style="background:#ffcdd2; text-align:center;">Not Required</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AC-6</strong></td>
+                                <td>Least Privilege</td>
+                                <td style="background:#ffcdd2; text-align:center;">Not Required</td>
+                                <td style="background:#fff9c4; text-align:center;">+ 5 enhancements</td>
+                                <td style="background:#ffccbc; text-align:center;">+ 6 enhancements</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AC-11</strong></td>
+                                <td>Session Lock</td>
+                                <td style="background:#c8e6c9; text-align:center;">✓</td>
+                                <td style="background:#fff9c4; text-align:center;">+ (1) Pattern lock</td>
+                                <td style="background:#fff9c4; text-align:center;">+ (1) Pattern lock</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                        Legend: Green = Basic control | Yellow = With enhancements | Orange = Many enhancements | Red = Not required
+                    </p>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🏥 Complete Scenario: Healthcare Electronic Records System</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>The Journey from Categorization to Controls</h4>
+                        
+                        <div class="concept-box">
+                            <p><strong>Step 1 - Information Types:</strong></p>
+                            <ul>
+                                <li>Patient medical records (diagnoses, treatments, medications)</li>
+                                <li>Medical imaging (X-rays, MRIs, CT scans)</li>
+                                <li>Insurance and billing information</li>
+                                <li>Provider notes and communications</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="concept-box" style="margin-top: 15px;">
+                            <p><strong>Step 2 - FIPS 199 Impact Analysis:</strong></p>
+                            <ul>
+                                <li><strong>Confidentiality: HIGH</strong>
+                                    <br><em>Rationale: HIPAA violations, patient privacy breaches could result in million-dollar fines, lawsuits, and loss of patient trust</em></li>
+                                <li><strong>Integrity: HIGH</strong>
+                                    <br><em>Rationale: Wrong medication or dosage information could kill patients. Altered test results could lead to misdiagnosis</em></li>
+                                <li><strong>Availability: MODERATE</strong>
+                                    <br><em>Rationale: Temporary outages are serious but doctors can use paper charts and phone consultations for a few hours</em></li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Result:</strong> SC = {(C:HIGH), (I:HIGH), (A:MODERATE)} → HIGH Baseline Required</p>
+                        </div>
+                        
+                        <div class="success-box">
+                            <strong>Step 3 - Key HIGH Baseline Controls for Healthcare:</strong>
+                            <ul>
+                                <li><strong>AC-2 with 8 enhancements:</strong> Automated provisioning/deprovisioning tied to HR system</li>
+                                <li><strong>AU-2 through AU-12:</strong> Complete audit trail of who accessed which patient records when</li>
+                                <li><strong>IA-2(1),(2),(3):</strong> Multi-factor for all access, including workstations</li>
+                                <li><strong>SC-8 and SC-28:</strong> Encryption for data in transit (between hospitals) and at rest (database)</li>
+                                <li><strong>PT family (Privacy):</strong> Consent management, data retention, patient rights</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box" style="margin-top: 15px;">
+                            <strong>Additional Healthcare-Specific Requirements:</strong>
+                            <ul>
+                                <li>Break-glass procedures (emergency access override with heavy auditing)</li>
+                                <li>Minimum necessary access (nurses can't see psychiatric notes unless assigned)</li>
+                                <li>Accounting of disclosures (track all external sharing)</li>
+                                <li>Business Associate Agreements for third parties</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Takeaway: Your FIPS 199 categorization directly determines your control baseline. Think of it as: Risk Level → Security Package → Specific Controls. The baselines aren't just more controls at higher levels—they add layers of sophistication through enhancements.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Control Selection Process -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The Control Selection Process</span>
+                <span class="slide-number">Part 4 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 From Generic Baseline to Your Security Architecture</h2>
+                
+                <div class="highlight-box">
+                    <h3>The Four-Step Tailoring Process</h3>
+                    <p style="font-size: 18px;">Baselines are starting points, not ending points. Every organization is different—you might be a cloud-first startup or a traditional manufacturer. The tailoring process lets you adjust the generic baseline to fit YOUR specific situation, threats, and compliance requirements.</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🏠 Like Buying a House</h4>
+                    <p>The baseline is like a model home. Tailoring is the customization:</p>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>Baseline:</strong> The standard floor plan and features</li>
+                        <li><strong>Scoping:</strong> Remove the basement (you're in Florida)</li>
+                        <li><strong>Tailoring:</strong> Upgrade the kitchen, add a home office</li>
+                        <li><strong>Supplementation:</strong> Add hurricane shutters (local requirement)</li>
+                        <li><strong>Documentation:</strong> Record all changes in the blueprints</li>
+                    </ul>
+                </div>
+
+                <h3>📋 Step 1: Select Your Baseline</h3>
+                
+                <div class="concept-box">
+                    <h4>It's Straightforward:</h4>
+                    <ol style="font-size: 18px; line-height: 2;">
+                        <li>Complete your FIPS 199 categorization</li>
+                        <li>Identify the highest impact level (C, I, or A)</li>
+                        <li>Select corresponding baseline (LOW, MODERATE, or HIGH)</li>
+                        <li>This becomes your starting control set</li>
+                    </ol>
+                    
+                    <div class="example-box" style="margin-top:15px;">
+                        <strong>Quick Examples:</strong>
+                        <ul>
+                            <li>Public blog: {(C:N/A), (I:LOW), (A:LOW)} → LOW baseline</li>
+                            <li>HR system: {(C:MOD), (I:MOD), (A:LOW)} → MODERATE baseline</li>
+                            <li>Classified system: {(C:HIGH), (I:HIGH), (A:MOD)} → HIGH baseline</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>✂️ Step 2: Tailoring (Customizing Your Controls)</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📐 Scoping Guidance - When Controls Don't Apply</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Common Scoping Decisions:</h4>
+                        
+                        <div class="control-item">
+                            <strong>1. Technology-Related Considerations</strong>
+                            <p>Control doesn't match your technology stack</p>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Example:</strong> PE-3 (Physical Access) doesn't apply to serverless Lambda functions</li>
+                                <li><strong>Example:</strong> MA-4 (Nonlocal Maintenance) not relevant if everything is cloud-based</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="control-item">
+                            <strong>2. Infrastructure Considerations</strong>
+                            <p>Your infrastructure type makes certain controls irrelevant</p>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Example:</strong> MP-2 (Media Access) not applicable in fully virtual environment</li>
+                                <li><strong>Example:</strong> PE controls reduced for IaaS where provider handles physical</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="control-item">
+                            <strong>3. Scalability Considerations</strong>
+                            <p>Organization size affects control implementation</p>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Example:</strong> Small org might combine roles that large orgs separate</li>
+                                <li><strong>Example:</strong> 5-person startup can't have dedicated security team</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="control-item">
+                            <strong>4. Public Access Considerations</strong>
+                            <p>Systems with public access need different controls</p>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Example:</strong> Public website doesn't need IA-2 (user authentication)</li>
+                                <li><strong>Example:</strong> But needs stronger SC-5 (DDoS protection)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔄 Compensating Controls - Alternative Approaches</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>When You Can't Implement a Control As Written:</h4>
+                        
+                        <div class="real-world-box">
+                            <strong>Example Compensating Control Scenarios:</strong>
+                            
+                            <p style="margin-top: 15px;"><strong>Scenario 1: Can't Separate Duties (AC-5)</strong></p>
+                            <ul>
+                                <li>Small team where one person must be both developer and deployer</li>
+                                <li><strong>Compensation:</strong> Add extra logging, require peer review, implement time delays</li>
+                            </ul>
+                            
+                            <p style="margin-top: 15px;"><strong>Scenario 2: Can't Do Background Checks (PS-3)</strong></p>
+                            <ul>
+                                <li>Hiring contractors in country where background checks are illegal</li>
+                                <li><strong>Compensation:</strong> Extra monitoring, limited access, shorter review cycles</li>
+                            </ul>
+                            
+                            <p style="margin-top: 15px;"><strong>Scenario 3: Can't Implement PIV Cards (IA-2(12))</strong></p>
+                            <ul>
+                                <li>Remote workforce can't use government smart cards</li>
+                                <li><strong>Compensation:</strong> Mobile device certificates + biometric authentication</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning-box" style="margin-top: 15px;">
+                            <strong>Rules for Compensating Controls:</strong>
+                            <ul>
+                                <li>Must provide equivalent or greater protection</li>
+                                <li>Must be documented with justification</li>
+                                <li>Must be approved by authorizing official</li>
+                                <li>Should be reviewed regularly for continued adequacy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>➕ Step 3: Supplementation (Adding Extra Controls)</h3>
+                
+                <div class="concept-box">
+                    <h4>Common Reasons to Add Controls Beyond Baseline:</h4>
+                    
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Reason</th>
+                                <th>Examples</th>
+                                <th>Typical Additions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Industry Requirements</strong></td>
+                                <td>PCI-DSS, HIPAA, SOX</td>
+                                <td>Enhanced logging, specific encryption standards</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Threat Landscape</strong></td>
+                                <td>Targeted by nation-states</td>
+                                <td>Advanced persistent threat detection, deception technology</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Business Model</strong></td>
+                                <td>24/7 operations, e-commerce</td>
+                                <td>Enhanced availability controls, fraud detection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Technology Stack</strong></td>
+                                <td>Cloud-native, containers</td>
+                                <td>Cloud security posture management, container scanning</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Geographic</strong></td>
+                                <td>GDPR, state privacy laws</td>
+                                <td>Privacy controls, data residency, right to deletion</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Recent Incidents</strong></td>
+                                <td>Previous breach</td>
+                                <td>Whatever failed before, plus extras for confidence</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>📝 Step 4: Documentation (The System Security Plan)</h3>
+                
+                <div class="concept-box">
+                    <h4>Your SSP Must Document Everything:</h4>
+                    <ul>
+                        <li><strong>Selected baseline:</strong> Which one and why (based on FIPS 199)</li>
+                        <li><strong>Every control's status:</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>✅ Implemented (how it works today)</li>
+                                <li>🔄 Partially implemented (what's done, what's not)</li>
+                                <li>📅 Planned (when it will be done)</li>
+                                <li>🚫 Not applicable (with justification)</li>
+                                <li>↔️ Alternative implementation (compensating control)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Implementation details:</strong> Not just "we have firewalls" but "Palo Alto PA-5220, firmware 10.1, rules reviewed quarterly"</li>
+                        <li><strong>Responsible parties:</strong> Who maintains each control</li>
+                        <li><strong>Assessment schedule:</strong> When/how controls are tested</li>
+                    </ul>
+                    
+                    <div class="example-box" style="margin-top: 20px;">
+                        <strong>Pro Tip:</strong> Your SSP is a living document. Update it when:
+                        <ul>
+                            <li>You change technologies</li>
+                            <li>Threats evolve</li>
+                            <li>Regulations change</li>
+                            <li>Assessments find gaps</li>
+                            <li>Incidents reveal weaknesses</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">🛠️ Build a Tailored Control Set</div>
+                    <p>Select a scenario to see how tailoring works in practice:</p>
+                    
+                    <button class="baseline-button" onclick="showTailoringExample('startup')">Cloud Startup</button>
+                    <button class="baseline-button" onclick="showTailoringExample('hospital')">Regional Hospital</button>
+                    <button class="baseline-button" onclick="showTailoringExample('government')">Federal Agency</button>
+                    <button class="baseline-button" onclick="showTailoringExample('retail')">Retail Chain</button>
+                    
+                    <div id="tailoring-example-display" class="control-display" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Takeaway: Control selection is an art and science. Start with the baseline (science), then tailor to your reality (art). Document everything because "if it's not written down, it didn't happen" in the audit world.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Priority and Implementation -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Control Priorities and Implementation Strategy</span>
+                <span class="slide-number">Part 5 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 Smart Implementation: Order Matters</h2>
+                
+                <div class="highlight-box">
+                    <h3>The Implementation Challenge</h3>
+                    <p style="font-size: 18px;">Imagine being handed a list of 420 security controls (HIGH baseline) and being told "implement these." Where do you start? Trying to do everything at once is a recipe for failure. Successful implementation requires a strategic, phased approach that builds security capabilities logically.</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🏗️ Like Building a House</h4>
+                    <p>You can't install the roof before the foundation:</p>
+                    <ol style="list-style-type: decimal; padding-left: 20px;">
+                        <li><strong>Foundation:</strong> Policies, risk assessment (know what you're protecting)</li>
+                        <li><strong>Framework:</strong> Access control, authentication (basic structure)</li>
+                        <li><strong>Systems:</strong> Logging, monitoring (plumbing and electrical)</li>
+                        <li><strong>Protection:</strong> Encryption, integrity (insulation and weatherproofing)</li>
+                        <li><strong>Finishing:</strong> Advanced controls, automation (smart home features)</li>
+                    </ol>
+                </div>
+
+                <h3>🥇 Priority 1: Foundation Controls (Months 1-2)</h3>
+                
+                <div class="concept-box">
+                    <h4>These MUST Come First:</h4>
+                    
+                    <div class="control-item">
+                        <strong>The "Policy Family" (-1 controls)</strong>
+                        <p>AC-1, AU-1, AT-1, etc. - Every family's policy control</p>
+                        <p style="margin-top: 10px;"><em>Why first? These define HOW you'll implement everything else. Without policies, people implement controls inconsistently.</em></p>
+                    </div>
+                    
+                    <div class="control-item" style="margin-top: 15px;">
+                        <strong>Risk Assessment Controls</strong>
+                        <p>RA-1 (Policy), RA-2 (Categorization), RA-3 (Risk Assessment)</p>
+                        <p style="margin-top: 10px;"><em>Why first? You can't protect what you don't understand. These identify your crown jewels.</em></p>
+                    </div>
+                    
+                    <div class="control-item" style="margin-top: 15px;">
+                        <strong>System Documentation</strong>
+                        <p>PL-2 (System Security Plan), CM-8 (System Component Inventory)</p>
+                        <p style="margin-top: 10px;"><em>Why first? You need to know what you have before you can secure it.</em></p>
+                    </div>
+                    
+                    <div class="warning-box" style="margin-top:15px;">
+                        <strong>Common Mistake:</strong> Buying security tools before establishing policies and procedures. This leads to expensive shelfware that nobody knows how to use properly.
+                    </div>
+                </div>
+
+                <h3>🥈 Priority 2: Identity and Access (Months 2-4)</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Build Your Access Control Foundation</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>The Access Control Stack (Implement in Order):</h4>
+                        
+                        <ol style="font-size: 16px; line-height: 2;">
+                            <li><strong>IA-2: Authentication</strong>
+                                <br>Start with strong authentication - it's the front door
+                                <br><em>Implementation: Deploy MFA solution, integrate with directories</em></li>
+                            
+                            <li><strong>AC-2: Account Management</strong>
+                                <br>Control who has accounts and their lifecycle
+                                <br><em>Implementation: Automate with HR systems, scheduled reviews</em></li>
+                            
+                            <li><strong>AC-3: Access Enforcement</strong>
+                                <br>Ensure the system enforces assigned permissions
+                                <br><em>Implementation: RBAC/ABAC models, regular testing</em></li>
+                            
+                            <li><strong>AC-6: Least Privilege</strong>
+                                <br>Minimize what each account can do
+                                <br><em>Implementation: Role engineering, privilege access management</em></li>
+                        </ol>
+                        
+                        <div class="real-world-box" style="margin-top: 20px;">
+                            <strong>Real Implementation Timeline:</strong>
+                            <ul>
+                                <li><strong>Week 1-2:</strong> Deploy MFA for admins</li>
+                                <li><strong>Week 3-4:</strong> Extend MFA to remote users</li>
+                                <li><strong>Month 2:</strong> Implement automated provisioning</li>
+                                <li><strong>Month 3:</strong> Deploy privileged access management</li>
+                                <li><strong>Month 4:</strong> Complete access reviews and cleanup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🥉 Priority 3: Detection and Response (Months 4-6)</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Build Your Visibility and Response Capability</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>You Can't Protect What You Can't See:</h4>
+                        
+                        <div class="control-item">
+                            <strong>Logging and Monitoring Suite:</strong>
+                            <ul>
+                                <li><strong>AU-2 & AU-3:</strong> Define what to log and what details to capture</li>
+                                <li><strong>AU-4:</strong> Ensure adequate storage for logs</li>
+                                <li><strong>AU-6:</strong> Review and analyze logs (SIEM deployment)</li>
+                                <li><strong>SI-4:</strong> System monitoring and alerting</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="control-item" style="margin-top: 20px;">
+                            <strong>Incident Response Capability:</strong>
+                            <ul>
+                                <li><strong>IR-4:</strong> Incident handling procedures</li>
+                                <li><strong>IR-5:</strong> Incident monitoring</li>
+                                <li><strong>IR-6:</strong> Incident reporting</li>
+                                <li><strong>IR-8:</strong> Incident response plan</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box" style="margin-top: 20px;">
+                            <strong>Implementation Tip:</strong> Start with Windows Event Logs and syslog, then add:
+                            <ul>
+                                <li>Application logs</li>
+                                <li>Network device logs</li>
+                                <li>Cloud service logs</li>
+                                <li>Security tool logs</li>
+                            </ul>
+                            Centralize everything in a SIEM before trying to analyze.
+                        </div>
+                    </div>
+                </div>
+
+                <h3>📅 Complete Implementation Roadmap</h3>
+                
+                <div class="concept-box">
+                    <h4>Typical 18-Month Journey to Full Implementation:</h4>
+                    
+                    <table style="margin-top:15px;">
+                        <thead>
+                            <tr>
+                                <th>Phase</th>
+                                <th>Timeline</th>
+                                <th>Focus Areas</th>
+                                <th>Key Deliverables</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Foundation</strong></td>
+                                <td>Months 1-3</td>
+                                <td>Policies, procedures, documentation</td>
+                                <td>SSP, risk assessment, policies approved</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Access Control</strong></td>
+                                <td>Months 3-6</td>
+                                <td>Identity, authentication, authorization</td>
+                                <td>MFA deployed, RBAC implemented</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Visibility</strong></td>
+                                <td>Months 6-9</td>
+                                <td>Logging, monitoring, incident response</td>
+                                <td>SIEM operational, IR team trained</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Protection</strong></td>
+                                <td>Months 9-12</td>
+                                <td>Encryption, integrity, boundary defense</td>
+                                <td>Data encrypted, network segmented</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resilience</strong></td>
+                                <td>Months 12-15</td>
+                                <td>Continuity, recovery, redundancy</td>
+                                <td>DR site ready, backups tested</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maturity</strong></td>
+                                <td>Months 15-18</td>
+                                <td>Automation, optimization, advanced controls</td>
+                                <td>SOAR deployed, metrics dashboard</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Continuous</strong></td>
+                                <td>Ongoing</td>
+                                <td>Assessment, improvement, updates</td>
+                                <td>Quarterly assessments, annual reviews</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">🚀 Generate Your Implementation Plan</div>
+                    <p>Select your scenario for a customized implementation roadmap:</p>
+                    <button class="baseline-button" onclick="showImplementationPlan('rapid')">Rapid Deployment (6 months)</button>
+                    <button class="baseline-button" onclick="showImplementationPlan('standard')">Standard Rollout (12 months)</button>
+                    <button class="baseline-button" onclick="showImplementationPlan('complex')">Complex Environment (18 months)</button>
+                    <button class="baseline-button" onclick="showImplementationPlan('crisis')">Crisis Mode (30 days)</button>
+                    <div id="implementation-plan-display" class="control-display" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Top 5 Implementation Failures to Avoid</h4>
+                    <ol>
+                        <li><strong>Tool-First Thinking:</strong> Buying expensive tools before establishing processes
+                            <br><em>Fix: Establish procedures first, then automate them with tools</em></li>
+                        <li><strong>Big Bang Approach:</strong> Trying to implement everything at once
+                            <br><em>Fix: Phased approach with clear priorities</em></li>
+                        <li><strong>Skipping Documentation:</strong> Not updating the SSP as you go
+                            <br><em>Fix: Document as you implement, not after</em></li>
+                        <li><strong>Ignoring Dependencies:</strong> Implementing controls out of order
+                            <br><em>Fix: Follow the logical build sequence</em></li>
+                        <li><strong>No Testing:</strong> Assuming controls work without verification
+                            <br><em>Fix: Test each control after implementation</em></li>
+                    </ol>
+                </div>
+
+                <div class="real-world-box">
+                    <h4>🏆 Success Story: Regional Bank Implementation</h4>
+                    <p><strong>Challenge:</strong> Implement MODERATE baseline (260 controls) for online banking platform</p>
+                    <p><strong>Approach:</strong></p>
+                    <ul>
+                        <li>Month 1-2: Established policies and completed risk assessment</li>
+                        <li>Month 3-4: Deployed MFA for all users and administrators</li>
+                        <li>Month 5-6: Implemented centralized logging and SIEM</li>
+                        <li>Month 7-8: Encrypted all data in transit and at rest</li>
+                        <li>Month 9-10: Deployed vulnerability management program</li>
+                        <li>Month 11-12: Completed implementation and passed audit</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Keys to Success:</strong> Executive support, dedicated team, phased approach, regular testing</p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Takeaway: Control implementation is a marathon, not a sprint. Success comes from methodical, prioritized deployment that builds capabilities logically. Foundation → Access → Detection → Protection → Resilience → Maturity.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Summary and Integration -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Bringing It All Together: FIPS 199 to Operational Security</span>
+                <span class="slide-number">Part 6 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 The Complete Security Journey</h2>
+                
+                <div class="success-box">
+                    <h3>✅ You Now Understand the Full Lifecycle</h3>
+                    <p style="font-size: 18px;">From determining how critical your system is (FIPS 199) to implementing specific security controls (SP 800-53) to maintaining ongoing security operations—you've learned the complete federal approach to cybersecurity that's used worldwide.</p>
+                </div>
+
+                <h3>🔄 The Integrated Risk Management Framework</h3>
+                
+                <div class="concept-box">
+                    <h4>The Seven Steps You'll Follow:</h4>
+                    <ol style="font-size: 18px; line-height: 2.5;">
+                        <li><strong>PREPARE:</strong> 
+                            <br><span style="color: #666; margin-left: 30px;">Essential activities at organization and system levels</span></li>
+                        <li><strong>CATEGORIZE:</strong> 
+                            <br><span style="color: #666; margin-left: 30px;">FIPS 199 - Determine {(C:impact), (I:impact), (A:impact)}</span></li>
+                        <li><strong>SELECT:</strong> 
+                            <br><span style="color: #666; margin-left: 30px;">SP 800-53 baseline + tailoring + supplementation</span></li>
+                        <li><strong>IMPLEMENT:</strong> 
+                            <br><span style="color: #666; margin-left: 30px;">Deploy controls in priority order</span></li>
+                        <li><strong>ASSESS:</strong> 
+                            <br><span style="color: #666; margin-left: 30px;">Test to ensure controls work correctly</span></li>
+                        <li><strong>AUTHORIZE:</strong> 
+                            <br><span style="color: #666; margin-left: 30px;">Leadership accepts residual risk</span></li>
+                        <li><strong>MONITOR:</strong> 
+                            <br><span style="color: #666; margin-left: 30px;">Continuous verification and improvement</span></li>
+                    </ol>
+                    
+                    <div class="analogy-box" style="margin-top: 20px;">
+                        <strong>It's a Cycle, Not a Checklist:</strong> After step 7, you go back to step 1. Technology changes, threats evolve, regulations update—your security must adapt continuously.
+                    </div>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">🔍 Complete Real-World Scenarios</div>
+                    <p>Select a scenario to see the entire process from categorization to operations:</p>
+                    <button class="baseline-button" onclick="showCompleteScenario('financial')">Financial Services</button>
+                    <button class="baseline-button" onclick="showCompleteScenario('healthcare')">Healthcare Provider</button>
+                    <button class="baseline-button" onclick="showCompleteScenario('education')">University System</button>
+                    <button class="baseline-button" onclick="showCompleteScenario('critical')">Critical Infrastructure</button>
+                    <div id="complete-scenario-display" class="control-display" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <h3>📊 Quick Reference: Impact to Implementation</h3>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>FIPS 199 Category</th>
+                            <th>SP 800-53 Baseline</th>
+                            <th>Typical Controls</th>
+                            <th>Implementation Time</th>
+                            <th>Annual Cost (Typical)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LOW</strong></td>
+                            <td>Low Baseline</td>
+                            <td>~120 controls</td>
+                            <td>3-6 months</td>
+                            <td>$50K - $200K</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MODERATE</strong></td>
+                            <td>Moderate Baseline</td>
+                            <td>~260 controls</td>
+                            <td>9-12 months</td>
+                            <td>$200K - $1M</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HIGH</strong></td>
+                            <td>High Baseline</td>
+                            <td>~420 controls</td>
+                            <td>15-18 months</td>
+                            <td>$1M - $5M+</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="warning-box" style="margin-top: 20px;">
+                    <strong>Remember:</strong> These are starting points. Your actual implementation will vary based on:
+                    <ul>
+                        <li>Current security maturity</li>
+                        <li>Industry requirements</li>
+                        <li>Technology complexity</li>
+                        <li>Geographic regulations</li>
+                        <li>Threat landscape</li>
+                    </ul>
+                </div>
+
+                <h3>🎓 Key Lessons for Success</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📚 Top 10 Lessons from Successful Implementations</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ol style="line-height: 2;">
+                            <li><strong>Get Executive Buy-In Early</strong>
+                                <br>Security is a business decision, not just IT. Leadership must understand and support.</li>
+                            
+                            <li><strong>Start with Accurate Categorization</strong>
+                                <br>Wrong FIPS 199 category = wrong baseline = failed audit or breach.</li>
+                            
+                            <li><strong>Document Everything</strong>
+                                <br>Your SSP is your bible. Keep it updated or face audit findings.</li>
+                            
+                            <li><strong>Don't Skip Foundations</strong>
+                                <br>Policies and procedures before tools. Always.</li>
+                            
+                            <li><strong>Use Common Controls</strong>
+                                <br>Inherit from enterprise services (why secure email 50 times?)</li>
+                            
+                            <li><strong>Test Before Declaring Victory</strong>
+                                <br>Controls that aren't tested don't count.</li>
+                            
+                            <li><strong>Plan for Continuous Monitoring</strong>
+                                <br>One-time implementation isn't enough. Security degrades without maintenance.</li>
+                            
+                            <li><strong>Train Your People</strong>
+                                <br>Technical controls fail without trained users and admins.</li>
+                            
+                            <li><strong>Budget for Operations</strong>
+                                <br>Implementation is 40% of lifetime cost. Operations is 60%.</li>
+                            
+                            <li><strong>Learn from Others</strong>
+                                <br>Join ISACs, attend conferences, share experiences (sanitized).</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🛠️ Your Next Steps</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Ready to Apply This Knowledge?</h4>
+                        
+                        <div class="control-item">
+                            <strong>If You're Just Starting:</strong>
+                            <ol>
+                                <li>Download NIST SP 800-53 Rev 5 (free from NIST)</li>
+                                <li>Complete FIPS 199 categorization for one system</li>
+                                <li>Identify your baseline controls</li>
+                                <li>Create a basic System Security Plan</li>
+                                <li>Pick 10 priority controls to implement first</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="control-item" style="margin-top: 20px;">
+                            <strong>If You're Already Implementing:</strong>
+                            <ol>
+                                <li>Review your categorization (still accurate?)</li>
+                                <li>Update your SSP with current status</li>
+                                <li>Assess implemented controls for effectiveness</li>
+                                <li>Plan for continuous monitoring</li>
+                                <li>Prepare for your next assessment</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="control-item" style="margin-top: 20px;">
+                            <strong>Helpful Resources:</strong>
+                            <ul>
+                                <li><strong>NIST SP 800-53 Rev 5:</strong> The complete control catalog</li>
+                                <li><strong>NIST SP 800-53A:</strong> How to assess controls</li>
+                                <li><strong>NIST SP 800-53B:</strong> Control baselines</li>
+                                <li><strong>NIST SP 800-37:</strong> Risk Management Framework</li>
+                                <li><strong>NIST SP 800-18:</strong> System Security Plan guide</li>
+                                <li><strong>NIST CSRC:</strong> Computer Security Resource Center website</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🏆 Mastery Check: Test Your Understanding</h3>
+                
+                <div class="interactive-selector">
+                    <div class="selector-title">📝 Quick Knowledge Check</div>
+                    <p>Can you answer these key questions?</p>
+                    <button class="baseline-button" onclick="showQuizQuestion('q1')">Q1: Impact to Baseline</button>
+                    <button class="baseline-button" onclick="showQuizQuestion('q2')">Q2: Control Families</button>
+                    <button class="baseline-button" onclick="showQuizQuestion('q3')">Q3: Implementation</button>
+                    <button class="baseline-button" onclick="showQuizQuestion('q4')">Q4: Tailoring</button>
+                    <div id="quiz-display" class="control-display" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <div class="real-world-box" style="margin-top: 30px;">
+                    <h4>🌟 Final Thought: Security is a Journey</h4>
+                    <p>NIST SP 800-53 isn't just a compliance checklist—it's a comprehensive approach to security that's been refined over 20 years. Whether you're protecting a small agency or a critical infrastructure system, these controls provide a proven path to security.</p>
+                    <p style="margin-top: 15px;"><strong>Remember:</strong> Perfect security doesn't exist, but methodical implementation of risk-appropriate controls gets you as close as possible.</p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Master Takeaway: FIPS 199 tells you HOW IMPORTANT your system is. SP 800-53 tells you WHAT CONTROLS you need. Together, they ensure your security investment matches your risk. This risk-based approach means you're neither under-protected nor overspending on unnecessary controls.
+                </div>
+
+                <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center;">
+                    <h2 style="color: white;">🎉 Congratulations!</h2>
+                    <p style="font-size: 20px; margin-top: 15px;">You've mastered NIST SP 800-53 Security Controls</p>
+                    <p style="font-size: 18px; margin-top: 20px;">You understand:</p>
+                    <ul style="list-style: none; font-size: 16px; margin-top: 15px;">
+                        <li>✓ How FIPS 199 categorization drives control selection</li>
+                        <li>✓ The structure and purpose of control families</li>
+                        <li>✓ How baselines provide pre-selected control sets</li>
+                        <li>✓ The tailoring process for your environment</li>
+                        <li>✓ Priority-based implementation strategies</li>
+                        <li>✓ The complete journey from risk to protection</li>
+                    </ul>
+                    <p style="font-size: 16px; margin-top: 25px;">Ready to implement? Remember: Categorize → Select → Tailor → Implement → Assess → Monitor</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on NIST Special Publication 800-53 Revision 5</p>
+            <p style="font-size: 14px; margin-top: 10px;">Security and Privacy Controls for Information Systems and Organizations</p>
+            <p style="font-size: 12px; margin-top: 10px;">National Institute of Standards and Technology | September 2020 (Updated 2023)</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 6) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const slide = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            sectionsViewed.add(slideNumber);
+            updateProgress();
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function expandFamily(family) {
+            const details = document.getElementById(family + '-details');
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+            } else {
+                details.style.display = 'none';
+            }
+        }
+
+        function showControlDetail(type) {
+            const display = document.getElementById('control-detail-display');
+            const details = {
+                'basic': `<h4>AC-2: Account Management - The Foundation</h4>
+                         <div class="concept-box">
+                             <p><strong>Base Control Purpose:</strong> Manage the lifecycle of all user accounts from creation to deletion.</p>
+                         </div>
+                         <p style="margin-top:15px;"><strong>What the Basic Control Requires:</strong></p>
+                         <ul>
+                             <li>Define different account types (regular users, admins, service accounts, guest/temp)</li>
+                             <li>Document who can approve new accounts</li>
+                             <li>Review all accounts periodically (typically annually)</li>
+                             <li>Disable inactive accounts (typically after 30-90 days)</li>
+                             <li>Remove accounts when employees leave (within 24 hours)</li>
+                         </ul>
+                         
+                         <div class="real-world-box" style="margin-top:20px;">
+                             <strong>Real Implementation Example:</strong>
+                             <p>Company uses Active Directory with automated HR integration. When HR marks someone as terminated in the HRIS system, their AD account is automatically disabled within 1 hour.</p>
+                         </div>
+                         
+                         <p style="margin-top:20px;"><strong>How This Scales with Baselines:</strong></p>
+                         <div class="control-enhancement">
+                             <strong>LOW Baseline:</strong> Just the basic control - manual processes are OK
+                         </div>
+                         <div class="control-enhancement">
+                             <strong>MODERATE Baseline:</strong> Adds 4 enhancements:
+                             <ul style="margin-top:10px;">
+                                 <li>(1) Automated account management</li>
+                                 <li>(2) Remove temporary accounts automatically</li>
+                                 <li>(3) Disable inactive accounts after 90 days</li>
+                                 <li>(4) Automated audit of account actions</li>
+                             </ul>
+                         </div>
+                         <div class="control-enhancement">
+                             <strong>HIGH Baseline:</strong> Adds 4 more enhancements:
+                             <ul style="margin-top:10px;">
+                                 <li>(5) Inactivity logout after 30 days</li>
+                                 <li>(11) Lock accounts for specific time periods</li>
+                                 <li>(12) Monitor unusual account usage patterns</li>
+                                 <li>(13) Disable accounts of high-risk individuals immediately</li>
+                             </ul>
+                         </div>`,
+                
+                'enhanced': `<h4>IA-2: Identification and Authentication - Evolution of Security</h4>
+                            <div class="concept-box">
+                                <p><strong>Base Control:</strong> Uniquely identify and verify all users before granting access.</p>
+                            </div>
+                            
+                            <div class="analogy-box" style="margin-top:15px;">
+                                <strong>Think of it like a nightclub:</strong>
+                                <ul>
+                                    <li><strong>Basic (LOW):</strong> Check ID at the door</li>
+                                    <li><strong>Enhanced (MODERATE):</strong> Check ID + match face to photo + hand stamp</li>
+                                    <li><strong>Maximum (HIGH):</strong> All above + VIP list verification + biometric scan</li>
+                                </ul>
+                            </div>
+                            
+                            <p style="margin-top:20px;"><strong>Enhancement Progression:</strong></p>
+                            <div class="control-enhancement">
+                                <strong>IA-2(1) - Multi-factor for Network Access</strong>
+                                <p>MODERATE and HIGH baselines require MFA for remote access</p>
+                                <p><em>Example: VPN requires password + SMS code</em></p>
+                            </div>
+                            <div class="control-enhancement">
+                                <strong>IA-2(2) - Multi-factor for Non-Privileged Accounts</strong>
+                                <p>HIGH baseline only - everyone needs MFA, even regular users</p>
+                                <p><em>Example: Office workers need phone app to log into email</em></p>
+                            </div>
+                            <div class="control-enhancement">
+                                <strong>IA-2(3) - Multi-factor for Local Access</strong>
+                                <p>HIGH baseline - MFA even when sitting at the computer</p>
+                                <p><em>Example: Desktop login requires password + fingerprint</em></p>
+                            </div>
+                            <div class="control-enhancement">
+                                <strong>IA-2(12) - PIV Credentials (Federal)</strong>
+                                <p>Government agencies use smart cards (PIV/CAC)</p>
+                                <p><em>Example: Insert card + enter PIN for all federal systems</em></p>
+                            </div>
+                            
+                            <div class="warning-box" style="margin-top:20px;">
+                                <strong>Modern Reality:</strong> Most organizations now implement MODERATE-level authentication (MFA for remote) as a minimum, regardless of formal categorization, due to the prevalence of phishing attacks.
+                            </div>`,
+                
+                'complex': `<h4>SC-7: Boundary Protection - Your Digital Fortress Walls</h4>
+                           <div class="concept-box">
+                               <p><strong>Core Purpose:</strong> Monitor and control all communications at the edges of your network - like having guards at every entrance and exit of your building.</p>
+                           </div>
+                           
+                           <p style="margin-top:15px;"><strong>Base Implementation Requirements:</strong></p>
+                           <ul>
+                               <li>Deploy managed interfaces at all external connections (firewalls at internet connections)</li>
+                               <li>Implement deny-by-default rules (block everything, then allow specific traffic)</li>
+                               <li>Prevent unauthorized information release (data loss prevention)</li>
+                               <li>Segment network into trust zones (separate HR, Finance, Public networks)</li>
+                           </ul>
+                           
+                           <div class="real-world-box" style="margin-top:20px;">
+                               <strong>Modern Implementation Architecture:</strong>
+                               <p>A typical enterprise uses:</p>
+                               <ul style="margin-top:10px;">
+                                   <li><strong>Perimeter:</strong> Next-gen firewalls with IPS/IDS</li>
+                                   <li><strong>Internal:</strong> Microsegmentation between departments</li>
+                                   <li><strong>Cloud:</strong> Virtual firewalls and security groups</li>
+                                   <li><strong>Endpoints:</strong> Host-based firewalls on all devices</li>
+                               </ul>
+                           </div>
+                           
+                           <p style="margin-top:20px;"><strong>How Enhancements Add Layers:</strong></p>
+                           <div class="control-enhancement">
+                               <strong>SC-7(3) - Access Points</strong>
+                               <p>Limit external connections to specific, controlled points</p>
+                               <p><em>Instead of 50 internet connections, have 2 managed ones</em></p>
+                           </div>
+                           <div class="control-enhancement">
+                               <strong>SC-7(4) - External Telecommunications</strong>
+                               <p>Dedicated interface for each external telecom service</p>
+                               <p><em>Separate firewalls for internet, partner connections, cloud services</em></p>
+                           </div>
+                           <div class="control-enhancement">
+                               <strong>SC-7(5) - Deny by Default</strong>
+                               <p>Block all traffic except explicitly allowed (HIGH baseline)</p>
+                               <p><em>Whitelist approach - only approved applications can communicate</em></p>
+                           </div>
+                           
+                           <div class="example-box" style="margin-top:20px;">
+                               <strong>Related Controls That Work Together:</strong>
+                               <ul>
+                                   <li><strong>AC-4:</strong> Information Flow Enforcement (what can move where)</li>
+                                   <li><strong>CA-3:</strong> System Interconnections (documenting all connections)</li>
+                                   <li><strong>SC-5:</strong> Denial of Service Protection (handling attacks)</li>
+                                   <li><strong>SI-4:</strong> Information System Monitoring (watching the boundaries)</li>
+                               </ul>
+                           </div>`
+            };
+            
+            display.innerHTML = details[type];
+            display.style.display = 'block';
+        }
+
+        function showDetailedBaseline(level) {
+            const display = document.getElementById('detailed-baseline-display');
+            const baselines = {
+                'low': `<h4>LOW Baseline - Essential Security for Public Information</h4>
+                       <div class="control-count-box">
+                           <div class="control-count">~120</div>
+                           <div>Core Security Controls</div>
+                       </div>
+                       
+                       <div class="analogy-box" style="margin-top:20px;">
+                           <strong>Real-World Comparison:</strong>
+                           <p>Like basic home security - locks on doors, smoke alarms, basic insurance. Enough to deter opportunistic threats and meet minimum standards.</p>
+                       </div>
+                       
+                       <p style="margin-top:20px;"><strong>What You're Getting (Key Controls):</strong></p>
+                       <ul>
+                           <li><strong>Access Control:</strong> Basic user accounts, simple permissions (AC-2, AC-3, AC-7)</li>
+                           <li><strong>Authentication:</strong> Username/password only (IA-2 base, no MFA required)</li>
+                           <li><strong>Audit:</strong> Log major events like logins and changes (AU-2, AU-3)</li>
+                           <li><strong>Training:</strong> Annual security awareness for all users (AT-2)</li>
+                           <li><strong>Incident Response:</strong> Basic ability to handle incidents (IR-4, IR-5)</li>
+                           <li><strong>Maintenance:</strong> Regular patching on a schedule (MA-2)</li>
+                           <li><strong>Physical:</strong> Lock the server room (PE-2, PE-3)</li>
+                       </ul>
+                       
+                       <div class="warning-box" style="margin-top:20px;">
+                           <strong>What's NOT Included (Gaps to Consider):</strong>
+                           <ul style="color: #d32f2f;">
+                               <li>No multi-factor authentication requirement</li>
+                               <li>No encryption requirements (data could be readable if stolen)</li>
+                               <li>No continuous monitoring (attacks might go unnoticed)</li>
+                               <li>No separation of duties (one person could do everything)</li>
+                               <li>Limited audit log retention (90 days typical)</li>
+                           </ul>
+                       </div>
+                       
+                       <div class="example-box" style="margin-top:20px;">
+                           <strong>Perfect For:</strong>
+                           <ul>
+                               <li>Public information websites</li>
+                               <li>Test and development systems</li>
+                               <li>Training environments</li>
+                               <li>Systems with no PII or sensitive data</li>
+                               <li>Low-value targets unlikely to attract serious attackers</li>
+                           </ul>
+                       </div>
+                       
+                       <div class="real-world-box" style="margin-top:20px;">
+                           <strong>Typical Implementation:</strong>
+                           <p>A small agency's public website about local parks. Compromise would be embarrassing but not harmful. Basic WordPress security plugins, regular updates, and backups provide adequate protection.</p>
+                       </div>`,
+                
+                'moderate': `<h4>MODERATE Baseline - Professional Security for Business Operations</h4>
+                            <div class="control-count-box">
+                                <div class="control-count">~260</div>
+                                <div>Controls Including Enhancements</div>
+                            </div>
+                            
+                            <div class="analogy-box" style="margin-top:20px;">
+                                <strong>Real-World Comparison:</strong>
+                                <p>Like corporate building security - badge access, security cameras, guards during business hours, visitor logs, alarm monitoring. Professional protection against determined attackers.</p>
+                            </div>
+                            
+                            <p style="margin-top:20px;"><strong>Major Upgrades from LOW:</strong></p>
+                            <ul>
+                                <li><strong>Multi-factor Authentication:</strong> Required for all remote access (IA-2(1))</li>
+                                <li><strong>Encryption in Transit:</strong> TLS/SSL for all network communications (SC-8)</li>
+                                <li><strong>Separation of Duties:</strong> No single person can compromise the system (AC-5)</li>
+                                <li><strong>Least Privilege:</strong> Users only get exactly what they need (AC-6 + enhancements)</li>
+                                <li><strong>Vulnerability Scanning:</strong> Regular automated security scans (RA-5)</li>
+                                <li><strong>Configuration Management:</strong> Documented baselines, change control (CM-2, CM-3)</li>
+                                <li><strong>Enhanced Incident Response:</strong> Formal team and procedures (IR family expanded)</li>
+                                <li><strong>Audit Log Analysis:</strong> Not just collecting logs, but analyzing them (AU-6)</li>
+                            </ul>
+                            
+                            <div class="real-world-box" style="margin-top:20px;">
+                                <strong>What This Looks Like in Practice:</strong>
+                                <p>Your organization now has:</p>
+                                <ul>
+                                    <li>Microsoft/Google Authenticator for remote access</li>
+                                    <li>Splunk or similar SIEM collecting all logs</li>
+                                    <li>Quarterly vulnerability scans with remediation tracking</li>
+                                    <li>Change Advisory Board reviewing all system changes</li>
+                                    <li>Separate admin accounts for privileged users</li>
+                                    <li>24-hour incident response capability</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example-box" style="margin-top:20px;">
+                                <strong>Perfect For:</strong>
+                                <ul>
+                                    <li>HR systems with employee PII</li>
+                                    <li>Financial systems (non-payment processing)</li>
+                                    <li>Healthcare administrative systems</li>
+                                    <li>Government services with citizen data</li>
+                                    <li>Any system where breach would cause serious harm</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="warning-box" style="margin-top:20px;">
+                                <strong>Resource Requirements:</strong>
+                                <ul>
+                                    <li>Dedicated security staff (2-5 people typical)</li>
+                                    <li>Security tools budget ($100K-500K/year)</li>
+                                    <li>Regular assessments and audits</li>
+                                    <li>Ongoing training for IT staff</li>
+                                </ul>
+                            </div>`,
+                
+                'high': `<h4>HIGH Baseline - Maximum Security for Critical Operations</h4>
+                        <div class="control-count-box">
+                            <div class="control-count">~420</div>
+                            <div>Comprehensive Control Set</div>
+                        </div>
+                        
+                        <div class="analogy-box" style="margin-top:20px;">
+                            <strong>Real-World Comparison:</strong>
+                            <p>Like protecting a national bank vault - biometric access, 24/7 armed guards, motion sensors, pressure plates, time-delay locks, multiple authentication factors, constant surveillance, immediate response teams.</p>
+                        </div>
+                        
+                        <p style="margin-top:20px;"><strong>Critical Additions Beyond MODERATE:</strong></p>
+                        <ul>
+                            <li><strong>Continuous Monitoring:</strong> Real-time 24/7 security operations center (CA-7 enhanced)</li>
+                            <li><strong>Universal MFA:</strong> Multi-factor for ALL users, ALL access, including local (IA-2 full)</li>
+                            <li><strong>Encryption at Rest:</strong> All stored data encrypted with strong keys (SC-28)</li>
+                            <li><strong>Advanced Threat Detection:</strong> Behavioral analysis, UEBA, deception technology</li>
+                            <li><strong>Penetration Testing:</strong> Regular professional red team exercises (CA-8)</li>
+                            <li><strong>Supply Chain Security:</strong> Full vendor risk management program (SR family)</li>
+                            <li><strong>Integrity Monitoring:</strong> Cryptographic verification of all critical files (SI-7)</li>
+                            <li><strong>Advanced Audit:</strong> Correlation, automated response, long retention (AU-6 enhanced)</li>
+                        </ul>
+                        
+                        <div class="real-world-box" style="margin-top:20px;">
+                            <strong>What a HIGH Implementation Looks Like:</strong>
+                            <ul>
+                                <li><strong>SOC:</strong> 24/7 security operations center with 8+ analysts</li>
+                                <li><strong>Tools:</strong> Enterprise SIEM, SOAR, EDR, NDR, CASB, DLP</li>
+                                <li><strong>Encryption:</strong> HSMs for key management, encrypted databases</li>
+                                <li><strong>Authentication:</strong> Smart cards + biometrics for all access</li>
+                                <li><strong>Network:</strong> Complete micro-segmentation, zero trust architecture</li>
+                                <li><strong>Testing:</strong> Quarterly pen tests, daily vulnerability scans</li>
+                                <li><strong>Recovery:</strong> Hot standby site, 15-minute RTO/RPO</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="warning-box" style="margin-top:20px;">
+                            <strong>Resource Investment Required:</strong>
+                            <ul>
+                                <li><strong>People:</strong> 10-20+ security professionals</li>
+                                <li><strong>Tools:</strong> $1-5M+ annually for security stack</li>
+                                <li><strong>Time:</strong> 18+ months for full implementation</li>
+                                <li><strong>Operations:</strong> $2-10M+ annual operating budget</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box" style="margin-top:20px;">
+                            <strong>Required For:</strong>
+                            <ul>
+                                <li>National security and intelligence systems</li>
+                                <li>Critical infrastructure (power grid, water, transportation)</li>
+                                <li>Life-critical healthcare systems (ICU, surgical robots)</li>
+                                <li>Financial systems processing billions in transactions</li>
+                                <li>Systems where compromise could cause catastrophic harm or death</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="success-box" style="margin-top:20px;">
+                            <strong>The Result:</strong> Defense in depth with multiple overlapping controls. Even sophisticated nation-state attackers would face significant challenges compromising these systems.
+                        </div>`
+            };
+            
+            display.innerHTML = baselines[level];
+            display.style.display = 'block';
+        }
+        
+        function showTailoringExample(scenario) {
+            const display = document.getElementById('tailoring-example-display');
+            const examples = {
+                'startup': `<h4>Cloud-Native Startup Tailoring Example</h4>
+                          <div class="concept-box">
+                              <p><strong>Company:</strong> FinTech startup, 50 employees, AWS-based</p>
+                              <p><strong>FIPS 199:</strong> {(C:MOD), (I:MOD), (A:MOD)} = MODERATE baseline</p>
+                          </div>
+                          
+                          <div style="margin-top:20px;">
+                              <h5>Tailoring Decisions:</h5>
+                              
+                              <div class="control-item">
+                                  <strong>✂️ Removed Controls (Not Applicable):</strong>
+                                  <ul>
+                                      <li>PE-2, PE-3: Physical access (AWS handles data centers)</li>
+                                      <li>MP-2: Media protection (no physical media)</li>
+                                      <li>MA-4: Nonlocal maintenance (everything is remote)</li>
+                                  </ul>
+                              </div>
+                              
+                              <div class="control-item" style="margin-top:15px;">
+                                  <strong>➕ Added Controls (Business Needs):</strong>
+                                  <ul>
+                                      <li>SC-28: Encryption at rest (handling payment data)</li>
+                                      <li>Additional AU controls: PCI-DSS requirements</li>
+                                      <li>Enhanced IR: 24/7 response for payment systems</li>
+                                  </ul>
+                              </div>
+                              
+                              <div class="control-item" style="margin-top:15px;">
+                                  <strong>🔄 Modified Implementation:</strong>
+                                  <ul>
+                                      <li>AC-2: Integrated with Okta instead of Active Directory</li>
+                                      <li>SI-4: Using AWS CloudWatch instead of traditional SIEM</li>
+                                      <li>CP-9: S3 cross-region replication instead of tape backups</li>
+                                  </ul>
+                              </div>
+                          </div>
+                          
+                          <div class="success-box" style="margin-top:20px;">
+                              <strong>Result:</strong> Cloud-optimized security that meets MODERATE baseline while leveraging AWS native services and meeting PCI requirements.
+                          </div>`,
+                
+                'hospital': `<h4>Regional Hospital Tailoring Example</h4>
+                           <div class="concept-box">
+                               <p><strong>Organization:</strong> 500-bed hospital, 3,000 employees</p>
+                               <p><strong>FIPS 199:</strong> {(C:HIGH), (I:HIGH), (A:MOD)} = HIGH baseline</p>
+                           </div>
+                           
+                           <div style="margin-top:20px;">
+                               <h5>Healthcare-Specific Tailoring:</h5>
+                               
+                               <div class="control-item">
+                                   <strong>➕ HIPAA-Required Additions:</strong>
+                                   <ul>
+                                       <li>PT family: All privacy controls for patient data</li>
+                                       <li>AU-enhanced: Detailed audit for all PHI access</li>
+                                       <li>AC-special: Break-glass emergency access procedures</li>
+                                       <li>IA-special: Provider proximity cards for workstation access</li>
+                                   </ul>
+                               </div>
+                               
+                               <div class="control-item" style="margin-top:15px;">
+                                   <strong>🔄 Healthcare Modifications:</strong>
+                                   <ul>
+                                       <li>Session timeouts: Shorter for clinical areas (2 minutes)</li>
+                                       <li>Authentication: Badge tap for quick re-authentication</li>
+                                       <li>Availability: Higher emphasis due to life safety</li>
+                                       <li>Mobile: Special controls for tablets in patient rooms</li>
+                                   </ul>
+                               </div>
+                               
+                               <div class="control-item" style="margin-top:15px;">
+                                   <strong>⚕️ Medical Device Considerations:</strong>
+                                   <ul>
+                                       <li>Legacy systems: Compensating controls for unpatchable devices</li>
+                                       <li>Network segmentation: Separate VLAN for medical devices</li>
+                                       <li>FDA restrictions: Can't modify certain device configs</li>
+                                   </ul>
+                               </div>
+                           </div>
+                           
+                           <div class="warning-box" style="margin-top:20px;">
+                               <strong>Key Challenge:</strong> Balancing security with clinical workflow. Too much security can delay patient care; too little risks HIPAA violations.
+                           </div>`,
+                
+                'government': `<h4>Federal Agency Tailoring Example</h4>
+                             <div class="concept-box">
+                                 <p><strong>Agency:</strong> Federal benefits administration, 10,000 employees</p>
+                                 <p><strong>FIPS 199:</strong> {(C:MOD), (I:HIGH), (A:MOD)} = HIGH baseline</p>
+                             </div>
+                             
+                             <div style="margin-top:20px;">
+                                 <h5>Federal-Specific Requirements:</h5>
+                                 
+                                 <div class="control-item">
+                                     <strong>🏛️ Mandatory Federal Controls:</strong>
+                                     <ul>
+                                         <li>IA-2(12): PIV card authentication for all employees</li>
+                                         <li>SC-13: FIPS 140-2 validated cryptography</li>
+                                         <li>SI-2: USGCB configurations required</li>
+                                         <li>AU-2: Specific events per federal guidelines</li>
+                                     </ul>
+                                 </div>
+                                 
+                                 <div class="control-item" style="margin-top:15px;">
+                                     <strong>🔗 Inherited Common Controls:</strong>
+                                     <ul>
+                                         <li>From GSA: Physical security for federal buildings</li>
+                                         <li>From DHS: EINSTEIN network monitoring</li>
+                                         <li>From OPM: Personnel security and clearances</li>
+                                         <li>From Agency IT: Enterprise services (email, network)</li>
+                                     </ul>
+                                 </div>
+                                 
+                                 <div class="control-item" style="margin-top:15px;">
+                                     <strong>📋 Additional Compliance:</strong>
+                                     <ul>
+                                         <li>Privacy Act: Enhanced PT controls</li>
+                                         <li>Section 508: Accessibility requirements</li>
+                                         <li>Records Management: NARA requirements</li>
+                                         <li>Continuity: COOP requirements from FEMA</li>
+                                     </ul>
+                                 </div>
+                             </div>
+                             
+                             <div class="real-world-box" style="margin-top:20px;">
+                                 <strong>Implementation Note:</strong> Federal agencies can leverage many shared services and common controls, reducing implementation burden while ensuring consistency across government.
+                             </div>`,
+                
+                'retail': `<h4>Retail Chain Tailoring Example</h4>
+                         <div class="concept-box">
+                             <p><strong>Company:</strong> 200 stores, e-commerce, 15,000 employees</p>
+                             <p><strong>FIPS 199:</strong> {(C:MOD), (I:MOD), (A:HIGH)} = HIGH baseline</p>
+                             <p style="color: #d32f2f;"><em>Note: HIGH availability due to 24/7 operations and revenue impact</em></p>
+                         </div>
+                         
+                         <div style="margin-top:20px;">
+                             <h5>Retail-Specific Tailoring:</h5>
+                             
+                             <div class="control-item">
+                                 <strong>💳 PCI-DSS Additions:</strong>
+                                 <ul>
+                                     <li>Network segmentation: Cardholder data environment isolated</li>
+                                     <li>Enhanced monitoring: All payment system access logged</li>
+                                     <li>Encryption: End-to-end for all card data</li>
+                                     <li>Quarterly ASV scans and annual penetration tests</li>
+                                 </ul>
+                             </div>
+                             
+                             <div class="control-item" style="margin-top:15px;">
+                                 <strong>🏪 Store-Level Modifications:</strong>
+                                 <ul>
+                                     <li>Simplified authentication: Shared terminals with user switching</li>
+                                     <li>Physical controls: Focus on point-of-sale areas</li>
+                                     <li>Network: Each store as untrusted, zero trust to corporate</li>
+                                     <li>Availability: Store can operate offline for 4 hours</li>
+                                 </ul>
+                             </div>
+                             
+                             <div class="control-item" style="margin-top:15px;">
+                                 <strong>📱 Omnichannel Considerations:</strong>
+                                 <ul>
+                                     <li>Mobile app: Additional application security controls</li>
+                                     <li>Customer data: CCPA/GDPR privacy requirements</li>
+                                     <li>Third-party: Vendor management for delivery partners</li>
+                                     <li>Peak season: Scalability for Black Friday/holiday surge</li>
+                                 </ul>
+                             </div>
+                         </div>
+                         
+                         <div class="example-box" style="margin-top:20px;">
+                             <strong>Key Success Factor:</strong> Different control implementations for corporate, e-commerce, and stores, all documented in unified SSP with clear boundaries.
+                         </div>`
+            };
+            
+            display.innerHTML = examples[scenario];
+            display.style.display = 'block';
+        }
+        
+        function showImplementationPlan(timeline) {
+            const display = document.getElementById('implementation-plan-display');
+            const plans = {
+                'rapid': `<h4>🚀 Rapid 6-Month Implementation Plan</h4>
+                        <div class="warning-box">
+                            <strong>When to Use:</strong> Compliance deadline, acquisition requirement, audit finding
+                        </div>
+                        
+                        <div style="margin-top:20px;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Focus</th>
+                                        <th>Key Deliverables</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Month 1</strong></td>
+                                        <td>Foundation Sprint</td>
+                                        <td>• Complete FIPS 199 categorization<br>• Develop all -1 policies<br>• Create SSP template<br>• Identify quick wins</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Month 2</strong></td>
+                                        <td>Access Control Blitz</td>
+                                        <td>• Deploy MFA for all users<br>• Implement RBAC<br>• Clean up accounts<br>• Enable audit logging</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Month 3</strong></td>
+                                        <td>Technical Controls</td>
+                                        <td>• Configure firewalls<br>• Deploy antivirus<br>• Implement backups<br>• Enable encryption</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Month 4</strong></td>
+                                        <td>Monitoring & Response</td>
+                                        <td>• Deploy SIEM<br>• Create IR procedures<br>• Train response team<br>• Test alerting</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Month 5</strong></td>
+                                        <td>Gap Closure</td>
+                                        <td>• Address assessment findings<br>• Complete remaining controls<br>• Update documentation<br>• User training</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Month 6</strong></td>
+                                        <td>Assessment & ATO</td>
+                                        <td>• Security control assessment<br>• POA&M for gaps<br>• ATO package submission<br>• Go-live preparation</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="real-world-box" style="margin-top:20px;">
+                            <strong>Success Keys:</strong>
+                            <ul>
+                                <li>Dedicated team (no other duties)</li>
+                                <li>Executive mandate for rapid decisions</li>
+                                <li>Budget pre-approved for tools/contractors</li>
+                                <li>Accept "good enough" for initial implementation</li>
+                            </ul>
+                        </div>`,
+                
+                'standard': `<h4>📅 Standard 12-Month Implementation</h4>
+                           <div class="success-box">
+                               <strong>When to Use:</strong> Normal new system deployment, planned modernization
+                           </div>
+                           
+                           <div style="margin-top:20px;">
+                               <h5>Quarterly Phases:</h5>
+                               
+                               <div class="control-item">
+                                   <strong>Q1 - Foundation (Months 1-3)</strong>
+                                   <ul>
+                                       <li>Complete risk assessment and categorization</li>
+                                       <li>Develop all policies and procedures</li>
+                                       <li>Create comprehensive SSP</li>
+                                       <li>Establish governance structure</li>
+                                       <li>Procure necessary tools and licenses</li>
+                                   </ul>
+                               </div>
+                               
+                               <div class="control-item" style="margin-top:15px;">
+                                   <strong>Q2 - Core Security (Months 4-6)</strong>
+                                   <ul>
+                                       <li>Implement identity and access management</li>
+                                       <li>Deploy logging and monitoring infrastructure</li>
+                                       <li>Configure network security controls</li>
+                                       <li>Establish configuration baselines</li>
+                                       <li>Begin security awareness training</li>
+                                   </ul>
+                               </div>
+                               
+                               <div class="control-item" style="margin-top:15px;">
+                                   <strong>Q3 - Advanced Controls (Months 7-9)</strong>
+                                   <ul>
+                                       <li>Implement encryption for data at rest/transit</li>
+                                       <li>Deploy vulnerability management program</li>
+                                       <li>Establish incident response capability</li>
+                                       <li>Implement integrity monitoring</li>
+                                       <li>Complete disaster recovery setup</li>
+                                   </ul>
+                               </div>
+                               
+                               <div class="control-item" style="margin-top:15px;">
+                                   <strong>Q4 - Maturation (Months 10-12)</strong>
+                                   <ul>
+                                       <li>Conduct security control assessment</li>
+                                       <li>Address identified gaps</li>
+                                       <li>Optimize and automate controls</li>
+                                       <li>Complete documentation updates</li>
+                                       <li>Achieve authorization to operate</li>
+                                   </ul>
+                               </div>
+                           </div>
+                           
+                           <div class="example-box" style="margin-top:20px;">
+                               <strong>Monthly Checkpoints:</strong> Review progress monthly, adjust timeline based on discoveries, maintain risk register for delays.
+                           </div>`,
+                
+                'complex': `<h4>🏢 Complex 18-Month Enterprise Implementation</h4>
+                          <div class="concept-box">
+                              <strong>When to Use:</strong> Large organization, multiple systems, HIGH baseline, legacy integration
+                          </div>
+                          
+                          <div style="margin-top:20px;">
+                              <h5>Six Phases for Complex Environments:</h5>
+                              
+                              <table>
+                                  <thead>
+                                      <tr>
+                                          <th>Phase</th>
+                                          <th>Duration</th>
+                                          <th>Focus Area</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td><strong>1. Discovery</strong></td>
+                                          <td>Months 1-3</td>
+                                          <td>• Asset inventory<br>• Risk assessment<br>• Gap analysis<br>• Roadmap development</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>2. Foundation</strong></td>
+                                          <td>Months 4-6</td>
+                                          <td>• Governance structure<br>• Policies and procedures<br>• Tool procurement<br>• Team building</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>3. Platform</strong></td>
+                                          <td>Months 7-9</td>
+                                          <td>• Identity management<br>• Network architecture<br>• Logging infrastructure<br>• Baseline configs</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>4. Security</strong></td>
+                                          <td>Months 10-12</td>
+                                          <td>• Technical controls<br>• Monitoring/SIEM<br>• Incident response<br>• Vulnerability mgmt</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>5. Advanced</strong></td>
+                                          <td>Months 13-15</td>
+                                          <td>• Encryption program<br>• Zero trust elements<br>• Automation/SOAR<br>• Advanced threats</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>6. Optimization</strong></td>
+                                          <td>Months 16-18</td>
+                                          <td>• Assessment/audit<br>• Gap remediation<br>• Process refinement<br>• Continuous improvement</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          
+                          <div class="warning-box" style="margin-top:20px;">
+                              <strong>Complex Environment Challenges:</strong>
+                              <ul>
+                                  <li>Legacy systems that can't be updated</li>
+                                  <li>Multiple stakeholders with conflicting priorities</li>
+                                  <li>Integration with existing tools and processes</li>
+                                  <li>Change management across large organization</li>
+                                  <li>Budget allocation across multiple fiscal years</li>
+                              </ul>
+                          </div>
+                          
+                          <div class="success-box" style="margin-top:20px;">
+                              <strong>Success Strategy:</strong> Use pilot programs, phased rollouts, and early wins to build momentum and organizational buy-in.
+                          </div>`,
+                
+                'crisis': `<h4>🚨 Crisis Mode: 30-Day Emergency Implementation</h4>
+                         <div class="warning-box" style="background: #ffebee; border-color: #f44336;">
+                             <strong style="color: #f44336;">When to Use:</strong> Active breach, regulatory emergency, acquisition contingency, critical audit failure
+                         </div>
+                         
+                         <div style="margin-top:20px;">
+                             <h5>Week-by-Week Crisis Response:</h5>
+                             
+                             <div class="control-item">
+                                 <strong>Week 1: Stop the Bleeding</strong>
+                                 <ul>
+                                     <li>Day 1-2: Deploy MFA for all administrative accounts</li>
+                                     <li>Day 3-4: Reset all passwords, review all accounts</li>
+                                     <li>Day 5-7: Enable logging on all critical systems</li>
+                                     <li>Outcome: Basic access control restored</li>
+                                 </ul>
+                             </div>
+                             
+                             <div class="control-item" style="margin-top:15px;">
+                                 <strong>Week 2: Visibility</strong>
+                                 <ul>
+                                     <li>Day 8-10: Deploy EDR on all endpoints</li>
+                                     <li>Day 11-12: Implement network monitoring</li>
+                                     <li>Day 13-14: Centralize logs in cloud SIEM</li>
+                                     <li>Outcome: Can see what's happening</li>
+                                 </ul>
+                             </div>
+                             
+                             <div class="control-item" style="margin-top:15px;">
+                                 <strong>Week 3: Containment</strong>
+                                 <ul>
+                                     <li>Day 15-17: Segment network (basic VLANs)</li>
+                                     <li>Day 18-19: Deploy host firewalls</li>
+                                     <li>Day 20-21: Implement application whitelisting</li>
+                                     <li>Outcome: Lateral movement prevented</li>
+                                 </ul>
+                             </div>
+                             
+                             <div class="control-item" style="margin-top:15px;">
+                                 <strong>Week 4: Stabilization</strong>
+                                 <ul>
+                                     <li>Day 22-24: Document what was done</li>
+                                     <li>Day 25-26: Create basic runbooks</li>
+                                     <li>Day 27-28: Train operations team</li>
+                                     <li>Day 29-30: Plan next 90 days</li>
+                                     <li>Outcome: Sustainable operations</li>
+                                 </ul>
+                             </div>
+                         </div>
+                         
+                         <div class="real-world-box" style="margin-top:20px;">
+                             <strong>Crisis Resources Needed:</strong>
+                             <ul>
+                                 <li>Executive authority to override normal procedures</li>
+                                 <li>24/7 team availability (consider contractors)</li>
+                                 <li>Emergency budget authorization</li>
+                                 <li>Cloud services for rapid deployment</li>
+                                 <li>Direct vendor support contracts</li>
+                             </ul>
+                         </div>
+                         
+                         <div class="example-box" style="margin-top:20px;">
+                             <strong>After Crisis:</strong> Plan for 6-month follow-up to properly implement controls that were rushed. Document lessons learned. Update incident response plans.
+                         </div>`
+            };
+            
+            display.innerHTML = plans[timeline];
+            display.style.display = 'block';
+        }
+        
+        function showCompleteScenario(sector) {
+            const display = document.getElementById('complete-scenario-display');
+            const scenarios = {
+                'financial': `<h4>💰 Financial Services: Complete Implementation Journey</h4>
+                            <div class="concept-box">
+                                <strong>Organization:</strong> Regional credit union, $2B assets, 500 employees, 50,000 members
+                            </div>
+                            
+                            <div style="margin-top:20px;">
+                                <h5>Step 1: FIPS 199 Categorization</h5>
+                                <ul>
+                                    <li><strong>Information Types:</strong> Account data, SSNs, transaction history, loan applications</li>
+                                    <li><strong>Impact Analysis:</strong>
+                                        <ul>
+                                            <li>Confidentiality: HIGH (financial privacy, identity theft risk)</li>
+                                            <li>Integrity: HIGH (incorrect balances = financial harm)</li>
+                                            <li>Availability: MODERATE (branches can operate temporarily offline)</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Result:</strong> SC = {(C:HIGH), (I:HIGH), (A:MODERATE)} → HIGH baseline</li>
+                                </ul>
+                                
+                                <h5 style="margin-top:20px;">Step 2: Control Selection & Tailoring</h5>
+                                <ul>
+                                    <li><strong>Baseline:</strong> HIGH (~420 controls)</li>
+                                    <li><strong>Additions:</strong> FFIEC requirements, state regulations</li>
+                                    <li><strong>Modifications:</strong> Enhanced fraud detection, transaction monitoring</li>
+                                </ul>
+                                
+                                <h5 style="margin-top:20px;">Step 3: Implementation Priorities</h5>
+                                <ol>
+                                    <li>Multi-factor for online banking (Month 1)</li>
+                                    <li>Encryption for all member data (Month 2-3)</li>
+                                    <li>24/7 fraud monitoring (Month 4)</li>
+                                    <li>Incident response team (Month 5-6)</li>
+                                </ol>
+                                
+                                <h5 style="margin-top:20px;">Step 4: Operational Security</h5>
+                                <ul>
+                                    <li>Daily vulnerability scans of internet-facing systems</li>
+                                    <li>Real-time transaction monitoring with ML-based fraud detection</li>
+                                    <li>Quarterly penetration testing by approved firms</li>
+                                    <li>Annual FFIEC examination validation</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="success-box" style="margin-top:20px;">
+                                <strong>Outcome:</strong> Passed FFIEC examination, zero security incidents, member trust increased, cyber insurance premiums reduced 15%.
+                            </div>`,
+                
+                'healthcare': `<h4>🏥 Healthcare Provider: Complete Implementation Journey</h4>
+                             <div class="concept-box">
+                                 <strong>Organization:</strong> Regional hospital network, 3 hospitals, 15 clinics, 5,000 employees
+                             </div>
+                             
+                             <div style="margin-top:20px;">
+                                 <h5>Step 1: FIPS 199 Categorization</h5>
+                                 <ul>
+                                     <li><strong>Information Types:</strong> Electronic health records, medical imaging, prescriptions, billing</li>
+                                     <li><strong>Impact Analysis:</strong>
+                                         <ul>
+                                             <li>Confidentiality: HIGH (HIPAA, patient privacy)</li>
+                                             <li>Integrity: HIGH (wrong data could kill patients)</li>
+                                             <li>Availability: HIGH (ER systems must be 24/7)</li>
+                                         </ul>
+                                     </li>
+                                     <li><strong>Result:</strong> SC = {(C:HIGH), (I:HIGH), (A:HIGH)} → HIGH baseline</li>
+                                 </ul>
+                                 
+                                 <h5 style="margin-top:20px;">Step 2: Healthcare-Specific Tailoring</h5>
+                                 <ul>
+                                     <li><strong>HIPAA Additions:</strong> Enhanced privacy controls, breach notification</li>
+                                     <li><strong>Medical Device Challenge:</strong> Compensating controls for unpatchable devices</li>
+                                     <li><strong>Clinical Workflow:</strong> Fast re-authentication for providers</li>
+                                     <li><strong>Emergency Override:</strong> Break-glass procedures with heavy auditing</li>
+                                 </ul>
+                                 
+                                 <h5 style="margin-top:20px;">Step 3: Phased Implementation</h5>
+                                 <table>
+                                     <tr><td><strong>Phase 1:</strong></td><td>EHR access controls and audit logging</td></tr>
+                                     <tr><td><strong>Phase 2:</strong></td><td>Network segmentation (clinical/admin/guest)</td></tr>
+                                     <tr><td><strong>Phase 3:</strong></td><td>Medical device isolation and monitoring</td></tr>
+                                     <tr><td><strong>Phase 4:</strong></td><td>Full disk encryption for all workstations</td></tr>
+                                 </table>
+                                 
+                                 <h5 style="margin-top:20px;">Step 4: Continuous Operations</h5>
+                                 <ul>
+                                     <li>24/7 Security Operations Center monitoring</li>
+                                     <li>Monthly HIPAA compliance audits</li>
+                                     <li>Quarterly tabletop exercises for ransomware</li>
+                                     <li>Annual OCR compliance assessment</li>
+                                 </ul>
+                             </div>
+                             
+                             <div class="warning-box" style="margin-top:20px;">
+                                 <strong>Lessons Learned:</strong> Clinical buy-in essential, must balance security with patient care, legacy medical devices require creative solutions.
+                             </div>`,
+                
+                'education': `<h4>🎓 University System: Complete Implementation Journey</h4>
+                            <div class="concept-box">
+                                <strong>Institution:</strong> State university, 30,000 students, 5,000 faculty/staff, research programs
+                            </div>
+                            
+                            <div style="margin-top:20px;">
+                                <h5>Step 1: Complex Categorization (Multiple Systems)</h5>
+                                <ul>
+                                    <li><strong>Administrative Systems:</strong> {(C:MOD), (I:MOD), (A:LOW)} → MODERATE</li>
+                                    <li><strong>Student Information:</strong> {(C:MOD), (I:HIGH), (A:MOD)} → HIGH</li>
+                                    <li><strong>Research (Classified):</strong> {(C:HIGH), (I:HIGH), (A:MOD)} → HIGH</li>
+                                    <li><strong>Public Web:</strong> {(C:LOW), (I:MOD), (A:MOD)} → MODERATE</li>
+                                </ul>
+                                
+                                <h5 style="margin-top:20px;">Step 2: Segmented Approach</h5>
+                                <ul>
+                                    <li><strong>Different Baselines:</strong> Apply appropriate baseline to each segment</li>
+                                    <li><strong>FERPA Requirements:</strong> Additional privacy controls for student records</li>
+                                    <li><strong>Research Compliance:</strong> NIST 800-171 for controlled research</li>
+                                    <li><strong>Academic Freedom:</strong> Balance security with open academic environment</li>
+                                </ul>
+                                
+                                <h5 style="margin-top:20px;">Step 3: Implementation Strategy</h5>
+                                <ol>
+                                    <li><strong>Central IT:</strong> Implement common controls for inheritance</li>
+                                    <li><strong>Departments:</strong> Gradual rollout with training and support</li>
+                                    <li><strong>Research Labs:</strong> Special handling for grant requirements</li>
+                                    <li><strong>Student Systems:</strong> User-friendly security that works for 18-year-olds</li>
+                                </ol>
+                                
+                                <h5 style="margin-top:20px;">Step 4: Unique Challenges Addressed</h5>
+                                <ul>
+                                    <li><strong>BYOD:</strong> Thousands of personal devices on network</li>
+                                    <li><strong>Turnover:</strong> Automating account lifecycle for semester changes</li>
+                                    <li><strong>Research:</strong> Balancing openness with security</li>
+                                    <li><strong>Budget:</strong> Limited resources, creative solutions required</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example-box" style="margin-top:20px;">
+                                <strong>Success Factors:</strong> Segmented approach allowed appropriate security for each area. Central IT services reduced burden on departments. Student workers helped with implementation.
+                            </div>`,
+                
+                'critical': `<h4>⚡ Critical Infrastructure: Power Grid Control System</h4>
+                           <div class="concept-box">
+                               <strong>System:</strong> Regional power grid SCADA system, 500K customers, critical infrastructure
+                           </div>
+                           
+                           <div style="margin-top:20px;">
+                               <h5>Step 1: FIPS 199 Categorization</h5>
+                               <ul>
+                                   <li><strong>Information Types:</strong> Control commands, sensor data, grid topology</li>
+                                   <li><strong>Impact Analysis:</strong>
+                                       <ul>
+                                           <li>Confidentiality: HIGH (terrorist targeting information)</li>
+                                           <li>Integrity: HIGH (wrong commands = blackouts or damage)</li>
+                                           <li>Availability: HIGH (power must flow continuously)</li>
+                                       </ul>
+                                   </li>
+                                   <li><strong>Result:</strong> SC = {(C:HIGH), (I:HIGH), (A:HIGH)} → HIGH baseline</li>
+                               </ul>
+                               
+                               <h5 style="margin-top:20px;">Step 2: NERC CIP Integration</h5>
+                               <ul>
+                                   <li><strong>Dual Compliance:</strong> NIST 800-53 + NERC CIP standards</li>
+                                   <li><strong>Air Gap Option:</strong> Physical isolation for most critical systems</li>
+                                   <li><strong>Real-Time Requirements:</strong> Controls can't add latency</li>
+                                   <li><strong>Safety Systems:</strong> Override capabilities for emergencies</li>
+                               </ul>
+                               
+                               <h5 style="margin-top:20px;">Step 3: Implementation Approach</h5>
+                               <table>
+                                   <tr><td><strong>Layer 1:</strong></td><td>Physical security at generation and substations</td></tr>
+                                   <tr><td><strong>Layer 2:</strong></td><td>Network segmentation and data diodes</td></tr>
+                                   <tr><td><strong>Layer 3:</strong></td><td>Application whitelisting on all SCADA systems</td></tr>
+                                   <tr><td><strong>Layer 4:</strong></td><td>Continuous monitoring and anomaly detection</td></tr>
+                                   <tr><td><strong>Layer 5:</strong></td><td>Incident response with grid isolation capability</td></tr>
+                               </table>
+                               
+                               <h5 style="margin-top:20px;">Step 4: Operational Excellence</h5>
+                               <ul>
+                                   <li><strong>24/7/365 SOC:</strong> Dedicated OT security team</li>
+                                   <li><strong>Threat Intelligence:</strong> DHS and E-ISAC feeds</li>
+                                   <li><strong>Exercises:</strong> GridEx participation, monthly drills</li>
+                                   <li><strong>Redundancy:</strong> Full backup control center</li>
+                                   <li><strong>Recovery:</strong> Black start procedures tested quarterly</li>
+                               </ul>
+                           </div>
+                           
+                           <div class="warning-box" style="margin-top:20px;">
+                               <strong>Critical Success Factor:</strong> Engineering and operations must own security—it can't be imposed by IT. Safety always trumps security in emergency situations.
+                           </div>
+                           
+                           <div class="real-world-box" style="margin-top:20px;">
+                               <strong>Investment Required:</strong> $10M+ initial implementation, $2M+ annual operations, dedicated team of 12 security professionals, executive commitment to security as safety issue.
+                           </div>`
+            };
+            
+            display.innerHTML = scenarios[sector];
+            display.style.display = 'block';
+        }
+        
+        function showQuizQuestion(question) {
+            const display = document.getElementById('quiz-display');
+            const questions = {
+                'q1': `<h4>Question 1: Impact to Baseline Mapping</h4>
+                      <div class="concept-box">
+                          <p><strong>Scenario:</strong> Your system has the following FIPS 199 categorization:</p>
+                          <p style="font-family: monospace; text-align: center; margin: 15px 0;">SC = {(C: MODERATE), (I: LOW), (A: HIGH)}</p>
+                          <p><strong>Question:</strong> Which NIST SP 800-53 baseline should you select?</p>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="baseline-button" onclick="checkAnswer('q1', 'low')">LOW Baseline</button>
+                          <button class="baseline-button" onclick="checkAnswer('q1', 'moderate')">MODERATE Baseline</button>
+                          <button class="baseline-button" onclick="checkAnswer('q1', 'high')">HIGH Baseline</button>
+                      </div>
+                      
+                      <div id="q1-answer" style="display:none; margin-top:20px;" class="success-box">
+                          <strong>✅ Correct Answer: HIGH Baseline</strong>
+                          <p>The High Water Mark principle means you always use the highest impact level from any of the three CIA categories. Since Availability is HIGH, you must use the HIGH baseline regardless of the other ratings.</p>
+                      </div>`,
+                
+                'q2': `<h4>Question 2: Control Family Purpose</h4>
+                      <div class="concept-box">
+                          <p><strong>Question:</strong> You need to ensure that your audit logs can't be tampered with and you have enough storage space for 365 days of logs. Which control family primarily addresses this requirement?</p>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'ac')">AC - Access Control</button>
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'au')">AU - Audit and Accountability</button>
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'si')">SI - System and Information Integrity</button>
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'sc')">SC - System and Communications Protection</button>
+                      </div>
+                      
+                      <div id="q2-answer" style="display:none; margin-top:20px;" class="success-box">
+                          <strong>✅ Correct Answer: AU - Audit and Accountability</strong>
+                          <p>The AU family specifically handles audit log generation, protection, retention, and analysis. AU-4 addresses audit storage capacity, AU-9 protects audit information, and AU-11 defines retention requirements.</p>
+                      </div>`,
+                
+                'q3': `<h4>Question 3: Implementation Priority</h4>
+                      <div class="concept-box">
+                          <p><strong>Question:</strong> You're implementing the MODERATE baseline for a new system. Which of these should you implement FIRST?</p>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'encryption')">Encryption at rest (SC-28)</button>
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'monitoring')">Continuous monitoring (CA-7)</button>
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'policies')">Security policies (all -1 controls)</button>
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'scanning')">Vulnerability scanning (RA-5)</button>
+                      </div>
+                      
+                      <div id="q3-answer" style="display:none; margin-top:20px;" class="success-box">
+                          <strong>✅ Correct Answer: Security policies (all -1 controls)</strong>
+                          <p>Policies and procedures (the -1 control in each family) must come first because they define HOW you'll implement everything else. Without policies, technical controls are implemented inconsistently and may not meet compliance requirements.</p>
+                      </div>`,
+                
+                'q4': `<h4>Question 4: Tailoring Scenario</h4>
+                      <div class="concept-box">
+                          <p><strong>Scenario:</strong> You're implementing HIGH baseline for a cloud-native application with no physical infrastructure. What's the appropriate tailoring action for physical security controls (PE family)?</p>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'implement')">Implement them as written</button>
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'remove')">Remove as not applicable with justification</button>
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'inherit')">Inherit from cloud provider with shared responsibility</button>
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'ignore')">Ignore without documentation</button>
+                      </div>
+                      
+                      <div id="q4-answer" style="display:none; margin-top:20px;" class="success-box">
+                          <strong>✅ Correct Answer: Inherit from cloud provider with shared responsibility</strong>
+                          <p>For cloud systems, physical security controls are typically inherited from the cloud service provider (CSP) as part of the shared responsibility model. You must document which controls the CSP provides (usually in their FedRAMP package) and ensure they meet your requirements.</p>
+                      </div>`
+            };
+            
+            display.innerHTML = questions[question];
+            display.style.display = 'block';
+        }
+        
+        function checkAnswer(question, answer) {
+            document.getElementById(question + '-answer').style.display = 'block';
+        }
+        
+        function showBaseline(level) {
+            const display = document.getElementById('baseline-display');
+            const baselines = {
+                'low': `<h4>LOW Baseline - The Essentials</h4>
+                       <div class="control-count-box">
+                           <div class="control-count">~120</div>
+                           <div>Total Controls</div>
+                       </div>
+                       
+                       <div class="analogy-box" style="margin-top:20px;">
+                           <strong>Think of it like basic home security:</strong>
+                           <p>Locks on doors, basic alarm, some lights - enough to deter casual threats</p>
+                       </div>
+                       
+                       <p style="margin-top:20px;"><strong>What You Get:</strong></p>
+                       <ul>
+                           <li><strong>Access Control:</strong> Basic user accounts and permissions (AC-2, AC-3)</li>
+                           <li><strong>Authentication:</strong> Username and password (IA-2)</li>
+                           <li><strong>Audit:</strong> Basic logging of major events (AU-2, AU-3)</li>
+                           <li><strong>Training:</strong> Annual security awareness (AT-2)</li>
+                           <li><strong>Incident Response:</strong> Basic response capability (IR-4, IR-5)</li>
+                           <li><strong>Maintenance:</strong> Regular patching schedule (MA-2)</li>
+                       </ul>
+                       
+                       <p style="margin-top:20px;"><strong>What You DON'T Get:</strong></p>
+                       <ul style="color: #d32f2f;">
+                           <li>No multi-factor authentication requirement</li>
+                           <li>No encryption requirements</li>
+                           <li>No continuous monitoring</li>
+                           <li>No advanced threat detection</li>
+                       </ul>
+                       
+                       <div class="example-box" style="margin-top:20px;">
+                           <strong>Perfect For:</strong>
+                           <ul>
+                               <li>Public websites with no user data</li>
+                               <li>Test/development systems</li>
+                               <li>Training environments</li>
+                               <li>Systems with only public information</li>
+                           </ul>
+                       </div>`,
+                
+                'moderate': `<h4>MODERATE Baseline - Professional Protection</h4>
+                            <div class="control-count-box">
+                                <div class="control-count">~260</div>
+                                <div>Total Controls (including enhancements)</div>
+                            </div>
+                            
+                            <div class="analogy-box" style="margin-top:20px;">
+                                <strong>Think of it like business security:</strong>
+                                <p>Electronic locks, cameras, alarm monitoring service, regular security patrols</p>
+                            </div>
+                            
+                            <p style="margin-top:20px;"><strong>Major Additions Beyond LOW:</strong></p>
+                            <ul>
+                                <li><strong>Multi-factor Authentication:</strong> Required for remote access (IA-2(1))</li>
+                                <li><strong>Encryption in Transit:</strong> All network communications encrypted (SC-8)</li>
+                                <li><strong>Separation of Duties:</strong> No single person can compromise system (AC-5)</li>
+                                <li><strong>Least Privilege:</strong> Users only get minimum necessary access (AC-6)</li>
+                                <li><strong>Vulnerability Scanning:</strong> Regular automated scans (RA-5)</li>
+                                <li><strong>Configuration Management:</strong> Documented baselines and change control (CM family)</li>
+                                <li><strong>Incident Response Team:</strong> Formal IR capability (IR family expanded)</li>
+                            </ul>
+                            
+                            <div class="real-world-box" style="margin-top:20px;">
+                                <strong>Real Implementation Difference:</strong>
+                                <p>A MODERATE system requires documented processes, automated tools, and dedicated security staff. It's the difference between "we have security" and "we can prove our security works."</p>
+                            </div>
+                            
+                            <div class="example-box" style="margin-top:20px;">
+                                <strong>Perfect For:</strong>
+                                <ul>
+                                    <li>Business systems with PII (HR, CRM)</li>
+                                    <li>Financial systems (non-critical)</li>
+                                    <li>Routine government operations</li>
+                                    <li>Healthcare administrative systems</li>
+                                </ul>
+                            </div>`,
+                
+                'high': `<h4>HIGH Baseline - Maximum Security</h4>
+                        <div class="control-count-box">
+                            <div class="control-count">~420</div>
+                            <div>Total Controls (extensive enhancements)</div>
+                        </div>
+                        
+                        <div class="analogy-box" style="margin-top:20px;">
+                            <strong>Think of it like bank vault security:</strong>
+                            <p>Biometric locks, 24/7 guards, motion sensors, pressure plates, time-delay safes, panic rooms</p>
+                        </div>
+                        
+                        <p style="margin-top:20px;"><strong>Critical Additions Beyond MODERATE:</strong></p>
+                        <ul>
+                            <li><strong>Continuous Monitoring:</strong> Real-time security monitoring (CA-7 with enhancements)</li>
+                            <li><strong>MFA Everywhere:</strong> Multi-factor for ALL users, ALL access (IA-2 multiple enhancements)</li>
+                            <li><strong>Encryption at Rest:</strong> All data encrypted when stored (SC-28)</li>
+                            <li><strong>Advanced Audit:</strong> Correlation, analysis, and automated response (AU-6 enhancements)</li>
+                            <li><strong>Penetration Testing:</strong> Regular professional security testing (CA-8)</li>
+                            <li><strong>Supply Chain Security:</strong> Full vendor risk management (SR family)</li>
+                            <li><strong>Advanced Persistent Threat Defense:</strong> Nation-state level protections</li>
+                            <li><strong>Integrity Verification:</strong> Cryptographic verification of all critical files (SI-7)</li>
+                        </ul>
+                        
+                        <div class="warning-box" style="margin-top:20px;">
+                            <strong>Resource Requirements:</strong>
+                            <p>HIGH baseline requires:</p>
+                            <ul>
+                                <li>24/7 Security Operations Center (SOC)</li>
+                                <li>Dedicated security team (10+ people typical)</li>
+                                <li>Enterprise security tools ($1M+ annual)</li>
+                                <li>Continuous assessment and improvement</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box" style="margin-top:20px;">
+                            <strong>Required For:</strong>
+                            <ul>
+                                <li>National security systems</li>
+                                <li>Critical infrastructure (power grid, water)</li>
+                                <li>Life-critical healthcare (ICU systems)</li>
+                                <li>Systems where compromise = catastrophic impact</li>
+                                <li>Financial systems handling billions</li>
+                            </ul>
+                        </div>`
+            };
+            
+            display.innerHTML = baselines[level];
+            display.style.display = 'block';
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 6;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            let message = `Progress: ${viewed}/${total} sections viewed (${percentage}%)\\n\\n`;
+            
+            if (viewed === total) {
+                message += 'Excellent! You\'ve completed the NIST SP 800-53 learning module!\\n\\n';
+                message += 'Key Concepts Mastered:\\n';
+                message += '✓ Connection between FIPS 199 and SP 800-53\\n';
+                message += '✓ Understanding control families and structure\\n';
+                message += '✓ Control baseline selection\\n';
+                message += '✓ Tailoring and implementation\\n';
+                message += '✓ Priority-based deployment\\n';
+                message += '✓ Complete risk-to-protection journey';
+            } else {
+                message += `Keep exploring! ${total - viewed} sections remaining.\\n\\n`;
+                message += 'Sections to review:\\n';
+                for (let i = 1; i <= total; i++) {
+                    if (!sectionsViewed.has(i)) {
+                        const topics = [
+                            '1: Introduction & FIPS 199 Connection',
+                            '2: Control Families and Structure',
+                            '3: Control Baselines Deep Dive',
+                            '4: Control Selection Process',
+                            '5: Priority and Implementation',
+                            '6: Integration and Summary'
+                        ];
+                        message += `• Part ${topics[i-1]}\\n`;
+                    }
+                }
+            }
+            
+            alert(message);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', function() {
+            // Any initialization code
+        });
+    </script>
+</body>
+</html>
