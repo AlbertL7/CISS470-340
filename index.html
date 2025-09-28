@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cyber Risk Handbook - Interactive Learning Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .chapter-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        
+        .chapter-header {
+            padding: 20px;
+            position: relative;
+            min-height: 120px;
+        }
+        
+        .chapter-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: white;
+            color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .chapter-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            padding-right: 70px;
+        }
+        
+        .chapter-subtitle {
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+            padding-right: 70px;
+        }
+        
+        .chapter-content {
+            padding: 20px;
+            background: white;
+        }
+        
+        .chapter-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .chapter-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2a5298;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        /* Chapter-specific colors */
+        .chapter-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .chapter-2 { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+        .chapter-3 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .chapter-4 { background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); }
+        .chapter-5 { background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); }
+        .chapter-coming { 
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            opacity: 0.7;
+            cursor: default;
+        }
+        .chapter-coming:hover {
+            transform: none;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .status-available {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status-coming {
+            background: #ff9800;
+            color: white;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .info-section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+        
+        .info-section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+            opacity: 0.9;
+        }
+        
+        .navigation-tip {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 30px 0;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ THE CYBER RISK HANDBOOK</h1>
+            <p>Interactive Learning Portal - CISS 470</p>
+            <p style="font-size: 16px; margin-top: 10px; opacity: 0.8;">Creating and Measuring Effective Cybersecurity Capabilities</p>
+        </div>
+
+        <div class="navigation-tip">
+            💡 Click any available chapter to begin your interactive learning journey
+        </div>
+
+        <div class="chapters-grid">
+            <!-- Chapter 1 -->
+            <a href="chapter1.html" class="chapter-card">
+                <div class="chapter-header chapter-1">
+                    <div class="chapter-number">1</div>
+                    <div class="chapter-title">Introduction to Cyber Risk</div>
+                    <div class="chapter-subtitle">The CEO's Wake-Up Call</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-available">Available</span>
+                    <p class="chapter-description">
+                        Meet CEO Tom as he discovers cyber risk is not just an IT issue but an enterprise-wide challenge requiring executive ownership and comprehensive capabilities.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Sections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">45 min</div>
+                            <div class="stat-label">Est. Time</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Chapter 2 -->
+            <a href="chapter2.html" class="chapter-card">
+                <div class="chapter-header chapter-2">
+                    <div class="chapter-number">2</div>
+                    <div class="chapter-title">Board Cyber Risk Oversight</div>
+                    <div class="chapter-subtitle">The Radical Departure</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-available">Available</span>
+                    <p class="chapter-description">
+                        Learn why boards need radical change in cyber risk governance, the NACD framework, barriers to action, and four practical steps for transformation.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Sections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">40 min</div>
+                            <div class="stat-label">Est. Time</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Chapter 3 -->
+            <a href="chapter3.html" class="chapter-card">
+                <div class="chapter-header chapter-3">
+                    <div class="chapter-number">3</div>
+                    <div class="chapter-title">Principles Behind Cyber Risk</div>
+                    <div class="chapter-subtitle">ISO 31000 meets COBIT 5</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-available">Available</span>
+                    <p class="chapter-description">
+                        Discover how ISO 31000 risk principles and COBIT 5 governance principles work together to guide enterprise cyber risk management through people and behavior.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Sections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">35 min</div>
+                            <div class="stat-label">Est. Time</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Chapter 4 -->
+            <a href="chapter4.html" class="chapter-card">
+                <div class="chapter-header chapter-4">
+                    <div class="chapter-number">4</div>
+                    <div class="chapter-title">Cybersecurity Policies</div>
+                    <div class="chapter-subtitle">Six Essential Policy Areas</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-available">Available</span>
+                    <p class="chapter-description">
+                        Learn why organizations need six distinct policies covering social media, ransomware, cloud, big data, IoT, and BYOD—not just one comprehensive policy.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">Sections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">50 min</div>
+                            <div class="stat-label">Est. Time</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Chapter 5 -->
+            <a href="chapter5.html" class="chapter-card">
+                <div class="chapter-header chapter-5">
+                    <div class="chapter-number">5</div>
+                    <div class="chapter-title">Strategic Performance</div>
+                    <div class="chapter-subtitle">Measuring What Matters</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-available">Available</span>
+                    <p class="chapter-description">
+                        Master the art of measuring cybersecurity effectiveness by avoiding common pitfalls and building a three-component system for strategic performance management.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">Sections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">55 min</div>
+                            <div class="stat-label">Est. Time</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Future Chapters Placeholder -->
+            <div class="chapter-card chapter-coming">
+                <div class="chapter-header chapter-coming">
+                    <div class="chapter-number">6+</div>
+                    <div class="chapter-title">More Chapters Coming Soon</div>
+                    <div class="chapter-subtitle">Under Development</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-coming">Coming Soon</span>
+                    <p class="chapter-description">
+                        Additional chapters covering risk appetite, processes, organizational structures, culture, information management, and more will be added throughout the semester.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">21</div>
+                            <div class="stat-label">More Chapters</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">2024</div>
+                            <div class="stat-label">Release Year</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>📚 About This Learning Portal</h2>
+            <p>
+                This interactive learning portal provides an engaging way to explore "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities" edited by Domenic Antonucci. Each chapter has been transformed into an interactive learning experience with scenarios, quizzes, and expandable content.
+            </p>
+            <p>
+                <strong>How to Use:</strong> Click on any available chapter to begin. Each chapter is divided into sections that you can explore at your own pace. Interactive elements, knowledge checks, and practical scenarios help reinforce key concepts.
+            </p>
+            <p>
+                <strong>Navigation:</strong> Within each chapter, use the navigation buttons to move between sections, check your progress, and test your understanding with built-in quizzes.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>📖 Based on "The Cyber Risk Handbook" by John Wiley & Sons</p>
+            <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">Interactive Learning Modules for CISS 470</p>
+        </div>
+    </div>
+
+    <script>
+        // Add animation to cards on page load
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.chapter-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
