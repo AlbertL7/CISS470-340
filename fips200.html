@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIPS 200: Minimum Security Requirements - Interactive Learning Module</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #16305e 0%, #1e3a70 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+            display: none;
+        }
+        
+        .slide-content.active {
+            display: block;
+        }
+        
+        .slide-content h2 {
+            color: #1e3c72;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #2a5298;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce7ff 100%);
+            border-left: 5px solid #2a5298;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .concept-box {
+            background: #f0f7ff;
+            border-left: 5px solid #1e3c72;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .requirement-card {
+            background: white;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .requirement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+            background: #f8fbff;
+        }
+        
+        .requirement-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .expandable {
+            background: #f8fbff;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #16305e 0%, #1e3a70 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+            display: inline-block;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-selector {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .selector-title {
+            color: #1976d2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .action-button {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        }
+        
+        .action-button.selected {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        }
+        
+        .display-box {
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #2a5298;
+        }
+        
+        .key-learning {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .example-box {
+            background: #fff5f0;
+            border-left: 5px solid #ff6a00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .analogy-box {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border-left: 5px solid #9c27b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .real-world-box {
+            background: #f0f4c3;
+            border-left: 5px solid #827717;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .flow-diagram {
+            background: white;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce7ff 100%);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 18px;
+            position: relative;
+        }
+        
+        .flow-arrow {
+            font-size: 30px;
+            color: #2196f3;
+            margin: 10px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        
+        tr:hover td {
+            background: #f8fbff;
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #2a5298;
+            font-weight: bold;
+        }
+        
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ FIPS 200: MINIMUM SECURITY REQUIREMENTS</h1>
+            <p style="font-size: 24px; margin-top: 10px;">The Bridge Between Risk and Controls</p>
+            <p style="font-size: 18px; margin-top: 5px;">Federal Information Processing Standard Publication 200</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Introduction and Purpose -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Understanding FIPS 200: The Missing Link</span>
+                <span class="slide-number">Part 1 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🔗 FIPS 200: The Critical Bridge</h2>
+                
+                <div class="highlight-box">
+                    <h3>Why FIPS 200 Exists</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">
+                        FIPS 200 is the crucial 11-page document that connects your FIPS 199 risk categorization to the massive NIST SP 800-53 control catalog. Without FIPS 200, you'd have a risk level (LOW/MODERATE/HIGH) and 1,000+ controls with no clear way to connect them. FIPS 200 provides the mandatory requirements and selection process.
+                    </p>
+                </div>
+
+                <div class="flow-diagram">
+                    <h4>The Complete Security Framework Flow</h4>
+                    <div class="flow-step">
+                        <strong>FIPS 199</strong><br>
+                        Categorize your system risk<br>
+                        <em style="color: #666; font-size: 14px;">Output: LOW, MODERATE, or HIGH</em>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: linear-gradient(135deg, #fff9c4 0%, #ffeb3b 100%); border-color: #f9a825;">
+                        <strong>FIPS 200</strong><br>
+                        Apply minimum security requirements<br>
+                        <em style="color: #666; font-size: 14px;">17 security areas that MUST be addressed</em>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">
+                        <strong>NIST SP 800-53</strong><br>
+                        Select specific controls<br>
+                        <em style="color: #666; font-size: 14px;">Choose from catalog based on impact level</em>
+                    </div>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🏠 Think of It Like Building Codes</h4>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>FIPS 199:</strong> Determines if you're building a shed, house, or skyscraper</li>
+                        <li><strong>FIPS 200:</strong> The building code that says "all structures must have foundations, walls, roofs, exits" (the requirements)</li>
+                        <li><strong>NIST SP 800-53:</strong> The specific materials and methods catalog (concrete types, wall thickness, door specifications)</li>
+                    </ul>
+                    <p style="margin-top: 15px;">FIPS 200 ensures you don't forget any critical area—like building a house without fire exits!</p>
+                </div>
+
+                <h3>📋 What FIPS 200 Mandates</h3>
+                
+                <div class="concept-box">
+                    <h4>Two Critical Components:</h4>
+                    
+                    <p style="font-size: 18px; margin-bottom: 15px;"><strong>1. The 17 Minimum Security Requirements</strong></p>
+                    <p>Every federal system MUST address all 17 security areas. You can't skip any—even if you think they don't apply. These align with the control families in NIST SP 800-53.</p>
+                    
+                    <p style="font-size: 18px; margin: 20px 0 15px 0;"><strong>2. The Selection Process</strong></p>
+                    <p>Based on your FIPS 199 impact level, you must select the appropriate baseline from NIST SP 800-53. This isn't optional—it's federal law for federal systems.</p>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📜 Legal Authority and Compliance</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>FIPS 200's Legal Standing</h4>
+                        
+                        <p><strong>Federal Information Security Management Act (FISMA):</strong></p>
+                        <ul>
+                            <li>Requires all federal agencies to implement FIPS 200</li>
+                            <li>Non-compliance can result in budget restrictions</li>
+                            <li>OMB reviews agency compliance annually</li>
+                        </ul>
+                        
+                        <p style="margin-top: 15px;"><strong>Who Must Comply:</strong></p>
+                        <ul>
+                            <li>All federal executive agencies</li>
+                            <li>Contractors handling federal data</li>
+                            <li>State/local using federal grants (often)</li>
+                        </ul>
+                        
+                        <p style="margin-top: 15px;"><strong>Who Often Adopts Voluntarily:</strong></p>
+                        <ul>
+                            <li>Healthcare organizations (proven framework)</li>
+                            <li>Financial institutions (comprehensive approach)</li>
+                            <li>Critical infrastructure (DHS recommendation)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="real-world-box">
+                    <h4>Why Organizations Miss This Document</h4>
+                    <p>Many jump straight from FIPS 199 to NIST SP 800-53, missing FIPS 200 entirely. This causes:</p>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li>Incomplete security programs (missing entire requirement areas)</li>
+                        <li>Failed audits (didn't address all 17 areas)</li>
+                        <li>Inefficient implementation (no systematic approach)</li>
+                        <li>Compliance gaps (didn't follow mandatory process)</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Critical Point</h4>
+                    <p>FIPS 200 is NOT optional for federal systems. It's the mandatory framework that ensures comprehensive security coverage. Even if a requirement area seems irrelevant, you must document how you're addressing it (even if the answer is "not applicable with justification").</p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: FIPS 200 is your security checklist that ensures you don't miss any critical area. It takes your FIPS 199 risk level and tells you exactly which security requirements you must meet and how to select appropriate controls.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: The 17 Security Requirements -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The 17 Minimum Security Requirements</span>
+                <span class="slide-number">Part 2 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📋 The 17 Areas You Must Address</h2>
+                
+                <div class="highlight-box">
+                    <h3>Complete Security Coverage</h3>
+                    <p style="font-size: 18px;">
+                        These 17 areas represent every aspect of information security. Think of them as departments in your security organization—each has a specific job, and together they provide comprehensive protection. Missing even one creates a gap attackers can exploit.
+                    </p>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">🎯 Explore Each Requirement Area</div>
+                    <p>Click any requirement to understand what it covers and why it matters:</p>
+                    <div class="requirements-grid">
+                        <button class="action-button" onclick="showRequirement('AC')">1. Access Control</button>
+                        <button class="action-button" onclick="showRequirement('AT')">2. Awareness & Training</button>
+                        <button class="action-button" onclick="showRequirement('AU')">3. Audit & Accountability</button>
+                        <button class="action-button" onclick="showRequirement('CA')">4. Certification & Accreditation</button>
+                        <button class="action-button" onclick="showRequirement('CM')">5. Configuration Management</button>
+                        <button class="action-button" onclick="showRequirement('CP')">6. Contingency Planning</button>
+                        <button class="action-button" onclick="showRequirement('IA')">7. Identification & Authentication</button>
+                        <button class="action-button" onclick="showRequirement('IR')">8. Incident Response</button>
+                        <button class="action-button" onclick="showRequirement('MA')">9. Maintenance</button>
+                        <button class="action-button" onclick="showRequirement('MP')">10. Media Protection</button>
+                        <button class="action-button" onclick="showRequirement('PE')">11. Physical & Environmental</button>
+                        <button class="action-button" onclick="showRequirement('PL')">12. Planning</button>
+                        <button class="action-button" onclick="showRequirement('PS')">13. Personnel Security</button>
+                        <button class="action-button" onclick="showRequirement('RA')">14. Risk Assessment</button>
+                        <button class="action-button" onclick="showRequirement('SA')">15. System & Services Acquisition</button>
+                        <button class="action-button" onclick="showRequirement('SC')">16. System & Communications Protection</button>
+                        <button class="action-button" onclick="showRequirement('SI')">17. System & Information Integrity</button>
+                    </div>
+                    <div id="requirement-display" class="display-box" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <h3>🔄 How Requirements Work Together</h3>
+                
+                <div class="concept-box">
+                    <h4>The Security Ecosystem</h4>
+                    <p>No requirement works in isolation. They form an interconnected security ecosystem:</p>
+                    
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Requirements</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Preventive</strong></td>
+                                <td>AC, IA, SC, MP</td>
+                                <td>Stop attacks before they happen</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Detective</strong></td>
+                                <td>AU, CA, RA, SI</td>
+                                <td>Identify attacks and vulnerabilities</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Responsive</strong></td>
+                                <td>IR, CP</td>
+                                <td>React to and recover from incidents</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Administrative</strong></td>
+                                <td>PL, PS, AT, SA</td>
+                                <td>Manage the security program</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Physical</strong></td>
+                                <td>PE, MA, MP</td>
+                                <td>Protect physical assets</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Operational</strong></td>
+                                <td>CM, MA, SI</td>
+                                <td>Maintain secure operations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎯 Quick Reference: All 17 Requirements</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Requirement</th>
+                                    <th>Simple Explanation</th>
+                                    <th>Real Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><strong>Access Control</strong></td>
+                                    <td>Who can do what</td>
+                                    <td>Role-based permissions in Active Directory</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><strong>Awareness & Training</strong></td>
+                                    <td>Users know security</td>
+                                    <td>Annual security training, phishing tests</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><strong>Audit & Accountability</strong></td>
+                                    <td>Track what happens</td>
+                                    <td>Windows event logs, SIEM systems</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><strong>Certification & Accreditation</strong></td>
+                                    <td>Verify security works</td>
+                                    <td>Annual security assessments, ATO process</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><strong>Configuration Management</strong></td>
+                                    <td>Control system changes</td>
+                                    <td>Change control board, baseline configs</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><strong>Contingency Planning</strong></td>
+                                    <td>Recover from disasters</td>
+                                    <td>Backups, disaster recovery sites</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><strong>Identification & Authentication</strong></td>
+                                    <td>Verify user identity</td>
+                                    <td>Multi-factor authentication, smart cards</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td><strong>Incident Response</strong></td>
+                                    <td>Handle security events</td>
+                                    <td>SOC team, incident response procedures</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><strong>Maintenance</strong></td>
+                                    <td>Fix things securely</td>
+                                    <td>Patch management, secure remote access</td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td><strong>Media Protection</strong></td>
+                                    <td>Protect data storage</td>
+                                    <td>Encrypt hard drives, secure disposal</td>
+                                </tr>
+                                <tr>
+                                    <td>11</td>
+                                    <td><strong>Physical & Environmental</strong></td>
+                                    <td>Protect facilities</td>
+                                    <td>Badge readers, camera systems</td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td><strong>Planning</strong></td>
+                                    <td>Document security</td>
+                                    <td>System Security Plans, policies</td>
+                                </tr>
+                                <tr>
+                                    <td>13</td>
+                                    <td><strong>Personnel Security</strong></td>
+                                    <td>Trust your people</td>
+                                    <td>Background checks, exit procedures</td>
+                                </tr>
+                                <tr>
+                                    <td>14</td>
+                                    <td><strong>Risk Assessment</strong></td>
+                                    <td>Know your threats</td>
+                                    <td>Annual risk assessments, threat modeling</td>
+                                </tr>
+                                <tr>
+                                    <td>15</td>
+                                    <td><strong>System Acquisition</strong></td>
+                                    <td>Buy secure things</td>
+                                    <td>Security requirements in RFPs</td>
+                                </tr>
+                                <tr>
+                                    <td>16</td>
+                                    <td><strong>System Protection</strong></td>
+                                    <td>Technical safeguards</td>
+                                    <td>Firewalls, encryption, network segmentation</td>
+                                </tr>
+                                <tr>
+                                    <td>17</td>
+                                    <td><strong>System Integrity</strong></td>
+                                    <td>Keep systems clean</td>
+                                    <td>Antivirus, vulnerability scanning, patching</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="real-world-box">
+                    <h4>Common Mistakes Organizations Make</h4>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>Focusing only on technical requirements (AC, IA, SC, SI)</strong>
+                            <br>Missing: Training, planning, personnel security</li>
+                        <li><strong>Ignoring "boring" administrative requirements (PL, PS, AT)</strong>
+                            <br>Result: Great technology, poor processes</li>
+                        <li><strong>Assuming some don't apply</strong>
+                            <br>Example: "We're virtual, so PE doesn't matter" (wrong!)</li>
+                        <li><strong>Implementing in isolation</strong>
+                            <br>Missing the interconnections between requirements</li>
+                    </ul>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: All 17 requirements are mandatory. They work together as a system—weakness in one area can undermine strength in others. Think of them as organs in a body: all must function for health.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Impact Levels and Baseline Selection -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>From Impact Level to Control Selection</span>
+                <span class="slide-number">Part 3 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 The Selection Process</h2>
+                
+                <div class="highlight-box">
+                    <h3>FIPS 200's Selection Rule</h3>
+                    <p style="font-size: 18px;">
+                        FIPS 200 provides the mandatory rule for control selection: Your FIPS 199 impact level (LOW, MODERATE, or HIGH) determines which NIST SP 800-53 baseline you MUST implement as your starting point. This isn't a suggestion—it's a requirement.
+                    </p>
+                </div>
+
+                <div class="flow-diagram">
+                    <h4>The Mandatory Selection Process</h4>
+                    <div class="flow-step">
+                        <strong>Step 1: FIPS 199 Categorization</strong><br>
+                        Determine: {(C: impact), (I: impact), (A: impact)}
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">
+                        <strong>Step 2: High Water Mark</strong><br>
+                        System Impact = Highest of C, I, or A
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: linear-gradient(135deg, #fff9c4 0%, #ffeb3b 100%); border-color: #f9a825;">
+                        <strong>Step 3: FIPS 200 Requirement</strong><br>
+                        Must select corresponding baseline
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">
+                        <strong>Step 4: NIST SP 800-53 Baseline</strong><br>
+                        Implement LOW, MODERATE, or HIGH controls
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h4>The Three Baselines Explained</h4>
+                    
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Impact Level</th>
+                                <th>When Used</th>
+                                <th>Security Focus</th>
+                                <th>Typical Controls</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>LOW</strong></td>
+                                <td>Limited adverse effect</td>
+                                <td>Basic security</td>
+                                <td>~120 controls</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MODERATE</strong></td>
+                                <td>Serious adverse effect</td>
+                                <td>Balanced security</td>
+                                <td>~260 controls</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HIGH</strong></td>
+                                <td>Severe/catastrophic effect</td>
+                                <td>Maximum security</td>
+                                <td>~420 controls</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">📊 See How Requirements Scale</div>
+                    <p>Select a requirement area to see how it changes across impact levels:</p>
+                    <button class="action-button" onclick="showScaling('access')">Access Control Scaling</button>
+                    <button class="action-button" onclick="showScaling('audit')">Audit Requirements</button>
+                    <button class="action-button" onclick="showScaling('incident')">Incident Response</button>
+                    <button class="action-button" onclick="showScaling('contingency')">Contingency Planning</button>
+                    <div id="scaling-display" class="display-box" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🏥 Medical Analogy</h4>
+                    <p>Think of baselines like medical treatment protocols:</p>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>LOW:</strong> Over-the-counter medication (basic treatment)</li>
+                        <li><strong>MODERATE:</strong> Prescription medication with monitoring</li>
+                        <li><strong>HIGH:</strong> ICU with continuous monitoring and intervention</li>
+                    </ul>
+                    <p style="margin-top: 15px;">You don't give ICU treatment for a cold, but you also don't treat heart attacks with aspirin alone!</p>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📋 Example: How One Requirement Scales</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Incident Response (IR) Across Baselines</h4>
+                        
+                        <div style="margin-top: 20px;">
+                            <strong>LOW Impact Requirements:</strong>
+                            <ul>
+                                <li>Basic incident response capability</li>
+                                <li>Documented procedures</li>
+                                <li>Incident reporting to management</li>
+                                <li>Track and document incidents</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <strong>MODERATE Impact Additions:</strong>
+                            <ul>
+                                <li>Incident response training</li>
+                                <li>Test incident response capability</li>
+                                <li>Incident monitoring tools</li>
+                                <li>Coordination with external organizations</li>
+                                <li>Incident analysis and correlation</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <strong>HIGH Impact Additions:</strong>
+                            <ul>
+                                <li>24/7 incident response team</li>
+                                <li>Advanced forensics capability</li>
+                                <li>Automated incident response</li>
+                                <li>Insider threat program</li>
+                                <li>Information spillage response</li>
+                                <li>Supply chain incident coordination</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Critical Compliance Point</h4>
+                    <p><strong>You cannot choose a lower baseline than your impact level requires.</strong></p>
+                    <ul>
+                        <li>HIGH system → Must use HIGH baseline (non-negotiable)</li>
+                        <li>You CAN add controls beyond your baseline</li>
+                        <li>You CAN tailor (with justification and approval)</li>
+                        <li>You CANNOT simply decide to use a lower baseline</li>
+                    </ul>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: FIPS 200 makes baseline selection mandatory based on impact level. Higher impact = more controls = more comprehensive security. This ensures protection matches risk.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Implementation Approach -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Implementation Strategy and Compliance</span>
+                <span class="slide-number">Part 4 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🚀 Implementing FIPS 200 Requirements</h2>
+                
+                <div class="highlight-box">
+                    <h3>From Requirements to Reality</h3>
+                    <p style="font-size: 18px;">
+                        FIPS 200 gives you the "what" (17 requirements) and the "how much" (baseline selection). Now you need to translate these into actual implementation. This is where organizations often struggle—going from paper requirements to operational security.
+                    </p>
+                </div>
+
+                <h3>📋 The Implementation Process</h3>
+                
+                <div class="concept-box">
+                    <h4>Four Phases of FIPS 200 Implementation</h4>
+                    
+                    <ol style="font-size: 18px; line-height: 2.5;">
+                        <li><strong>Initiate:</strong> Categorize system (FIPS 199) and identify requirements</li>
+                        <li><strong>Select:</strong> Choose baseline and tailor controls</li>
+                        <li><strong>Implement:</strong> Deploy controls for all 17 areas</li>
+                        <li><strong>Assess:</strong> Verify all requirements are met</li>
+                    </ol>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">🛠️ Build Your Implementation Plan</div>
+                    <p>Select your scenario to see a tailored implementation approach:</p>
+                    <button class="action-button" onclick="showImplementation('new')">New System</button>
+                    <button class="action-button" onclick="showImplementation('legacy')">Legacy System</button>
+                    <button class="action-button" onclick="showImplementation('cloud')">Cloud Migration</button>
+                    <button class="action-button" onclick="showImplementation('hybrid')">Hybrid Environment</button>
+                    <div id="implementation-display" class="display-box" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <h3>✅ Compliance Documentation</h3>
+                
+                <div class="concept-box">
+                    <h4>Required Documentation for Each Requirement</h4>
+                    
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Document</th>
+                                <th>Purpose</th>
+                                <th>Updates</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>System Security Plan</strong></td>
+                                <td>How you meet each requirement</td>
+                                <td>Annually or on major change</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Control Implementation</strong></td>
+                                <td>Specific controls for each area</td>
+                                <td>As controls change</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Risk Assessment</strong></td>
+                                <td>Justifies your selections</td>
+                                <td>Annually minimum</td>
+                            </tr>
+                            <tr>
+                                <td><strong>POA&M</strong></td>
+                                <td>Plans for gaps</td>
+                                <td>Monthly/quarterly</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Assessment Report</strong></td>
+                                <td>Proves compliance</td>
+                                <td>Annually or per ATO</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎯 Priority Order for Implementation</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Implement Requirements in This Order:</h4>
+                        
+                        <ol style="line-height: 2;">
+                            <li><strong>Risk Assessment (RA)</strong>
+                                <br><em>You must understand your risks first</em></li>
+                            
+                            <li><strong>Planning (PL)</strong>
+                                <br><em>Document your approach</em></li>
+                            
+                            <li><strong>Personnel Security (PS)</strong>
+                                <br><em>Ensure your people are trustworthy</em></li>
+                            
+                            <li><strong>Physical & Environmental (PE)</strong>
+                                <br><em>Secure the physical space</em></li>
+                            
+                            <li><strong>Identification & Authentication (IA)</strong>
+                                <br><em>Know who's accessing systems</em></li>
+                            
+                            <li><strong>Access Control (AC)</strong>
+                                <br><em>Control what they can do</em></li>
+                            
+                            <li><strong>Audit & Accountability (AU)</strong>
+                                <br><em>Track what happens</em></li>
+                            
+                            <li><strong>System Protection (SC)</strong>
+                                <br><em>Technical safeguards</em></li>
+                            
+                            <li><strong>System Integrity (SI)</strong>
+                                <br><em>Keep systems clean</em></li>
+                            
+                            <li><strong>Configuration Management (CM)</strong>
+                                <br><em>Control changes</em></li>
+                            
+                            <li><strong>Incident Response (IR)</strong>
+                                <br><em>Handle problems</em></li>
+                            
+                            <li><strong>Contingency Planning (CP)</strong>
+                                <br><em>Recover from disasters</em></li>
+                            
+                            <li><strong>Awareness & Training (AT)</strong>
+                                <br><em>Educate users</em></li>
+                            
+                            <li><strong>Media Protection (MP)</strong>
+                                <br><em>Protect data storage</em></li>
+                            
+                            <li><strong>Maintenance (MA)</strong>
+                                <br><em>Fix things securely</em></li>
+                            
+                            <li><strong>System Acquisition (SA)</strong>
+                                <br><em>Buy secure products</em></li>
+                            
+                            <li><strong>Certification & Accreditation (CA)</strong>
+                                <br><em>Verify everything works</em></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="real-world-box">
+                    <h4>Common Implementation Challenges</h4>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>Resource Constraints:</strong>
+                            <br>Solution: Prioritize based on risk, use common controls</li>
+                        <li><strong>Legacy Systems:</strong>
+                            <br>Solution: Compensating controls, isolation strategies</li>
+                        <li><strong>Cultural Resistance:</strong>
+                            <br>Solution: Executive mandate, training, show value</li>
+                        <li><strong>Technical Complexity:</strong>
+                            <br>Solution: Phased approach, outside expertise</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Audit Focus Areas</h4>
+                    <p>Auditors will specifically check:</p>
+                    <ul>
+                        <li>Are all 17 requirements addressed? (no gaps)</li>
+                        <li>Is the correct baseline selected? (matches impact)</li>
+                        <li>Are tailoring decisions justified and approved?</li>
+                        <li>Is implementation consistent across requirements?</li>
+                        <li>Is documentation current and complete?</li>
+                    </ul>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: Successful FIPS 200 implementation requires systematic coverage of all 17 requirements, proper documentation, and regular assessment. Priority and phasing are crucial for resource-constrained organizations.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Real-World Application -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Real-World Application and Case Studies</span>
+                <span class="slide-number">Part 5 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🌍 FIPS 200 in Practice</h2>
+                
+                <div class="highlight-box">
+                    <h3>From Theory to Reality</h3>
+                    <p style="font-size: 18px;">
+                        FIPS 200 looks simple on paper—just 17 requirements and a selection rule. But real organizations face complex challenges when implementing these requirements across diverse systems, limited budgets, and competing priorities.
+                    </p>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">📚 Explore Real Case Studies</div>
+                    <p>Select an organization type to see how they implement FIPS 200:</p>
+                    <button class="action-button" onclick="showCaseStudy('federal')">Federal Agency</button>
+                    <button class="action-button" onclick="showCaseStudy('contractor')">Federal Contractor</button>
+                    <button class="action-button" onclick="showCaseStudy('healthcare')">Healthcare System</button>
+                    <button class="action-button" onclick="showCaseStudy('university')">Research University</button>
+                    <div id="case-study-display" class="display-box" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <h3>🔧 Practical Solutions to Common Challenges</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Challenge 1: Multiple Systems, Different Impacts</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>The Problem:</h4>
+                        <p>Organization has 50 systems ranging from LOW to HIGH impact.</p>
+                        
+                        <h4>The Solution:</h4>
+                        <ul>
+                            <li><strong>Common Control Providers:</strong> Implement shared services (identity management, logging, incident response) at highest level needed</li>
+                            <li><strong>Inheritance Model:</strong> Lower systems inherit from enterprise services</li>
+                            <li><strong>System Grouping:</strong> Group similar systems for efficiency</li>
+                            <li><strong>Phased Approach:</strong> Start with HIGH systems, work down</li>
+                        </ul>
+                        
+                        <div class="example-box" style="margin-top: 15px;">
+                            <strong>Example:</strong> Deploy enterprise Active Directory with HIGH baseline controls. All systems inherit authentication controls, saving 50 separate implementations.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Challenge 2: Cloud and Shared Responsibility</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>The Problem:</h4>
+                        <p>Using AWS/Azure/GCP but still responsible for FIPS 200 compliance.</p>
+                        
+                        <h4>The Solution:</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Requirement</th>
+                                    <th>Provider Responsibility</th>
+                                    <th>Your Responsibility</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Physical (PE)</td>
+                                    <td>Data center security</td>
+                                    <td>Workstation security</td>
+                                </tr>
+                                <tr>
+                                    <td>Network (SC)</td>
+                                    <td>Infrastructure network</td>
+                                    <td>Virtual network config</td>
+                                </tr>
+                                <tr>
+                                    <td>Access (AC)</td>
+                                    <td>Infrastructure access</td>
+                                    <td>Application access</td>
+                                </tr>
+                                <tr>
+                                    <td>Maintenance (MA)</td>
+                                    <td>Hardware maintenance</td>
+                                    <td>OS/app patching</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="warning-box" style="margin-top: 15px;">
+                            <strong>Key Point:</strong> Get the cloud provider's FedRAMP package to understand exactly what they provide. Document shared responsibilities clearly.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Challenge 3: Budget Constraints</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>The Problem:</h4>
+                        <p>Need HIGH security but have LOW budget.</p>
+                        
+                        <h4>Cost-Effective Strategies:</h4>
+                        <ul>
+                            <li><strong>Open Source Tools:</strong>
+                                <ul>
+                                    <li>SIEM: ELK Stack instead of Splunk</li>
+                                    <li>Vulnerability Scanner: OpenVAS instead of Nessus</li>
+                                    <li>IDS/IPS: Suricata instead of commercial</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shared Services:</strong>
+                                <ul>
+                                    <li>DHS Einstein for network monitoring</li>
+                                    <li>CDM program for tools and dashboards</li>
+                                    <li>FedRAMP marketplace for approved cloud services</li>
+                                </ul>
+                            </li>
+                            <li><strong>Risk-Based Prioritization:</strong>
+                                <ul>
+                                    <li>Protect crown jewels first</li>
+                                    <li>Use compensating controls where needed</li>
+                                    <li>Document and plan for improvements</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="real-world-box">
+                    <h4>Success Factors from Real Implementations</h4>
+                    <ol style="list-style-type: decimal; padding-left: 20px;">
+                        <li><strong>Executive Support:</strong> CIO/CISO must champion FIPS 200</li>
+                        <li><strong>Dedicated Team:</strong> Can't be a side project</li>
+                        <li><strong>Realistic Timeline:</strong> 12-18 months typical</li>
+                        <li><strong>Continuous Improvement:</strong> Perfect Day 1 isn't the goal</li>
+                        <li><strong>Documentation Discipline:</strong> Keep everything current</li>
+                        <li><strong>Regular Assessment:</strong> Find gaps before auditors do</li>
+                        <li><strong>Cultural Change:</strong> Security is everyone's job</li>
+                    </ol>
+                </div>
+
+                <div class="example-box">
+                    <h4>🏆 Success Story: Small Federal Agency</h4>
+                    <p><strong>Challenge:</strong> 200 employees, 10 systems, limited budget, HIGH impact data</p>
+                    <p><strong>Approach:</strong></p>
+                    <ul>
+                        <li>Used common controls for 70% of requirements</li>
+                        <li>Leveraged DHS shared services</li>
+                        <li>Phased implementation over 18 months</li>
+                        <li>Combined similar systems for efficiency</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Result:</strong> Achieved full FIPS 200 compliance, passed FISMA audit, under budget</p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: FIPS 200 implementation success comes from smart strategies, not just resources. Common controls, shared services, and phased approaches make compliance achievable for any organization.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Integration and Summary -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Complete Integration: FIPS 199 → 200 → 800-53</span>
+                <span class="slide-number">Part 6 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 The Complete Security Framework</h2>
+                
+                <div class="success-box">
+                    <h3>✅ You Now Understand the Bridge</h3>
+                    <p style="font-size: 18px;">
+                        FIPS 200 is the essential connector that transforms your risk assessment (FIPS 199) into actionable security controls (NIST SP 800-53). Without it, you'd have a gap between knowing your risk and knowing what to do about it.
+                    </p>
+                </div>
+
+                <div class="flow-diagram">
+                    <h4>The Complete Journey</h4>
+                    <div class="flow-step">
+                        <strong>1. FIPS 199</strong><br>
+                        "How bad would a breach be?"<br>
+                        <em>Output: LOW/MODERATE/HIGH</em>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: linear-gradient(135deg, #fff9c4 0%, #ffeb3b 100%); border-color: #f9a825;">
+                        <strong>2. FIPS 200</strong><br>
+                        "What areas must we protect?"<br>
+                        <em>Output: 17 requirements + baseline</em>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">
+                        <strong>3. NIST SP 800-53</strong><br>
+                        "Which specific controls do we need?"<br>
+                        <em>Output: Tailored control set</em>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">
+                        <strong>4. Implementation</strong><br>
+                        "Deploy and operate security"<br>
+                        <em>Output: Operational security program</em>
+                    </div>
+                </div>
+
+                <div class="interactive-selector">
+                    <div class="selector-title">🎓 Test Your Understanding</div>
+                    <p>Can you answer these key questions about FIPS 200?</p>
+                    <button class="action-button" onclick="showQuiz('q1')">Question 1: Requirements</button>
+                    <button class="action-button" onclick="showQuiz('q2')">Question 2: Selection</button>
+                    <button class="action-button" onclick="showQuiz('q3')">Question 3: Implementation</button>
+                    <button class="action-button" onclick="showQuiz('q4')">Question 4: Integration</button>
+                    <div id="quiz-display" class="display-box" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <h3>🔑 Key Takeaways</h3>
+                
+                <div class="concept-box">
+                    <h4>The 7 Things You Must Remember</h4>
+                    <ol style="font-size: 18px; line-height: 2.5;">
+                        <li><strong>FIPS 200 is mandatory</strong> for federal systems (FISMA requirement)</li>
+                        <li><strong>All 17 requirements must be addressed</strong> (no exceptions)</li>
+                        <li><strong>Impact level determines baseline</strong> (automatic selection)</li>
+                        <li><strong>High water mark applies</strong> (highest impact wins)</li>
+                        <li><strong>Requirements work together</strong> (not in isolation)</li>
+                        <li><strong>Documentation is crucial</strong> (prove compliance)</li>
+                        <li><strong>It's a continuous process</strong> (not one-time)</li>
+                    </ol>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📚 Resources for Implementation</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Essential Documents</h4>
+                        <ul>
+                            <li><strong>FIPS 200:</strong> The standard itself (11 pages)</li>
+                            <li><strong>NIST SP 800-37:</strong> Risk Management Framework</li>
+                            <li><strong>NIST SP 800-53:</strong> Security Control Catalog</li>
+                            <li><strong>NIST SP 800-53A:</strong> Assessment Procedures</li>
+                            <li><strong>NIST SP 800-18:</strong> System Security Plan Guide</li>
+                        </ul>
+                        
+                        <h4 style="margin-top: 20px;">Helpful Tools</h4>
+                        <ul>
+                            <li><strong>NIST CSRC:</strong> Computer Security Resource Center</li>
+                            <li><strong>FedRAMP:</strong> Cloud service authorizations</li>
+                            <li><strong>CDM:</strong> Continuous Diagnostics and Mitigation</li>
+                            <li><strong>SCAP:</strong> Security Content Automation Protocol</li>
+                            <li><strong>OSCAL:</strong> Open Security Controls Assessment Language</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="real-world-box">
+                    <h4>Your Next Steps</h4>
+                    <ol style="list-style-type: decimal; padding-left: 20px;">
+                        <li><strong>If Starting Fresh:</strong>
+                            <ul>
+                                <li>Complete FIPS 199 categorization</li>
+                                <li>Review FIPS 200 requirements</li>
+                                <li>Select appropriate baseline</li>
+                                <li>Begin control implementation</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Already Implementing:</strong>
+                            <ul>
+                                <li>Verify all 17 areas covered</li>
+                                <li>Check baseline selection is correct</li>
+                                <li>Document any gaps</li>
+                                <li>Create remediation plan</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Preparing for Audit:</strong>
+                            <ul>
+                                <li>Update all documentation</li>
+                                <li>Test control effectiveness</li>
+                                <li>Address known weaknesses</li>
+                                <li>Prepare evidence packages</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🎭 Final Analogy: The Complete Picture</h4>
+                    <p>If information security were a journey:</p>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li><strong>FIPS 199</strong> = Determining your destination (how far to go)</li>
+                        <li><strong>FIPS 200</strong> = The roadmap showing all roads you must take</li>
+                        <li><strong>NIST SP 800-53</strong> = The detailed turn-by-turn directions</li>
+                        <li><strong>Your Implementation</strong> = Actually driving the route</li>
+                    </ul>
+                    <p style="margin-top: 15px;">FIPS 200 ensures you don't miss any critical turns on your security journey!</p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Master Understanding: FIPS 200 transforms abstract risk levels into concrete security requirements. It ensures comprehensive coverage (17 areas), appropriate protection (baseline selection), and compliance (mandatory framework). Without FIPS 200, organizations would have no systematic way to translate risk into action.
+                </div>
+
+                <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center;">
+                    <h2 style="color: white;">🎉 FIPS 200 Mastery Complete!</h2>
+                    <p style="font-size: 20px; margin-top: 15px;">You understand the critical bridge in federal security</p>
+                    <p style="font-size: 18px; margin-top: 20px;">You've learned:</p>
+                    <ul style="list-style: none; font-size: 16px; margin-top: 15px;">
+                        <li>✓ Why FIPS 200 is essential to the framework</li>
+                        <li>✓ The 17 minimum security requirements</li>
+                        <li>✓ How impact levels determine baselines</li>
+                        <li>✓ Implementation strategies and challenges</li>
+                        <li>✓ Real-world application approaches</li>
+                        <li>✓ The complete FIPS 199 → 200 → 800-53 flow</li>
+                    </ul>
+                    <p style="font-size: 16px; margin-top: 25px;">Ready to implement? Remember: Address all 17 areas, select the right baseline, document everything!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on Federal Information Processing Standards Publication 200</p>
+            <p style="font-size: 14px; margin-top: 10px;">Minimum Security Requirements for Federal Information and Information Systems</p>
+            <p style="font-size: 12px; margin-top: 10px;">National Institute of Standards and Technology | March 2006</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+
+        // Initialize first slide as open
+        window.addEventListener('DOMContentLoaded', function() {
+            const firstSlideContent = document.querySelector('.slide-content');
+            if (firstSlideContent) {
+                firstSlideContent.classList.add('active');
+            }
+        });
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 6) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const content = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            
+            // Toggle the slide content
+            content.classList.toggle('active');
+            
+            // Track viewed sections
+            if (content.classList.contains('active')) {
+                sectionsViewed.add(slideNumber);
+                updateProgress();
+            }
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            // Toggle classes
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function showRequirement(req) {
+            const display = document.getElementById('requirement-display');
+            const requirements = {
+                'AC': `<h4>1. Access Control (AC)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Limiting system access to authorized users, processes acting on behalf of users, and devices.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Account management and provisioning</li>
+                              <li>Access enforcement and permissions</li>
+                              <li>Information flow control</li>
+                              <li>Separation of duties</li>
+                              <li>Least privilege principle</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Active Directory groups, role-based access control (RBAC), network ACLs</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Excessive permissions that accumulate over time ("privilege creep")</p>
+                      </div>`,
+                
+                'AT': `<h4>2. Awareness and Training (AT)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Ensuring all users understand security risks and their responsibilities.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Security awareness training for all users</li>
+                              <li>Role-based security training</li>
+                              <li>Security training records</li>
+                              <li>Insider threat awareness</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Annual security training, phishing simulations, new employee orientation</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Generic training that doesn't address specific job roles</p>
+                      </div>`,
+                
+                'AU': `<h4>3. Audit and Accountability (AU)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Creating, protecting, and retaining audit records to enable monitoring, analysis, and reporting.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Audit event selection</li>
+                              <li>Audit record content</li>
+                              <li>Audit storage capacity</li>
+                              <li>Audit analysis and reporting</li>
+                              <li>Audit record protection</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Windows Event Logs, SIEM systems, log retention policies</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Collecting logs but not analyzing them</p>
+                      </div>`,
+                
+                'CA': `<h4>4. Certification, Accreditation, and Security Assessments (CA)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Assessing security controls, authorizing systems, and continuous monitoring.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Security control assessments</li>
+                              <li>System authorization (ATO)</li>
+                              <li>Continuous monitoring</li>
+                              <li>Penetration testing</li>
+                              <li>Internal system connections</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Annual assessments, Authority to Operate process, ongoing authorization</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> One-time authorization without continuous monitoring</p>
+                      </div>`,
+                      
+                'CM': `<h4>5. Configuration Management (CM)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Establishing and maintaining baseline configurations and tracking changes.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Configuration baselines</li>
+                              <li>Configuration change control</li>
+                              <li>Security impact analysis</li>
+                              <li>Configuration monitoring</li>
+                              <li>Software usage restrictions</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Change Advisory Board, SCCM/Puppet/Ansible, gold images</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Undocumented changes made during emergencies</p>
+                      </div>`,
+                
+                'CP': `<h4>6. Contingency Planning (CP)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Preparing for and recovering from disruptions to operations.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Contingency plan development</li>
+                              <li>Contingency training</li>
+                              <li>Contingency plan testing</li>
+                              <li>Backup and recovery</li>
+                              <li>Alternate sites</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Disaster recovery plans, backup systems, hot/warm/cold sites</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Plans that are never tested until needed</p>
+                      </div>`,
+                
+                'IA': `<h4>7. Identification and Authentication (IA)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Identifying and verifying users, processes, and devices.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>User identification and authentication</li>
+                              <li>Multi-factor authentication</li>
+                              <li>Device identification</li>
+                              <li>Authenticator management</li>
+                              <li>Cryptographic authentication</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Active Directory, MFA tokens, PKI certificates, biometrics</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Shared accounts or weak password policies</p>
+                      </div>`,
+                
+                'IR': `<h4>8. Incident Response (IR)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Detecting, analyzing, containing, and recovering from security incidents.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Incident response planning</li>
+                              <li>Incident response training</li>
+                              <li>Incident response testing</li>
+                              <li>Incident handling</li>
+                              <li>Incident monitoring and reporting</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> SOC team, incident response runbooks, forensics capability</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> No clear escalation procedures or contact lists</p>
+                      </div>`,
+                
+                'MA': `<h4>9. Maintenance (MA)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Performing timely maintenance and repairs while maintaining security.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Controlled maintenance</li>
+                              <li>Maintenance tools</li>
+                              <li>Remote maintenance</li>
+                              <li>Maintenance personnel</li>
+                              <li>Timely maintenance</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Patch management, vendor support access, maintenance windows</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Uncontrolled vendor remote access</p>
+                      </div>`,
+                
+                'MP': `<h4>10. Media Protection (MP)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Protecting information on media during transport and at rest.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Media access restrictions</li>
+                              <li>Media marking and labeling</li>
+                              <li>Media storage</li>
+                              <li>Media transport</li>
+                              <li>Media sanitization and disposal</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Encrypted USB drives, secure disposal procedures, DBAN wiping</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Old hard drives thrown in regular trash</p>
+                      </div>`,
+                
+                'PE': `<h4>11. Physical and Environmental Protection (PE)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Physical access to facilities and protecting from environmental hazards.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Physical access authorizations</li>
+                              <li>Physical access control</li>
+                              <li>Environmental controls</li>
+                              <li>Fire protection</li>
+                              <li>Power and cabling protection</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Badge readers, security guards, HVAC systems, generators</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Unsecured network closets or server rooms</p>
+                      </div>`,
+                
+                'PL': `<h4>12. Planning (PL)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Developing and maintaining security plans for the system.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Security planning policy</li>
+                              <li>System Security Plan (SSP)</li>
+                              <li>Rules of behavior</li>
+                              <li>Privacy impact assessments</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> System Security Plans, interconnection agreements, MOUs</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Outdated documentation that doesn't reflect reality</p>
+                      </div>`,
+                
+                'PS': `<h4>13. Personnel Security (PS)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Ensuring trustworthiness of individuals with system access.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Position categorization</li>
+                              <li>Personnel screening</li>
+                              <li>Personnel termination</li>
+                              <li>Personnel transfer</li>
+                              <li>Access agreements</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Background checks, NDAs, exit procedures, clearances</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Not removing access immediately upon termination</p>
+                      </div>`,
+                
+                'RA': `<h4>14. Risk Assessment (RA)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Identifying and assessing risks to operations and assets.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Risk assessment policy</li>
+                              <li>Security categorization (FIPS 199)</li>
+                              <li>Risk assessment methodology</li>
+                              <li>Vulnerability scanning</li>
+                              <li>Threat intelligence</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Annual risk assessments, vulnerability scans, threat modeling</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> One-time assessment without updates</p>
+                      </div>`,
+                
+                'SA': `<h4>15. System and Services Acquisition (SA)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Including security in the acquisition process.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Security requirements in acquisitions</li>
+                              <li>Software development security</li>
+                              <li>Supply chain security</li>
+                              <li>Security testing in development</li>
+                              <li>Configuration management in development</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Security requirements in RFPs, secure SDLC, vendor assessments</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Buying first, then trying to secure</p>
+                      </div>`,
+                
+                'SC': `<h4>16. System and Communications Protection (SC)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Protecting communications and system boundaries.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Boundary protection (firewalls)</li>
+                              <li>Encryption in transit and at rest</li>
+                              <li>Network segmentation</li>
+                              <li>Denial of service protection</li>
+                              <li>Information partitioning</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Firewalls, VPNs, TLS/SSL, database encryption, DMZ</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Flat networks with no segmentation</p>
+                      </div>`,
+                
+                'SI': `<h4>17. System and Information Integrity (SI)</h4>
+                      <div class="concept-box">
+                          <p><strong>What It Covers:</strong> Identifying and correcting information system flaws and protecting from malware.</p>
+                          <p style="margin-top: 15px;"><strong>Key Focus Areas:</strong></p>
+                          <ul>
+                              <li>Flaw remediation (patching)</li>
+                              <li>Malicious code protection</li>
+                              <li>Information system monitoring</li>
+                              <li>Security alerts and advisories</li>
+                              <li>Software and information integrity</li>
+                          </ul>
+                          <p style="margin-top: 15px;"><strong>Real Example:</strong> Antivirus, IDS/IPS, patch management, file integrity monitoring</p>
+                          <p style="margin-top: 15px;"><strong>Common Gap:</strong> Delayed patching due to change control conflicts</p>
+                      </div>`
+            };
+            
+            display.innerHTML = requirements[req];
+            display.style.display = 'block';
+        }
+
+        function showScaling(area) {
+            const display = document.getElementById('scaling-display');
+            const scaling = {
+                'access': `<h4>Access Control Requirements Across Impact Levels</h4>
+                          <table>
+                              <thead>
+                                  <tr>
+                                      <th>Aspect</th>
+                                      <th>LOW</th>
+                                      <th>MODERATE</th>
+                                      <th>HIGH</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td><strong>Account Management</strong></td>
+                                      <td>Basic account control</td>
+                                      <td>Automated provisioning</td>
+                                      <td>Real-time synchronization</td>
+                                  </tr>
+                                  <tr>
+                                      <td><strong>Privilege Control</strong></td>
+                                      <td>Admin accounts</td>
+                                      <td>Least privilege enforced</td>
+                                      <td>Privileged access management</td>
+                                  </tr>
+                                  <tr>
+                                      <td><strong>Review Frequency</strong></td>
+                                      <td>Annually</td>
+                                      <td>Quarterly</td>
+                                      <td>Monthly or continuous</td>
+                                  </tr>
+                                  <tr>
+                                      <td><strong>Session Control</strong></td>
+                                      <td>Basic timeout</td>
+                                      <td>Lock after 15 minutes</td>
+                                      <td>Pattern-hiding locks</td>
+                                  </tr>
+                                  <tr>
+                                      <td><strong>Remote Access</strong></td>
+                                      <td>VPN</td>
+                                      <td>VPN with MFA</td>
+                                      <td>Zero trust network access</td>
+                                  </tr>
+                              </tbody>
+                          </table>`,
+                
+                'audit': `<h4>Audit Requirements Scaling</h4>
+                         <table>
+                             <thead>
+                                 <tr>
+                                     <th>Aspect</th>
+                                     <th>LOW</th>
+                                     <th>MODERATE</th>
+                                     <th>HIGH</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr>
+                                     <td><strong>What to Log</strong></td>
+                                     <td>Basic events (login/logout)</td>
+                                     <td>Security events</td>
+                                     <td>All privileged actions</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Log Detail</strong></td>
+                                     <td>Who, when</td>
+                                     <td>Who, what, when, where</td>
+                                     <td>Full context + correlation</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Storage</strong></td>
+                                     <td>90 days</td>
+                                     <td>1 year</td>
+                                     <td>3+ years</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Analysis</strong></td>
+                                     <td>Manual review</td>
+                                     <td>SIEM correlation</td>
+                                     <td>Real-time analytics + ML</td>
+                                 </tr>
+                                 <tr>
+                                     <td><strong>Protection</strong></td>
+                                     <td>Basic access control</td>
+                                     <td>Separate storage</td>
+                                     <td>Cryptographic protection</td>
+                                 </tr>
+                             </tbody>
+                         </table>`,
+                
+                'incident': `<h4>Incident Response Scaling</h4>
+                           <table>
+                               <thead>
+                                   <tr>
+                                       <th>Aspect</th>
+                                       <th>LOW</th>
+                                       <th>MODERATE</th>
+                                       <th>HIGH</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <tr>
+                                       <td><strong>Response Time</strong></td>
+                                       <td>Next business day</td>
+                                       <td>Within 4 hours</td>
+                                       <td>Immediate (24/7)</td>
+                                   </tr>
+                                   <tr>
+                                       <td><strong>Team</strong></td>
+                                       <td>IT staff as needed</td>
+                                       <td>Dedicated IR team</td>
+                                       <td>24/7 SOC</td>
+                                   </tr>
+                                   <tr>
+                                       <td><strong>Tools</strong></td>
+                                       <td>Basic logs</td>
+                                       <td>SIEM + forensics</td>
+                                       <td>Full EDR + SOAR</td>
+                                   </tr>
+                                   <tr>
+                                       <td><strong>Testing</strong></td>
+                                       <td>Annual walkthrough</td>
+                                       <td>Quarterly tabletops</td>
+                                       <td>Monthly drills + red team</td>
+                                   </tr>
+                                   <tr>
+                                       <td><strong>Coordination</strong></td>
+                                       <td>Internal only</td>
+                                       <td>Law enforcement</td>
+                                       <td>Federal agencies + ISAC</td>
+                                   </tr>
+                               </tbody>
+                           </table>`,
+                
+                'contingency': `<h4>Contingency Planning Requirements</h4>
+                              <table>
+                                  <thead>
+                                      <tr>
+                                          <th>Aspect</th>
+                                          <th>LOW</th>
+                                          <th>MODERATE</th>
+                                          <th>HIGH</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td><strong>Backup Frequency</strong></td>
+                                          <td>Weekly</td>
+                                          <td>Daily</td>
+                                          <td>Continuous/real-time</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>Recovery Time</strong></td>
+                                          <td>5 days</td>
+                                          <td>24 hours</td>
+                                          <td>4 hours or less</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>Alternate Site</strong></td>
+                                          <td>None required</td>
+                                          <td>Cold/warm site</td>
+                                          <td>Hot site ready</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>Testing</strong></td>
+                                          <td>Annual review</td>
+                                          <td>Semi-annual test</td>
+                                          <td>Quarterly with failover</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>Scope</strong></td>
+                                          <td>Critical data only</td>
+                                          <td>Systems + data</td>
+                                          <td>Full operations</td>
+                                      </tr>
+                                  </tbody>
+                              </table>`
+            };
+            
+            if (scaling[area]) {
+                display.innerHTML = scaling[area];
+                display.style.display = 'block';
+            }
+        }
+
+        function showImplementation(scenario) {
+            const display = document.getElementById('implementation-display');
+            const implementations = {
+                'new': `<h4>New System Implementation Strategy</h4>
+                       <div class="concept-box">
+                           <p><strong>Scenario:</strong> Building a new system from scratch</p>
+                           <p><strong>Advantage:</strong> No legacy constraints, can build security in from start</p>
+                       </div>
+                       
+                       <div style="margin-top: 20px;">
+                           <strong>Implementation Approach:</strong>
+                           <ol>
+                               <li><strong>Week 1-2:</strong> Complete FIPS 199 categorization</li>
+                               <li><strong>Week 3-4:</strong> Document all 17 FIPS 200 requirements</li>
+                               <li><strong>Month 2:</strong> Design security architecture meeting all requirements</li>
+                               <li><strong>Month 3-4:</strong> Implement technical controls</li>
+                               <li><strong>Month 5:</strong> Implement administrative controls</li>
+                               <li><strong>Month 6:</strong> Testing and assessment</li>
+                           </ol>
+                       </div>
+                       
+                       <div class="success-box" style="margin-top: 20px;">
+                           <strong>Success Key:</strong> Build security into every design decision from day one. Much easier than retrofitting!
+                       </div>`,
+                
+                'legacy': `<h4>Legacy System Retrofit Strategy</h4>
+                         <div class="concept-box">
+                             <p><strong>Scenario:</strong> 10-year-old system needs FIPS 200 compliance</p>
+                             <p><strong>Challenge:</strong> Technical debt, undocumented configurations, resistance to change</p>
+                         </div>
+                         
+                         <div style="margin-top: 20px;">
+                             <strong>Phased Approach:</strong>
+                             <table>
+                                 <tr><td><strong>Phase 1:</strong></td><td>Gap assessment against 17 requirements</td></tr>
+                                 <tr><td><strong>Phase 2:</strong></td><td>Quick wins (logging, access control)</td></tr>
+                                 <tr><td><strong>Phase 3:</strong></td><td>Compensating controls for gaps</td></tr>
+                                 <tr><td><strong>Phase 4:</strong></td><td>System modernization planning</td></tr>
+                                 <tr><td><strong>Phase 5:</strong></td><td>Migration to compliant platform</td></tr>
+                             </table>
+                         </div>
+                         
+                         <div class="warning-box" style="margin-top: 20px;">
+                             <strong>Common Issues:</strong> Can't patch old OS, no MFA support, flat network architecture. Use isolation and compensating controls!
+                         </div>`,
+                
+                'cloud': `<h4>Cloud Migration Implementation</h4>
+                        <div class="concept-box">
+                            <p><strong>Scenario:</strong> Moving to AWS/Azure/GCP</p>
+                            <p><strong>Opportunity:</strong> Inherit many controls from cloud provider</p>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <strong>Shared Responsibility Mapping:</strong>
+                            <ul>
+                                <li><strong>Provider Handles:</strong> PE, partial MA, infrastructure SC</li>
+                                <li><strong>You Handle:</strong> AC, AT, AU, IA, application-level controls</li>
+                                <li><strong>Shared:</strong> IR, CP, CM, SI</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box" style="margin-top: 20px;">
+                            <strong>Implementation Steps:</strong>
+                            <ol>
+                                <li>Review provider's FedRAMP documentation</li>
+                                <li>Map inherited controls to FIPS 200 requirements</li>
+                                <li>Identify customer responsibilities</li>
+                                <li>Implement cloud-native security services</li>
+                                <li>Document the shared model clearly</li>
+                            </ol>
+                        </div>`,
+                
+                'hybrid': `<h4>Hybrid Environment Strategy</h4>
+                         <div class="concept-box">
+                             <p><strong>Scenario:</strong> Mix of on-premise, cloud, and SaaS</p>
+                             <p><strong>Complexity:</strong> Different security models, multiple boundaries</p>
+                         </div>
+                         
+                         <div style="margin-top: 20px;">
+                             <strong>Unified Approach:</strong>
+                             <table>
+                                 <thead>
+                                     <tr>
+                                         <th>Requirement</th>
+                                         <th>Implementation Strategy</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr>
+                                         <td>Identity (IA)</td>
+                                         <td>Federated SSO across all platforms</td>
+                                     </tr>
+                                     <tr>
+                                         <td>Audit (AU)</td>
+                                         <td>Centralized SIEM collecting all sources</td>
+                                     </tr>
+                                     <tr>
+                                         <td>Incident (IR)</td>
+                                         <td>Unified SOC monitoring everything</td>
+                                     </tr>
+                                     <tr>
+                                         <td>Network (SC)</td>
+                                         <td>Zero trust architecture</td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                         
+                         <div class="real-world-box" style="margin-top: 20px;">
+                             <strong>Best Practice:</strong> Use a CASB (Cloud Access Security Broker) to enforce consistent policies across all environments.
+                         </div>`
+            };
+            
+            display.innerHTML = implementations[scenario];
+            display.style.display = 'block';
+        }
+
+        function showCaseStudy(type) {
+            const display = document.getElementById('case-study-display');
+            const cases = {
+                'federal': `<h4>Federal Agency Case Study: Department of Agriculture</h4>
+                          <div class="concept-box">
+                              <strong>Organization:</strong> USDA Rural Development<br>
+                              <strong>Systems:</strong> 47 systems, LOW to HIGH impact<br>
+                              <strong>Timeline:</strong> 18-month implementation
+                          </div>
+                          
+                          <div style="margin-top: 20px;">
+                              <strong>Approach:</strong>
+                              <ol>
+                                  <li><strong>Common Control Provider:</strong> Established enterprise services for 12 of 17 requirements</li>
+                                  <li><strong>System Grouping:</strong> Combined similar systems into 8 authorization boundaries</li>
+                                  <li><strong>Shared Services:</strong> Used USDA-wide SOC, help desk, and infrastructure</li>
+                                  <li><strong>Continuous Monitoring:</strong> Deployed CDM tools from DHS</li>
+                              </ol>
+                          </div>
+                          
+                          <div class="success-box" style="margin-top: 20px;">
+                              <strong>Results:</strong>
+                              <ul>
+                                  <li>100% systems authorized within timeline</li>
+                                  <li>60% reduction in duplicated controls</li>
+                                  <li>Clean FISMA audit scorecard</li>
+                                  <li>$2M annual savings from shared services</li>
+                              </ul>
+                          </div>`,
+                
+                'contractor': `<h4>Federal Contractor Case Study: Defense Contractor</h4>
+                             <div class="concept-box">
+                                 <strong>Company:</strong> Mid-size defense contractor<br>
+                                 <strong>Requirement:</strong> DFARS compliance for CUI<br>
+                                 <strong>Systems:</strong> Engineering network with ITAR data
+                             </div>
+                             
+                             <div style="margin-top: 20px;">
+                                 <strong>Implementation Challenges:</strong>
+                                 <ul>
+                                     <li>Mixed commercial and government work</li>
+                                     <li>Engineers resistant to security controls</li>
+                                     <li>Legacy CAD systems couldn't be updated</li>
+                                     <li>International collaboration requirements</li>
+                                 </ul>
+                             </div>
+                             
+                             <div style="margin-top: 20px;">
+                                 <strong>Solutions:</strong>
+                                 <ul>
+                                     <li><strong>Enclave Strategy:</strong> Isolated CUI network segment</li>
+                                     <li><strong>Jump Boxes:</strong> For accessing legacy systems</li>
+                                     <li><strong>Training Focus:</strong> "Why" not just "what"</li>
+                                     <li><strong>Graduated Implementation:</strong> Started with willing teams</li>
+                                 </ul>
+                             </div>
+                             
+                             <div class="warning-box" style="margin-top: 20px;">
+                                 <strong>Lesson Learned:</strong> Cultural change management was harder than technical implementation. Executive mandate essential.
+                             </div>`,
+                
+                'healthcare': `<h4>Healthcare Case Study: Regional Hospital Network</h4>
+                             <div class="concept-box">
+                                 <strong>Organization:</strong> 5-hospital health system<br>
+                                 <strong>Driver:</strong> HIPAA + meaningful use requirements<br>
+                                 <strong>Adoption:</strong> Voluntary use of FIPS 200 framework
+                             </div>
+                             
+                             <div style="margin-top: 20px;">
+                                 <strong>Why FIPS 200 for Healthcare:</strong>
+                                 <ul>
+                                     <li>More comprehensive than HIPAA Security Rule</li>
+                                     <li>Clear baseline selection process</li>
+                                     <li>Addresses all security areas systematically</li>
+                                     <li>Recognized by cyber insurance companies</li>
+                                 </ul>
+                             </div>
+                             
+                             <div style="margin-top: 20px;">
+                                 <strong>Healthcare-Specific Adaptations:</strong>
+                                 <table>
+                                     <tr><td>Requirement</td><td>Healthcare Focus</td></tr>
+                                     <tr><td>Access Control</td><td>Role-based by department/unit</td></tr>
+                                     <tr><td>Audit</td><td>Every PHI access logged</td></tr>
+                                     <tr><td>Integrity</td><td>Medical device security</td></tr>
+                                     <tr><td>Availability</td><td>24/7 for emergency department</td></tr>
+                                 </table>
+                             </div>
+                             
+                             <div class="example-box" style="margin-top: 20px;">
+                                 <strong>Outcome:</strong> Passed HIPAA audit, reduced cyber insurance premiums by 30%, survived ransomware attempt.
+                             </div>`,
+                
+                'university': `<h4>University Case Study: State Research University</h4>
+                              <div class="concept-box">
+                                  <strong>Institution:</strong> R1 research university<br>
+                                  <strong>Challenge:</strong> CUI in research + FERPA + academic freedom<br>
+                                  <strong>Scope:</strong> 40,000 users, diverse systems
+                              </div>
+                              
+                              <div style="margin-top: 20px;">
+                                  <strong>Segmented Implementation:</strong>
+                                  <ul>
+                                      <li><strong>Administrative:</strong> MODERATE baseline for business systems</li>
+                                      <li><strong>Academic:</strong> LOW baseline with extra privacy controls</li>
+                                      <li><strong>Research:</strong> HIGH baseline for federal research</li>
+                                      <li><strong>Medical:</strong> HIGH baseline for affiliated hospital</li>
+                                  </ul>
+                              </div>
+                              
+                              <div class="real-world-box" style="margin-top: 20px;">
+                                  <strong>Unique Solutions:</strong>
+                                  <ul>
+                                      <li>Federated identity with InCommon</li>
+                                      <li>Research data enclaves for sensitive work</li>
+                                      <li>BYOD program with network access control</li>
+                                      <li>Student workers as security ambassadors</li>
+                                  </ul>
+                              </div>
+                              
+                              <div class="success-box" style="margin-top: 20px;">
+                                  <strong>Benefits:</strong> Maintained research funding, improved researcher collaboration, reduced security incidents by 60%.
+                              </div>`
+            };
+            
+            display.innerHTML = cases[type];
+            display.style.display = 'block';
+        }
+
+        function showQuiz(question) {
+            const display = document.getElementById('quiz-display');
+            const questions = {
+                'q1': `<h4>Question 1: Minimum Requirements</h4>
+                      <div class="concept-box">
+                          <p><strong>Question:</strong> Your organization has a LOW impact system that only hosts public information. Can you skip the Personnel Security (PS) requirement since the data isn't sensitive?</p>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="action-button" onclick="revealAnswer('q1')">Show Answer</button>
+                      </div>
+                      
+                      <div id="q1-answer" style="display:none; margin-top:20px;" class="warning-box">
+                          <strong>Answer: NO</strong>
+                          <p>All 17 requirements must be addressed for every federal system, regardless of impact level. Even for LOW impact systems with public data, you must still address personnel security—though the implementation might be minimal (like basic rules of behavior vs. extensive background checks for HIGH systems).</p>
+                      </div>`,
+                
+                'q2': `<h4>Question 2: Baseline Selection</h4>
+                      <div class="concept-box">
+                          <p><strong>Scenario:</strong> Your FIPS 199 analysis shows:</p>
+                          <ul>
+                              <li>Confidentiality: LOW</li>
+                              <li>Integrity: MODERATE</li>
+                              <li>Availability: LOW</li>
+                          </ul>
+                          <p><strong>Question:</strong> Which FIPS 200 baseline must you implement?</p>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="action-button" onclick="revealAnswer('q2')">Show Answer</button>
+                      </div>
+                      
+                      <div id="q2-answer" style="display:none; margin-top:20px;" class="success-box">
+                          <strong>Answer: MODERATE Baseline</strong>
+                          <p>FIPS 200 requires you to use the high water mark principle. Since Integrity is MODERATE (the highest of the three), you must implement the MODERATE baseline from NIST SP 800-53, even though two categories are LOW.</p>
+                      </div>`,
+                
+                'q3': `<h4>Question 3: Implementation Priority</h4>
+                      <div class="concept-box">
+                          <p><strong>Question:</strong> You have limited resources and must phase your FIPS 200 implementation. Which requirement should typically be implemented FIRST?</p>
+                          <ul>
+                              <li>A) System and Communications Protection (SC)</li>
+                              <li>B) Incident Response (IR)</li>
+                              <li>C) Risk Assessment (RA)</li>
+                              <li>D) Contingency Planning (CP)</li>
+                          </ul>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="action-button" onclick="revealAnswer('q3')">Show Answer</button>
+                      </div>
+                      
+                      <div id="q3-answer" style="display:none; margin-top:20px;" class="success-box">
+                          <strong>Answer: C) Risk Assessment (RA)</strong>
+                          <p>Risk Assessment should come first because you need to understand your risks before you can properly implement other controls. RA drives decisions about how to implement all other requirements. It's impossible to size your security appropriately without first understanding what you're protecting against.</p>
+                      </div>`,
+                
+                'q4': `<h4>Question 4: Complete Integration</h4>
+                      <div class="concept-box">
+                          <p><strong>Question:</strong> Place these in the correct order for implementing federal information security:</p>
+                          <ul>
+                              <li>Select specific controls from catalog</li>
+                              <li>Categorize system impact level</li>
+                              <li>Implement selected controls</li>
+                              <li>Apply minimum security requirements</li>
+                          </ul>
+                      </div>
+                      
+                      <div style="margin-top: 20px;">
+                          <button class="action-button" onclick="revealAnswer('q4')">Show Answer</button>
+                      </div>
+                      
+                      <div id="q4-answer" style="display:none; margin-top:20px;" class="success-box">
+                          <strong>Correct Order:</strong>
+                          <ol>
+                              <li><strong>Categorize system impact level</strong> (FIPS 199)</li>
+                              <li><strong>Apply minimum security requirements</strong> (FIPS 200)</li>
+                              <li><strong>Select specific controls from catalog</strong> (NIST SP 800-53)</li>
+                              <li><strong>Implement selected controls</strong> (Your organization)</li>
+                          </ol>
+                          <p style="margin-top: 15px;">This is the mandatory sequence: determine risk → identify requirements → select controls → implement security.</p>
+                      </div>`
+            };
+            
+            display.innerHTML = questions[question];
+            display.style.display = 'block';
+        }
+
+        function revealAnswer(question) {
+            document.getElementById(question + '-answer').style.display = 'block';
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 6;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            let message = `Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n`;
+            
+            if (viewed === total) {
+                message += 'Excellent! You\'ve completed the FIPS 200 learning module!\n\n';
+                message += 'Key Concepts Mastered:\n';
+                message += '✓ FIPS 200\'s role as the bridge\n';
+                message += '✓ The 17 minimum security requirements\n';
+                message += '✓ Impact level to baseline mapping\n';
+                message += '✓ Implementation strategies\n';
+                message += '✓ Real-world applications\n';
+                message += '✓ Complete framework integration';
+            } else {
+                message += `Keep going! ${total - viewed} sections remaining.\n\n`;
+                message += 'Sections to complete:\n';
+                for (let i = 1; i <= total; i++) {
+                    if (!sectionsViewed.has(i)) {
+                        const topics = [
+                            '1: Introduction and Purpose',
+                            '2: The 17 Requirements',
+                            '3: Impact Levels and Selection',
+                            '4: Implementation Strategy',
+                            '5: Real-World Application',
+                            '6: Complete Integration'
+                        ];
+                        message += `• Part ${topics[i-1]}\n`;
+                    }
+                }
+            }
+            
+            alert(message);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>
