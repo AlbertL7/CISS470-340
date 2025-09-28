@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIPS 199: Security Categorization Standards - Interactive Learning Module</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4399 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .slide-content h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #764ba2;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .concept-box {
+            background: #f8f9ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .impact-card {
+            background: white;
+            border: 2px solid #764ba2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
+            background: #f8f9ff;
+        }
+        
+        .impact-level {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable {
+            background: #f8f9ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4399 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-calculator {
+            background: #e8f4fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .calculator-title {
+            color: #1976d2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .selector-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .selector-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4399 100%);
+        }
+        
+        .selector-button.selected {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        
+        .result-display {
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #667eea;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+        
+        .example-box {
+            background: #fff5f0;
+            border-left: 5px solid #ff6a00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .cia-triad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .cia-card {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .cia-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .cia-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .key-learning {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .formula-box {
+            background: #f5f5f5;
+            border: 2px dashed #9e9e9e;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #764ba2;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        
+        tr:hover td {
+            background: #f8f9ff;
+        }
+        
+        .definition-term {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ FIPS 199: SECURITY CATEGORIZATION</h1>
+            <p style="font-size: 24px; margin-top: 10px;">Standards for Federal Information and Information Systems</p>
+            <p style="font-size: 18px; margin-top: 5px;">Interactive Learning Module - February 2004</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Introduction & Purpose -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Understanding FIPS 199: Purpose and Foundation</span>
+                <span class="slide-number">Part 1 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📜 Why FIPS 199 Matters</h2>
+                
+                <div class="highlight-box">
+                    <h3>Historical Context</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">The E-Government Act of 2002 recognized information security as critical to U.S. economic and national security interests. Title III, the Federal Information Security Management Act (FISMA), tasked NIST with developing standards for categorizing information and systems based on risk levels.</p>
+                </div>
+
+                <h3>🎯 Three Key FISMA Tasks for NIST</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Task 1: Categorization Standards (FIPS 199)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p>Develop standards for all federal agencies to categorize information and systems based on providing appropriate security levels according to risk.</p>
+                        <div class="success-box">
+                            <strong>This is what FIPS 199 addresses!</strong> It provides the framework for expressing security needs consistently across government.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Task 2: Guidelines for Categories</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p>Recommend types of information and systems to include in each category.</p>
+                        <p style="margin-top:10px;"><em>Addressed in subsequent NIST publications.</em></p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Task 3: Security Requirements</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p>Define minimum security requirements (management, operational, technical controls) for each category.</p>
+                        <p style="margin-top:10px;"><em>Addressed in NIST SP 800-53 and related documents.</em></p>
+                    </div>
+                </div>
+
+                <h3>🏛️ Why Categorization Matters</h3>
+                
+                <div class="concept-box">
+                    <h4>Benefits of Common Framework:</h4>
+                    <ul>
+                        <li>Effective management and oversight of security programs</li>
+                        <li>Coordination across civilian, defense, homeland security, and law enforcement</li>
+                        <li>Consistent reporting to OMB and Congress</li>
+                        <li>Common language for discussing security needs</li>
+                        <li>Risk-based resource allocation</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Scope and Applicability</h4>
+                    <p><strong>Applies to:</strong> All federal information and systems EXCEPT:</p>
+                    <ul>
+                        <li>Classified information (handled under Executive Orders)</li>
+                        <li>National security systems (as defined in 44 USC 3542(b)(2))</li>
+                    </ul>
+                    <p style="margin-top:10px;"><strong>Effective:</strong> Upon Secretary of Commerce approval (February 2004)</p>
+                    <p><strong>Optional for:</strong> State/local/tribal governments and private sector critical infrastructure</p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: FIPS 199 creates a common language for expressing security needs based on potential impact to the organization's mission, assets, and individuals.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Security Objectives (CIA Triad) -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The CIA Triad: Three Security Objectives</span>
+                <span class="slide-number">Part 2 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🔐 Understanding Security Objectives</h2>
+                
+                <div class="highlight-box">
+                    <h3>Foundation Concept</h3>
+                    <p style="font-size: 18px;">FISMA defines three fundamental security objectives that form the basis for all security categorization. These are universally known as the "CIA Triad".</p>
+                </div>
+
+                <div class="cia-triad">
+                    <div class="cia-card">
+                        <div class="cia-icon">🔒</div>
+                        <h3>Confidentiality</h3>
+                        <p>"Preserving authorized restrictions on information access and disclosure"</p>
+                    </div>
+                    <div class="cia-card">
+                        <div class="cia-icon">✓</div>
+                        <h3>Integrity</h3>
+                        <p>"Guarding against improper information modification or destruction"</p>
+                    </div>
+                    <div class="cia-card">
+                        <div class="cia-icon">⚡</div>
+                        <h3>Availability</h3>
+                        <p>"Ensuring timely and reliable access to and use of information"</p>
+                    </div>
+                </div>
+
+                <h3>📖 Detailed Definitions and Loss Scenarios</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔒 Confidentiality</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="definition-term">Full Definition:</div>
+                        <p>"Preserving authorized restrictions on information access and disclosure, including means for protecting personal privacy and proprietary information" [44 U.S.C., Sec. 3542]</p>
+                        
+                        <div class="warning-box" style="margin-top:15px;">
+                            <strong>Loss of Confidentiality =</strong> Unauthorized disclosure of information
+                        </div>
+                        
+                        <div class="example-box">
+                            <strong>Examples of Confidentiality Loss:</strong>
+                            <ul>
+                                <li>Customer data exposed in a breach</li>
+                                <li>Proprietary information leaked to competitors</li>
+                                <li>Medical records accessed without authorization</li>
+                                <li>Financial data disclosed inappropriately</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>✓ Integrity</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="definition-term">Full Definition:</div>
+                        <p>"Guarding against improper information modification or destruction, and includes ensuring information non-repudiation and authenticity" [44 U.S.C., Sec. 3542]</p>
+                        
+                        <div class="warning-box" style="margin-top:15px;">
+                            <strong>Loss of Integrity =</strong> Unauthorized modification or destruction of information
+                        </div>
+                        
+                        <div class="example-box">
+                            <strong>Examples of Integrity Loss:</strong>
+                            <ul>
+                                <li>Financial records altered maliciously</li>
+                                <li>System configurations changed without authorization</li>
+                                <li>Data corrupted during transmission</li>
+                                <li>Audit logs tampered with or deleted</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>⚡ Availability</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="definition-term">Full Definition:</div>
+                        <p>"Ensuring timely and reliable access to and use of information" [44 U.S.C., SEC. 3542]</p>
+                        
+                        <div class="warning-box" style="margin-top:15px;">
+                            <strong>Loss of Availability =</strong> Disruption of access to or use of information or an information system
+                        </div>
+                        
+                        <div class="example-box">
+                            <strong>Examples of Availability Loss:</strong>
+                            <ul>
+                                <li>Denial of Service (DoS) attacks</li>
+                                <li>System crashes preventing access</li>
+                                <li>Network outages</li>
+                                <li>Ransomware encrypting critical files</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h4>Important Concept: Different Information Needs Different Protection</h4>
+                    <p>Not all information requires the same level of protection for each objective:</p>
+                    <ul>
+                        <li><strong>Public website:</strong> Low confidentiality needs, high integrity and availability needs</li>
+                        <li><strong>Classified research:</strong> High confidentiality needs, moderate integrity and availability</li>
+                        <li><strong>Financial transactions:</strong> High needs for all three objectives</li>
+                    </ul>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: Every piece of information and every system must be evaluated against all three objectives. The level of protection needed for each may differ significantly.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Impact Levels -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Impact Levels: Low, Moderate, and High</span>
+                <span class="slide-number">Part 3 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📊 Understanding Potential Impact</h2>
+                
+                <div class="highlight-box">
+                    <h3>Core Concept</h3>
+                    <p style="font-size: 18px;">FIPS 199 defines three levels of potential impact if there's a breach of security (loss of confidentiality, integrity, or availability). These must be considered within each organization's context and the overall national interest.</p>
+                </div>
+
+                <h3>🔍 The Three Impact Levels Explained</h3>
+
+                <div class="impact-card">
+                    <span class="impact-level">LOW</span>
+                    <h4 style="margin-top:25px;">Limited Adverse Effect</h4>
+                    <p style="margin-top:15px;"><strong>Definition:</strong> The loss could be expected to have a LIMITED adverse effect on organizational operations, assets, or individuals.</p>
+                    
+                    <div class="expandable" style="margin-top:15px;">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>Examples of LOW Impact</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <ul>
+                                <li>Degraded mission capability but organization can still perform primary functions (effectiveness noticeably reduced)</li>
+                                <li>Minor damage to organizational assets</li>
+                                <li>Minor financial loss</li>
+                                <li>Minor harm to individuals</li>
+                            </ul>
+                            <div class="example-box">
+                                <strong>Real-world example:</strong> Temporary unavailability of an employee directory system - inconvenient but doesn't stop operations.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="impact-card">
+                    <span class="impact-level">MODERATE</span>
+                    <h4 style="margin-top:25px;">Serious Adverse Effect</h4>
+                    <p style="margin-top:15px;"><strong>Definition:</strong> The loss could be expected to have a SERIOUS adverse effect on organizational operations, assets, or individuals.</p>
+                    
+                    <div class="expandable" style="margin-top:15px;">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>Examples of MODERATE Impact</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <ul>
+                                <li>Significant degradation in mission capability (can perform but effectiveness significantly reduced)</li>
+                                <li>Significant damage to organizational assets</li>
+                                <li>Significant financial loss</li>
+                                <li>Significant harm to individuals (not life-threatening)</li>
+                            </ul>
+                            <div class="example-box">
+                                <strong>Real-world example:</strong> Breach of procurement system exposing bid information - causes significant financial and reputational damage.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="impact-card">
+                    <span class="impact-level">HIGH</span>
+                    <h4 style="margin-top:25px;">Severe or Catastrophic Adverse Effect</h4>
+                    <p style="margin-top:15px;"><strong>Definition:</strong> The loss could be expected to have a SEVERE or CATASTROPHIC adverse effect on organizational operations, assets, or individuals.</p>
+                    
+                    <div class="expandable" style="margin-top:15px;">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>Examples of HIGH Impact</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <ul>
+                                <li>Severe degradation or loss of mission capability (unable to perform primary functions)</li>
+                                <li>Major damage to organizational assets</li>
+                                <li>Major financial loss</li>
+                                <li>Severe or catastrophic harm to individuals (including loss of life)</li>
+                            </ul>
+                            <div class="example-box">
+                                <strong>Real-world example:</strong> Compromise of a power grid control system - could cause widespread outages and potential loss of life.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Critical Note on Individual Harm</h4>
+                    <p>Adverse effects on individuals may include loss of privacy entitled under law. This is why personal information often requires higher protection levels.</p>
+                </div>
+
+                <div class="interactive-calculator">
+                    <div class="calculator-title">🎯 Impact Level Explorer</div>
+                    <p>Select a scenario to understand its typical impact level:</p>
+                    <button class="selector-button" onclick="showImpactScenario('public')">Public Website Content</button>
+                    <button class="selector-button" onclick="showImpactScenario('medical')">Medical Records System</button>
+                    <button class="selector-button" onclick="showImpactScenario('financial')">Banking Transaction System</button>
+                    <button class="selector-button" onclick="showImpactScenario('infrastructure')">Critical Infrastructure Control</button>
+                    <div id="impact-scenario-result" class="result-display" style="display:none;"></div>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: Impact levels must consider effects on operations, assets, AND individuals. The highest potential impact in any area drives the categorization.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Information Type Categorization -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Categorizing Information Types</span>
+                <span class="slide-number">Part 4 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📁 Security Categories for Information</h2>
+                
+                <div class="highlight-box">
+                    <h3>What is an Information Type?</h3>
+                    <p style="font-size: 18px;">A specific category of information (e.g., privacy, medical, proprietary, financial, investigative, contractor sensitive, security management) defined by an organization or by law/regulation.</p>
+                </div>
+
+                <h3>📝 The Categorization Formula</h3>
+                
+                <div class="formula-box">
+                    <strong>SC</strong><sub>information type</sub> = {(confidentiality, impact), (integrity, impact), (availability, impact)}
+                    <br><br>
+                    Where impact values are: LOW, MODERATE, HIGH, or NOT APPLICABLE*
+                    <br><br>
+                    <em>*NOT APPLICABLE only applies to confidentiality (public information)</em>
+                </div>
+
+                <h3>📚 Real Examples from FIPS 199</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Example 1: Public Web Server Information</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="concept-box">
+                            <h4>Scenario:</h4>
+                            <p>An organization managing public information on its web server determines:</p>
+                            <ul>
+                                <li>NO potential impact from loss of confidentiality (it's public)</li>
+                                <li>MODERATE impact from loss of integrity (wrong info could mislead)</li>
+                                <li>MODERATE impact from loss of availability (public expects access)</li>
+                            </ul>
+                        </div>
+                        <div class="formula-box">
+                            <strong>Result:</strong><br>
+                            SC<sub>public information</sub> = {(confidentiality, NA), (integrity, MODERATE), (availability, MODERATE)}
+                        </div>
+                        <div class="success-box">
+                            <strong>Insight:</strong> Even public information needs protection - not for confidentiality, but for integrity and availability!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Example 2: Law Enforcement Investigative Information</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="concept-box">
+                            <h4>Scenario:</h4>
+                            <p>Law enforcement managing extremely sensitive investigative information determines:</p>
+                            <ul>
+                                <li>HIGH impact from loss of confidentiality (could compromise investigations)</li>
+                                <li>MODERATE impact from loss of integrity (evidence tampering concerns)</li>
+                                <li>MODERATE impact from loss of availability (investigations could continue with delays)</li>
+                            </ul>
+                        </div>
+                        <div class="formula-box">
+                            <strong>Result:</strong><br>
+                            SC<sub>investigative information</sub> = {(confidentiality, HIGH), (integrity, MODERATE), (availability, MODERATE)}
+                        </div>
+                        <div class="success-box">
+                            <strong>Insight:</strong> Different objectives can have different impact levels based on the nature of the information.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Example 3: Routine Administrative Information</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="concept-box">
+                            <h4>Scenario:</h4>
+                            <p>Financial organization managing routine administrative information (non-privacy) determines:</p>
+                            <ul>
+                                <li>LOW impact from loss of confidentiality</li>
+                                <li>LOW impact from loss of integrity</li>
+                                <li>LOW impact from loss of availability</li>
+                            </ul>
+                        </div>
+                        <div class="formula-box">
+                            <strong>Result:</strong><br>
+                            SC<sub>administrative information</sub> = {(confidentiality, LOW), (integrity, LOW), (availability, LOW)}
+                        </div>
+                        <div class="success-box">
+                            <strong>Insight:</strong> Not all information needs high protection - appropriate categorization prevents over-protecting low-value information.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-calculator">
+                    <div class="calculator-title">📊 Build Your Own Information Category</div>
+                    <p>Select impact levels for each security objective:</p>
+                    
+                    <div style="margin-top:20px;">
+                        <strong>Confidentiality:</strong><br>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'NA')">Not Applicable</button>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'LOW')">Low</button>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'MODERATE')">Moderate</button>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'HIGH')">High</button>
+                    </div>
+                    
+                    <div style="margin-top:15px;">
+                        <strong>Integrity:</strong><br>
+                        <button class="selector-button" onclick="setInfoImpact('I', 'LOW')">Low</button>
+                        <button class="selector-button" onclick="setInfoImpact('I', 'MODERATE')">Moderate</button>
+                        <button class="selector-button" onclick="setInfoImpact('I', 'HIGH')">High</button>
+                    </div>
+                    
+                    <div style="margin-top:15px;">
+                        <strong>Availability:</strong><br>
+                        <button class="selector-button" onclick="setInfoImpact('A', 'LOW')">Low</button>
+                        <button class="selector-button" onclick="setInfoImpact('A', 'MODERATE')">Moderate</button>
+                        <button class="selector-button" onclick="setInfoImpact('A', 'HIGH')">High</button>
+                    </div>
+                    
+                    <div id="info-category-result" class="result-display" style="display:none; margin-top:20px;"></div>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: Information type categorization requires evaluating potential impact for EACH security objective separately. The result guides what controls are needed.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: System Categorization -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Categorizing Information Systems</span>
+                <span class="slide-number">Part 5 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🖥️ From Information to Systems</h2>
+                
+                <div class="highlight-box">
+                    <h3>The High Water Mark Principle</h3>
+                    <p style="font-size: 18px;">An information system's security category is determined by the HIGHEST impact level (high water mark) among all information types it processes, stores, or transmits.</p>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Critical Difference from Information Types</h4>
+                    <p><strong>"NOT APPLICABLE" is never valid for systems!</strong></p>
+                    <p>Every system has a minimum LOW impact because:</p>
+                    <ul>
+                        <li>System processes themselves need protection</li>
+                        <li>System information (passwords, configurations) requires security</li>
+                        <li>Loss of system functions affects operations</li>
+                    </ul>
+                </div>
+
+                <h3>📊 System Categorization Examples</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Example 4: Acquisition System</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="concept-box">
+                            <h4>System Contents:</h4>
+                            <p>A contracting organization's acquisition system contains:</p>
+                            <ol>
+                                <li><strong>Sensitive contract information:</strong>
+                                    <br>SC = {(C: MODERATE), (I: MODERATE), (A: LOW)}</li>
+                                <li><strong>Routine administrative information:</strong>
+                                    <br>SC = {(C: LOW), (I: LOW), (A: LOW)}</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="formula-box">
+                            <strong>High Water Mark Calculation:</strong><br>
+                            Confidentiality: MAX(MODERATE, LOW) = MODERATE<br>
+                            Integrity: MAX(MODERATE, LOW) = MODERATE<br>
+                            Availability: MAX(LOW, LOW) = LOW<br><br>
+                            <strong>System Category:</strong><br>
+                            SC<sub>acquisition system</sub> = {(confidentiality, MODERATE), (integrity, MODERATE), (availability, LOW)}
+                        </div>
+                        
+                        <div class="success-box">
+                            <strong>Key Point:</strong> The system must protect at the level of its most sensitive information type.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Example 5: SCADA System (With Adjustment)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="concept-box">
+                            <h4>System Contents:</h4>
+                            <p>Power plant SCADA system controlling military installation contains:</p>
+                            <ol>
+                                <li><strong>Real-time sensor data:</strong>
+                                    <br>SC = {(C: NA), (I: HIGH), (A: HIGH)}</li>
+                                <li><strong>Administrative information:</strong>
+                                    <br>SC = {(C: LOW), (I: LOW), (A: LOW)}</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="formula-box">
+                            <strong>Initial High Water Mark:</strong><br>
+                            Confidentiality: MAX(NA→LOW, LOW) = LOW<br>
+                            Integrity: MAX(HIGH, LOW) = HIGH<br>
+                            Availability: MAX(HIGH, LOW) = HIGH<br><br>
+                            <strong>Initial System Category:</strong><br>
+                            SC = {(C: LOW), (I: HIGH), (A: HIGH)}
+                        </div>
+                        
+                        <div class="warning-box">
+                            <strong>Management Adjustment:</strong><br>
+                            Organization increases confidentiality from LOW to MODERATE because unauthorized access to system controls could reveal vulnerabilities.
+                        </div>
+                        
+                        <div class="formula-box">
+                            <strong>Final System Category:</strong><br>
+                            SC<sub>SCADA system</sub> = {(confidentiality, MODERATE), (integrity, HIGH), (availability, HIGH)}
+                        </div>
+                        
+                        <div class="success-box">
+                            <strong>Lesson:</strong> Organizations can adjust categories upward based on system-level considerations.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-calculator">
+                    <div class="calculator-title">🖥️ System Category Calculator</div>
+                    <p>Add information types to see the resulting system category:</p>
+                    
+                    <button class="selector-button" onclick="addInfoType('type1')">Add: Public Info (C:NA, I:LOW, A:LOW)</button>
+                    <button class="selector-button" onclick="addInfoType('type2')">Add: Financial Data (C:MOD, I:HIGH, A:MOD)</button>
+                    <button class="selector-button" onclick="addInfoType('type3')">Add: PII Records (C:HIGH, I:MOD, A:LOW)</button>
+                    <button class="selector-button" onclick="clearSystem()">Clear System</button>
+                    
+                    <div id="system-info-types" class="result-display" style="display:none; margin-top:15px;"></div>
+                    <div id="system-category-result" class="result-display" style="display:none; margin-top:15px;"></div>
+                </div>
+
+                <div class="concept-box">
+                    <h4>Remember System-Level Information</h4>
+                    <p>Systems contain critical operational information that requires protection:</p>
+                    <ul>
+                        <li>Network routing tables</li>
+                        <li>Password files</li>
+                        <li>Cryptographic keys</li>
+                        <li>Security configurations</li>
+                        <li>Audit logs</li>
+                    </ul>
+                    <p style="margin-top:10px;"><strong>These must be protected at least at the level of the most critical user information!</strong></p>
+                </div>
+
+                <div class="key-learning">
+                    💡 Key Understanding: System categorization uses the "high water mark" principle - the highest impact level for each objective across ALL information types determines the system's security category.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Summary and Application -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Summary and Practical Application</span>
+                <span class="slide-number">Part 6 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 Bringing It All Together</h2>
+                
+                <div class="success-box">
+                    <h3>✅ What We've Learned</h3>
+                    <p>FIPS 199 provides a standardized method for categorizing federal information and systems based on impact to confidentiality, integrity, and availability.</p>
+                </div>
+
+                <h3>📋 Quick Reference Summary</h3>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Security Objective</th>
+                            <th>LOW Impact</th>
+                            <th>MODERATE Impact</th>
+                            <th>HIGH Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Confidentiality</strong><br><em>(Unauthorized disclosure)</em></td>
+                            <td>Limited adverse effect</td>
+                            <td>Serious adverse effect</td>
+                            <td>Severe/catastrophic effect</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integrity</strong><br><em>(Unauthorized modification)</em></td>
+                            <td>Limited adverse effect</td>
+                            <td>Serious adverse effect</td>
+                            <td>Severe/catastrophic effect</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Availability</strong><br><em>(Disruption of access)</em></td>
+                            <td>Limited adverse effect</td>
+                            <td>Serious adverse effect</td>
+                            <td>Severe/catastrophic effect</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔄 The Categorization Process</h3>
+                
+                <div class="concept-box">
+                    <h4>Step-by-Step Process:</h4>
+                    <ol>
+                        <li><strong>Identify Information Types:</strong> What kinds of information do you have?</li>
+                        <li><strong>Assess Impact per Type:</strong> For each type, evaluate C-I-A impacts</li>
+                        <li><strong>Document Categories:</strong> Use the SC notation format</li>
+                        <li><strong>System Categorization:</strong> Apply high water mark across all types</li>
+                        <li><strong>Review and Adjust:</strong> Consider system-level factors</li>
+                        <li><strong>Apply Controls:</strong> Use category to determine security requirements</li>
+                    </ol>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔗 Connection to Other Standards</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>FIPS 199 categorization leads to:</strong></p>
+                        <ul>
+                            <li><strong>FIPS 200:</strong> Minimum security requirements for each category</li>
+                            <li><strong>NIST SP 800-53:</strong> Specific security controls based on category</li>
+                            <li><strong>NIST SP 800-60:</strong> Guide for mapping information types</li>
+                            <li><strong>Risk Management Framework:</strong> Category drives control selection</li>
+                        </ul>
+                        <div class="warning-box">
+                            <p>The security category is the foundation for ALL subsequent security decisions!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>⚖️ Key Considerations</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>When Categorizing, Remember:</h4>
+                        <ul>
+                            <li><strong>Context Matters:</strong> Consider your organization's mission</li>
+                            <li><strong>Err on Caution:</strong> When in doubt, choose higher category</li>
+                            <li><strong>Document Rationale:</strong> Record why you chose each level</li>
+                            <li><strong>Regular Review:</strong> Categories can change over time</li>
+                            <li><strong>Aggregate Risk:</strong> Multiple LOW items together might equal MODERATE</li>
+                            <li><strong>Compliance:</strong> Some regulations mandate minimum levels</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-calculator">
+                    <div class="calculator-title">🎓 Knowledge Check</div>
+                    <p>Test your understanding with this scenario:</p>
+                    
+                    <div class="concept-box">
+                        <p><strong>Scenario:</strong> A federal agency has a system containing:</p>
+                        <ul>
+                            <li>Employee social security numbers</li>
+                            <li>Public press releases</li>
+                            <li>Internal policy documents</li>
+                        </ul>
+                        <p style="margin-top:10px;">What drives the system's security category?</p>
+                    </div>
+                    
+                    <button class="selector-button" onclick="showFinalAnswer('public')">The public information</button>
+                    <button class="selector-button" onclick="showFinalAnswer('average')">Average of all types</button>
+                    <button class="selector-button" onclick="showFinalAnswer('ssn')">The SSN data (highest impact)</button>
+                    <button class="selector-button" onclick="showFinalAnswer('policy')">The policy documents</button>
+                    
+                    <div id="final-answer-result" class="result-display" style="display:none; margin-top:15px;"></div>
+                </div>
+
+                <div class="key-learning">
+                    💡 Final Takeaway: FIPS 199 provides the foundation for risk-based security. By categorizing information and systems based on potential impact, organizations can apply appropriate, cost-effective security controls where they matter most.
+                </div>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center;">
+                    <h2 style="color: white;">FIPS 199 Learning Complete!</h2>
+                    <p style="font-size: 20px; margin-top: 15px;">You now understand how to categorize federal information and systems.</p>
+                    <p style="font-size: 18px; margin-top: 20px;">Remember: SC = {(C, impact), (I, impact), (A, impact)}</p>
+                    <p style="font-size: 16px; margin-top: 20px;">Next steps: Explore FIPS 200 and NIST SP 800-53 for security controls based on these categories.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on FIPS Publication 199</p>
+            <p style="font-size: 14px; margin-top: 10px;">Standards for Security Categorization of Federal Information and Information Systems</p>
+            <p style="font-size: 12px; margin-top: 10px;">National Institute of Standards and Technology | February 2004</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore concepts</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+        let infoCategory = {C: null, I: null, A: null};
+        let systemInfoTypes = [];
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 6) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const slide = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            sectionsViewed.add(slideNumber);
+            updateProgress();
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function showImpactScenario(scenario) {
+            const resultDiv = document.getElementById('impact-scenario-result');
+            const scenarios = {
+                'public': `<strong>Public Website Content:</strong><br>
+                          • Confidentiality: LOW or NA (already public)<br>
+                          • Integrity: MODERATE to HIGH (false info could mislead citizens)<br>
+                          • Availability: MODERATE (public expects access)<br><br>
+                          <em>Key concern: Maintaining trust through accurate, available information</em>`,
+                
+                'medical': `<strong>Medical Records System:</strong><br>
+                           • Confidentiality: HIGH (privacy laws, personal health info)<br>
+                           • Integrity: HIGH (wrong data could harm patients)<br>
+                           • Availability: MODERATE to HIGH (needed for care)<br><br>
+                           <em>Key concern: Patient privacy and safety</em>`,
+                
+                'financial': `<strong>Banking Transaction System:</strong><br>
+                             • Confidentiality: HIGH (financial data, account numbers)<br>
+                             • Integrity: HIGH (financial accuracy critical)<br>
+                             • Availability: HIGH (customers need 24/7 access)<br><br>
+                             <em>Key concern: All three objectives are critical</em>`,
+                
+                'infrastructure': `<strong>Critical Infrastructure Control:</strong><br>
+                                  • Confidentiality: MODERATE to HIGH (attack vectors)<br>
+                                  • Integrity: HIGH (wrong commands = physical damage)<br>
+                                  • Availability: HIGH (outages affect thousands)<br><br>
+                                  <em>Key concern: Physical safety and service continuity</em>`
+            };
+            
+            resultDiv.innerHTML = scenarios[scenario];
+            resultDiv.style.display = 'block';
+        }
+
+        function setInfoImpact(objective, level) {
+            infoCategory[objective] = level;
+            updateInfoCategoryDisplay();
+        }
+
+        function updateInfoCategoryDisplay() {
+            const resultDiv = document.getElementById('info-category-result');
+            
+            if (infoCategory.C && infoCategory.I && infoCategory.A) {
+                resultDiv.innerHTML = `<strong>Your Information Category:</strong><br>
+                                      SC = {(confidentiality, ${infoCategory.C}), (integrity, ${infoCategory.I}), (availability, ${infoCategory.A})}<br><br>
+                                      <em>This category would be used to determine appropriate security controls for this information type.</em>`;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        function addInfoType(type) {
+            const types = {
+                'type1': {name: 'Public Information', C: 'NA', I: 'LOW', A: 'LOW'},
+                'type2': {name: 'Financial Data', C: 'MODERATE', I: 'HIGH', A: 'MODERATE'},
+                'type3': {name: 'PII Records', C: 'HIGH', I: 'MODERATE', A: 'LOW'}
+            };
+            
+            if (!systemInfoTypes.find(t => t.name === types[type].name)) {
+                systemInfoTypes.push(types[type]);
+                updateSystemCategoryDisplay();
+            }
+        }
+
+        function clearSystem() {
+            systemInfoTypes = [];
+            document.getElementById('system-info-types').style.display = 'none';
+            document.getElementById('system-category-result').style.display = 'none';
+        }
+
+        function updateSystemCategoryDisplay() {
+            const typesDiv = document.getElementById('system-info-types');
+            const resultDiv = document.getElementById('system-category-result');
+            
+            if (systemInfoTypes.length > 0) {
+                let typesHtml = '<strong>Information Types in System:</strong><br>';
+                systemInfoTypes.forEach(type => {
+                    typesHtml += `• ${type.name}: C:${type.C}, I:${type.I}, A:${type.A}<br>`;
+                });
+                typesDiv.innerHTML = typesHtml;
+                typesDiv.style.display = 'block';
+                
+                // Calculate high water mark
+                let maxC = 'LOW', maxI = 'LOW', maxA = 'LOW';
+                const levels = {'NA': 0, 'LOW': 1, 'MODERATE': 2, 'HIGH': 3};
+                const levelNames = ['LOW', 'LOW', 'MODERATE', 'HIGH']; // NA maps to LOW for systems
+                
+                systemInfoTypes.forEach(type => {
+                    let cVal = type.C === 'NA' ? 'LOW' : type.C;
+                    if (levels[cVal] > levels[maxC]) maxC = cVal;
+                    if (levels[type.I] > levels[maxI]) maxI = type.I;
+                    if (levels[type.A] > levels[maxA]) maxA = type.A;
+                });
+                
+                resultDiv.innerHTML = `<strong>System Security Category (High Water Mark):</strong><br>
+                                      SC<sub>system</sub> = {(confidentiality, ${maxC}), (integrity, ${maxI}), (availability, ${maxA})}<br><br>
+                                      <em>The system must be protected at these levels or higher.</em>`;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        function showFinalAnswer(answer) {
+            const resultDiv = document.getElementById('final-answer-result');
+            const answers = {
+                'public': `<div style="background:#ffcdd2; padding:15px; border-radius:8px;">
+                          <strong>Incorrect</strong><br>
+                          Public information has the lowest impact. Systems use the HIGHEST impact (high water mark), not the lowest.</div>`,
+                
+                'average': `<div style="background:#ffcdd2; padding:15px; border-radius:8px;">
+                           <strong>Incorrect</strong><br>
+                           FIPS 199 uses the "high water mark" principle, not averages. The highest impact drives the category.</div>`,
+                
+                'ssn': `<div style="background:#c8e6c9; padding:15px; border-radius:8px;">
+                       <strong>✓ Correct!</strong><br>
+                       SSN data likely has HIGH confidentiality impact (privacy laws). This drives the system to at least MODERATE or HIGH category for confidentiality, regardless of other data types present.</div>`,
+                
+                'policy': `<div style="background:#fff3cd; padding:15px; border-radius:8px;">
+                          <strong>Partially correct thinking</strong><br>
+                          Policy documents might be sensitive, but SSN data typically has higher impact due to privacy laws and potential for identity theft.</div>`
+            };
+            
+            resultDiv.innerHTML = answers[answer];
+            resultDiv.style.display = 'block';
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 6;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
+                  `${viewed === total ? 'Congratulations! You\'ve completed the FIPS 199 learning module!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>
