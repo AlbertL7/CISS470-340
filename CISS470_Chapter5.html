@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5: Cyber Strategic Performance Management - Interactive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #d00865 0%, #e65a00 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .slide-content h2 {
+            color: #ee0979;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #ff6a00;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #ff6a00;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-left: 5px solid #ff6a00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .quote-box {
+            background: #fff5f0;
+            border-left: 5px solid #ee0979;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-style: italic;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .metric-card {
+            background: white;
+            border: 2px solid #ff6a00;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
+            background: #fff5f0;
+        }
+        
+        .metric-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .expandable {
+            background: #fff8f0;
+            border: 2px solid #ff6a00;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #ff6a00 0%, #ee0979 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #e65a00 0%, #d00865 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-scenario {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .scenario-title {
+            color: #1976d2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .choice-button {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        }
+        
+        .result-box {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .quiz-container {
+            background: #fff8e1;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f5f5f5;
+            border-color: #ff6a00;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+        
+        .quiz-option.incorrect {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+        
+        .feedback {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .key-takeaway {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .pitfall-box {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .hallmark-box {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .strategy-section {
+            background: white;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .case-study {
+            background: #f3e5f5;
+            border-left: 5px solid #9c27b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .case-study-title {
+            color: #9c27b0;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #ff6a00;
+            font-weight: bold;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .stat-box {
+            background: white;
+            border: 3px solid #ff6a00;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ee0979;
+        }
+        
+        .dashboard-preview {
+            background: #f5f5f5;
+            border: 2px dashed #9e9e9e;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .matrix-table th {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .matrix-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        
+        .matrix-table tr:hover td {
+            background: #fff5f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 CYBER STRATEGIC PERFORMANCE MANAGEMENT</h1>
+            <p style="font-size: 24px; margin-top: 10px;">Chapter 5: Measuring What Matters in Cybersecurity</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Opening & Overview -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The Management Paradox: Measuring the Unmeasurable</span>
+                <span class="slide-number">Part 1 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📏 "If You Don't Measure It, You Can't Manage It"</h2>
+                
+                <div class="quote-box">
+                    <strong>George (Chief Strategy Officer) to CEO Tom:</strong> "If you don't measure it, you can't manage it."<br><br>
+                    <em>Cybersecurity performance can be managed, but only if measured.</em>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>The Cybersecurity Measurement Challenge</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">While businesses exploit massive amounts of data to understand products, sales, and operations, cybersecurity remains an outlier. Traditional metrics like revenue don't apply, and measuring incidents might give false confidence when you're actually missing ongoing attacks.</p>
+                </div>
+
+                <h3>🎯 Why Measurement Matters Now More Than Ever</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0;">
+                    <div class="metric-card">
+                        <span class="metric-number">1</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Dynamic Environment</h4>
+                        <p style="margin-top:10px;">Threats escalating rapidly, new technologies constantly introduced</p>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">2</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Beyond Instinct</h4>
+                        <p style="margin-top:10px;">Can't rely on experience alone in evolving landscape</p>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">3</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Strategic Alignment</h4>
+                        <p style="margin-top:10px;">Must connect security to business objectives</p>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">Frederick the Great's Wisdom</div>
+                    <p>"Little minds try to defend everything at once, but sensible people look at the main point only; they parry the worst blows and stand a little hurt if thereby they avoid a greater one. If you try to hold everything, you hold nothing."</p>
+                    <p style="margin-top:10px;"><strong>Modern Translation:</strong> Only ineffective CISOs try to protect all data to the same level.</p>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🤔 Quick Assessment</div>
+                    <p>Your board asks: "How do we know our cybersecurity is effective?" What's the best response?</p>
+                    <button class="choice-button" onclick="showMeasurementAnswer('incidents')">Show declining incident numbers</button>
+                    <button class="choice-button" onclick="showMeasurementAnswer('spend')">Compare security spending to peers</button>
+                    <button class="choice-button" onclick="showMeasurementAnswer('framework')">Present comprehensive metrics framework</button>
+                    <button class="choice-button" onclick="showMeasurementAnswer('compliance')">Demonstrate compliance certifications</button>
+                    <div id="measurement-answer-result" class="result-box"></div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📊 The Core Measurement Philosophy</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Key Principle:</strong> With enough creativity and true understanding of sources of value, cybersecurity elements worth managing can be measured (even if only by proxy).</p>
+                        <ul style="margin-top:15px;">
+                            <li>Measuring performance is critical to catalyzing progress</li>
+                            <li>Instills accountability across the organization</li>
+                            <li>Helps achieve strategic aspirations</li>
+                            <li>80% of security happens outside the CISO's organization</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Critical Chapter Insight</h3>
+                    <p>Measuring cybersecurity is hard, but the difficulty doesn't make it any less important. The dynamic nature of threats makes it dangerous to rely on experience and instinct alone.</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Opening Check</div>
+                    <p style="margin-bottom:15px;">According to the chapter, what percentage of security happens outside the CISO's organization?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) 50%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) 60%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) 70%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">D) 80%</div>
+                    <div id="quiz1-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    💡 Opening Insight: Cybersecurity performance management requires moving beyond traditional metrics. Success depends on measuring the right things, avoiding common pitfalls, and connecting security metrics to business value.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Pitfalls in Measurement -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Five Critical Pitfalls to Avoid</span>
+                <span class="slide-number">Part 2 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>⚠️ Common Measurement Mistakes</h2>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Pitfall 1: Irrelevant Metrics</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="pitfall-box">
+                            <h4>The "Millions of Attacks" Problem</h4>
+                            <p>Many reports reference millions of attacks per week/day. While eye-catching, this is entirely irrelevant.</p>
+                            <ul style="margin-top:10px;">
+                                <li>Overwhelming majority from "script kiddies"</li>
+                                <li>Minimally competent security deflects these easily</li>
+                                <li>Tiny percentage from sophisticated attackers represents true risk</li>
+                            </ul>
+                            <p style="margin-top:10px; font-weight:bold;">Better Metric: Focus on sophisticated attack attempts and their success rates</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Pitfall 2: Only Lagging Indicators</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="pitfall-box">
+                            <h4>Looking Backward vs. Forward</h4>
+                            <p>Frequency and severity of incidents = important but inherently lagging</p>
+                            <ul style="margin-top:10px;">
+                                <li>Represents outputs, not inputs</li>
+                                <li>Can't be directly affected by management</li>
+                                <li>Doesn't help prevent future incidents</li>
+                            </ul>
+                            <p style="margin-top:10px; font-weight:bold;">Better Approach: Balance with leading indicators like patch currency, training completion</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Pitfall 3: Assuming More is Better</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="pitfall-box">
+                            <h4>The Over-Control Trap</h4>
+                            <p>Organizations can incur too much cost and create too much complexity</p>
+                            <ul style="margin-top:10px;">
+                                <li>Not every piece of data needs encryption</li>
+                                <li>Not every system needs two-factor authentication</li>
+                                <li>10 years ago, more controls made sense</li>
+                                <li>Today, balance is critical</li>
+                            </ul>
+                            <p style="margin-top:10px; font-weight:bold;">Better Strategy: Risk-based approach with differentiated controls</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Pitfall 4: Relying on Subjectivity</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="pitfall-box">
+                            <h4>The Red/Yellow/Green Problem</h4>
+                            <p>Subjective color coding lacks credibility with senior management</p>
+                            <ul style="margin-top:10px;">
+                                <li>Even with best intentions, subjective assessments unreliable</li>
+                                <li>Doesn't drive decisions effectively</li>
+                                <li>No clear action items</li>
+                            </ul>
+                            <p style="margin-top:10px; font-weight:bold;">Better Method: Tie colors to specific measurable targets or milestones</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Pitfall 5: Measuring Only the Security Team</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="pitfall-box">
+                            <h4>The 80% Problem</h4>
+                            <p>80% of security happens outside the CISO's organization</p>
+                            <ul style="margin-top:10px;">
+                                <li>Security team can't write secure code for developers</li>
+                                <li>Can't apply patches for data center managers</li>
+                                <li>Easy to focus on what security team does directly</li>
+                                <li>Miss measuring enterprise resilience</li>
+                            </ul>
+                            <p style="margin-top:10px; font-weight:bold;">Better Focus: Measure organizational security posture, not just security team activities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🎯 Metric Selection Challenge</div>
+                    <p>Your CISO presents: "We blocked 10 million attacks this month!" How should the board respond?</p>
+                    <button class="choice-button" onclick="showMetricResponse('praise')">Praise the security team</button>
+                    <button class="choice-button" onclick="showMetricResponse('question')">Ask about sophisticated attacks</button>
+                    <button class="choice-button" onclick="showMetricResponse('compare')">Request peer comparison</button>
+                    <button class="choice-button" onclick="showMetricResponse('ignore')">Focus on business impact</button>
+                    <div id="metric-response-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Pitfall Understanding</div>
+                    <p style="margin-bottom:15px;">Which metric type represents an OUTPUT rather than an INPUT?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) Patch currency rate</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">B) Training completion percentage</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">C) Number of security incidents</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) Encryption deployment rate</div>
+                    <div id="quiz2-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    ⚠️ Pitfalls Key Takeaway: Avoid vanity metrics, balance leading and lagging indicators, recognize that more controls aren't always better, use objective measurements, and measure enterprise resilience, not just security team performance.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Strategy Components -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Four Components of Effective Cybersecurity Strategy</span>
+                <span class="slide-number">Part 3 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 Building Your Strategy Foundation</h2>
+
+                <div class="highlight-box">
+                    <h3>Core Principle</h3>
+                    <p>Organizations can measure cybersecurity performance only in the context of a cybersecurity strategy that tightly connects with overall business strategy.</p>
+                </div>
+
+                <h3>📋 The Four Essential Components</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Component 1: Organization Risk Assessment</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="strategy-section">
+                            <h4>Critical Questions to Answer:</h4>
+                            <ul style="margin-top:15px;">
+                                <li>Which data is most critical to the business?</li>
+                                <li>What's most attractive to attackers?</li>
+                                <li>Is customer data more sensitive than intellectual property?</li>
+                                <li>What types of IP are most important?</li>
+                                <li>How does this vary by region or line of business?</li>
+                            </ul>
+                            <div class="warning-box" style="margin-top:15px;">
+                                <p><strong>Remember:</strong> "Little minds try to defend everything at once" - Frederick the Great</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Component 2: Cybersecurity Capabilities</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Seven Hallmarks of Digital Resilience</h4>
+                        <div class="hallmark-box">
+                            <strong>1. Prioritize information assets</strong> based on business risks
+                        </div>
+                        <div class="hallmark-box">
+                            <strong>2. Differentiate protection</strong> based on asset importance
+                        </div>
+                        <div class="hallmark-box">
+                            <strong>3. Integrate cybersecurity</strong> into enterprise-wide risk management
+                        </div>
+                        <div class="hallmark-box">
+                            <strong>4. Enlist front-line personnel</strong> to protect assets they use
+                        </div>
+                        <div class="hallmark-box">
+                            <strong>5. Integrate cybersecurity</strong> into technology environment
+                        </div>
+                        <div class="hallmark-box">
+                            <strong>6. Deploy active defenses</strong> to uncover attacks proactively
+                        </div>
+                        <div class="hallmark-box">
+                            <strong>7. Test continuously</strong> to improve incident response
+                        </div>
+
+                        <div class="warning-box" style="margin-top:20px;">
+                            <h4>Constraints to Consider:</h4>
+                            <ul>
+                                <li>Organizational change appetite</li>
+                                <li>Skill sophistication of security team</li>
+                                <li>Importance of sensitive information</li>
+                                <li>Attacker sophistication level</li>
+                                <li>Regulatory scrutiny</li>
+                                <li>Customer expectations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Component 3: Target State Protections</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="strategy-section">
+                            <h4>Creating Protection Tiers</h4>
+                            <p>Organizations must create tiers of protection spanning multiple controls:</p>
+                            <ul style="margin-top:15px;">
+                                <li>What information assets will be encrypted?</li>
+                                <li>How tightly should access be controlled?</li>
+                                <li>Which systems need segregated networks?</li>
+                                <li>Where to push for secure coding practices?</li>
+                            </ul>
+                            
+                            <div class="dashboard-preview" style="margin-top:20px;">
+                                <h4>Example Tier System:</h4>
+                                <table class="matrix-table">
+                                    <tr>
+                                        <th>Tier</th>
+                                        <th>Data Type</th>
+                                        <th>Protection Requirements</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Tier 3</td>
+                                        <td>High-margin pricing strategies</td>
+                                        <td>Encryption at rest + 2FA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tier 2</td>
+                                        <td>Customer data</td>
+                                        <td>Encryption + access logs</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tier 1</td>
+                                        <td>Public information</td>
+                                        <td>Basic access controls</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Component 4: Portfolio of Initiatives</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="strategy-section">
+                            <h4>Each Initiative Should Include:</h4>
+                            <ul style="margin-top:15px;">
+                                <li><strong>Future state aspiration:</strong> Clear vision of success</li>
+                                <li><strong>Required funding:</strong> Budget allocation</li>
+                                <li><strong>Management support:</strong> Executive sponsorship</li>
+                                <li><strong>Required skills:</strong> Capability gaps to fill</li>
+                                <li><strong>Key milestones:</strong> Measurable progress points</li>
+                                <li><strong>Timing:</strong> Realistic implementation schedule</li>
+                            </ul>
+                            
+                            <h4 style="margin-top:20px;">Types of Initiatives:</h4>
+                            <div class="two-column">
+                                <div class="hallmark-box">
+                                    <strong>Enabling Initiatives</strong>
+                                    <ul>
+                                        <li>Managed services expansion</li>
+                                        <li>Team talent enhancement</li>
+                                        <li>Business skills training</li>
+                                        <li>Communication improvement</li>
+                                    </ul>
+                                </div>
+                                <div class="hallmark-box">
+                                    <strong>Governance Initiatives</strong>
+                                    <ul>
+                                        <li>Business leader involvement</li>
+                                        <li>Decision-making structures</li>
+                                        <li>Strategy alignment</li>
+                                        <li>Ongoing review mechanisms</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🎯 Strategy Priority Decision</div>
+                    <p>Limited resources force you to choose one capability to develop first. Which hallmark should you prioritize?</p>
+                    <button class="choice-button" onclick="showStrategyPriority('prioritize')">Prioritize information assets</button>
+                    <button class="choice-button" onclick="showStrategyPriority('defense')">Deploy active defenses</button>
+                    <button class="choice-button" onclick="showStrategyPriority('people')">Enlist front-line personnel</button>
+                    <button class="choice-button" onclick="showStrategyPriority('test')">Test incident response</button>
+                    <div id="strategy-priority-result" class="result-box"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Strategy Key Takeaway: Effective cybersecurity strategy requires four integrated components: risk assessment, capability development, target protections, and initiative portfolio. Start with understanding what's most critical to protect.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Performance Management System -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Creating Your Performance Management System</span>
+                <span class="slide-number">Part 4 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📊 Three-Component Measurement Framework</h2>
+
+                <div class="highlight-box">
+                    <h3>The Complete System</h3>
+                    <p style="font-size: 18px;">To effectively manage cybersecurity strategy success, organizations need three complementary measurement components working together.</p>
+                </div>
+
+                <h3>📈 Component 1: Measuring Progress Against Initiatives</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Setting Medium-Term Success Metrics</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Example Initiative Metrics (2-3 year window):</h4>
+                        <div class="strategy-section">
+                            <p><strong>DLP System:</strong> Decrease incidents to <100 per annum</p>
+                        </div>
+                        <div class="strategy-section">
+                            <p><strong>Patch Management:</strong> Achieve 90% currency on external-facing systems within 2 years</p>
+                        </div>
+                        <div class="strategy-section">
+                            <p><strong>Secure Development:</strong> 100% of projects include security in first 10% of lifecycle</p>
+                        </div>
+                        <div class="strategy-section">
+                            <p><strong>Attack Prevention:</strong> Stop >99% of detectable attacks by year-end</p>
+                        </div>
+                        <div class="strategy-section">
+                            <p><strong>Attribution:</strong> Identify attacker within one quarter for high-priority attacks</p>
+                        </div>
+                        <div class="strategy-section">
+                            <p><strong>Training:</strong> 80% manager attendance at advanced cyber awareness annually</p>
+                        </div>
+                        <div class="strategy-section">
+                            <p><strong>Phishing:</strong> Click-through rates <30% on annual tests</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Using Markers as Milestones</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Example DLP Implementation Markers:</h4>
+                        <ol style="margin-top:15px;">
+                            <li><strong>Marker 1:</strong> DLP system installed with dedicated team</li>
+                            <li><strong>Marker 2:</strong> System tuned with rules to prevent inadvertent release</li>
+                            <li><strong>Marker 3:</strong> Accurate reporting measuring inadvertent releases</li>
+                            <li><strong>Marker 4:</strong> Decreasing trend in inadvertent releases observed</li>
+                        </ol>
+                        
+                        <div class="dashboard-preview" style="margin-top:20px;">
+                            <h4>Implementation Tracking:</h4>
+                            <p>Path between markers = Sequential activities</p>
+                            <p>Each activity = Series of actions assigned to specific people/teams</p>
+                            <p>Format = Gantt-style work plan with dependencies</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top:40px;">📊 Component 2: Measuring Capability (DRA)</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Digital Resilience Assessment (DRA) Methodology</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>How DRA Ensures Objectivity:</h4>
+                        
+                        <div class="strategy-section">
+                            <h4>Structure of Questions</h4>
+                            <p>Never asks "how good are you" - Instead: "which of the following things do you do"</p>
+                        </div>
+                        
+                        <div class="strategy-section">
+                            <h4>Nature of Respondents</h4>
+                            <ul>
+                                <li>Multiple people from single organization participate</li>
+                                <li>Provides increased granularity across business units</li>
+                                <li>Averages away individual biases</li>
+                                <li>Variations lead to productive discussions</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="strategy-section">
+                            <h4>Validation Process</h4>
+                            <p>Review responses with participants, asking why they responded as they did</p>
+                        </div>
+                        
+                        <div class="success-box" style="margin-top:20px;">
+                            <p><strong>Result:</strong> Integrated, holistic, granular and actionable view of protection capabilities without undue cost and complexity</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top:40px;">🛡️ Component 3: Measuring Protection</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>"Crown Jewels" Protection Measurement</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Prerequisites for Protection Measurement:</h4>
+                        <ol>
+                            <li>Organization knows what its most important data is ✓</li>
+                            <li>Organization knows what systems that data sits on ✓</li>
+                            <li>Organization knows how those systems are currently protected ✓</li>
+                            <li>Organization aligned on how each type should be protected ✓</li>
+                        </ol>
+                        
+                        <div class="case-study" style="margin-top:20px;">
+                            <div class="case-study-title">Example Protection Discussion</div>
+                            <p><strong>Policy Agreement:</strong> High net worth customer data requires:</p>
+                            <ul>
+                                <li>Encryption at rest</li>
+                                <li>Two-factor authentication</li>
+                                <li>Access validation every 90 days</li>
+                            </ul>
+                            
+                            <p style="margin-top:15px;"><strong>Current State:</strong></p>
+                            <ul>
+                                <li>Operations: 70% protected to spec ✓</li>
+                                <li>Trading: 55% protected to spec ⚠️</li>
+                                <li>Distribution: 25% protected to spec ❌</li>
+                            </ul>
+                            
+                            <p style="margin-top:15px;"><strong>Root Cause:</strong> Distribution's main gap is encryption (80% of problem)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">📊 Measurement Priority</div>
+                    <p>You can only implement one measurement component this quarter. Which provides the most immediate value?</p>
+                    <button class="choice-button" onclick="showMeasurementPriority('progress')">Progress against initiatives</button>
+                    <button class="choice-button" onclick="showMeasurementPriority('capability')">Overall capability assessment</button>
+                    <button class="choice-button" onclick="showMeasurementPriority('protection')">Crown jewels protection</button>
+                    <button class="choice-button" onclick="showMeasurementPriority('all')">Basic version of all three</button>
+                    <div id="measurement-priority-result" class="result-box"></div>
+                </div>
+
+                <div class="dashboard-preview">
+                    <h3>Sample Executive Dashboard</h3>
+                    <table class="matrix-table">
+                        <tr>
+                            <th>Metric Type</th>
+                            <th>Current</th>
+                            <th>Target</th>
+                            <th>Trend</th>
+                        </tr>
+                        <tr>
+                            <td>Initiative Progress</td>
+                            <td>65%</td>
+                            <td>100%</td>
+                            <td>↑</td>
+                        </tr>
+                        <tr>
+                            <td>DRA Score</td>
+                            <td>3.2/5</td>
+                            <td>4.0/5</td>
+                            <td>↑</td>
+                        </tr>
+                        <tr>
+                            <td>Crown Jewels Protected</td>
+                            <td>45%</td>
+                            <td>95%</td>
+                            <td>→</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="key-takeaway">
+                    📊 System Key Takeaway: Effective performance management requires three components: measuring initiative progress (leading), capability assessment (current state), and protection levels (outcome). Together they provide complete visibility.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Implementation Excellence -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Making Metrics Work: Implementation Excellence</span>
+                <span class="slide-number">Part 5 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🚀 From Theory to Practice</h2>
+
+                <h3>📋 Implementing Progress Metrics</h3>
+                
+                <div class="dashboard-preview">
+                    <h3>Six-Step Implementation Approach</h3>
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZDEiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2VlMDk3OTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmY2YTAwO3N0b3Atb3BhY2l0eToxIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgCiAgPCEtLSBTdGVwcyAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MCwgMTUwKSI+CiAgICA8IS0tIFN0ZXAgMSAtLT4KICAgIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSI0MCIgZmlsbD0idXJsKCNncmFkMSkiLz4KICAgIDx0ZXh0IHg9IjAiIHk9IjUiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCI+MTwvdGV4dD4KICAgIDx0ZXh0IHg9IjAiIHk9IjcwIiBmaWxsPSIjMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE0Ij5EZWZpbmU8L3RleHQ+CiAgICA8dGV4dCB4PSIwIiB5PSI5MCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCI+TWV0cmljczwvdGV4dD4KICAgIAogICAgPCEtLSBTdGVwIDIgLS0+CiAgICA8Y2lyY2xlIGN4PSIxMjAiIGN5PSIwIiByPSI0MCIgZmlsbD0idXJsKCNncmFkMSkiLz4KICAgIDx0ZXh0IHg9IjEyMCIgeT0iNSIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIj4yPC90ZXh0PgogICAgPHRleHQgeD0iMTIwIiB5PSI3MCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCI+U2V0PC90ZXh0PgogICAgPHRleHQgeD0iMTIwIiB5PSI5MCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCI+VGFyZ2V0czwvdGV4dD4KICAgIAogICAgPCEtLSBTdGVwIDMgLS0+CiAgICA8Y2lyY2xlIGN4PSIyNDAiIGN5PSIwIiByPSI0MCIgZmlsbD0idXJsKCNncmFkMSkiLz4KICAgIDx0ZXh0IHg9IjI0MCIgeT0iNSIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIj4zPC90ZXh0PgogICAgPHRleHQgeD0iMjQwIiB5PSI3MCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCI+Q3JlYXRlPC90ZXh0PgogICAgPHRleHQgeD0iMjQwIiB5PSI5MCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCI+TWFya2VyczwvdGV4dD4KICAgIAogICAgPCEtLSBTdGVwIDQgLS0+CiAgICA8Y2lyY2xlIGN4PSIzNjAiIGN5PSIwIiByPSI0MCIgZmlsbD0idXJsKCNncmFkMSkiLz4KICAgIDx0ZXh0IHg9IjM2MCIgeT0iNSIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIj40PC90ZXh0PgogICAgPHRleHQgeD0iMzYwIiB5PSI3MCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCI+QnVpbGQ8L3RleHQ+CiAgICA8dGV4dCB4PSIzNjAiIHk9IjkwIiBmaWxsPSIjMzMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE0Ij5Xb3JrIFBsYW48L3RleHQ+CiAgICAKICAgIDwhLS0gU3RlcCA1IC0tPgogICAgPGNpcmNsZSBjeD0iNDgwIiBjeT0iMCIgcj0iNDAiIGZpbGw9InVybCgjZ3JhZDEpIi8+CiAgICA8dGV4dCB4PSI0ODAiIHk9IjUiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCI+NTwvdGV4dD4KICAgIDx0ZXh0IHg9IjQ4MCIgeT0iNzAiIGZpbGw9IiMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTQiPlRyYWNrPC90ZXh0PgogICAgPHRleHQgeD0iNDgwIiB5PSI5MCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNCI+UHJvZ3Jlc3M8L3RleHQ+CiAgICAKICAgIDwhLS0gU3RlcCA2IC0tPgogICAgPGNpcmNsZSBjeD0iNjAwIiBjeT0iMCIgcj0iNDAiIGZpbGw9InVybCgjZ3JhZDEpIi8+CiAgICA8dGV4dCB4PSI2MDAiIHk9IjUiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCI+NjwvdGV4dD4KICAgIDx0ZXh0IHg9IjYwMCIgeT0iNzAiIGZpbGw9IiMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTQiPlJlbW92ZTwvdGV4dD4KICAgIDx0ZXh0IHg9IjYwMCIgeT0iOTAiIGZpbGw9IiMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTQiPkJsb2NrZXJzPC90ZXh0PgogICAgCiAgICA8IS0tIENvbm5lY3RpbmcgbGluZXMgLS0+CiAgICA8bGluZSB4MT0iNDAiIHkxPSIwIiB4Mj0iODAiIHkyPSIwIiBzdHJva2U9IiNmZjZhMDAiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgPGxpbmUgeDE9IjE2MCIgeTE9IjAiIHgyPSIyMDAiIHkyPSIwIiBzdHJva2U9IiNmZjZhMDAiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgPGxpbmUgeDE9IjI4MCIgeTE9IjAiIHgyPSIzMjAiIHkyPSIwIiBzdHJva2U9IiNmZjZhMDAiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgPGxpbmUgeDE9IjQwMCIgeTE9IjAiIHgyPSI0NDAiIHkyPSIwIiBzdHJva2U9IiNmZjZhMDAiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgPGxpbmUgeDE9IjUyMCIgeTE9IjAiIHgyPSI1NjAiIHkyPSIwIiBzdHJva2U9IiNmZjZhMDAiIHN0cm9rZS13aWR0aD0iNCIvPgogIDwvZz4KPC9zdmc+" alt="Six-step process" />
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Creating Effective Dashboards</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Dashboard Design Principles:</h4>
+                        <div class="two-column">
+                            <div class="hallmark-box">
+                                <strong>Visual Hierarchy</strong>
+                                <ul>
+                                    <li>Most critical metrics at top</li>
+                                    <li>Use color coding consistently</li>
+                                    <li>Group related metrics</li>
+                                    <li>Show trends, not just snapshots</li>
+                                </ul>
+                            </div>
+                            <div class="hallmark-box">
+                                <strong>Actionable Insights</strong>
+                                <ul>
+                                    <li>Include context for each metric</li>
+                                    <li>Show targets alongside actuals</li>
+                                    <li>Highlight exceptions clearly</li>
+                                    <li>Enable drill-down capability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Common Implementation Challenges</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="pitfall-box">
+                            <h4>Challenge 1: Data Quality</h4>
+                            <p><strong>Problem:</strong> Inconsistent or incomplete data</p>
+                            <p><strong>Solution:</strong> Start with manual collection, automate gradually</p>
+                        </div>
+                        
+                        <div class="pitfall-box">
+                            <h4>Challenge 2: Metric Overload</h4>
+                            <p><strong>Problem:</strong> Too many metrics dilute focus</p>
+                            <p><strong>Solution:</strong> Maximum 15-20 key metrics for executives</p>
+                        </div>
+                        
+                        <div class="pitfall-box">
+                            <h4>Challenge 3: Gaming the System</h4>
+                            <p><strong>Problem:</strong> Teams optimize for metrics, not outcomes</p>
+                            <p><strong>Solution:</strong> Balance multiple metric types, focus on outcomes</p>
+                        </div>
+                        
+                        <div class="pitfall-box">
+                            <h4>Challenge 4: Lack of Action</h4>
+                            <p><strong>Problem:</strong> Metrics reviewed but not acted upon</p>
+                            <p><strong>Solution:</strong> Tie metrics to specific owners and review cadence</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🔄 Continuous Improvement Process</h3>
+
+                <div class="strategy-section">
+                    <h4>Monthly Review Cycle:</h4>
+                    <ol>
+                        <li><strong>Week 1:</strong> Collect and validate data</li>
+                        <li><strong>Week 2:</strong> Analyze trends and exceptions</li>
+                        <li><strong>Week 3:</strong> Review with stakeholders</li>
+                        <li><strong>Week 4:</strong> Implement corrective actions</li>
+                    </ol>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">📊 Dashboard Design Decision</div>
+                    <p>Your executive team complains the security dashboard is too complex. What's your approach?</p>
+                    <button class="choice-button" onclick="showDashboardApproach('simplify')">Simplify to 5 key metrics</button>
+                    <button class="choice-button" onclick="showDashboardApproach('layers')">Create layered dashboards</button>
+                    <button class="choice-button" onclick="showDashboardApproach('training')">Train executives on metrics</button>
+                    <button class="choice-button" onclick="showDashboardApproach('customize')">Customize per executive</button>
+                    <div id="dashboard-approach-result" class="result-box"></div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✅ Success Factors</h3>
+                    <ul>
+                        <li>Start simple, evolve complexity over time</li>
+                        <li>Ensure metrics drive behavior change</li>
+                        <li>Automate data collection where possible</li>
+                        <li>Review and refresh metrics annually</li>
+                        <li>Celebrate improvements, not just perfection</li>
+                        <li>Connect metrics to business value</li>
+                    </ul>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Implementation Check</div>
+                    <p style="margin-bottom:15px;">What's the recommended maximum number of key metrics for executive dashboards?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 5-10</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">B) 15-20</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">C) 25-30</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">D) As many as needed</div>
+                    <div id="quiz5-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🚀 Implementation Key Takeaway: Success requires starting simple, ensuring data quality, avoiding metric overload, preventing gaming, and driving action. Create layered dashboards that connect security metrics to business value.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Conclusion -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Conclusion: Building Your Strategic Performance System</span>
+                <span class="slide-number">Part 6 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 Chapter Conclusion</h2>
+
+                <div class="success-box">
+                    <h3>✅ The Strategic Performance Management System</h3>
+                    <p style="margin-top:15px; line-height:1.8;">The organization has a strategic performance management system to measure implementation of a tailored cyber strategy delivering digital resilience. The organization goes beyond cyber risk-mitigating controls and considers cyber as a capability-building enabler.</p>
+                </div>
+
+                <h3>📋 Complete Framework Summary</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0;">
+                    <div class="metric-card">
+                        <h4>✓ Avoid Pitfalls</h4>
+                        <p>Skip vanity metrics, balance indicators, avoid over-control</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>✓ Build Strategy</h4>
+                        <p>Risk assessment, capabilities, protections, initiatives</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>✓ Measure Progress</h4>
+                        <p>Track initiatives with markers and milestones</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>✓ Assess Capability</h4>
+                        <p>Use DRA for objective capability measurement</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>✓ Protect Crown Jewels</h4>
+                        <p>Measure protection of critical assets</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>✓ Drive Action</h4>
+                        <p>Connect metrics to owners and decisions</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-preview">
+                    <h3>Final Maturity Assessment</h3>
+                    <table class="matrix-table">
+                        <tr>
+                            <th>Component</th>
+                            <th>Basic</th>
+                            <th>Developing</th>
+                            <th>Mature</th>
+                            <th>Optimized</th>
+                        </tr>
+                        <tr>
+                            <td>Strategy</td>
+                            <td>Ad-hoc</td>
+                            <td>Documented</td>
+                            <td>Integrated</td>
+                            <td>Dynamic</td>
+                        </tr>
+                        <tr>
+                            <td>Metrics</td>
+                            <td>Few/none</td>
+                            <td>Basic set</td>
+                            <td>Comprehensive</td>
+                            <td>Predictive</td>
+                        </tr>
+                        <tr>
+                            <td>Reporting</td>
+                            <td>On request</td>
+                            <td>Monthly</td>
+                            <td>Real-time</td>
+                            <td>Automated insights</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>Reactive</td>
+                            <td>Planned</td>
+                            <td>Proactive</td>
+                            <td>Continuous</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔑 Key Success Principles</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ol>
+                            <li><strong>Start with strategy:</strong> Can't measure without knowing what matters</li>
+                            <li><strong>Focus on value:</strong> Connect security to business outcomes</li>
+                            <li><strong>Balance perspectives:</strong> Leading and lagging, technical and business</li>
+                            <li><strong>Enable decisions:</strong> Metrics must drive action, not just awareness</li>
+                            <li><strong>Evolve continuously:</strong> Regular review and refinement essential</li>
+                            <li><strong>Engage stakeholders:</strong> Security is everyone's responsibility</li>
+                            <li><strong>Automate wisely:</strong> Manual start, gradual automation</li>
+                            <li><strong>Communicate clearly:</strong> Tailor messages to audience</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">🏢 About McKinsey & Company</div>
+                    <p>Global management consulting firm serving leading businesses, governments, NGOs, and not-for-profits. McKinsey assists organizations in developing cybersecurity strategies that maximize business value and accelerate cybersecurity programs.</p>
+                </div>
+
+                <div class="case-study" style="margin-top:20px;">
+                    <div class="case-study-title">👤 About the Authors</div>
+                    <p><strong>James Kaplan</strong></p>
+                    <ul style="margin-top:10px;">
+                        <li>Partner with McKinsey & Co., New York</li>
+                        <li>Leads McKinsey's cybersecurity capabilities</li>
+                        <li>Co-author of "Beyond Cybersecurity: Protecting Your Digital Business"</li>
+                        <li>Published in McKinsey Quarterly, Financial Times, WSJ, HBR</li>
+                    </ul>
+                    
+                    <p style="margin-top:20px;"><strong>Jim Boehm</strong></p>
+                    <ul style="margin-top:10px;">
+                        <li>Consultant with McKinsey & Co., Washington D.C.</li>
+                        <li>Manager in McKinsey's Cyber Solution</li>
+                        <li>Former U.S. Navy officer</li>
+                        <li>Focus on cyber operations and digital resilience</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🎓 Final Reflection</div>
+                    <p>After implementing this framework, what should be your first priority?</p>
+                    <button class="choice-button" onclick="showFinalReflection('baseline')">Establish current baseline</button>
+                    <button class="choice-button" onclick="showFinalReflection('quick')">Show quick wins</button>
+                    <button class="choice-button" onclick="showFinalReflection('buy-in')">Get executive buy-in</button>
+                    <button class="choice-button" onclick="showFinalReflection('automate')">Automate collection</button>
+                    <div id="final-reflection-result" class="result-box"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Final Chapter Takeaway: Effective cybersecurity management requires measurement. Build a three-component system (progress, capability, protection) grounded in strategy. Remember: with creativity and understanding, cybersecurity elements worth managing CAN be measured.
+                </div>
+
+                <div style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center;">
+                    <h2 style="color: white;">Chapter 5 Complete!</h2>
+                    <p style="font-size: 20px; margin-top: 15px;">You've mastered Cyber Strategic Performance Management</p>
+                    <p style="font-size: 18px; margin-top: 20px;">Key Learning: If you don't measure it, you can't manage it - but measure what matters!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
+            <p style="font-size: 14px; margin-top: 10px;">Chapter 5: Cyber Strategic Performance Management | By James Kaplan & Jim Boehm</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 6) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const slide = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            sectionsViewed.add(slideNumber);
+            updateProgress();
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedbackDiv = document.getElementById(quizId + '-feedback');
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedbackDiv.innerHTML = '✓ Correct! Well done!';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                element.classList.add('incorrect');
+                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            
+            feedbackDiv.style.display = 'block';
+        }
+
+        function showMeasurementAnswer(choice) {
+            const resultDiv = document.getElementById('measurement-answer-result');
+            const results = {
+                'incidents': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Incomplete picture</h4><p>Declining incidents might mean better security OR worse detection. Need broader metrics.</p></div>',
+                'spend': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Limited value</h4><p>Spending comparisons don\'t indicate effectiveness. You might spend more but protect less.</p></div>',
+                'framework': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best approach</h4><p>Comprehensive framework showing progress, capability, and protection levels gives complete picture.</p></div>',
+                'compliance': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Necessary but insufficient</h4><p>Compliance is minimum standard, not excellence. Need broader performance indicators.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showMetricResponse(choice) {
+            const resultDiv = document.getElementById('metric-response-result');
+            const results = {
+                'praise': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Missed opportunity</h4><p>Praising vanity metrics reinforces wrong behavior. Need to redirect focus.</p></div>',
+                'question': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Excellent response</h4><p>Asking about sophisticated attacks focuses on real risk, not script kiddies.</p></div>',
+                'compare': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Partially helpful</h4><p>Peer comparison provides context but still focuses on wrong metric.</p></div>',
+                'ignore': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Too dismissive</h4><p>Should acknowledge effort but redirect to business-relevant metrics.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showStrategyPriority(choice) {
+            const resultDiv = document.getElementById('strategy-priority-result');
+            const results = {
+                'prioritize': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Foundational choice</h4><p>Can\'t protect what you don\'t understand. Asset prioritization enables everything else.</p></div>',
+                'defense': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Advanced capability</h4><p>Important but requires foundation. Need to know what to defend first.</p></div>',
+                'people': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Critical but secondary</h4><p>People are key, but need to know what they\'re protecting first.</p></div>',
+                'test': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Premature</h4><p>Can\'t test response without understanding critical assets and capabilities.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showMeasurementPriority(choice) {
+            const resultDiv = document.getElementById('measurement-priority-result');
+            const results = {
+                'progress': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Good for accountability</h4><p>Shows whether you\'re executing but not if it\'s working.</p></div>',
+                'capability': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Comprehensive baseline</h4><p>Gives holistic view but takes time to implement fully.</p></div>',
+                'protection': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Risk-focused</h4><p>Direct measure of risk reduction but requires mature processes.</p></div>',
+                'all': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Balanced approach</h4><p>Basic implementation of all three provides most complete initial picture.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showDashboardApproach(choice) {
+            const resultDiv = document.getElementById('dashboard-approach-result');
+            const results = {
+                'simplify': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Too limiting</h4><p>5 metrics insufficient for cybersecurity complexity. Need more comprehensive view.</p></div>',
+                'layers': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best solution</h4><p>Executive summary with drill-down capability satisfies all stakeholders.</p></div>',
+                'training': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Helpful but insufficient</h4><p>Training helps but busy executives need appropriate abstraction level.</p></div>',
+                'customize': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Resource intensive</h4><p>Can work but requires significant effort to maintain multiple versions.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showFinalReflection(choice) {
+            const resultDiv = document.getElementById('final-reflection-result');
+            const results = {
+                'baseline': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Essential first step</h4><p>Can\'t improve what you don\'t measure. Baseline enables everything else.</p></div>',
+                'quick': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Builds momentum</h4><p>Quick wins help but need baseline to know what "winning" means.</p></div>',
+                'buy-in': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Already assumed</h4><p>If implementing framework, should already have buy-in. Focus on execution.</p></div>',
+                'automate': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Premature optimization</h4><p>Start manual to understand what to measure, then automate.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 6;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
+                  `${viewed === total ? 'Congratulations! You\'ve completed Chapter 5!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>

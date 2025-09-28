@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: Board Cyber Risk Oversight - Interactive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #162d5a 0%, #1e3a70 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .slide-content h2 {
+            color: #1e3c72;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #2a5298;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .slide-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .slide-content li {
+            margin: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .slide-content li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #2a5298;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce7ff 100%);
+            border-left: 5px solid #2a5298;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .quote-box {
+            background: #f0f7ff;
+            border-left: 5px solid #1e3c72;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-style: italic;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .principle-card {
+            background: white;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+            background: #f8fbff;
+        }
+        
+        .principle-number {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .barrier-box {
+            background: #fff5f5;
+            border-left: 5px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .barrier-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.2);
+        }
+        
+        .barrier-number {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .expandable {
+            background: #f8fbff;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #1e3c72 0%, #162d5a 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-scenario {
+            background: #e6f2ff;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .scenario-title {
+            color: #1e3c72;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .choice-button {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #1e3c72 0%, #162d5a 100%);
+        }
+        
+        .result-box {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .quiz-container {
+            background: #fffbf0;
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f5f5f5;
+            border-color: #2a5298;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+        
+        .quiz-option.incorrect {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+        
+        .feedback {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .key-takeaway {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .five-lines-diagram {
+            background: white;
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .line-box {
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce7ff 100%);
+            border: 2px solid #2a5298;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .line-box:hover {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .step-card {
+            background: white;
+            border: 2px solid #27ae60;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover {
+            background: #f0fff4;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .case-study {
+            background: #f5f5f5;
+            border-left: 5px solid #9b59b6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .case-study-title {
+            color: #9b59b6;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .info-card {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ BOARD CYBER RISK OVERSIGHT</h1>
+            <p style="font-size: 24px; margin-top: 10px;">Chapter 2: The Radical Departure from Status Quo</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Opening & Core Message -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Tara's Message: The Board's New Reality</span>
+                <span class="slide-number">Part 1 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 The CEO Can't Delegate Cyber Accountability</h2>
+                
+                <div class="quote-box">
+                    <strong>Tara to Tom:</strong> "No, you own cybersecurity; we oversee it alongside the board... I don't mean our IT approach, I mean our whole-of-organization capability to manage cyber threats."
+                </div>
+
+                <div class="highlight-box">
+                    <h3>The Fundamental Shift</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">This type of clarity and direction to CEOs is relatively new, but gaining traction globally. The key question well-intending boards need to ask is: <strong>"What specifically do we and the organization's CEO need to do differently to meet these new cybersecurity expectations?"</strong></p>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🤔 Board Reality Check</div>
+                    <p>A board member suggests: "Let's just have our IT department handle cybersecurity and report to us quarterly." What's wrong with this approach?</p>
+                    <button class="choice-button" onclick="showBoardApproach('silo')">It creates silos</button>
+                    <button class="choice-button" onclick="showBoardApproach('ownership')">Wrong ownership level</button>
+                    <button class="choice-button" onclick="showBoardApproach('objectives')">Misses business objectives</button>
+                    <button class="choice-button" onclick="showBoardApproach('all')">All of the above</button>
+                    <div id="board-approach-result" class="result-box"></div>
+                </div>
+
+                <h3>📋 Three Critical Questions This Chapter Addresses</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Question 1: What are boards expected to do now?</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>The Short Answer:</strong> "It depends" on multiple factors:</p>
+                        <ul>
+                            <li>What country your organization is in</li>
+                            <li>The focus and approach of regulators in that country</li>
+                            <li>The business sector the organization is in</li>
+                            <li>The evolution of legal duty of care</li>
+                            <li>The frequency of major governance crises linked to cybersecurity breaches</li>
+                            <li>The culture of the organization</li>
+                        </ul>
+                        <p style="margin-top:20px; font-weight:bold;">But the universal answer can be summarized as: <span style="color:#e74c3c;">"A lot more, but NOT more of the same."</span></p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Question 2: What barriers will well-intending boards face?</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Five Main Categories of Barriers:</strong></p>
+                        <ol>
+                            <li><strong>Lack of senior management ownership</strong> of IT security</li>
+                            <li><strong>Failure to link</strong> cybersecurity assessments to key organization objectives</li>
+                            <li><strong>Omission</strong> of cybersecurity from entity-level objectives and strategic plans</li>
+                            <li><strong>Too much focus</strong> on internal controls</li>
+                            <li><strong>Lack of reliable information</strong> on residual risk status</li>
+                        </ol>
+                        <p style="margin-top:15px;">These barriers prevent boards from getting the clear picture they need for effective oversight.</p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Question 3: What practical steps should boards take now?</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Four Practical Steps for Immediate Action:</strong></p>
+                        <ol>
+                            <li>Use a <strong>"Five Lines of Assurance"</strong> approach</li>
+                            <li>Include <strong>top objectives</strong> and specific owners</li>
+                            <li>Establish a <strong>risk management framework</strong></li>
+                            <li>Require <strong>regular reporting by the CEO</strong></li>
+                        </ol>
+                        <p style="margin-top:15px; background:#fff3cd; padding:15px; border-radius:8px;">
+                            <strong>⚠️ Warning:</strong> The steps proposed in this chapter are described as "a radical departure from status quo thinking."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">📚 The Ocean of Advice Problem</div>
+                    <p>The chapter acknowledges that boards face "a veritable ocean of advice" on cybersecurity. This creates:</p>
+                    <ul style="margin-top:10px;">
+                        <li>Information overload and decision paralysis</li>
+                        <li>Conflicting recommendations from different sources</li>
+                        <li>Difficulty distinguishing critical actions from nice-to-haves</li>
+                        <li>Tendency to default to traditional approaches that don't work</li>
+                    </ul>
+                    <p style="margin-top:15px;"><strong>Solution:</strong> Focus on fundamental changes to risk governance, not incremental improvements to existing approaches.</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Quick Check</div>
+                    <p style="margin-bottom:15px;">According to the chapter, what is the KEY principle boards need to understand about cybersecurity?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) It's primarily a technology issue</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">B) It's an enterprise risk management issue, not just IT</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) It should be delegated to the CISO</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">D) It requires more IT spending</div>
+                    <div id="quiz1-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    💡 Key Opening Insight: Boards need radical change in how they approach cyber risk governance. More of the same siloed, specialist-driven approaches will not meet new expectations.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: NACD Five Principles -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>What Boards Are Expected to Do: The NACD Framework</span>
+                <span class="slide-number">Part 2 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>📋 The NACD's Five Core Principles for Directors</h2>
+
+                <div class="highlight-box">
+                    <h3>Background: The 2014 Wake-Up Call</h3>
+                    <p style="font-size: 18px;">The National Association of Corporate Directors (NACD) recognized the emerging need for director guidance following a flurry of major scandals involving IT security breaches. They produced a "Cyber Risk Oversight" guide available at https://www.nacdonline.org/cyber</p>
+                </div>
+
+                <h3>🎯 The Five Core Principles - Click Each to Explore</h3>
+
+                <div class="principle-card" onclick="expandPrinciple(1)">
+                    <span class="principle-number">1</span>
+                    <strong>Cybersecurity as Enterprise Risk (THE KEY PRINCIPLE)</strong>
+                    <div id="principle-1-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
+                        <p><strong>What it means:</strong> Directors need to understand and approach cybersecurity as an enterprise risk management (ERM) issue, not just an IT issue.</p>
+                        <p style="margin-top:10px;"><strong>Why it's #1:</strong> The authors specifically note this is "the key principle" - it fundamentally reframes how boards should think about cyber risk.</p>
+                        <p style="margin-top:10px;"><strong>Implications:</strong></p>
+                        <ul>
+                            <li>Cyber risk affects all business functions</li>
+                            <li>Must be integrated with overall risk management</li>
+                            <li>Cannot be delegated to IT alone</li>
+                            <li>Requires enterprise-wide response</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="principle-card" onclick="expandPrinciple(2)">
+                    <span class="principle-number">2</span>
+                    <strong>Understanding Legal Implications</strong>
+                    <div id="principle-2-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
+                        <p><strong>What it means:</strong> Directors should understand the legal implications of cyber risks as they relate to their organization's specific circumstances.</p>
+                        <p style="margin-top:10px;"><strong>Key considerations:</strong></p>
+                        <ul>
+                            <li>Director and officer liability</li>
+                            <li>Regulatory compliance requirements</li>
+                            <li>Breach notification laws</li>
+                            <li>Litigation risks</li>
+                            <li>Contractual obligations</li>
+                        </ul>
+                        <p style="margin-top:10px;"><strong>Action required:</strong> Boards should seek legal counsel specific to their industry and jurisdiction.</p>
+                    </div>
+                </div>
+
+                <div class="principle-card" onclick="expandPrinciple(3)">
+                    <span class="principle-number">3</span>
+                    <strong>Access to Expertise & Regular Agenda Time</strong>
+                    <div id="principle-3-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
+                        <p><strong>What it means:</strong> Boards should have adequate access to cybersecurity expertise, and discussions about cyber risk management should be given regular and adequate time on board meeting agendas.</p>
+                        <p style="margin-top:10px;"><strong>Two critical components:</strong></p>
+                        <ol>
+                            <li><strong>Expertise Access:</strong>
+                                <ul>
+                                    <li>Board members with cyber knowledge</li>
+                                    <li>Regular briefings from CISO/experts</li>
+                                    <li>External advisors when needed</li>
+                                </ul>
+                            </li>
+                            <li><strong>Meeting Time:</strong>
+                                <ul>
+                                    <li>Standing agenda item</li>
+                                    <li>Adequate time allocation</li>
+                                    <li>Not just crisis response</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="principle-card" onclick="expandPrinciple(4)">
+                    <span class="principle-number">4</span>
+                    <strong>Enterprise-Wide Framework Expectations</strong>
+                    <div id="principle-4-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
+                        <p><strong>What it means:</strong> Directors should set the expectation that management will establish an enterprise-wide cyber risk management framework with adequate staffing and budget.</p>
+                        <p style="margin-top:10px;"><strong>Board's role:</strong></p>
+                        <ul>
+                            <li>Set clear expectations for management</li>
+                            <li>Ensure adequate resources are allocated</li>
+                            <li>Require comprehensive framework, not piecemeal approach</li>
+                            <li>Monitor implementation progress</li>
+                        </ul>
+                        <p style="margin-top:10px;"><strong>Framework requirements:</strong></p>
+                        <ul>
+                            <li>Enterprise-wide scope</li>
+                            <li>Adequate staffing levels</li>
+                            <li>Sufficient budget allocation</li>
+                            <li>Clear accountability structure</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="principle-card" onclick="expandPrinciple(5)">
+                    <span class="principle-number">5</span>
+                    <strong>Risk Treatment Decisions & Insurance</strong>
+                    <div id="principle-5-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
+                        <p><strong>What it means:</strong> Board-management discussions should include identification of which risks to avoid, accept, mitigate, or transfer through insurance, with specific plans for each approach.</p>
+                        <p style="margin-top:10px;"><strong>Risk treatment options:</strong></p>
+                        <ul>
+                            <li><strong>Avoid:</strong> Eliminate activities that create unacceptable risk</li>
+                            <li><strong>Accept:</strong> Consciously retain risk within appetite</li>
+                            <li><strong>Mitigate:</strong> Implement controls to reduce risk</li>
+                            <li><strong>Transfer:</strong> Use insurance or contracts to shift risk</li>
+                        </ul>
+                        <p style="margin-top:10px;"><strong>Board responsibilities:</strong></p>
+                        <ul>
+                            <li>Define risk appetite for the organization</li>
+                            <li>Approve likelihood and impact scales</li>
+                            <li>May be involved in insurance decisions based on value</li>
+                            <li>Ensure management addresses risks above threshold</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📚 Additional Resources: NIST Cybersecurity Framework</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Framework for Improving Critical Infrastructure Cybersecurity v1.0</h4>
+                        <p>The chapter references the widely acclaimed NIST framework, noting:</p>
+                        <ul>
+                            <li><strong>Strength:</strong> Promotes cybersecurity as subset of ERM</li>
+                            <li><strong>Weakness:</strong> Doesn't emphasize board's role</li>
+                            <li><strong>Gap:</strong> Lacks practical advice on transitioning from silo-based to integrated approach</li>
+                        </ul>
+                        <p style="margin-top:15px; background:#fff3cd; padding:15px; border-radius:8px;">
+                            <strong>Key Observation:</strong> The NIST framework proposes an "integrated risk management program" but doesn't provide enough guidance on HOW to achieve this integration.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">💭 Board Decision Scenario</div>
+                    <p>Your board is reviewing the five NACD principles. Which principle should be addressed FIRST to create the foundation for all others?</p>
+                    <button class="choice-button" onclick="showPrinciplePriority('legal')">Legal implications (#2)</button>
+                    <button class="choice-button" onclick="showPrinciplePriority('erm')">Enterprise risk approach (#1)</button>
+                    <button class="choice-button" onclick="showPrinciplePriority('expertise')">Get expertise (#3)</button>
+                    <button class="choice-button" onclick="showPrinciplePriority('framework')">Build framework (#4)</button>
+                    <div id="principle-priority-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Understanding Check</div>
+                    <p style="margin-bottom:15px;">What does the NACD specifically identify as "the key principle" among the five?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">A) Approach cybersecurity as an ERM issue, not just IT</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">B) Understand legal implications</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) Have adequate expertise</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) Establish a framework</div>
+                    <div id="quiz2-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Core Message: The NACD framework emphasizes that cyber risk must be treated as an enterprise-wide business risk requiring board oversight, adequate resources, and integration with overall risk management—not as an isolated IT issue.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Five Barriers to Action -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The Five Barriers: Why Boards Struggle with Cyber Oversight</span>
+                <span class="slide-number">Part 3 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🚧 Barriers to Effective Board Action</h2>
+
+                <div class="highlight-box">
+                    <h3>The Implementation Challenge</h3>
+                    <p style="font-size: 18px;">Most boards will face significant difficulty as they attempt to address cyber risk management. Understanding these barriers is essential to overcoming them.</p>
+                </div>
+
+                <div class="barrier-box" onclick="expandBarrier(1)">
+                    <span class="barrier-number">Barrier 1</span>
+                    <strong>Lack of Senior Management Ownership</strong>
+                    <div id="barrier-1-detail" style="display:none; margin-top:15px;">
+                        <h4>The Problem:</h4>
+                        <ul>
+                            <li>IT security seen as IT department's and internal audit's problem</li>
+                            <li>CEO and C-suite don't take ownership</li>
+                            <li>Treated as separate silo with work done by IT, internal audit, and consultants</li>
+                            <li>Specialists often lack "big picture" perspectives</li>
+                        </ul>
+                        <h4 style="margin-top:15px;">The Impact:</h4>
+                        <ul>
+                            <li>No clear line management ownership for risk reporting</li>
+                            <li>ERM programs relegated to periodic updates, not continuous process</li>
+                            <li>Management doesn't actively participate in identifying cyber risks</li>
+                            <li>Boards don't know which objectives are threatened</li>
+                        </ul>
+                        <h4 style="margin-top:15px;">Critical Insight:</h4>
+                        <p style="background:#ffebee; padding:15px; border-radius:8px;">
+                            "Senior management is ultimately responsible for all major threats to an organization, so it is critical that the C-suite takes ownership."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="barrier-box" onclick="expandBarrier(2)">
+                    <span class="barrier-number">Barrier 2</span>
+                    <strong>Failure to Link to Key Organization Objectives</strong>
+                    <div id="barrier-2-detail" style="display:none; margin-top:15px;">
+                        <h4>The Problem:</h4>
+                        <ul>
+                            <li>Cybersecurity work not directly tied to specific organization objectives</li>
+                            <li>Boards not told which value creation objectives are impacted</li>
+                            <li>IT security promoted as objective in its own right</li>
+                            <li>Regulators sometimes push security without cost-benefit analysis</li>
+                        </ul>
+                        <h4 style="margin-top:15px;">Board Perspective:</h4>
+                        <p>Boards are populated with pragmatic executives who focus on key business objectives. Without clear linkage to these objectives, they struggle to:</p>
+                        <ul>
+                            <li>Decide resource allocation</li>
+                            <li>Assess risk tolerance</li>
+                            <li>Prioritize investments</li>
+                            <li>Measure effectiveness</li>
+                        </ul>
+                        <h4 style="margin-top:15px;">Current State:</h4>
+                        <p style="background:#fff3cd; padding:15px; border-radius:8px;">
+                            Based on IIA surveys globally, only a small percentage of internal audit, IT security, and ERM specialists link their work directly to the organization's top value creation objectives.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="barrier-box" onclick="expandBarrier(3)">
+                    <span class="barrier-number">Barrier 3</span>
+                    <strong>Omission from Entity-Level Objectives</strong>
+                    <div id="barrier-3-detail" style="display:none; margin-top:15px;">
+                        <h4>The Disconnect:</h4>
+                        <ul>
+                            <li>Cybersecurity included in risk registers but not strategic plans</li>
+                            <li>Not integrated into highest-level organizational objectives</li>
+                            <li>IT security functions focus exclusively on technical security</li>
+                            <li>Risk/audit universes carved out separately from business objectives</li>
+                        </ul>
+                        <h4 style="margin-top:15px;">Why This Matters:</h4>
+                        <p>"In order for cybersecurity to be robust and overarching, it must be included in objectives and strategic plans at the highest level of the organization."</p>
+                        <h4 style="margin-top:15px;">The Result:</h4>
+                        <p>Cyber risk remains disconnected from business strategy, making it difficult to get executive attention and resources.</p>
+                    </div>
+                </div>
+
+                <div class="barrier-box" onclick="expandBarrier(4)">
+                    <span class="barrier-number">Barrier 4</span>
+                    <strong>Too Much Focus on Internal Controls</strong>
+                    <div id="barrier-4-detail" style="display:none; margin-top:15px;">
+                        <h4>The Control Fixation:</h4>
+                        <ul>
+                            <li>ERM and internal audit focus primarily on identifying controls</li>
+                            <li>Binary approach (deficient/not deficient) like Sarbanes-Oxley 404</li>
+                            <li>Not aligned with ISO 31000:2009 Risk Management principles</li>
+                            <li>Limited to control assessment rather than full risk treatment</li>
+                        </ul>
+                        <h4 style="margin-top:15px;">Full Range of Risk Treatment Options (ISO 31000):</h4>
+                        <ol>
+                            <li>Avoiding the activity that gives rise to risk</li>
+                            <li>Taking or increasing risk to pursue opportunity</li>
+                            <li>Removing the risk source</li>
+                            <li>Changing the likelihood</li>
+                            <li>Changing the consequences</li>
+                            <li>Sharing risk with other parties</li>
+                            <li>Retaining risk by informed decision</li>
+                        </ol>
+                        <h4 style="margin-top:15px;">Critical Gap:</h4>
+                        <p style="background:#ffebee; padding:15px; border-radius:8px;">
+                            Most importantly, organizations fail to evaluate whether accepting residual risk is appropriate given the board's risk appetite and tolerance.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="barrier-box" onclick="expandBarrier(5)">
+                    <span class="barrier-number">Barrier 5</span>
+                    <strong>Lack of Reliable Information on Residual Risk</strong>
+                    <div id="barrier-5-detail" style="display:none; margin-top:15px;">
+                        <h4>Information Boards Need But Don't Get:</h4>
+                        <ul>
+                            <li>Which critical objectives are impacted by cyber risks?</li>
+                            <li>How well are objectives being achieved with current risk treatment?</li>
+                            <li>What are potential impacts (reputation, cost, etc.) if objectives fail?</li>
+                            <li>What viable risk treatments exist that aren't being used?</li>
+                            <li>What do current performance and risk indicators show?</li>
+                            <li>What impediments does management face?</li>
+                        </ul>
+                        <h4 style="margin-top:15px;">The Problem:</h4>
+                        <p>Without this information, boards cannot:</p>
+                        <ul>
+                            <li>Assess if current security levels are appropriate</li>
+                            <li>Determine if investments are cost-justified</li>
+                            <li>Make informed risk acceptance decisions</li>
+                            <li>Provide meaningful oversight</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🔍 Barrier Assessment</div>
+                    <p>Your organization has all five barriers present. Which should be addressed FIRST to enable progress on the others?</p>
+                    <button class="choice-button" onclick="showBarrierPriority('ownership')">Senior management ownership</button>
+                    <button class="choice-button" onclick="showBarrierPriority('objectives')">Link to objectives</button>
+                    <button class="choice-button" onclick="showBarrierPriority('information')">Reliable information</button>
+                    <button class="choice-button" onclick="showBarrierPriority('controls')">Control focus</button>
+                    <div id="barrier-priority-result" class="result-box"></div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">🔍 The Compound Effect</div>
+                    <p>These barriers don't exist in isolation—they reinforce each other:</p>
+                    <ul style="margin-top:10px;">
+                        <li><strong>Without ownership (Barrier 1):</strong> No one drives objective linkage (Barrier 2)</li>
+                        <li><strong>Without objective linkage (Barrier 2):</strong> Can't get into strategic plans (Barrier 3)</li>
+                        <li><strong>With only control focus (Barrier 4):</strong> Miss broader risk treatment options</li>
+                        <li><strong>Without good information (Barrier 5):</strong> Can't demonstrate need for change</li>
+                    </ul>
+                    <p style="margin-top:15px; font-weight:bold;">Result: A self-reinforcing cycle of ineffective cyber risk management</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Comprehension Check</div>
+                    <p style="margin-bottom:15px;">According to IIA surveys, what percentage of audit, IT security, and ERM specialists link their work to top organizational objectives?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')">A) Only a small percentage</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">B) About 50%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">C) The majority</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">D) Nearly all</div>
+                    <div id="quiz3-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🚫 Key Insight: These five barriers create a dysfunctional system where cyber risk is siloed, disconnected from business objectives, focused on controls rather than outcomes, and lacking the information needed for effective oversight.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Four Practical Steps -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Four Practical Steps: The Radical Departure</span>
+                <span class="slide-number">Part 4 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>✅ Practical Steps Boards Should Take Now</h2>
+
+                <div class="warning-box">
+                    <h3>⚠️ Radical Change Required</h3>
+                    <p>These four steps represent a fundamental departure from traditional approaches. They require boards to actively drive change, not passively receive reports.</p>
+                </div>
+
+                <div class="step-card" onclick="expandStep(1)">
+                    <span class="step-number">Step 1</span>
+                    <h3 style="margin-top:15px;">Use a "Five Lines of Assurance" Approach</h3>
+                    <div id="step-1-detail" style="display:none; margin-top:20px;">
+                        <div class="five-lines-diagram">
+                            <h4>The Five Lines Model</h4>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
+                                <div class="line-box">
+                                    <strong>Line 1: Work Units</strong>
+                                    <p>Frontline operations and risk owners</p>
+                                </div>
+                                <div class="line-box">
+                                    <strong>Line 2: C-Suite</strong>
+                                    <p>Senior management oversight</p>
+                                </div>
+                                <div class="line-box">
+                                    <strong>Line 3: Specialist Units</strong>
+                                    <p>Risk, compliance, security functions</p>
+                                </div>
+                                <div class="line-box">
+                                    <strong>Line 4: Internal Audit</strong>
+                                    <p>Independent assurance</p>
+                                </div>
+                            </div>
+                            <div class="line-box" style="margin-top:15px; background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); color:white;">
+                                <strong>Line 5: Board of Directors</strong>
+                                <p>Ultimate oversight and governance</p>
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top:25px;">Key Changes from Traditional Model:</h4>
+                        <ul>
+                            <li><strong>Board as active participant:</strong> Not just recipient of reports</li>
+                            <li><strong>CEO accountability:</strong> Responsible for consolidated reporting on residual risk</li>
+                            <li><strong>All lines provide information:</strong> Direct channels to board</li>
+                            <li><strong>Combined assurance:</strong> Coordinated across all lines</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">What Must Stop:</h4>
+                        <ul style="background:#ffebee; padding:15px; border-radius:8px;">
+                            <li>Senior management not completing formal risk assessments</li>
+                            <li>ERM groups building plans around disconnected "risk registers"</li>
+                            <li>Internal audit using "audit universes" as primary foundation</li>
+                            <li>Point-in-time audits with subjective "control effectiveness" opinions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card" onclick="expandStep(2)">
+                    <span class="step-number">Step 2</span>
+                    <h3 style="margin-top:15px;">Include Top Objectives and Specific Owners</h3>
+                    <div id="step-2-detail" style="display:none; margin-top:20px;">
+                        <h4>Objectives Register Requirements:</h4>
+                        <ul>
+                            <li>Include top value creation AND preservation objectives</li>
+                            <li>Specify owners and sponsors at highest organizational levels</li>
+                            <li>Clearly define risk assessment rigor required</li>
+                            <li>Establish combined assurance levels</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">C-Suite Leadership Role:</h4>
+                        <p style="background:#e6f2ff; padding:15px; border-radius:8px;">
+                            "The C-suite should take the lead deciding which objectives warrant the cost of formal risk treatment, combined assurance work, and inclusion in the organization's objectives register."
+                        </p>
+
+                        <h4 style="margin-top:20px;">What Goes in the Register:</h4>
+                        <div class="two-column">
+                            <div class="info-card">
+                                <h5>Value Creation Objectives</h5>
+                                <ul>
+                                    <li>Highest potential to increase entity value</li>
+                                    <li>Strategic growth initiatives</li>
+                                    <li>Innovation programs</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h5>Value Preservation Objectives</h5>
+                                <ul>
+                                    <li>Highest potential to erode value if failed</li>
+                                    <li>Critical operations</li>
+                                    <li>Reputation protection</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top:20px;">Critical Requirement:</h4>
+                        <p>Each objective must have an owner/sponsor with primary responsibility for assessing and reporting upward on residual risk status on a real-time basis.</p>
+                    </div>
+                </div>
+
+                <div class="step-card" onclick="expandStep(3)">
+                    <span class="step-number">Step 3</span>
+                    <h3 style="margin-top:15px;">Establish a Risk Management Framework</h3>
+                    <div id="step-3-detail" style="display:none; margin-top:20px;">
+                        <h4>Framework Purpose:</h4>
+                        <p>Provide reliable information so decision makers fully understand the composite residual risk status linked to top objectives.</p>
+
+                        <h4 style="margin-top:20px;">Framework Requirements:</h4>
+                        <ul>
+                            <li>Align with ISO 31000:2009 Risk Management principles</li>
+                            <li>Direct linkage of risks to organization objectives</li>
+                            <li>Focus on residual risk status, not just controls</li>
+                            <li>Composite Residual Risk Rating (CRRR) for each objective</li>
+                        </ul>
+
+                        <div style="background:#f0f7ff; padding:20px; border-radius:10px; margin-top:20px;">
+                            <h4>The Risk Status Approach (Figure 2.2)</h4>
+                            <p><strong>Key Elements:</strong></p>
+                            <ol>
+                                <li>Objective owners complete risk assessments</li>
+                                <li>Apply specified levels of rigor (defined by C-suite/board)</li>
+                                <li>Report Composite Residual Risk Rating (CRRR)</li>
+                                <li>Communicate when high residual risk is being accepted</li>
+                                <li>Identify cases where no additional treatments are warranted despite high risk</li>
+                            </ol>
+                        </div>
+
+                        <h4 style="margin-top:20px;">Critical Communication:</h4>
+                        <p style="background:#fff3cd; padding:15px; border-radius:8px;">
+                            When owners believe no additional risk treatments are warranted but significant residual risk remains, this MUST be communicated to the board, including cases of high cybersecurity residual risk.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step-card" onclick="expandStep(4)">
+                    <span class="step-number">Step 4</span>
+                    <h3 style="margin-top:15px;">Require Regular Reporting by the CEO</h3>
+                    <div id="step-4-detail" style="display:none; margin-top:20px;">
+                        <h4>CEO Accountability Mechanism:</h4>
+                        <p>"If, ultimately, the CEO is to be held accountable for cybersecurity, he or she must be fully aware of how the program is working."</p>
+
+                        <h4 style="margin-top:20px;">Reporting Requirements:</h4>
+                        <ul>
+                            <li><strong>Frequency:</strong> Regular basis, ideally quarterly</li>
+                            <li><strong>Format:</strong> Consolidated report on residual risk status</li>
+                            <li><strong>Scope:</strong> All formal organizational objectives</li>
+                            <li><strong>Validation:</strong> Internal audit reports on reliability</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">What the Report Must Include:</h4>
+                        <div style="background:#d4edda; padding:20px; border-radius:10px;">
+                            <ul>
+                                <li>✓ Objectives with residual risk outside appetite/tolerance</li>
+                                <li>✓ Actions being taken to address excessive risks</li>
+                                <li>✓ Areas where high residual risk is being accepted</li>
+                                <li>✓ Cyber risks in context of business objectives impacted</li>
+                                <li>✓ Impediments management faces</li>
+                                <li>✓ Performance and risk indicators</li>
+                            </ul>
+                        </div>
+
+                        <h4 style="margin-top:20px;">Internal Audit's Role:</h4>
+                        <p>Internal audit should independently assess and report on the reliability of the CEO's consolidated report, providing assurance to the board.</p>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🎯 Implementation Planning</div>
+                    <p>Your board wants to implement these four steps. Which represents the most logical sequence?</p>
+                    <button class="choice-button" onclick="showImplementation('framework')">Framework first, then everything else</button>
+                    <button class="choice-button" onclick="showImplementation('objectives')">Objectives and owners, then framework</button>
+                    <button class="choice-button" onclick="showImplementation('assurance')">Five lines model, then build from there</button>
+                    <button class="choice-button" onclick="showImplementation('integrated')">All four simultaneously</button>
+                    <div id="implementation-result" class="result-box"></div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">🔄 The Integration Challenge</div>
+                    <p>These four steps work together as an integrated system:</p>
+                    <ul style="margin-top:10px;">
+                        <li><strong>Five Lines (Step 1)</strong> provides the governance structure</li>
+                        <li><strong>Objectives Register (Step 2)</strong> defines what to protect</li>
+                        <li><strong>Framework (Step 3)</strong> provides the methodology</li>
+                        <li><strong>CEO Reporting (Step 4)</strong> ensures accountability</li>
+                    </ul>
+                    <p style="margin-top:15px; background:#e6f2ff; padding:15px; border-radius:8px;">
+                        <strong>Critical Success Factor:</strong> All four must be implemented together for the system to work effectively.
+                    </p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Application Question</div>
+                    <p style="margin-bottom:15px;">According to Step 4, how often should the CEO ideally provide consolidated risk reports to the board?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">A) Annually</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">B) Semi-annually</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')">C) Quarterly</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">D) Only when incidents occur</div>
+                    <div id="quiz4-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🚀 Transformation Required: These four steps fundamentally restructure how organizations approach cyber risk—from siloed IT issue to integrated business risk with clear ownership, objectives-based assessment, and CEO accountability.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: The Way Forward -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The Way Forward: Call to Action</span>
+                <span class="slide-number">Part 5 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🚀 Cybersecurity—The Way Forward</h2>
+
+                <div class="highlight-box">
+                    <h3>The Imperative for Radical Change</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">"The way forward, if real progress is to be achieved, requires major changes in the way that a large percentage of organizations have historically approached risk governance generally, and cybersecurity in particular."</p>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔄 Why Radical Change Is Necessary</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>The Current State Isn't Working:</h4>
+                        <ul>
+                            <li>Cyber breaches continue to increase despite investment</li>
+                            <li>Boards remain unprepared for cyber oversight</li>
+                            <li>Siloed approaches create gaps and inefficiencies</li>
+                            <li>Traditional audit and control focus misses the point</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">What "Radical Change" Means:</h4>
+                        <ul>
+                            <li><strong>Not incremental improvements</strong> to existing processes</li>
+                            <li><strong>Not more of the same</strong> specialist-driven approaches</li>
+                            <li><strong>Not treating cyber as another silo</strong> to manage</li>
+                            <li><strong>Complete reengineering</strong> of risk governance</li>
+                        </ul>
+
+                        <p style="margin-top:20px; background:#fff3cd; padding:15px; border-radius:8px;">
+                            <strong>Key Quote:</strong> "Cyber risks should not continue to be treated as yet another silo."
+                        </p>
+                    </div>
+                </div>
+
+                <h3>📋 Who Must Embrace Change</h3>
+                
+                <div class="two-column">
+                    <div class="info-card">
+                        <h4 style="color:#2a5298;">External Stakeholders</h4>
+                        <ul>
+                            <li><strong>Regulators:</strong> Move beyond compliance checklists</li>
+                            <li><strong>Professional Associations:</strong> Update standards and guidance</li>
+                            <li><strong>Consultants:</strong> Shift from silo to enterprise approach</li>
+                            <li><strong>Auditors:</strong> Focus on objectives, not just controls</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h4 style="color:#1e3c72;">Internal Stakeholders</h4>
+                        <ul>
+                            <li><strong>Boards of Directors:</strong> Drive governance change</li>
+                            <li><strong>Senior Management:</strong> Accept ownership</li>
+                            <li><strong>Internal Auditors:</strong> Evolve beyond traditional audit</li>
+                            <li><strong>Risk Specialists:</strong> Integrate with business</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📊 The Change Management Strategy</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Required Elements:</h4>
+                        <ol>
+                            <li><strong>Recognition:</strong> Accept that current approaches aren't working</li>
+                            <li><strong>Vision:</strong> Clear picture of integrated risk management</li>
+                            <li><strong>Leadership:</strong> Champions at board and executive level</li>
+                            <li><strong>Resources:</strong> Investment in transformation</li>
+                            <li><strong>Persistence:</strong> Sustained effort over time</li>
+                        </ol>
+
+                        <h4 style="margin-top:20px;">Starting Small:</h4>
+                        <p style="background:#d4edda; padding:15px; border-radius:8px;">
+                            "Like many big undertakings, change needs to start with some small steps."
+                        </p>
+                        
+                        <h4 style="margin-top:15px;">First Steps:</h4>
+                        <ul>
+                            <li>Advocate for change in your organization</li>
+                            <li>Challenge traditional approaches</li>
+                            <li>Pilot new methods with critical objectives</li>
+                            <li>Demonstrate value through early wins</li>
+                            <li>Build momentum for broader change</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🤔 Personal Reflection</div>
+                    <p>The chapter ends with a question: "Are you willing to advocate risk oversight and governance change at your organization?"</p>
+                    <p style="margin-top:15px;">What would be your first action to drive change?</p>
+                    <button class="choice-button" onclick="showAdvocacy('board')">Present to the board</button>
+                    <button class="choice-button" onclick="showAdvocacy('ceo')">Engage the CEO</button>
+                    <button class="choice-button" onclick="showAdvocacy('pilot')">Start a pilot program</button>
+                    <button class="choice-button" onclick="showAdvocacy('coalition')">Build a coalition</button>
+                    <div id="advocacy-result" class="result-box"></div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">📝 Chapter Summary: Board Cyber Risk Oversight</div>
+                    <div style="background:#f0f7ff; padding:20px; border-radius:10px; margin-top:15px;">
+                        <h4>Core Messages:</h4>
+                        <ul>
+                            <li>✓ Boards and senior management have relied on traditional paradigms that don't work</li>
+                            <li>✓ These paradigms need fundamental change to meet new expectations</li>
+                            <li>✓ More of the same cybersecurity approaches will not do the job</li>
+                            <li>✓ Cyber risk must be linked to top value creation and preservation objectives</li>
+                            <li>✓ Regular reporting on residual risk status is essential</li>
+                            <li>✓ Cyber risk is not just an IT risk—it's an enterprise strategic risk</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✅ The New Paradigm</h3>
+                    <p><strong>FROM:</strong> Siloed, IT-centric, control-focused, periodic assessment</p>
+                    <p><strong>TO:</strong> Integrated, enterprise-wide, objectives-based, continuous risk management</p>
+                    <div style="margin-top:20px;">
+                        <h4>Success Requires:</h4>
+                        <ul>
+                            <li>CEO ownership with board oversight</li>
+                            <li>Direct linkage to business objectives</li>
+                            <li>Five lines of assurance working together</li>
+                            <li>Reliable information on residual risk</li>
+                            <li>Regular accountability through reporting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Final Assessment</div>
+                    <p style="margin-bottom:15px;">What does the chapter identify as the central requirement for effective cyber risk management?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) More investment in technology</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) Better internal controls</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">C) Linkage to business objectives with CEO ownership</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">D) Stricter regulatory compliance</div>
+                    <div id="quiz5-feedback" class="feedback"></div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>👥 About the Authors</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Risk Oversight Solutions Inc.</h4>
+                        <p>A boutique consulting and training firm based in Toronto, Ontario, Canada, and Sarasota, Florida, helping clients create more integrated and effective risk and assurance frameworks.</p>
+                        
+                        <h4 style="margin-top:20px;">Tim J. Leech, FCPA, CIA, CRMA, CFE</h4>
+                        <ul>
+                            <li>35+ years global experience in board risk oversight, ERM, internal audit</li>
+                            <li>Focus on ERM and internal audit transformation initiatives</li>
+                            <li>2016 Outstanding Contributor award from Institute of Internal Auditors</li>
+                            <li>Author of "Reinventing Internal Audit" (April 2015)</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Lauren C. Hanlon, CPA, CIA, CRMA, CFE</h4>
+                        <ul>
+                            <li>20+ years providing risk management and internal audit insights</li>
+                            <li>Experience with public and private companies in various industries</li>
+                            <li>Innovative solutions for ERM methodology and technology training</li>
+                            <li>Global training experience including Big 4 audit partners</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Final Call to Action: "Radical change rarely comes easily... Cyber risks should not continue to be treated as yet another silo. Like many big undertakings, change needs to start with some small steps. Are you willing to advocate risk oversight and governance change at your organization?"
+                </div>
+
+                <div style="background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center;">
+                    <h2 style="color: white;">Chapter 2 Complete!</h2>
+                    <p style="font-size: 20px; margin-top: 15px;">You've learned about the radical changes needed for effective board cyber risk oversight.</p>
+                    <p style="font-size: 18px; margin-top: 20px;">Key Transformation: From siloed IT issue to integrated enterprise risk with CEO ownership and board oversight.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
+            <p style="font-size: 14px; margin-top: 10px;">Chapter 2: Board Cyber Risk Oversight | By Tim J. Leech and Lauren C. Hanlon</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 5) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const slide = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            sectionsViewed.add(slideNumber);
+            updateProgress();
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedbackDiv = document.getElementById(quizId + '-feedback');
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedbackDiv.innerHTML = '✓ Correct! Well done!';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                element.classList.add('incorrect');
+                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            
+            feedbackDiv.style.display = 'block';
+        }
+
+        function showBoardApproach(choice) {
+            const resultDiv = document.getElementById('board-approach-result');
+            const results = {
+                'silo': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Partially Correct</h4><p>Yes, it creates silos, but there are other problems too. This approach isolates cyber risk from business strategy.</p></div>',
+                'ownership': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Partially Correct</h4><p>Correct that ownership is at the wrong level, but this is just one of several problems with this approach.</p></div>',
+                'objectives': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Partially Correct</h4><p>True, it misses the connection to business objectives, but there are additional issues as well.</p></div>',
+                'all': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>All of these are problems. The traditional approach creates silos, places ownership too low, and disconnects cyber from business objectives. This is why radical change is needed.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function expandPrinciple(num) {
+            const detail = document.getElementById(`principle-${num}-detail`);
+            if (detail.style.display === 'none') {
+                detail.style.display = 'block';
+            } else {
+                detail.style.display = 'none';
+            }
+        }
+
+        function showPrinciplePriority(choice) {
+            const resultDiv = document.getElementById('principle-priority-result');
+            const results = {
+                'legal': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Important but not first</h4><p>Legal implications are critical, but without the right framework (ERM approach), you can\'t properly assess legal risks.</p></div>',
+                'erm': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>The NACD identifies this as "the key principle." Without viewing cyber as enterprise risk, all other efforts remain siloed and ineffective.</p></div>',
+                'expertise': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Necessary but not foundational</h4><p>Expertise is needed, but without the right approach (ERM), even experts will struggle to be effective.</p></div>',
+                'framework': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Follows from principle #1</h4><p>The framework is important, but it must be based on the enterprise risk approach to be effective.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function expandBarrier(num) {
+            const detail = document.getElementById(`barrier-${num}-detail`);
+            if (detail.style.display === 'none') {
+                detail.style.display = 'block';
+            } else {
+                detail.style.display = 'none';
+            }
+        }
+
+        function showBarrierPriority(choice) {
+            const resultDiv = document.getElementById('barrier-priority-result');
+            const results = {
+                'ownership': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>Without senior management ownership, nothing else can progress. This is the foundational barrier that must be addressed first.</p></div>',
+                'objectives': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Important but requires ownership first</h4><p>Can\'t link to objectives without management buy-in and ownership to drive the change.</p></div>',
+                'information': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Follows from other changes</h4><p>Better information comes after establishing ownership and objective linkage.</p></div>',
+                'controls': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Cultural shift needed</h4><p>Moving beyond control focus requires leadership to drive different thinking.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function expandStep(num) {
+            const detail = document.getElementById(`step-${num}-detail`);
+            if (detail.style.display === 'none') {
+                detail.style.display = 'block';
+            } else {
+                detail.style.display = 'none';
+            }
+        }
+
+        function showImplementation(choice) {
+            const resultDiv = document.getElementById('implementation-result');
+            const results = {
+                'framework': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Framework needs context</h4><p>A framework without clear objectives and governance structure won\'t be effective.</p></div>',
+                'objectives': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Good start but incomplete</h4><p>Objectives are critical, but need the governance structure to support them.</p></div>',
+                'assurance': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Structure needs content</h4><p>The five lines model provides structure, but needs objectives and framework to be meaningful.</p></div>',
+                'integrated': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>These four steps are interdependent and must be implemented as an integrated system. Each supports and enables the others.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showAdvocacy(choice) {
+            const resultDiv = document.getElementById('advocacy-result');
+            const results = {
+                'board': '<div style="background:#e3f2fd; padding:15px; border-radius:8px;"><h4>Top-down approach</h4><p>Presenting to the board can create mandate for change. Prepare a compelling case showing current gaps and proposed solutions.</p></div>',
+                'ceo': '<div style="background:#e3f2fd; padding:15px; border-radius:8px;"><h4>Executive championship</h4><p>CEO buy-in is critical since they own cyber risk. Focus on business impact and competitive advantage.</p></div>',
+                'pilot': '<div style="background:#e3f2fd; padding:15px; border-radius:8px;"><h4>Proof of concept</h4><p>Starting with a pilot can demonstrate value. Choose a critical objective and show the difference the new approach makes.</p></div>',
+                'coalition': '<div style="background:#e3f2fd; padding:15px; border-radius:8px;"><h4>Build support</h4><p>Creating a coalition across functions can overcome resistance. Include risk, audit, IT, and business leaders.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 5;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
+                  `${viewed === total ? 'Congratulations! You\'ve completed Chapter 2!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>

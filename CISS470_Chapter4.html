@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: Cybersecurity Policies and Procedures - Interactive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #d00865 0%, #e65a00 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .slide-content h2 {
+            color: #ee0979;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #ff6a00;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #ff6a00;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-left: 5px solid #ff6a00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .quote-box {
+            background: #fff5f0;
+            border-left: 5px solid #ee0979;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-style: italic;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .policy-card {
+            background: white;
+            border: 2px solid #ff6a00;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
+            background: #fff5f0;
+        }
+        
+        .policy-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .expandable {
+            background: #fff8f0;
+            border: 2px solid #ff6a00;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #ff6a00 0%, #ee0979 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #e65a00 0%, #d00865 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-scenario {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .scenario-title {
+            color: #1976d2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .choice-button {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        }
+        
+        .result-box {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .quiz-container {
+            background: #fff8e1;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f5f5f5;
+            border-color: #ff6a00;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+        
+        .quiz-option.incorrect {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+        
+        .feedback {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .key-takeaway {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .risk-box {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .benefit-box {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .policy-template {
+            background: #f5f5f5;
+            border: 2px dashed #9e9e9e;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .policy-section {
+            background: white;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .case-study {
+            background: #f3e5f5;
+            border-left: 5px solid #9c27b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .case-study-title {
+            color: #9c27b0;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #ff6a00;
+            font-weight: bold;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .stat-box {
+            background: white;
+            border: 3px solid #ff6a00;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ee0979;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 CYBERSECURITY POLICIES AND PROCEDURES</h1>
+            <p style="font-size: 24px; margin-top: 10px;">Chapter 4: Six Critical Policies Every Organization Needs</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Opening & Overview -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Tom's Surprise: Six Essential Cyber Policies</span>
+                <span class="slide-number">Part 1 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>😮 "Six Different Policies to Sign Off?"</h2>
+                
+                <div class="quote-box">
+                    <strong>Tom (CEO):</strong> "Are you telling me there is not one but six types of policies I need to sign off for cyber risk?"<br><br>
+                    <strong>Nathan (CRO) & Maria (CISO) in tandem:</strong> "Yes! Social media, ransomware, cloud computing/third-party vendors, Big Data analytics, the Internet of Things, and bring-your-own-device (BYOD)/mobile devices."
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Why Six Separate Policies?</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">Each technology and practice introduces unique risks that require tailored approaches. A one-size-fits-all policy won't address the specific threats, compliance requirements, and operational considerations of each area.</p>
+                </div>
+
+                <h3>🎯 The Six Critical Policy Areas</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0;">
+                    <div class="policy-card" onclick="showPolicyOverview(1)">
+                        <span class="policy-number">1</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Social Media</h4>
+                        <p style="margin-top:10px;">2 billion+ users, reputation risks, data leakage</p>
+                    </div>
+                    <div class="policy-card" onclick="showPolicyOverview(2)">
+                        <span class="policy-number">2</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Ransomware</h4>
+                        <p style="margin-top:10px;">Tenfold increase in 2016, $200M+ in damages</p>
+                    </div>
+                    <div class="policy-card" onclick="showPolicyOverview(3)">
+                        <span class="policy-number">3</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Cloud Computing</h4>
+                        <p style="margin-top:10px;">Third-party dependencies, contract risks</p>
+                    </div>
+                    <div class="policy-card" onclick="showPolicyOverview(4)">
+                        <span class="policy-number">4</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Big Data Analytics</h4>
+                        <p style="margin-top:10px;">Privacy breaches, GDPR fines up to 4% revenue</p>
+                    </div>
+                    <div class="policy-card" onclick="showPolicyOverview(5)">
+                        <span class="policy-number">5</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">Internet of Things</h4>
+                        <p style="margin-top:10px;">50 billion devices by 2020, expanded attack surface</p>
+                    </div>
+                    <div class="policy-card" onclick="showPolicyOverview(6)">
+                        <span class="policy-number">6</span>
+                        <h4 style="margin-top:25px; color:#ee0979;">BYOD/Mobile</h4>
+                        <p style="margin-top:10px;">85% of companies allow BYOD, control challenges</p>
+                    </div>
+                </div>
+                <div id="policy-overview" style="display:none; margin-top:20px;" class="highlight-box"></div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🤔 Quick Assessment</div>
+                    <p>A small startup asks: "Can't we just have one comprehensive cyber policy instead of six?"</p>
+                    <button class="choice-button" onclick="showPolicyAnswer('yes')">Yes, keep it simple</button>
+                    <button class="choice-button" onclick="showPolicyAnswer('no')">No, need separate policies</button>
+                    <button class="choice-button" onclick="showPolicyAnswer('depends')">It depends on the organization</button>
+                    <button class="choice-button" onclick="showPolicyAnswer('combine')">Combine some, separate others</button>
+                    <div id="policy-answer-result" class="result-box"></div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📊 Key Statistics Driving Policy Needs</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="two-column">
+                            <div class="stat-box">
+                                <div class="stat-number">10x</div>
+                                <p>Increase in ransomware attacks in Q1 2016 vs all of 2015</p>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">85%</div>
+                                <p>Companies now allowing BYOD</p>
+                            </div>
+                        </div>
+                        <div class="two-column" style="margin-top:20px;">
+                            <div class="stat-box">
+                                <div class="stat-number">$6.2T</div>
+                                <p>Potential IoT value by 2025</p>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">4%</div>
+                                <p>Maximum GDPR fine (of global revenue)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Critical Chapter Message</h3>
+                    <p>Protection across all these threats is the responsibility of <strong>all employees</strong>, not just the IT security function. Each policy must make this clear from the outset.</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Opening Check</div>
+                    <p style="margin-bottom:15px;">According to the chapter, how many active social media users existed at the time of writing?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) 500 million</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) 1 billion</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">C) Over 2 billion</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">D) 5 billion</div>
+                    <div id="quiz1-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    💡 Opening Insight: Modern organizations face diverse cyber risks requiring tailored policies. Each technology—social media, ransomware, cloud, big data, IoT, and BYOD—introduces unique vulnerabilities requiring specific controls and procedures.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Social Media Policy -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Policy 1: Social Media Risk Management</span>
+                <span class="slide-number">Part 2 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>📱 Social Media: The Overlooked Risk</h2>
+
+                <div class="case-study">
+                    <div class="case-study-title">Case Study: McDonald's #McDStories Disaster</div>
+                    <p>McDonald's created hashtag #McDStories to encourage positive stories. Instead, users hijacked it to share negative experiences, derailing the campaign and embarrassing the company.</p>
+                    <p style="margin-top:10px;"><strong>Lesson:</strong> Social media campaigns can backfire spectacularly without proper risk assessment and response planning.</p>
+                </div>
+
+                <h3>🎯 Two Key Risk Areas</h3>
+                
+                <div class="two-column">
+                    <div class="risk-box">
+                        <h4>1. Employee Use Risks</h4>
+                        <ul>
+                            <li>Intellectual property leakage</li>
+                            <li>Data exposure</li>
+                            <li>Virus introduction</li>
+                            <li>Password compromise</li>
+                            <li>Reputation damage from personal posts</li>
+                        </ul>
+                    </div>
+                    <div class="risk-box">
+                        <h4>2. Corporate Account Risks</h4>
+                        <ul>
+                            <li>Negative posts/comments</li>
+                            <li>Campaign backfiring</li>
+                            <li>Inefficient use of resources</li>
+                            <li>Brand impersonation</li>
+                            <li>Crisis amplification</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📝 Six Steps to Prepare Your Social Media Policy</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ol>
+                            <li><strong>Engage a multidisciplinary team:</strong> HR, Legal, IT, Risk, Marketing</li>
+                            <li><strong>Clarify objectives:</strong> Reputation, talent, sales, or engagement?</li>
+                            <li><strong>Undertake risk assessment:</strong> Identify specific threats and impacts</li>
+                            <li><strong>Obtain senior mandate:</strong> CEO and board buy-in essential</li>
+                            <li><strong>Understand legal implications:</strong> Monitoring, discipline, privacy laws</li>
+                            <li><strong>Train all staff:</strong> Policy useless without proper training</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <h3>📋 Two Essential Policies Recommended</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Policy 1: Personal Social Media Use by Employees</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-template">
+                            <h4>Key Sections to Include:</h4>
+                            <div class="policy-section">
+                                <strong>Introduction:</strong> Organization objectives for social media program
+                            </div>
+                            <div class="policy-section">
+                                <strong>Definitions:</strong> What constitutes IP, confidential info, competitors
+                            </div>
+                            <div class="policy-section">
+                                <strong>Boundaries:</strong> Approval processes, opinion ranges, political restrictions
+                            </div>
+                            <div class="policy-section">
+                                <strong>Off-Limits Content:</strong> Confidential info, competitor comments, illegal content
+                            </div>
+                            <div class="policy-section">
+                                <strong>Safe Use:</strong> Password updates, privacy settings, anti-virus
+                            </div>
+                            <div class="policy-section">
+                                <strong>Personal Use:</strong> Can employees use company Internet? Disclaimer requirements
+                            </div>
+                            <div class="policy-section">
+                                <strong>Reporting:</strong> Email address for reporting concerning content
+                            </div>
+                            <div class="policy-section">
+                                <strong>Monitoring:</strong> Transparency about employee monitoring practices
+                            </div>
+                            <div class="policy-section">
+                                <strong>Consequences:</strong> Disciplinary procedures for violations
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Policy 2: Corporate Social Media Accounts</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-template">
+                            <h4>Key Sections to Include:</h4>
+                            <div class="policy-section">
+                                <strong>Responsibilities:</strong> Who manages accounts, posts, and monitors brand use
+                            </div>
+                            <div class="policy-section">
+                                <strong>Customer Comments:</strong> Do's and don'ts for responding, pre-approved messages
+                            </div>
+                            <div class="policy-section">
+                                <strong>Fake Accounts:</strong> Steps for takedown requests, legal contacts
+                            </div>
+                            <div class="policy-section">
+                                <strong>Promotions/Competitions:</strong> Terms compliance, cheating prevention
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">💭 Scenario: The Disgruntled Employee</div>
+                    <p>An employee posts on their personal Twitter: "My company's new product is garbage. Can't believe we're charging customers for this." What should you do?</p>
+                    <button class="choice-button" onclick="showSocialResponse('ignore')">Ignore - it's personal account</button>
+                    <button class="choice-button" onclick="showSocialResponse('demand')">Demand immediate deletion</button>
+                    <button class="choice-button" onclick="showSocialResponse('discuss')">Discuss with employee first</button>
+                    <button class="choice-button" onclick="showSocialResponse('discipline')">Immediate disciplinary action</button>
+                    <div id="social-response-result" class="result-box"></div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>📚 Resource: Social Media Governance</h4>
+                    <p>Over 100 example policies available at www.socialmediagovernance.com/policies/</p>
+                    <p style="margin-top:10px;">Examples include: Employee Code of Conduct, Blogging Policies, LinkedIn Policy, Twitter Account Policy, YouTube Policy, Password Policy</p>
+                </div>
+
+                <div class="key-takeaway">
+                    📱 Social Media Key Takeaway: Organizations need TWO policies minimum—one for personal use, one for corporate accounts. Focus on behavior guidance rather than restrictive rules, and ensure all employees understand their responsibility for protecting the organization's reputation.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Ransomware Policy -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Policy 2: Ransomware Risk Policies and Procedures</span>
+                <span class="slide-number">Part 3 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🔒 Ransomware: The Year 2016's Biggest Threat</h2>
+
+                <div class="stat-box" style="background:#ffebee; margin:20px auto; max-width:600px;">
+                    <p style="font-size:24px; color:#c62828;">2016: "The Year of Ransomware"</p>
+                    <div class="stat-number">$200M+</div>
+                    <p>Reported victim costs in just Q1 2016</p>
+                </div>
+
+                <h3>🚨 High-Profile Ransomware Attacks</h3>
+                
+                <div class="case-study">
+                    <div class="case-study-title">Recent Attack Examples</div>
+                    <ul>
+                        <li><strong>U.S. Police Departments:</strong> Lost data on open cases</li>
+                        <li><strong>University of Calgary:</strong> Forced to pay C$20,000 after all emails/files encrypted</li>
+                        <li><strong>Hollywood Hospital, LA:</strong> Paid $17,000 after facing $3.4M extortion demand</li>
+                    </ul>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🦠 How Cybercriminals Spread Ransomware</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ul>
+                            <li><strong>Spam email campaigns:</strong> Mass distribution to thousands</li>
+                            <li><strong>Software vulnerabilities:</strong> Exploiting unpatched systems</li>
+                            <li><strong>Internet traffic redirection:</strong> From legitimate to malicious sites</li>
+                            <li><strong>SMS messages:</strong> Targeting mobile devices</li>
+                            <li><strong>Legitimate website injection:</strong> Malicious code in trusted sites</li>
+                            <li><strong>Drive-by downloads:</strong> Automatic infection from compromised sites</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Key Policy Philosophy</h3>
+                    <p>Frame policies on the presumption that it's <strong>"WHEN, not IF"</strong> your organization will be targeted. Ransomware attacks are sophisticated enough to bypass anti-virus software.</p>
+                </div>
+
+                <h3>🛡️ Ransomware Policy Key Content</h3>
+
+                <div class="policy-template">
+                    <div class="policy-section">
+                        <h4>1. Back Up Data Regularly</h4>
+                        <p>Daily, weekly, or monthly backups to limit impact and speed recovery</p>
+                    </div>
+                    <div class="policy-section">
+                        <h4>2. Segregate Your Data</h4>
+                        <p>Store in different locations to prevent total loss from single attack</p>
+                    </div>
+                    <div class="policy-section">
+                        <h4>3. Keep Antivirus Updated</h4>
+                        <p>Automate updates where possible, implement immediately when manual</p>
+                    </div>
+                    <div class="policy-section">
+                        <h4>4. Best-in-Class Anti-Spam</h4>
+                        <p>First layer of defense against phishing emails</p>
+                    </div>
+                    <div class="policy-section">
+                        <h4>5. Strong Passwords</h4>
+                        <p>Minimum length, upper/lowercase, no names/birthdays, regular changes</p>
+                    </div>
+                    <div class="policy-section">
+                        <h4>6. Blacklisting Software</h4>
+                        <p>Block categories: adult content, criminal activity, gambling, hate, violence, phishing</p>
+                    </div>
+                    <div class="policy-section">
+                        <h4>7. Limit Application Use</h4>
+                        <p>Standardized, restrictive set of essential work applications only</p>
+                    </div>
+                    <div class="policy-section">
+                        <h4>8. Principle of "Least Privilege"</h4>
+                        <p>Restrict access to only critical folders/data required for job role</p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎓 Education, Education, Education</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ul>
+                            <li>Run phishing tests every 3-6 months minimum</li>
+                            <li>Mandatory training for all new employees</li>
+                            <li>Training modules with sample suspicious emails</li>
+                            <li>Employee-created awareness posters</li>
+                            <li>Clear escalation procedures for suspicious emails</li>
+                            <li>Instructions on marking email headers to prevent spread</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🚨 Crisis Decision</div>
+                    <p>Your organization just got hit with ransomware. The attacker demands 10 Bitcoin (≈$100,000) or they'll delete everything. You have partial backups from 2 weeks ago. What do you do?</p>
+                    <button class="choice-button" onclick="showRansomResponse('pay')">Pay immediately</button>
+                    <button class="choice-button" onclick="showRansomResponse('negotiate')">Try to negotiate</button>
+                    <button class="choice-button" onclick="showRansomResponse('restore')">Restore from backup</button>
+                    <button class="choice-button" onclick="showRansomResponse('law')">Contact law enforcement</button>
+                    <div id="ransom-response-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Policy Understanding</div>
+                    <p style="margin-bottom:15px;">According to the chapter, how often should organizations run phishing email tests?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) Annually</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">B) Every 3-6 months minimum</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) Monthly</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) Only after incidents</div>
+                    <div id="quiz2-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🔒 Ransomware Key Takeaway: Assume attack is inevitable. Focus on prevention through education, robust backups, access controls, and the "least privilege" principle. Employees are often the weakest link—make them your strongest defense through training.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Cloud & Big Data Policies -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Policies 3 & 4: Cloud Computing and Big Data Analytics</span>
+                <span class="slide-number">Part 4 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>☁️ Cloud Computing & Third-Party Vendor Policies</h2>
+
+                <h3>✅ Cloud Benefits vs. ⚠️ Risks</h3>
+                
+                <div class="two-column">
+                    <div class="benefit-box">
+                        <h4>Key Benefits</h4>
+                        <ul>
+                            <li><strong>Flexibility:</strong> Remote access, scalable resources</li>
+                            <li><strong>Cost savings:</strong> Pay-per-use models, no infrastructure</li>
+                            <li><strong>Reliability:</strong> 24/7 support, economies of scale</li>
+                            <li><strong>Enhanced security:</strong> Often exceeds internal capabilities</li>
+                        </ul>
+                    </div>
+                    <div class="risk-box">
+                        <h4>Primary Risks</h4>
+                        <ul>
+                            <li><strong>Internet dependency:</strong> Outages disrupt business</li>
+                            <li><strong>Data concentration:</strong> All eggs in one basket</li>
+                            <li><strong>Contract risks:</strong> Weak agreements, hidden liabilities</li>
+                            <li><strong>Loss of control:</strong> Third-party safeguarding</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📋 Procuring Cloud Services Effectively</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ol>
+                            <li><strong>Identify desired outcomes:</strong> Issue clear ITT with objectives</li>
+                            <li><strong>Review standard contracts:</strong> Rank by favorability with legal help</li>
+                            <li><strong>Be selective:</strong> Only providers meeting your conditions</li>
+                            <li><strong>Scope precontract:</strong> Agree transition plan and scenarios</li>
+                            <li><strong>Draft carefully:</strong> Incentivized payments, remove "agreements to agree"</li>
+                            <li><strong>Clarify terms:</strong> Understand liability, choice of law, data location</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="policy-template">
+                    <h4>🔑 Customer Agreement Key Content to Negotiate</h4>
+                    <div class="policy-section">
+                        <strong>Limitations of Liability:</strong> Ensure aggregate limit isn't capped too low, protect against gross negligence
+                    </div>
+                    <div class="policy-section">
+                        <strong>Disaster Recovery:</strong> Provider aware of your RTO, data in multiple locations
+                    </div>
+                    <div class="policy-section">
+                        <strong>Terms & Termination:</strong> 30+ days notice, data retention during transition
+                    </div>
+                    <div class="policy-section">
+                        <strong>Service Suspension:</strong> Minimum 60 days notice
+                    </div>
+                    <div class="policy-section">
+                        <strong>Service Level Agreement:</strong> Availability guarantees, automated outage logging
+                    </div>
+                    <div class="policy-section">
+                        <strong>Security & Privacy:</strong> Data location control, encryption, breach notification
+                    </div>
+                </div>
+
+                <hr style="margin: 40px 0; border: 2px solid #ff6a00;">
+
+                <h2>📊 Big Data Analytics Policy</h2>
+
+                <div class="stat-box" style="background:#ffebee; margin:20px auto; max-width:600px;">
+                    <p style="font-size:20px; color:#c62828;">EU GDPR Coming May 2018</p>
+                    <div class="stat-number">4%</div>
+                    <p>Maximum fine of global turnover for violations</p>
+                </div>
+
+                <h3>🎯 Two Main Big Data Threats</h3>
+                
+                <div class="two-column">
+                    <div class="risk-box">
+                        <h4>1. Privacy Breach Risk</h4>
+                        <p>Aggregation of huge personal data volumes creates massive exposure if breached</p>
+                    </div>
+                    <div class="risk-box">
+                        <h4>2. Regulatory Compliance</h4>
+                        <p>GDPR requires "privacy by design" approach with severe penalties for non-compliance</p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔐 Big Data "Privacy by Design" Key Content</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-template">
+                            <div class="policy-section">
+                                <strong>Delete Redundant Data:</strong> Remove data no longer relevant for analytics
+                            </div>
+                            <div class="policy-section">
+                                <strong>Best-in-Class Antivirus:</strong> Regular/automated updates and patches
+                            </div>
+                            <div class="policy-section">
+                                <strong>Encrypt Data:</strong> Both at rest and in transit (end-to-end encryption)
+                            </div>
+                            <div class="policy-section">
+                                <strong>Spread Storage:</strong> Multiple locations minimize breach impact
+                            </div>
+                            <div class="policy-section">
+                                <strong>Lawful Collection:</strong> Ensure explicit consent and cross-border compliance
+                            </div>
+                            <div class="policy-section">
+                                <strong>PCI Compliance:</strong> For payment data - avoid costly assessments
+                            </div>
+                            <div class="policy-section">
+                                <strong>Third-Party Vendors:</strong> Due diligence on security, tight contracts
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>👥 Employee Policy Amendments for Big Data</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ul>
+                            <li><strong>Education:</strong> Regular tests on data protection laws with scenarios</li>
+                            <li><strong>USB/External Storage:</strong> Prevent personal USBs, encrypt authorized ones</li>
+                            <li><strong>Password Management:</strong> Never store keys in accessible places</li>
+                            <li><strong>BYOD Compliance:</strong> Two-factor authentication on personal devices</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">☁️ Contract Negotiation</div>
+                    <p>A major cloud provider offers great pricing but their standard contract caps liability at $10,000 and requires arbitration in another country. What should you prioritize?</p>
+                    <button class="choice-button" onclick="showCloudPriority('price')">Take the great price</button>
+                    <button class="choice-button" onclick="showCloudPriority('liability')">Negotiate liability terms</button>
+                    <button class="choice-button" onclick="showCloudPriority('jurisdiction')">Change jurisdiction</button>
+                    <button class="choice-button" onclick="showCloudPriority('walk')">Walk away</button>
+                    <div id="cloud-priority-result" class="result-box"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    ☁️ Cloud & Big Data Key Takeaway: Success depends on robust procurement processes and tight contracts for cloud services, plus "privacy by design" principles for big data. Both require understanding that you remain liable even when using third parties.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: IoT and BYOD Policies -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Policies 5 & 6: Internet of Things and BYOD/Mobile</span>
+                <span class="slide-number">Part 5 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🌐 Internet of Things (IoT) Policy</h2>
+
+                <div class="stat-box" style="margin:20px auto; max-width:600px;">
+                    <p style="font-size:20px;">McKinsey Global Estimates</p>
+                    <div class="stat-number">$6.2T</div>
+                    <p>Potential IoT value by 2025</p>
+                    <p style="margin-top:10px; font-size:16px;">50 billion connected devices by 2020</p>
+                </div>
+
+                <h3>🚨 IoT Attack Examples</h3>
+                
+                <div class="case-study">
+                    <div class="case-study-title">Real-World IoT Breaches</div>
+                    <ul>
+                        <li><strong>2015 Fiat Chrysler:</strong> Recalled 1.4 million vehicles after wireless hack demonstration</li>
+                        <li><strong>2014 German Steel Mill:</strong> Blast furnace suffered massive damage after hackers accessed controls through employee emails</li>
+                    </ul>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>⚠️ Categories of IoT Threats</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ul>
+                            <li><strong>Data Protection:</strong> Massive personal data gathering creates identifiability risks</li>
+                            <li><strong>Device Proliferation:</strong> More connected devices = expanded attack surface</li>
+                            <li><strong>Speed of Change:</strong> Security controls lag behind connectivity growth</li>
+                            <li><strong>Outage Risk:</strong> Traffic volumes can overwhelm servers</li>
+                            <li><strong>Security Lags:</strong> Unencrypted links between devices common</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="policy-template">
+                    <h4>IoT Policy Key Content</h4>
+                    <div class="policy-section">
+                        <strong>Identify all stakeholders:</strong> Regulators, individuals, device users, public, data owners
+                    </div>
+                    <div class="policy-section">
+                        <strong>Worst-case scenarios:</strong> Document and plan for catastrophic failures
+                    </div>
+                    <div class="policy-section">
+                        <strong>End-to-end encryption:</strong> From data center to endpoint
+                    </div>
+                    <div class="policy-section">
+                        <strong>Network segregation:</strong> Separate IoT from critical corporate data
+                    </div>
+                    <div class="policy-section">
+                        <strong>Device mapping:</strong> Identify all connected devices and data flows
+                    </div>
+                    <div class="policy-section">
+                        <strong>Usage documentation:</strong> Clear guidelines for permissible device uses
+                    </div>
+                </div>
+
+                <hr style="margin: 40px 0; border: 2px solid #ff6a00;">
+
+                <h2>📱 BYOD/Mobile Device Policy</h2>
+
+                <div class="highlight-box">
+                    <h3>The BYOD Revolution</h3>
+                    <p>85% of companies now allow BYOD, driven by:</p>
+                    <ul style="margin-top:10px;">
+                        <li>Employee demand for flexibility</li>
+                        <li>Lower hardware costs for companies</li>
+                        <li>Increased productivity claims</li>
+                        <li>Work-life integration trends</li>
+                    </ul>
+                </div>
+
+                <h3>⚡ Key BYOD Risks</h3>
+                
+                <div class="risk-box">
+                    <ul>
+                        <li>Data breach through personal devices (accidental or intentional)</li>
+                        <li>Unsecured network connections</li>
+                        <li>Theft of corporate IP and sensitive data</li>
+                        <li>Mixing of personal and corporate data</li>
+                        <li>Data interception between device and systems</li>
+                        <li>Device loss or theft</li>
+                        <li>Malware infection spreading to network</li>
+                        <li>Privacy regulation violations when used abroad</li>
+                    </ul>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📋 BYOD Policy Options Spectrum</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ol>
+                            <li><strong>Disallow BYOD:</strong> Ultimate risk avoidance but may frustrate employees</li>
+                            <li><strong>"Do Nothing" Approach:</strong> Dangerous - leads to data leakage and loss of control</li>
+                            <li><strong>Corporate Devices Only:</strong> More control but higher costs</li>
+                            <li><strong>Managed BYOD Policy (Recommended):</strong> Balance flexibility with security controls</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔑 BYOD Policy Key Content</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-template">
+                            <h4>Acceptable Use</h4>
+                            <ul>
+                                <li>Compliance with all company policies</li>
+                                <li>Website blocking during work hours</li>
+                                <li>Restrictions on storing illicit material</li>
+                                <li>Zero tolerance for texting while driving</li>
+                            </ul>
+                            
+                            <h4 style="margin-top:20px;">Devices and Support</h4>
+                            <ul>
+                                <li>Choose-your-own-device (CYOD) from approved list</li>
+                                <li>IT verification before BYOD permission</li>
+                                <li>Supported models (iPhone, Android versions)</li>
+                            </ul>
+                            
+                            <h4 style="margin-top:20px;">Security Requirements</h4>
+                            <ul>
+                                <li>Minimum password lengths with capitals/symbols</li>
+                                <li>Auto-lock after idle period</li>
+                                <li>Two-factor authentication</li>
+                                <li>Encryption for stored data</li>
+                                <li>Remote wipe capability</li>
+                            </ul>
+                            
+                            <h4 style="margin-top:20px;">Risks/Liabilities</h4>
+                            <ul>
+                                <li>Immediate reporting if lost/stolen</li>
+                                <li>Employee liability for data loss</li>
+                                <li>Right to disconnect/disable device</li>
+                                <li>Backup responsibilities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">📱 BYOD Decision Point</div>
+                    <p>Your sales team demands BYOD for client visits, but your legal team warns about data protection risks. Your IT team suggests Mobile Device Management (MDM) but it's expensive. What's your approach?</p>
+                    <button class="choice-button" onclick="showBYODApproach('allow')">Allow BYOD with basic policy</button>
+                    <button class="choice-button" onclick="showBYODApproach('mdm')">Invest in MDM solution</button>
+                    <button class="choice-button" onclick="showBYODApproach('corporate')">Provide corporate devices</button>
+                    <button class="choice-button" onclick="showBYODApproach('pilot')">Run limited pilot program</button>
+                    <div id="byod-approach-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Statistics Check</div>
+                    <p style="margin-bottom:15px;">What percentage of companies now allow BYOD according to the chapter?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 50%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) 65%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">C) 75%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">D) 85%</div>
+                    <div id="quiz5-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🌐 IoT & BYOD Key Takeaway: Both policies must balance opportunity with risk. IoT requires mapping all connections and segregating networks. BYOD needs clear boundaries, MDM tools, and employee accountability. In both cases, the organization retains liability for data protection.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Conclusion and Integration -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Bringing It All Together: Integrated Policy Management</span>
+                <span class="slide-number">Part 6 of 6</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 Chapter Conclusion: Cyber Risk Policies</h2>
+
+                <div class="success-box">
+                    <h3>✅ The Complete Capability Statement</h3>
+                    <p style="margin-top:15px; line-height:1.8;">An appropriate mix of tailored cyber risk management–specific policies and procedures guide processes, practices and organization risk management activities. These put cyber risk principles into effect and are systematically applied through the cyber risk management process.</p>
+                </div>
+
+                <h3>📋 Policy Coverage Checklist</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0;">
+                    <div class="policy-card">
+                        <h4>✓ Social Media</h4>
+                        <p>Personal use + Corporate accounts</p>
+                    </div>
+                    <div class="policy-card">
+                        <h4>✓ Ransomware</h4>
+                        <p>"When not if" approach + Education</p>
+                    </div>
+                    <div class="policy-card">
+                        <h4>✓ Cloud Computing</h4>
+                        <p>Procurement + Contract negotiation</p>
+                    </div>
+                    <div class="policy-card">
+                        <h4>✓ Big Data Analytics</h4>
+                        <p>Privacy by design + GDPR compliance</p>
+                    </div>
+                    <div class="policy-card">
+                        <h4>✓ Internet of Things</h4>
+                        <p>Device mapping + Network segregation</p>
+                    </div>
+                    <div class="policy-card">
+                        <h4>✓ BYOD/Mobile</h4>
+                        <p>MDM + Employee accountability</p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔗 Common Themes Across All Six Policies</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <ul>
+                            <li><strong>Employee Responsibility:</strong> All policies emphasize this is NOT just IT's problem</li>
+                            <li><strong>Education Critical:</strong> Training more important than technology</li>
+                            <li><strong>Multidisciplinary Approach:</strong> HR, Legal, IT, Risk must collaborate</li>
+                            <li><strong>Risk Assessment First:</strong> Understand threats before writing policies</li>
+                            <li><strong>Senior Management Buy-in:</strong> CEO ownership essential</li>
+                            <li><strong>Balance Required:</strong> Security vs. productivity/innovation</li>
+                            <li><strong>Continuous Evolution:</strong> Policies must adapt to changing threats</li>
+                            <li><strong>Clear Consequences:</strong> Disciplinary procedures must be defined</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📊 Maturity Considerations</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>The chapter emphasizes continuous improvement through the risk maturity curve:</strong></p>
+                        <ol>
+                            <li><strong>Initial:</strong> Ad-hoc policies if any exist</li>
+                            <li><strong>Developing:</strong> Basic policies drafted but inconsistently applied</li>
+                            <li><strong>Defined:</strong> Comprehensive policies with training programs</li>
+                            <li><strong>Managed:</strong> Regular testing, metrics, and updates</li>
+                            <li><strong>Optimizing:</strong> Continuous improvement based on threat intelligence</li>
+                        </ol>
+                        <p style="margin-top:15px; background:#e8f4fd; padding:15px; border-radius:8px;">
+                            "A cycle of continuous improvement throughout the organization allows development along the risk maturity curve. The policies provide a platform for companies to maximize digital opportunities while managing the threats."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🎓 Final Scenario: Policy Prioritization</div>
+                    <p>You're the new CISO at a mid-size company with NO formal cyber policies. You can only implement one policy this quarter due to resource constraints. Which do you choose?</p>
+                    <button class="choice-button" onclick="showFinalPriority('ransomware')">Ransomware (biggest threat)</button>
+                    <button class="choice-button" onclick="showFinalPriority('byod')">BYOD (most devices)</button>
+                    <button class="choice-button" onclick="showFinalPriority('cloud')">Cloud (critical data)</button>
+                    <button class="choice-button" onclick="showFinalPriority('framework')">Start with framework</button>
+                    <div id="final-priority-result" class="result-box"></div>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Critical Implementation Advice</h3>
+                    <ul>
+                        <li>Don't try to implement all six policies at once</li>
+                        <li>Start with highest risk areas for your organization</li>
+                        <li>Get employee buy-in through involvement, not mandate</li>
+                        <li>Test policies through tabletop exercises</li>
+                        <li>Review and update at least annually</li>
+                        <li>Make policies accessible and understandable</li>
+                        <li>Focus on behavior, not just compliance</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">📝 About the Authors</div>
+                    <p><strong>Elliot Bryan, BA (Hons), ACII</strong></p>
+                    <ul style="margin-top:10px;">
+                        <li>Associate at Willis Towers Watson, London</li>
+                        <li>Specializes in cyber, TMT, and IP insurance</li>
+                        <li>Graduate of University of Sheffield</li>
+                    </ul>
+                    
+                    <p style="margin-top:20px;"><strong>Alexander Larsen, FIRM</strong></p>
+                    <ul style="margin-top:10px;">
+                        <li>President of Baldwin Global Risk Services</li>
+                        <li>Fellow of Institute of Risk Management</li>
+                        <li>15 years experience across UK, Middle East, Asia</li>
+                        <li>Expert in ERM, PRM, and BCM processes</li>
+                    </ul>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Final Chapter Takeaway: Six distinct policies are needed because each technology creates unique risks. Success requires making cyber risk everyone's responsibility, not just IT's. Policies must balance security with productivity, be regularly updated, and focus on changing behavior through education rather than restrictive rules alone.
+                </div>
+
+                <div style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center;">
+                    <h2 style="color: white;">Chapter 4 Complete!</h2>
+                    <p style="font-size: 20px; margin-top: 15px;">You've learned about the six essential cyber policies every organization needs.</p>
+                    <p style="font-size: 18px; margin-top: 20px;">Remember: It's not about having perfect policies—it's about continuous improvement and making security everyone's responsibility.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
+            <p style="font-size: 14px; margin-top: 10px;">Chapter 4: Cybersecurity Policies and Procedures | By Elliot Bryan & Alexander Larsen</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 6) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const slide = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            sectionsViewed.add(slideNumber);
+            updateProgress();
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedbackDiv = document.getElementById(quizId + '-feedback');
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedbackDiv.innerHTML = '✓ Correct! Well done!';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                element.classList.add('incorrect');
+                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            
+            feedbackDiv.style.display = 'block';
+        }
+
+        function showPolicyOverview(num) {
+            const overviewDiv = document.getElementById('policy-overview');
+            const overviews = {
+                1: '<h4>Social Media Policy</h4><p>Covers both personal and corporate use. Key risks include reputation damage, data leakage, and campaign failures. Requires two separate policies and multidisciplinary team involvement.</p>',
+                2: '<h4>Ransomware Policy</h4><p>Based on "when not if" philosophy. Focuses on backups, segregation, education, and least privilege access. Attacks increased 10x in early 2016.</p>',
+                3: '<h4>Cloud Computing Policy</h4><p>Critical for third-party risk management. Focus on procurement process and contract negotiation. Liability caps and jurisdiction are key concerns.</p>',
+                4: '<h4>Big Data Analytics Policy</h4><p>Privacy by design approach required. GDPR compliance essential with fines up to 4% of global revenue. Data minimization and encryption critical.</p>',
+                5: '<h4>Internet of Things Policy</h4><p>50 billion devices by 2020 create massive attack surface. Requires device mapping, network segregation, and stakeholder identification.</p>',
+                6: '<h4>BYOD/Mobile Policy</h4><p>85% of companies allow BYOD. Balance flexibility with security through MDM, clear policies, and employee accountability.</p>'
+            };
+            
+            overviewDiv.innerHTML = overviews[num];
+            overviewDiv.style.display = 'block';
+        }
+
+        function showPolicyAnswer(choice) {
+            const resultDiv = document.getElementById('policy-answer-result');
+            const results = {
+                'yes': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Too simplistic</h4><p>One policy cannot adequately address the unique risks, compliance requirements, and controls needed for each technology area.</p></div>',
+                'no': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Generally correct</h4><p>Different technologies require different approaches, but some flexibility exists based on organization size and complexity.</p></div>',
+                'depends': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best answer!</h4><p>Small organizations might combine some policies, while larger ones need detailed separate policies. Risk profile and regulatory requirements drive the decision.</p></div>',
+                'combine': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Practical approach</h4><p>Some policies can be combined (like cloud and third-party vendors), while others (like ransomware) need dedicated focus.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showSocialResponse(choice) {
+            const resultDiv = document.getElementById('social-response-result');
+            const results = {
+                'ignore': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Risky approach</h4><p>Personal accounts can still damage company reputation. Policy should address work-related posts on personal accounts.</p></div>',
+                'demand': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Too aggressive</h4><p>May violate employee rights and create resentment. Check legal implications first.</p></div>',
+                'discuss': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best approach</h4><p>Discuss concerns, remind of policy, seek voluntary removal. Document conversation. Escalate only if necessary.</p></div>',
+                'discipline': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Premature</h4><p>Immediate discipline without discussion may be excessive and could face legal challenges.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showRansomResponse(choice) {
+            const resultDiv = document.getElementById('ransom-response-result');
+            const results = {
+                'pay': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Dangerous precedent</h4><p>No guarantee of getting data back. Encourages repeat attacks. May be illegal in some jurisdictions.</p></div>',
+                'negotiate': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Risky delay</h4><p>Loses critical time. Still may end up paying with additional operational losses.</p></div>',
+                'restore': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ If viable</h4><p>Best option if backups are recent enough. Accept 2 weeks of data loss vs. paying ransom. Investigate attack vector.</p></div>',
+                'law': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Important step</h4><p>Should be done regardless. FBI/law enforcement can help but cannot recover data. Combine with restoration efforts.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showCloudPriority(choice) {
+            const resultDiv = document.getElementById('cloud-priority-result');
+            const results = {
+                'price': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Short-sighted</h4><p>$10,000 liability cap could bankrupt you in a breach. Price savings meaningless if contract fails you.</p></div>',
+                'liability': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Critical priority</h4><p>Negotiate reasonable liability limits. If they won\'t budge on $10K cap for their mistakes, huge red flag.</p></div>',
+                'jurisdiction': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Important but secondary</h4><p>Jurisdiction matters for disputes, but liability caps are the immediate risk.</p></div>',
+                'walk': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>May be necessary</h4><p>If they won\'t negotiate reasonable terms, walking away might be the only option. Bad contract worse than no contract.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showBYODApproach(choice) {
+            const resultDiv = document.getElementById('byod-approach-result');
+            const results = {
+                'allow': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>High risk</h4><p>Basic policy without MDM leaves you exposed to data leakage and compliance violations.</p></div>',
+                'mdm': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best long-term</h4><p>MDM provides necessary controls: remote wipe, encryption, app management. ROI through risk reduction.</p></div>',
+                'corporate': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Traditional approach</h4><p>More control but higher costs and employee dissatisfaction. May still need MDM.</p></div>',
+                'pilot': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Smart testing</h4><p>Pilot with sales team using MDM. Measure risks and benefits before full rollout.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showFinalPriority(choice) {
+            const resultDiv = document.getElementById('final-priority-result');
+            const results = {
+                'ransomware': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Good reactive choice</h4><p>Addresses immediate threat but doesn\'t create foundation for other policies.</p></div>',
+                'byod': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Device-focused</h4><p>Important if employees already using personal devices, but needs broader context.</p></div>',
+                'cloud': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Data-centric approach</h4><p>Good if you\'re heavily cloud-dependent, but may miss other vulnerabilities.</p></div>',
+                'framework': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Strategic choice</h4><p>Start with overall policy framework establishing principles, responsibilities, and governance. Then prioritize specific policies based on risk assessment.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 6;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
+                  `${viewed === total ? 'Congratulations! You\'ve completed Chapter 4!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>

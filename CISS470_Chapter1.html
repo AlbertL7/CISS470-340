@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1: The Cyber Risk Handbook - Interactive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4299 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .slide-content h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #555;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .slide-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .slide-content li {
+            margin: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .slide-content li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .stat-box {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .expandable {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4299 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .quiz-container {
+            background: #fff8e1;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f5f5f5;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+        
+        .quiz-option.incorrect {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+        
+        .feedback {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .framework-box {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .framework-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .capability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .capability-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .capability-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .interactive-scenario {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .scenario-title {
+            color: #1976d2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .choice-button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-button:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .result-box {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .key-takeaway {
+            background: linear-gradient(135deg, #ffd93d 0%, #ff6b6b 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .case-study {
+            background: #f5f5f5;
+            border-left: 5px solid #ff6b6b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .case-study-title {
+            color: #ff6b6b;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ THE CYBER RISK HANDBOOK</h1>
+            <p style="font-size: 24px; margin-top: 10px;">Chapter 1: Introduction to Enterprise-Wide Cyber Risk Management</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: The CEO's Dilemma -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The CEO's Dilemma: From IT Risk to Enterprise Risk</span>
+                <span class="slide-number">Part 1 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 Meet Tom: A CEO's Wake-Up Call</h2>
+                
+                <div class="highlight-box">
+                    <h3>The Critical Moment</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">Picture this: CEO Tom is enjoying his morning coffee when Board Chair Tara drops a bombshell: "You have ONE DAY to present our cyber risk management capabilities to the board. And Tom—YOU present, not your IT team, because YOU own cybersecurity."</p>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🤔 Quick Check: Who Should Own Cybersecurity?</div>
+                    <p>Before we continue, who do you think should be ultimately accountable for cybersecurity in an organization?</p>
+                    <button class="choice-button" onclick="showAnswer('ciso', 'q1')">Chief Information Security Officer (CISO)</button>
+                    <button class="choice-button" onclick="showAnswer('cio', 'q1')">Chief Information Officer (CIO)</button>
+                    <button class="choice-button" onclick="showAnswer('ceo', 'q1')">Chief Executive Officer (CEO)</button>
+                    <button class="choice-button" onclick="showAnswer('board', 'q1')">Board of Directors</button>
+                    <div id="q1-result" class="result-box"></div>
+                </div>
+
+                <div class="two-column">
+                    <div class="stat-box" onclick="expandStat('stat1')">
+                        <div class="stat-number">88%</div>
+                        <p>Companies believe their information security doesn't fully meet organizational needs</p>
+                        <small style="color: #666;">EY Global Information Security Survey 2015</small>
+                    </div>
+                    <div class="stat-box" onclick="expandStat('stat2')">
+                        <div class="stat-number">75%</div>
+                        <p>Security professionals expect to fall prey to a cyber attack</p>
+                        <small style="color: #666;">ISACA Report 2016</small>
+                    </div>
+                </div>
+                <div id="stat-details" style="display:none; margin-top:20px;" class="highlight-box"></div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📊 Additional Survey Findings from the Chapter</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>From the EY Survey:</strong></p>
+                        <ul>
+                            <li>69% of businesses recognize they should be spending more on cybersecurity</li>
+                            <li>Learning about making the most of security investment is critical</li>
+                            <li>Organizations struggle with balancing security needs against business objectives</li>
+                        </ul>
+                        <p style="margin-top:15px;"><strong>From the ISACA Report:</strong></p>
+                        <ul>
+                            <li>82% of security executives report boards are concerned or very concerned about cybersecurity</li>
+                            <li>Cybercriminals are the most prevalent attackers</li>
+                            <li>Social engineering remains the primary initial attack vector</li>
+                            <li>The sophistication of attack methodologies continues to evolve</li>
+                            <li>The current state of global cybersecurity remains chaotic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>🔄 The Fundamental Paradigm Shift</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Understanding Why Cyber Risk is No Longer Just an IT Issue</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>The Traditional View (Outdated):</strong></p>
+                        <ul>
+                            <li>Cybersecurity = IT department's problem</li>
+                            <li>Technical solutions = Complete protection</li>
+                            <li>CISO/CIO handles all cyber matters</li>
+                            <li>Cyber risk is separate from business risk</li>
+                        </ul>
+                        
+                        <p style="margin-top:20px;"><strong>The Modern Reality (Current):</strong></p>
+                        <ul>
+                            <li>Cyber risk impacts every business function</li>
+                            <li>Technology alone cannot provide adequate protection</li>
+                            <li>CEO owns accountability, board provides oversight</li>
+                            <li>Cyber risk IS business risk, requiring enterprise-wide response</li>
+                        </ul>
+                        
+                        <p style="margin-top:20px;"><strong>What This Means for Organizations:</strong></p>
+                        <ul>
+                            <li>Every department needs cyber risk awareness</li>
+                            <li>Investment decisions must consider cyber implications</li>
+                            <li>Business strategy and cyber strategy must align</li>
+                            <li>Crisis response requires cross-functional coordination</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">💼 Real-World CEO Accountability</div>
+                    <p>When major breaches occur, CEOs face the consequences:</p>
+                    <ul style="margin-top:10px;">
+                        <li><strong>Target (2013):</strong> CEO Gregg Steinhafel resigned after 40 million credit cards compromised</li>
+                        <li><strong>Equifax (2017):</strong> CEO Richard Smith stepped down following breach affecting 147 million people</li>
+                        <li><strong>SolarWinds (2020):</strong> CEO Sudhakar Ramakrishna inherited massive supply chain attack response</li>
+                        <li><strong>Uber (2016):</strong> CEO Travis Kalanick's concealment of breach contributed to his departure</li>
+                    </ul>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📚 What Tara Told Tom: Key Insights from the Opening Scene</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Tara's Critical Messages:</strong></p>
+                        <ol style="line-height:1.8;">
+                            <li><strong>"You own cybersecurity"</strong> - The CEO cannot delegate ultimate responsibility</li>
+                            <li><strong>"We oversee it alongside the board"</strong> - Board has fiduciary duty for cyber oversight</li>
+                            <li><strong>"I don't mean our IT approach, I mean our whole-of-organization capabilities"</strong> - Cyber risk management must be enterprise-wide</li>
+                            <li><strong>"Cyber risk is not just an IT risk"</strong> - It's strategic, commercial, and organizational</li>
+                            <li><strong>"You need to integrate cyber risk with ERM"</strong> - Cyber must be part of Enterprise Risk Management</li>
+                        </ol>
+                        
+                        <p style="margin-top:20px;"><strong>What the Board is Worrying About:</strong></p>
+                        <ul>
+                            <li>Cyber threats and their business impact</li>
+                            <li>Social media risks and reputation damage</li>
+                            <li>Mobile device security in remote work</li>
+                            <li>Massive data storage vulnerabilities</li>
+                            <li>Artificially intelligent products and new risks</li>
+                            <li>Internet of Things (IoT) expansion</li>
+                            <li>Privacy requirements and compliance</li>
+                            <li>Business continuity and operational resilience</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Test Your Understanding</div>
+                    <p style="margin-bottom:15px;">According to the chapter, what percentage of companies don't believe their information security fully meets their organization's needs?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) 69%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) 75%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) 82%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">D) 88%</div>
+                    <div id="quiz1-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    💡 Key Takeaway: Cyber risk has evolved from an IT department issue to a CEO-level, board-overseen, enterprise-wide strategic risk requiring comprehensive organizational capabilities.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: The Modern Cyber Threat Landscape -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The Modern Cyber Threat Landscape: Understanding the Challenge</span>
+                <span class="slide-number">Part 2 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🌐 Toward an Effectively Cyber Risk-Managed Organization</h2>
+
+                <div class="highlight-box">
+                    <h3>The Escalating Threat Environment</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">Cyber threats are growing in scale and sophistication at an unprecedented rate. The digital age that began decades ago has evolved into a complex ecosystem where advancing technologies, criminal enterprises, state-level actors, and changing work practices create an ever-expanding attack surface.</p>
+                </div>
+
+                <h3>📈 Key Drivers of Increased Cyber Risk</h3>
+                <div class="capability-grid">
+                    <div class="capability-item" onclick="showTechDetail('bigdata')">Big Data & Analytics</div>
+                    <div class="capability-item" onclick="showTechDetail('cloud')">Cloud Computing</div>
+                    <div class="capability-item" onclick="showTechDetail('iot')">Internet of Things (IoT)</div>
+                    <div class="capability-item" onclick="showTechDetail('social')">Social Media</div>
+                    <div class="capability-item" onclick="showTechDetail('mobile')">Mobile Technology</div>
+                    <div class="capability-item" onclick="showTechDetail('ai')">AI & Machine Learning</div>
+                    <div class="capability-item" onclick="showTechDetail('remote')">Remote Access</div>
+                    <div class="capability-item" onclick="showTechDetail('digital')">Digital Assets</div>
+                </div>
+                <div id="tech-detail" style="display:none; margin-top:20px;" class="highlight-box"></div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎭 Understanding Threat Actors: The "Baddies" in Detail</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4 style="color:#ff6b6b;">Cybercriminals - The Most Prevalent Threat</h4>
+                        <ul>
+                            <li><strong>Motivation:</strong> Financial gain through ransomware, data theft, fraud</li>
+                            <li><strong>Methods:</strong> Social engineering as primary attack vector, phishing, malware</li>
+                            <li><strong>Evolution:</strong> Now operating as sophisticated business enterprises with:</li>
+                            <ul style="margin-left:20px;">
+                                <li>Ransomware-as-a-Service (RaaS) models</li>
+                                <li>Cryptocurrency laundering operations</li>
+                                <li>Professional negotiators for ransom payments</li>
+                                <li>Customer service desks for victims</li>
+                            </ul>
+                        </ul>
+
+                        <h4 style="color:#9c27b0; margin-top:20px;">State-Level Actors - Advanced Persistent Threats</h4>
+                        <ul>
+                            <li><strong>Motivation:</strong> Espionage, intellectual property theft, critical infrastructure disruption</li>
+                            <li><strong>Capabilities:</strong> Significant resources, custom tools, long-term persistence</li>
+                            <li><strong>Targets:</strong> Government agencies, defense contractors, critical infrastructure, technology companies</li>
+                            <li><strong>Characteristics:</strong> Patient, stealthy, willing to maintain presence for months or years</li>
+                        </ul>
+
+                        <h4 style="color:#2196f3; margin-top:20px;">Hacktivists - Ideologically Motivated</h4>
+                        <ul>
+                            <li><strong>Motivation:</strong> Political or social causes, public embarrassment of targets</li>
+                            <li><strong>Methods:</strong> Website defacement, data leaks, DDoS attacks</li>
+                            <li><strong>Impact:</strong> Reputation damage, operational disruption, public relations crises</li>
+                        </ul>
+
+                        <h4 style="color:#ff9800; margin-top:20px;">Insider Threats - The Enemy Within</h4>
+                        <ul>
+                            <li><strong>Types:</strong> Malicious insiders, negligent employees, compromised accounts</li>
+                            <li><strong>Access:</strong> Already inside the security perimeter with legitimate credentials</li>
+                            <li><strong>Detection Challenge:</strong> Activities often appear as normal business operations</li>
+                            <li><strong>Statistics:</strong> Responsible for approximately 30% of data breaches</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🚨 Scenario: The Do-Nothing Option</div>
+                    <p>Your company has operated for years without a major cyber incident. The CFO suggests: "We've been fine so far. Why invest heavily in cybersecurity now?"</p>
+                    <p style="margin-top:10px;"><strong>What are the risks of maintaining status quo?</strong></p>
+                    <button class="choice-button" onclick="showScenarioResult('regulatory')">Consider Regulatory Risk</button>
+                    <button class="choice-button" onclick="showScenarioResult('financial')">Consider Financial Impact</button>
+                    <button class="choice-button" onclick="showScenarioResult('operational')">Consider Operational Risk</button>
+                    <button class="choice-button" onclick="showScenarioResult('reputation')">Consider Reputation Risk</button>
+                    <div id="scenario-result" class="result-box"></div>
+                </div>
+
+                <h3>⚖️ Why "Do-Nothing" Is No Longer Viable</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>Legislative and Regulatory Requirements Driving Action</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Global Regulatory Landscape:</h4>
+                        <ul>
+                            <li><strong>GDPR (Europe):</strong> Fines up to 4% of global annual revenue or €20 million</li>
+                            <li><strong>CCPA (California):</strong> Penalties of $7,500 per intentional violation</li>
+                            <li><strong>PIPEDA (Canada):</strong> Mandatory breach notification within 72 hours</li>
+                            <li><strong>China's Cybersecurity Law:</strong> Data localization requirements</li>
+                            <li><strong>Australia's Privacy Act:</strong> Notifiable data breach scheme</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">Industry-Specific Requirements:</h4>
+                        <ul>
+                            <li><strong>Financial Services:</strong> SWIFT CSP, PCI DSS, Basel III operational risk</li>
+                            <li><strong>Healthcare:</strong> HIPAA with penalties up to $1.5 million per violation</li>
+                            <li><strong>Critical Infrastructure:</strong> National security implications and potential criminal liability</li>
+                            <li><strong>Public Companies:</strong> SEC disclosure requirements for material cyber incidents</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Corporate Governance Requirements:</h4>
+                        <ul>
+                            <li>Director and Officer personal liability for cyber oversight failures</li>
+                            <li>Mandatory cyber risk disclosure in annual reports</li>
+                            <li>Requirement to demonstrate "reasonable" security measures</li>
+                            <li>Shareholder litigation risk for breach of fiduciary duty</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">📰 Media Attention and Insurance Industry Response</div>
+                    <p>The chapter notes increasing media and insurance industry attention to high-profile breaches:</p>
+                    <ul style="margin-top:10px;">
+                        <li><strong>Media Coverage:</strong> Breaches now make front-page news, not just tech sections</li>
+                        <li><strong>Insurance Changes:</strong> Cyber insurance premiums increased 50-100% in recent years</li>
+                        <li><strong>Coverage Restrictions:</strong> Insurers now requiring proof of security controls</li>
+                        <li><strong>Exclusions Growing:</strong> Nation-state attacks, infrastructure failures often excluded</li>
+                        <li><strong>Due Diligence:</strong> Detailed security assessments required before coverage</li>
+                    </ul>
+                </div>
+
+                <div class="stat-box" style="background: #ffebee; border-color: #f44336;">
+                    <p style="font-size: 20px; color: #c62828;">
+                        <strong>"Organization vulnerability across all sectors is increasing. The do-nothing option is increasingly becoming unrealistic."</strong>
+                    </p>
+                    <p style="margin-top:10px; font-size:16px; color:#666;">- Direct quote from the chapter</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Knowledge Check</div>
+                    <p style="margin-bottom:15px;">According to the ISACA report, what percentage of respondents expect to fall prey to a cyber attack?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) 69%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">B) Almost 75%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) 82%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) 88%</div>
+                    <div id="quiz2-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🔒 Key Takeaway: The combination of advancing technology, sophisticated threat actors, regulatory requirements, and business dependencies on digital assets makes cyber risk management mandatory—not optional—for modern organizations.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Enterprise Framework for Cybersecurity -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Building an Enterprise Framework: The Seven Capabilities</span>
+                <span class="slide-number">Part 3 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🏗️ Conceptualizing Cybersecurity for Organization-Wide Solutions</h2>
+
+                <div class="highlight-box">
+                    <h3>Tom's Realization: The Integration Triangle</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">Tom penciled a diagram conceptualizing how cybersecurity doesn't sit isolated in one corner under technology, but is part of an interrelated triangle with the Organization at the top. Information security and organizations are inextricably interwoven today.</p>
+                    <p style="margin-top:15px; text-align:center; font-style:italic;">Based on: The Business Model for Information Security ©2010 ISACA</p>
+                </div>
+
+                <h3>🎯 The Right Set of Capabilities: COBIT 5 Enablers</h3>
+                <p style="font-size:18px; margin-bottom:20px;">Tom adapted the COBIT 5 enablers to theme and modularize the right set of cyber risk management capabilities. COBIT 5 is an information security management system backed by ISACA, accepted by many assurance and governance professionals.</p>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📋 Capability 1: Principles, Policies, and Frameworks (Chapters 1-6)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Definition:</strong> Mechanisms acting as hand-rails guiding desired behavior for day-to-day management.</p>
+                        
+                        <h4>What This Includes:</h4>
+                        <ul>
+                            <li>Information security policies and standards</li>
+                            <li>Risk management frameworks</li>
+                            <li>Governance principles</li>
+                            <li>Compliance frameworks</li>
+                            <li>Strategic alignment mechanisms</li>
+                        </ul>
+                        
+                        <h4>Why It Matters:</h4>
+                        <p>Without clear principles and policies, employees don't know what's expected. These create the foundation for all other capabilities by establishing the "rules of the game."</p>
+                        
+                        <h4>Chapter Coverage:</h4>
+                        <ul>
+                            <li>Chapter 1: Introduction (this chapter)</li>
+                            <li>Chapter 2: Board cyber risk oversight</li>
+                            <li>Chapter 3: Principles behind cyber risk management</li>
+                            <li>Chapter 4: Setting the risk context</li>
+                            <li>Chapter 5: Cyber strategic performance</li>
+                            <li>Chapter 6: Risk appetite and tolerance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>⚙️ Capability 2: Processes (Chapters 7-13)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Definition:</strong> Organized set of practices and activities to achieve certain objectives and produce outputs supporting cybersecurity objectives aligned to enterprise objectives.</p>
+                        
+                        <h4>Core Process Areas:</h4>
+                        <ul>
+                            <li><strong>Risk Identification:</strong> Discovering and documenting cyber threats</li>
+                            <li><strong>Risk Assessment:</strong> Analyzing likelihood and impact</li>
+                            <li><strong>Risk Treatment:</strong> Implementing controls and mitigation</li>
+                            <li><strong>Monitoring & Review:</strong> Continuous improvement cycles</li>
+                            <li><strong>Incident Response:</strong> Detection, containment, recovery</li>
+                            <li><strong>Business Continuity:</strong> Maintaining operations during disruption</li>
+                        </ul>
+                        
+                        <h4>Chapter Coverage:</h4>
+                        <ul>
+                            <li>Chapter 7: Identifying cyber risks</li>
+                            <li>Chapter 8: Assessing cyber risks</li>
+                            <li>Chapter 9: Evaluating cyber risks</li>
+                            <li>Chapter 10: Treating cyber risks using insurance and finance</li>
+                            <li>Chapter 11: Monitoring and review - KRIs</li>
+                            <li>Chapter 12: Cybersecurity incident and crisis management</li>
+                            <li>Chapter 13: Business continuity management</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🏢 Capability 3: Organizational Structures (Chapters 14-15)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Definition:</strong> Key decision-making entities in an enterprise.</p>
+                        
+                        <h4>Critical Structures:</h4>
+                        <ul>
+                            <li>Board committees (Audit, Risk, Technology)</li>
+                            <li>Executive steering committees</li>
+                            <li>Security governance forums</li>
+                            <li>Crisis management teams</li>
+                            <li>Three lines of defense model</li>
+                        </ul>
+                        
+                        <h4>Chapter Coverage:</h4>
+                        <ul>
+                            <li>Chapter 14: External context and supply chain</li>
+                            <li>Chapter 15: Internal organization context</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🌟 Capability 4: Culture, Ethics, and Behavior (Chapters 16-18)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Definition:</strong> Behaviors of individuals and the enterprise as key success factors in governance and management activities.</p>
+                        
+                        <h4>Cultural Elements:</h4>
+                        <ul>
+                            <li>Security awareness and training</li>
+                            <li>Tone from the top</li>
+                            <li>Risk culture</li>
+                            <li>Ethical standards</li>
+                            <li>Accountability mechanisms</li>
+                        </ul>
+                        
+                        <h4>Why Culture Matters Most:</h4>
+                        <p>"Culture eats strategy for breakfast" - You can have the best technology and processes, but if people don't care about security, you remain vulnerable.</p>
+                        
+                        <h4>Chapter Coverage:</h4>
+                        <ul>
+                            <li>Chapter 16: Culture and human factors</li>
+                            <li>Chapter 17: Legal and compliance</li>
+                            <li>Chapter 18: Assurance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📊 Capability 5: Information (Chapter 19)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Definition:</strong> Organization pervasive data that is both what we protect and what we need to operate effectively.</p>
+                        
+                        <h4>Information Management Aspects:</h4>
+                        <ul>
+                            <li>Data classification and handling</li>
+                            <li>Information asset inventories</li>
+                            <li>Data governance frameworks</li>
+                            <li>Privacy management</li>
+                            <li>Records retention</li>
+                            <li>Information flows and dependencies</li>
+                        </ul>
+                        
+                        <h4>Key Principle:</h4>
+                        <p>"You can't protect what you don't know you have." Information is often the key product of the operational enterprise.</p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>💻 Capability 6: Services, Infrastructure, and Applications (Chapters 20-23)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Definition:</strong> Infrastructure, technology, and applications providing the enterprise with IT processing and services.</p>
+                        
+                        <h4>Technology Components:</h4>
+                        <ul>
+                            <li>Security technologies (firewalls, IDS/IPS, SIEM)</li>
+                            <li>Identity and access management</li>
+                            <li>Encryption and key management</li>
+                            <li>Network security architecture</li>
+                            <li>Cloud security controls</li>
+                            <li>Application security</li>
+                            <li>Physical security integration</li>
+                        </ul>
+                        
+                        <h4>Important Note:</h4>
+                        <p>Notice this is capability #6, not #1. Technology alone doesn't solve cyber risk—it's one component of seven.</p>
+                        
+                        <h4>Chapter Coverage:</h4>
+                        <ul>
+                            <li>Chapter 20: Physical security</li>
+                            <li>Chapter 21: Network security</li>
+                            <li>Chapter 22: Identity access management</li>
+                            <li>Chapter 23: Secure software development lifecycle</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>👥 Capability 7: People, Skills, and Competencies (Chapters 24-26)</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Definition:</strong> Human capital required for successful completion of all activities and making correct decisions.</p>
+                        
+                        <h4>People-Related Elements:</h4>
+                        <ul>
+                            <li>Security skills assessment</li>
+                            <li>Training and development programs</li>
+                            <li>Professional certifications</li>
+                            <li>Recruitment and retention</li>
+                            <li>Succession planning</li>
+                            <li>Performance management</li>
+                        </ul>
+                        
+                        <h4>Chapter Coverage:</h4>
+                        <ul>
+                            <li>Chapter 24: Education and competency development</li>
+                            <li>Chapter 25: Communication and consultation</li>
+                            <li>Chapter 26: Recording and reporting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>📐 Effectiveness vs. Efficiency: A Critical Distinction</h3>
+                
+                <div class="two-column">
+                    <div class="framework-box">
+                        <h4 style="color: #667eea;">Efficiency</h4>
+                        <p style="font-size:20px; margin:10px 0;">"Doing things right"</p>
+                        <ul style="text-align: left; font-size: 16px; margin-top: 10px;">
+                            <li style="padding-left: 20px;">• Process optimization</li>
+                            <li style="padding-left: 20px;">• Cost reduction</li>
+                            <li style="padding-left: 20px;">• Speed improvement</li>
+                            <li style="padding-left: 20px;">• Resource utilization</li>
+                        </ul>
+                        <p style="margin-top:15px; color:#666; font-size:14px;">Example: Patching servers monthly in 2 hours</p>
+                    </div>
+                    <div class="framework-box">
+                        <h4 style="color: #764ba2;">Effectiveness ✓</h4>
+                        <p style="font-size:20px; margin:10px 0;">"Doing the right things"</p>
+                        <ul style="text-align: left; font-size: 16px; margin-top: 10px;">
+                            <li style="padding-left: 20px;">• Right capabilities</li>
+                            <li style="padding-left: 20px;">• Strategic alignment</li>
+                            <li style="padding-left: 20px;">• Risk reduction</li>
+                            <li style="padding-left: 20px;">• Threat relevance</li>
+                        </ul>
+                        <p style="margin-top:15px; color:#666; font-size:14px;">Example: Patching critical vulnerabilities within 24 hours</p>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">💭 Scenario: Building Your Capabilities</div>
+                    <p>Your organization has budget to significantly strengthen ONE capability area this year. Based on the framework, which would provide the greatest risk reduction?</p>
+                    <button class="choice-button" onclick="showCapabilityChoice('tech')">Upgrade Technology (Capability 6)</button>
+                    <button class="choice-button" onclick="showCapabilityChoice('people')">Invest in People & Training (Capability 7)</button>
+                    <button class="choice-button" onclick="showCapabilityChoice('process')">Improve Processes (Capability 2)</button>
+                    <button class="choice-button" onclick="showCapabilityChoice('culture')">Transform Culture (Capability 4)</button>
+                    <div id="capability-choice-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Understanding Check</div>
+                    <p style="margin-bottom:15px;">How many capability sets does Tom's adapted COBIT 5 framework include?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">A) 5</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">B) 6</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')">C) 7</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">D) 9</div>
+                    <div id="quiz3-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Key Takeaway: Effective cyber risk management requires all seven capabilities working together. Technology (Capability 6) is important but insufficient alone—success depends on the integration of policies, processes, structures, culture, information management, technology, and people.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Enterprise-Wide Accountability -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>Enterprise-Wide Accountability: The RASCI Matrix</span>
+                <span class="slide-number">Part 4 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>👥 Who Does What: Mapping Functional Responsibilities</h2>
+
+                <div class="highlight-box">
+                    <h3>Tom's Solution: The RASCI Matrix</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">Tom faced the challenge of assigning clear ownership for cyber risk across the entire organization. His solution was to create a RASCI matrix that maps who should be Responsible, Accountable, Supported, Consulted, and Informed for each cyber capability across the enterprise.</p>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">📋 Understanding RASCI Roles</div>
+                    <p>Click each role to understand what it means:</p>
+                    <button class="choice-button" onclick="showRASCI('R')">R - Responsible</button>
+                    <button class="choice-button" onclick="showRASCI('A')">A - Accountable</button>
+                    <button class="choice-button" onclick="showRASCI('S')">S - Supported</button>
+                    <button class="choice-button" onclick="showRASCI('C')">C - Consulted</button>
+                    <button class="choice-button" onclick="showRASCI('I')">I - Informed</button>
+                    <div id="rasci-explanation" class="result-box"></div>
+                </div>
+
+                <h3>🏢 Key Stakeholder Groups and Their Roles</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎩 Board & Executive Level Responsibilities</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Board of Directors</h4>
+                        <ul>
+                            <li><strong>Primary Role:</strong> Oversight and strategic direction</li>
+                            <li><strong>Accountable for:</strong> Overall governance and fiduciary duty</li>
+                            <li><strong>Key Activities:</strong> Approving risk appetite, reviewing performance, ensuring compliance</li>
+                            <li><strong>RASCI Position:</strong> Usually "A" for governance, "I" for operations</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Chief Executive Officer (CEO)</h4>
+                        <ul>
+                            <li><strong>Primary Role:</strong> Ultimate accountability for cyber risk</li>
+                            <li><strong>Accountable for:</strong> Enterprise cyber resilience and incident response</li>
+                            <li><strong>Key Message:</strong> "The buck stops here"</li>
+                            <li><strong>RASCI Position:</strong> "A" for most strategic cyber decisions</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Audit Committee</h4>
+                        <ul>
+                            <li><strong>Primary Role:</strong> Independent assurance and compliance verification</li>
+                            <li><strong>Consulted on:</strong> Control effectiveness, audit findings</li>
+                            <li><strong>Reports to:</strong> Board of Directors</li>
+                            <li><strong>RASCI Position:</strong> "C" for controls, "I" for incidents</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>⚖️ Risk & Compliance Functions</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Risk Management</h4>
+                        <ul>
+                            <li><strong>Responsible for:</strong> Integrating cyber risk into Enterprise Risk Management</li>
+                            <li><strong>Key Activities:</strong> Risk assessments, appetite setting, reporting</li>
+                            <li><strong>Collaboration:</strong> Works with all business units for risk identification</li>
+                            <li><strong>RASCI Position:</strong> "R" for risk processes, "C" for treatments</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Legal Department</h4>
+                        <ul>
+                            <li><strong>Consulted on:</strong> Regulatory requirements, breach notifications</li>
+                            <li><strong>Accountable for:</strong> Legal compliance and contract management</li>
+                            <li><strong>Critical During:</strong> Incident response and breach management</li>
+                            <li><strong>RASCI Position:</strong> "A" for compliance, "C" for incidents</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Internal Audit</h4>
+                        <ul>
+                            <li><strong>Role:</strong> Independent assurance provider (Third Line of Defense)</li>
+                            <li><strong>Never:</strong> Responsible for operational activities</li>
+                            <li><strong>Reports to:</strong> Audit Committee independently</li>
+                            <li><strong>RASCI Position:</strong> Never "R" for operations, always independent</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>💻 Operations & Technology Teams</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Information Technology (IT)</h4>
+                        <ul>
+                            <li><strong>Responsible for:</strong> Technical implementation of controls</li>
+                            <li><strong>Key Activities:</strong> System administration, patching, monitoring</li>
+                            <li><strong>Challenge:</strong> Often seen as sole owner (incorrectly)</li>
+                            <li><strong>RASCI Position:</strong> "R" for technical controls, "S" for business initiatives</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Information Security</h4>
+                        <ul>
+                            <li><strong>Responsible for:</strong> Security operations and monitoring</li>
+                            <li><strong>Led by:</strong> Chief Information Security Officer (CISO)</li>
+                            <li><strong>Activities:</strong> Threat intelligence, incident response, security architecture</li>
+                            <li><strong>RASCI Position:</strong> "R" for security operations, "C" for business decisions</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Business Operations</h4>
+                        <ul>
+                            <li><strong>Responsible for:</strong> Business continuity and recovery</li>
+                            <li><strong>Owns:</strong> Business processes and operational risk</li>
+                            <li><strong>Critical for:</strong> Defining recovery objectives (RTO/RPO)</li>
+                            <li><strong>RASCI Position:</strong> "A" for business process security</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🤝 Support Functions Critical Role</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Human Resources</h4>
+                        <ul>
+                            <li><strong>Drives:</strong> Culture change and security awareness training</li>
+                            <li><strong>Responsible for:</strong> Background checks, onboarding, termination procedures</li>
+                            <li><strong>Partners with IT on:</strong> Insider threat programs</li>
+                            <li><strong>RASCI Position:</strong> "R" for people security, "A" for culture</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Finance</h4>
+                        <ul>
+                            <li><strong>Manages:</strong> Cybersecurity budgets and investments</li>
+                            <li><strong>Responsible for:</strong> Cyber insurance procurement</li>
+                            <li><strong>Key Role:</strong> Risk quantification and cost-benefit analysis</li>
+                            <li><strong>RASCI Position:</strong> "R" for budget, "C" for risk transfer</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Corporate Communications</h4>
+                        <ul>
+                            <li><strong>Handles:</strong> Crisis communication and stakeholder messaging</li>
+                            <li><strong>Critical during:</strong> Breach notifications and media response</li>
+                            <li><strong>Prepares:</strong> Communication plans and templates</li>
+                            <li><strong>RASCI Position:</strong> "R" for external communications</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>🔄 Breaking Down Silos: Required Collaboration</h3>
+
+                <div class="case-study">
+                    <div class="case-study-title">🤝 Cross-Functional Collaboration Examples</div>
+                    <ul>
+                        <li><strong>Third-Party Risk:</strong> Supply Chain + Information Security must collaborate on vendor assessments</li>
+                        <li><strong>Insider Threat:</strong> HR + IT partner on behavioral indicators and technical monitoring</li>
+                        <li><strong>Cyber Insurance:</strong> Finance + Risk + Legal work together on coverage and claims</li>
+                        <li><strong>Breach Response:</strong> Legal coordinates with ALL functions for notification and remediation</li>
+                        <li><strong>Security Awareness:</strong> HR + InfoSec + Communications create and deliver programs</li>
+                        <li><strong>Business Continuity:</strong> Operations + IT + Risk define recovery strategies</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🚨 RASCI in Action: Data Breach Response</div>
+                    <p>A significant data breach has just been discovered. Match each function with their RASCI role:</p>
+                    <button class="choice-button" onclick="showBreachRASCI('it')">IT Department</button>
+                    <button class="choice-button" onclick="showBreachRASCI('ceo')">CEO</button>
+                    <button class="choice-button" onclick="showBreachRASCI('legal')">Legal</button>
+                    <button class="choice-button" onclick="showBreachRASCI('board')">Board</button>
+                    <button class="choice-button" onclick="showBreachRASCI('comms')">Communications</button>
+                    <div id="breach-rasci-result" class="result-box"></div>
+                </div>
+
+                <div class="highlight-box" style="background: #ffebee; border-left-color: #f44336;">
+                    <h3>⚠️ Common RASCI Pitfalls to Avoid</h3>
+                    <ul>
+                        <li><strong>Multiple Accountables:</strong> Only ONE person can be accountable per task</li>
+                        <li><strong>Missing Accountables:</strong> Every capability must have clear ownership</li>
+                        <li><strong>Forgotten C&I Roles:</strong> Communication breakdowns when consultation and information flows neglected</li>
+                        <li><strong>Static RASCI:</strong> Must evolve with organization and threat landscape</li>
+                        <li><strong>IT-Only Focus:</strong> Other functions abdicate their responsibilities</li>
+                    </ul>
+                </div>
+
+                <div class="stat-box">
+                    <p style="font-size: 18px; color: #333;">The handbook provides <strong>26 capability statements</strong> with ownership mapping across <strong>15+ organizational functions</strong></p>
+                    <p style="margin-top:10px; font-size:14px;">Chapter 15 contains detailed RASCI tables (15.3 to 15.7)</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 RASCI Understanding</div>
+                    <p style="margin-bottom:15px;">In a RASCI matrix, how many people/roles can be "Accountable" for a specific task or decision?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')">A) Only one</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">B) Up to three</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">C) As many as needed</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">D) One per department</div>
+                    <div id="quiz4-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    ✅ Key Takeaway: Clear accountability through RASCI mapping prevents finger-pointing, ensures coverage of all capabilities, and forces cross-functional collaboration. Every function has a role in cyber risk management—not just IT.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Maturity Model and Continuous Improvement -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>The Cyber Risk Maturity Journey: Measuring Progress</span>
+                <span class="slide-number">Part 5 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>📈 Measuring and Improving Cyber Risk Management Effectiveness</h2>
+
+                <div class="highlight-box">
+                    <h3>The Cyber Risk Maturity Model</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">By collating each of the 26 capability statements into a cyber risk maturity model, Tom can assess an overall index score. This integrates into the Chief Risk Officer's ERM-level risk maturity model, providing a roadmap for continuous improvement.</p>
+                </div>
+
+                <h3>🎯 Understanding Maturity Levels</h3>
+                <p style="font-size:18px; margin-bottom:20px;">Click each maturity level to understand its characteristics:</p>
+
+                <div style="background: linear-gradient(to right, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #667eea); height: 100px; border-radius: 10px; position: relative; margin: 30px 0; cursor: pointer;">
+                    <div style="position: absolute; bottom: -40px; left: 0; width: 100%; display: flex; justify-content: space-between; font-size: 16px; font-weight: bold;">
+                        <span onclick="showMaturityLevel('initial')" style="cursor: pointer; padding: 5px;">Initial</span>
+                        <span onclick="showMaturityLevel('developing')" style="cursor: pointer; padding: 5px;">Developing</span>
+                        <span onclick="showMaturityLevel('defined')" style="cursor: pointer; padding: 5px;">Defined</span>
+                        <span onclick="showMaturityLevel('managed')" style="cursor: pointer; padding: 5px;">Managed</span>
+                        <span onclick="showMaturityLevel('optimized')" style="cursor: pointer; padding: 5px;">Optimized</span>
+                    </div>
+                </div>
+                <div id="maturity-detail" style="margin-top: 60px; display:none;" class="highlight-box"></div>
+
+                <div class="stat-box" style="background: #fff3e0; border-color: #ff9800; margin-top: 30px;">
+                    <p style="font-size: 20px; color: #e65100;">
+                        <strong>⚠️ Critical Insight:</strong> The maturity curve is constantly rising as threats evolve
+                    </p>
+                    <p style="margin-top:10px; font-size:16px; color:#666;">"Standing still means falling behind"</p>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📊 From Risk Maturity Strategy to Risk Maturity Model</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>ISO 31000 Connection</h4>
+                        <p>The handbook notes that enterprise risk managers are familiar with:</p>
+                        <ul>
+                            <li><strong>Risk Maturity Strategy</strong> (ISO 31000 Annex A)</li>
+                            <li><strong>Risk Maturity Models</strong> (proven methodology since 1980s)</li>
+                            <li><strong>Capability Maturity Models</strong> (CMM/CMMI from IT sector)</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Integration Approach</h4>
+                        <p>Tom's cyber risk maturity model:</p>
+                        <ol>
+                            <li>Collates 26 capability statements from the handbook</li>
+                            <li>Creates measurable criteria for each capability</li>
+                            <li>Generates an overall index score</li>
+                            <li>Integrates into enterprise-wide ERM maturity model</li>
+                            <li>Enables board-level reporting and tracking</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <h3>🚀 Key Success Factors for Maturity Advancement</h3>
+                
+                <div class="two-column">
+                    <div class="framework-box">
+                        <h4 style="color: #667eea;">Organizational Enablers</h4>
+                        <ul style="font-size: 16px; text-align: left; margin-top:15px;">
+                            <li>• Executive sponsorship and tone from the top</li>
+                            <li>• Dedicated resources and budget allocation</li>
+                            <li>• Cross-functional collaboration mechanisms</li>
+                            <li>• Regular assessment and benchmarking</li>
+                            <li>• Clear accountability and ownership</li>
+                            <li>• Sustained leadership attention</li>
+                        </ul>
+                    </div>
+                    <div class="framework-box">
+                        <h4 style="color: #764ba2;">Measurement Approaches</h4>
+                        <ul style="font-size: 16px; text-align: left; margin-top:15px;">
+                            <li>• Capability maturity assessments</li>
+                            <li>• Key Risk Indicators (KRIs)</li>
+                            <li>• Security metrics and dashboards</li>
+                            <li>• Third-party audits and certifications</li>
+                            <li>• Penetration testing results</li>
+                            <li>• Incident response metrics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎯 Tom's Board Presentation: The Complete Package</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p>After his long day building the Cyber Risk Handbook with his team, Tom can now present:</p>
+                        
+                        <h4>1. Current State Assessment</h4>
+                        <ul>
+                            <li>Maturity levels across all 26 capabilities</li>
+                            <li>Heat map showing strengths and weaknesses</li>
+                            <li>Benchmark comparison with industry peers</li>
+                            <li>Recent incident analysis and lessons learned</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">2. Gap Analysis and Priorities</h4>
+                        <ul>
+                            <li>Critical gaps requiring immediate attention</li>
+                            <li>Risk-based prioritization of improvements</li>
+                            <li>Quick wins vs. strategic initiatives</li>
+                            <li>Dependencies and prerequisites</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">3. Resource Requirements</h4>
+                        <ul>
+                            <li>People: Headcount and skill requirements</li>
+                            <li>Process: Transformation initiatives needed</li>
+                            <li>Technology: Tool and infrastructure investments</li>
+                            <li>Budget: Multi-year financial projections</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">4. Clear Accountability (RASCI)</h4>
+                        <ul>
+                            <li>Ownership map for each capability</li>
+                            <li>Cross-functional dependencies</li>
+                            <li>Governance structure and reporting lines</li>
+                            <li>Decision rights and escalation paths</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">5. Measurable Roadmap</h4>
+                        <ul>
+                            <li>3-year maturity improvement plan</li>
+                            <li>Quarterly milestones and checkpoints</li>
+                            <li>Success metrics and KRIs</li>
+                            <li>Risk reduction projections</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">📊 Maturity Assessment Exercise</div>
+                    <p>For a typical organization, which capability area often shows the LOWEST maturity?</p>
+                    <button class="choice-button" onclick="showMaturityGap('tech')">Technology & Infrastructure</button>
+                    <button class="choice-button" onclick="showMaturityGap('process')">Processes & Procedures</button>
+                    <button class="choice-button" onclick="showMaturityGap('culture')">Culture & Awareness</button>
+                    <button class="choice-button" onclick="showMaturityGap('metrics')">Measurement & Metrics</button>
+                    <div id="maturity-gap-result" class="result-box"></div>
+                </div>
+
+                <h3>🔗 Integration with Enterprise Risk Management</h3>
+                
+                <div class="highlight-box" style="background: #e8f4fd; border-left-color: #2196F3;">
+                    <h4>Benefits of ERM Integration</h4>
+                    <ul>
+                        <li><strong>Consistent Methodology:</strong> Same maturity scale across all risk types</li>
+                        <li><strong>Board-Level Visibility:</strong> Cyber risk in context of overall risk profile</li>
+                        <li><strong>Risk Appetite Alignment:</strong> Cyber tolerances linked to business objectives</li>
+                        <li><strong>Investment Optimization:</strong> Risk-adjusted resource allocation</li>
+                        <li><strong>Regulatory Compliance:</strong> Demonstrable risk management maturity</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">📚 The Handbook's Value Proposition</div>
+                    <h4>What Makes This Approach Different?</h4>
+                    <ul>
+                        <li><strong>Balance and Objectivity:</strong> Multiple expert contributors vs. single author</li>
+                        <li><strong>Global Perspective:</strong> Contributors from 15+ countries</li>
+                        <li><strong>Cross-Functional View:</strong> Not just IT/security backgrounds</li>
+                        <li><strong>Enterprise Comprehensiveness:</strong> All seven capability areas covered</li>
+                        <li><strong>Practical Implementation:</strong> RASCI tables and maturity models included</li>
+                        <li><strong>Continuous Evolution:</strong> Recognizes the dynamic nature of cyber threats</li>
+                    </ul>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📖 Moving Up the Maturity Curve: Practical Steps</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Phase 1: Assessment (Month 1)</h4>
+                        <ul>
+                            <li>Conduct baseline maturity assessment</li>
+                            <li>Interview stakeholders across all functions</li>
+                            <li>Document current capabilities</li>
+                            <li>Identify critical gaps</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Phase 2: Planning (Month 2)</h4>
+                        <ul>
+                            <li>Define target maturity levels by capability</li>
+                            <li>Prioritize improvements based on risk</li>
+                            <li>Develop business cases for investment</li>
+                            <li>Create detailed project plans</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Phase 3: Implementation (Months 3-12)</h4>
+                        <ul>
+                            <li>Execute quick wins first</li>
+                            <li>Build momentum with visible successes</li>
+                            <li>Address critical gaps systematically</li>
+                            <li>Monitor progress monthly</li>
+                        </ul>
+
+                        <h4 style="margin-top:20px;">Phase 4: Optimization (Ongoing)</h4>
+                        <ul>
+                            <li>Quarterly maturity reassessments</li>
+                            <li>Continuous improvement cycles</li>
+                            <li>Benchmark against peers</li>
+                            <li>Adapt to emerging threats</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Final Assessment</div>
+                    <p style="margin-bottom:15px;">According to the chapter, how many chapters does the complete Cyber Risk Handbook contain?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 15 chapters</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) 20 chapters</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">C) 26 chapters plus epilogue</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">D) 30 chapters</div>
+                    <div id="quiz5-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Final Chapter Takeaway: Cyber risk management is a journey requiring enterprise-wide commitment, clear accountability through RASCI, and continuous maturity improvement measured through comprehensive models. Success depends on recognizing that cyber risk IS enterprise risk, owned by the CEO, overseen by the board, and enabled by everyone.
+                </div>
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-top: 40px;">
+                    <h3 style="color: white;">📚 Chapter Summary: Tom's Journey</h3>
+                    <p style="color: white; line-height: 1.8;">Tom began his day thinking cybersecurity was an IT problem. Through building his Cyber Risk Handbook, he discovered it's an enterprise challenge requiring:</p>
+                    <ul style="color: white; margin-top: 15px;">
+                        <li>✓ Executive ownership and board oversight</li>
+                        <li>✓ Seven integrated capability areas</li>
+                        <li>✓ Clear accountability across 15+ functions</li>
+                        <li>✓ Continuous maturity improvement</li>
+                        <li>✓ Integration with enterprise risk management</li>
+                    </ul>
+                    <p style="color: white; margin-top: 20px; font-weight: bold; text-align: center; font-size: 20px;">
+                        "Effectiveness is all about doing the right things."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
+            <p style="font-size: 14px; margin-top: 10px;">Chapter 1: Introduction | Edited by Domenic Antonucci</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 5) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const slide = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            sectionsViewed.add(slideNumber);
+            updateProgress();
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function showAnswer(choice, questionId) {
+            const resultDiv = document.getElementById(questionId + '-result');
+            let feedback = '';
+            
+            if (choice === 'ceo') {
+                feedback = '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><strong>✓ Correct!</strong> The CEO owns cybersecurity accountability. While the CISO manages operations and the board provides oversight, ultimate responsibility rests with the CEO.</div>';
+            } else if (choice === 'ciso') {
+                feedback = '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><strong>Common misconception!</strong> The CISO manages security operations but the CEO owns ultimate accountability. This is the key paradigm shift the chapter emphasizes.</div>';
+            } else if (choice === 'cio') {
+                feedback = '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><strong>Not quite.</strong> The CIO manages IT infrastructure, but cyber risk transcends IT—it\'s an enterprise risk owned by the CEO.</div>';
+            } else {
+                feedback = '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><strong>Close, but not quite.</strong> The board provides oversight and governance, but the CEO owns operational accountability for cybersecurity.</div>';
+            }
+            
+            resultDiv.innerHTML = feedback;
+            resultDiv.classList.add('show');
+        }
+
+        function expandStat(statId) {
+            const detailDiv = document.getElementById('stat-details');
+            let content = '';
+            
+            if (statId === 'stat1') {
+                content = '<h4>Why 88% of companies struggle with security:</h4><ul><li>• Rapidly evolving threat landscape outpaces security updates</li><li>• Lack of skilled cybersecurity professionals</li><li>• Insufficient budget allocation</li><li>• Siloed approach rather than enterprise-wide</li><li>• Focus on compliance rather than actual security</li></ul>';
+            } else {
+                content = '<h4>Why 75% expect to be breached:</h4><ul><li>• Sophisticated attack methods constantly evolving</li><li>• Human factor remains the weakest link</li><li>• Expanding attack surface with digital transformation</li><li>• Supply chain vulnerabilities</li><li>• Nation-state actors with unlimited resources</li></ul>';
+            }
+            
+            detailDiv.innerHTML = content;
+            detailDiv.style.display = 'block';
+        }
+
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedbackDiv = document.getElementById(quizId + '-feedback');
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedbackDiv.innerHTML = '✓ Correct! Well done!';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                element.classList.add('incorrect');
+                feedbackDiv.innerHTML = '✗ Not quite. Try reviewing the section again.';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            
+            feedbackDiv.style.display = 'block';
+        }
+
+        function showTechDetail(tech) {
+            const detailDiv = document.getElementById('tech-detail');
+            const details = {
+                'bigdata': '<h4>Big Data & Analytics Risk:</h4><p>Massive data repositories become high-value targets. Every data lake is a potential breach goldmine. Challenges include data classification, access control, and monitoring at scale.</p>',
+                'cloud': '<h4>Cloud Computing Risk:</h4><p>Shared responsibility model confusion, misconfiguration, and loss of direct control. Multi-cloud strategies expand attack surface exponentially.</p>',
+                'iot': '<h4>Internet of Things Risk:</h4><p>Each connected device is a potential entry point. Many IoT devices lack basic security features, receive irregular updates, and create shadow IT.</p>',
+                'social': '<h4>Social Media Risk:</h4><p>Primary reconnaissance tool for attackers. Employees inadvertently share sensitive information. Brand impersonation and social engineering vectors.</p>',
+                'mobile': '<h4>Mobile Technology Risk:</h4><p>BYOD policies blur security perimeters. Mobile malware, unsecured WiFi, and app permissions create vulnerabilities.</p>',
+                'ai': '<h4>AI & Machine Learning Risk:</h4><p>Adversarial attacks on ML models, data poisoning, and AI-powered attacks that adapt to defenses in real-time.</p>',
+                'remote': '<h4>Remote Access Risk:</h4><p>VPN vulnerabilities, home network security gaps, and increased phishing success rates with distributed workforce.</p>',
+                'digital': '<h4>Digital Assets Risk:</h4><p>Any equipment with a microprocessor becomes a target. Digital transformation creates dependencies and single points of failure.</p>'
+            };
+            
+            detailDiv.innerHTML = details[tech];
+            detailDiv.style.display = 'block';
+        }
+
+        function showScenarioResult(risk) {
+            const resultDiv = document.getElementById('scenario-result');
+            const results = {
+                'regulatory': '<div style="background:#ffebee; padding:15px; border-radius:8px; color:#c62828;"><h4>Regulatory Risk:</h4><p>GDPR fines up to 4% of global revenue. CCPA penalties of $7,500 per violation. Mandatory breach notifications within 72 hours. Personal liability for directors.</p></div>',
+                'financial': '<div style="background:#ffebee; padding:15px; border-radius:8px; color:#c62828;"><h4>Financial Impact:</h4><p>Average breach cost exceeds $4.5 million. 60% of small businesses fail within 6 months of a major breach. Cyber insurance premiums doubled. Stock price impacts average 7.5% decline.</p></div>',
+                'operational': '<div style="background:#ffebee; padding:15px; border-radius:8px; color:#c62828;"><h4>Operational Risk:</h4><p>Ransomware can halt operations for weeks. Supply chain attacks cascade through partners. Recovery costs exceed ransom demands 10x. Productivity losses during recovery.</p></div>',
+                'reputation': '<div style="background:#ffebee; padding:15px; border-radius:8px; color:#c62828;"><h4>Reputation Risk:</h4><p>Customer trust takes years to build, seconds to destroy. 87% of customers will take business elsewhere after a breach. Negative media coverage. Long-term brand damage.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[risk];
+            resultDiv.classList.add('show');
+        }
+
+        function showCapabilityChoice(choice) {
+            const resultDiv = document.getElementById('capability-choice-result');
+            const results = {
+                'tech': '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><h4>Technology Alone?</h4><p>Common mistake! Technology is important but represents only 1 of 7 capabilities. Without proper processes, people, and culture, even the best technology fails. Remember: Technology is capability #6, not #1.</p></div>',
+                'people': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Smart Choice!</h4><p>People are often the weakest link but also your best defense. Investment in training, awareness, and skills development has high ROI. Humans operate all other capabilities.</p></div>',
+                'process': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Good Strategic Thinking!</h4><p>Processes turn policies into action. Well-defined processes ensure consistency, reduce errors, and enable scaling. This is often where organizations see quick wins.</p></div>',
+                'culture': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Excellent Long-term View!</h4><p>Culture eats strategy for breakfast. A strong security culture makes every employee a defender. This takes time but provides the most sustainable improvement.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showRASCI(role) {
+            const resultDiv = document.getElementById('rasci-explanation');
+            const explanations = {
+                'R': '<div style="background:#e3f2fd; padding:15px; border-radius:8px;"><h4>R - Responsible</h4><p><strong>Definition:</strong> The person(s) who actually does the work to complete the task.<br><strong>Key Point:</strong> Multiple people can be Responsible.<br><strong>Example:</strong> IT team members implementing security patches.</p></div>',
+                'A': '<div style="background:#fce4ec; padding:15px; border-radius:8px;"><h4>A - Accountable</h4><p><strong>Definition:</strong> The person ultimately answerable for correct completion.<br><strong>Critical Rule:</strong> Only ONE person can be Accountable per task.<br><strong>Example:</strong> CEO accountable for overall cyber risk management.</p></div>',
+                'S': '<div style="background:#f3e5f5; padding:15px; border-radius:8px;"><h4>S - Supported</h4><p><strong>Definition:</strong> Person(s) who provide resources or assistance.<br><strong>Key Point:</strong> They enable the Responsible parties to complete work.<br><strong>Example:</strong> Finance providing budget for security initiatives.</p></div>',
+                'C': '<div style="background:#e8f5e9; padding:15px; border-radius:8px;"><h4>C - Consulted</h4><p><strong>Definition:</strong> Person(s) whose input is sought; two-way communication.<br><strong>Key Point:</strong> Subject matter experts who provide guidance.<br><strong>Example:</strong> Legal consulted on breach notification requirements.</p></div>',
+                'I': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>I - Informed</h4><p><strong>Definition:</strong> Person(s) kept up-to-date on progress; one-way communication.<br><strong>Key Point:</strong> Need to know but don\'t provide input.<br><strong>Example:</strong> Board informed of major security incidents.</p></div>'
+            };
+            
+            resultDiv.innerHTML = explanations[role];
+            resultDiv.classList.add('show');
+        }
+
+        function showBreachRASCI(dept) {
+            const resultDiv = document.getElementById('breach-rasci-result');
+            const roles = {
+                'it': '<div style="background:#e3f2fd; padding:15px; border-radius:8px;"><h4>IT Department</h4><p><strong>RASCI Role: R (Responsible)</strong><br>IT is responsible for technical containment, forensics, and system recovery. They do the hands-on work but are not ultimately accountable.</p></div>',
+                'ceo': '<div style="background:#fce4ec; padding:15px; border-radius:8px;"><h4>Chief Executive Officer</h4><p><strong>RASCI Role: A (Accountable)</strong><br>The CEO has ultimate accountability for the breach response. The buck stops here. Only one person can be accountable.</p></div>',
+                'legal': '<div style="background:#e8f5e9; padding:15px; border-radius:8px;"><h4>Legal Department</h4><p><strong>RASCI Role: C (Consulted)</strong><br>Legal is consulted on notification requirements, regulatory compliance, and liability issues. Critical two-way communication.</p></div>',
+                'board': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Board of Directors</h4><p><strong>RASCI Role: I (Informed)</strong><br>The board must be kept informed of progress, impact, and remediation efforts. One-way communication unless escalation needed.</p></div>',
+                'comms': '<div style="background:#f3e5f5; padding:15px; border-radius:8px;"><h4>Communications Team</h4><p><strong>RASCI Role: R (Responsible)</strong><br>Communications is responsible for stakeholder messaging, media relations, and customer notifications. Works under CEO accountability.</p></div>'
+            };
+            
+            resultDiv.innerHTML = roles[dept];
+            resultDiv.classList.add('show');
+        }
+
+        function showMaturityLevel(level) {
+            const detailDiv = document.getElementById('maturity-detail');
+            const levels = {
+                'initial': '<h4>Level 1: Initial (Ad-hoc/Chaotic)</h4><ul><li>• Reactive, fire-fighting mode</li><li>• No documented processes</li><li>• Heroics-based response</li><li>• Inconsistent practices</li><li>• High dependency on individuals</li></ul><p><strong>Typical State:</strong> "We handle issues as they come up"</p>',
+                'developing': '<h4>Level 2: Developing (Repeatable)</h4><ul><li>• Some documented processes</li><li>• Basic controls in place</li><li>• Inconsistent implementation</li><li>• Limited metrics</li><li>• Departmental silos</li></ul><p><strong>Typical State:</strong> "We have some processes but they\'re not consistently followed"</p>',
+                'defined': '<h4>Level 3: Defined (Standardized)</h4><ul><li>• Standardized processes across organization</li><li>• Clear roles and responsibilities</li><li>• Regular training programs</li><li>• Basic metrics and reporting</li><li>• Proactive risk identification</li></ul><p><strong>Typical State:</strong> "We have standard practices everyone follows"</p>',
+                'managed': '<h4>Level 4: Managed (Quantified)</h4><ul><li>• Quantitative metrics drive decisions</li><li>• Predictive capabilities</li><li>• Automated controls</li><li>• Risk-based resource allocation</li><li>• Continuous monitoring</li></ul><p><strong>Typical State:</strong> "We measure, predict, and prevent issues"</p>',
+                'optimized': '<h4>Level 5: Optimized (Continuous Improvement)</h4><ul><li>• Continuous improvement culture</li><li>• Innovation and adaptation</li><li>• Industry leadership</li><li>• Resilience to unknown threats</li><li>• Integrated with business strategy</li></ul><p><strong>Typical State:</strong> "We continuously evolve ahead of threats"</p>'
+            };
+            
+            detailDiv.innerHTML = levels[level];
+            detailDiv.style.display = 'block';
+        }
+
+        function showMaturityGap(area) {
+            const resultDiv = document.getElementById('maturity-gap-result');
+            const gaps = {
+                'tech': '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><h4>Technology Gap?</h4><p>Actually, most organizations invest heavily in technology. The tools exist, but without proper processes and people to operate them, technology investments often underperform.</p></div>',
+                'process': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Process Gap</h4><p>Common weakness! Many organizations have ad-hoc processes. Documenting, standardizing, and enforcing processes often shows the biggest gaps and quickest improvement opportunities.</p></div>',
+                'culture': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Culture & Awareness - Correct!</h4><p>Studies consistently show culture and awareness as the lowest maturity area. It\'s the hardest to change, takes the longest, but provides the most sustainable improvement.</p></div>',
+                'metrics': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Measurement Gap</h4><p>Very common! "You can\'t manage what you don\'t measure." Most organizations lack meaningful metrics, KRIs, and dashboards to drive improvement.</p></div>'
+            };
+            
+            resultDiv.innerHTML = gaps[area];
+            resultDiv.classList.add('show');
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 5;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
+                  `${viewed === total ? 'Congratulations! You\'ve completed Chapter 1!' : 'Keep going! ' + (total - viewed) + ' sections remaining.'}`);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>

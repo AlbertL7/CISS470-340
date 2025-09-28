@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: Principles Behind Cyber Risk Management - Interactive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-header:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4299 100%);
+        }
+        
+        .slide-number {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        
+        .slide-content {
+            padding: 40px;
+            background: white;
+        }
+        
+        .slide-content h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 10px;
+        }
+        
+        .slide-content h3 {
+            color: #764ba2;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .quote-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-style: italic;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .principle-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            background: #f8faff;
+        }
+        
+        .principle-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .iso-principle {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .iso-principle:hover {
+            background: #ffe0b2;
+            transform: translateX(10px);
+        }
+        
+        .expandable {
+            background: #f8fbff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4299 100%);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 24px;
+        }
+        
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .expandable-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+        
+        .expandable-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .interactive-scenario {
+            background: #e8f4fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .scenario-title {
+            color: #1976d2;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .choice-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #5a67d8 0%, #6b4299 100%);
+        }
+        
+        .result-box {
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .quiz-container {
+            background: #fff8e1;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f5f5f5;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+        }
+        
+        .quiz-option.incorrect {
+            background: #ffcdd2;
+            border-color: #f44336;
+        }
+        
+        .feedback {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .key-takeaway {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .matrix-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .matrix-table td {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            background: white;
+        }
+        
+        .matrix-table tr:hover td {
+            background: #f8faff;
+        }
+        
+        .matrix-cell {
+            text-align: center;
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .process-diagram {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .process-node {
+            background: linear-gradient(135deg, #e8f4fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .process-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        .process-center {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .case-study {
+            background: #f5f5f5;
+            border-left: 5px solid #9b59b6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .case-study-title {
+            color: #9b59b6;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .navigation-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50 0%, #8bc34a 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .info-card {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 PRINCIPLES BEHIND CYBER RISK MANAGEMENT</h1>
+            <p style="font-size: 24px; margin-top: 10px;">Chapter 3: Bridging ISO 31000 and COBIT 5 for Cyber Excellence</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Opening Scene & Foundation -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>People Enact Principles: Tom Meets HR and Strategy</span>
+                <span class="slide-number">Part 1 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>👥 Why HR and Strategy Lead Cyber Principles</h2>
+                
+                <div class="quote-box">
+                    <strong>Tom:</strong> "So what do our people have to do with principles guiding our cyber strategy, risks, and actions?"<br><br>
+                    <strong>Grace (Head of HR):</strong> "Lots. Our people enact the principles—principles that provide the foundation for desirable and positive behavior."
+                </div>
+
+                <div class="highlight-box">
+                    <h3>The Fundamental Truth About Principles</h3>
+                    <p style="font-size: 18px; line-height: 1.8;">Principles provide the foundation for people's desirable and positive behavior in carrying out their respective responsibilities within an organization. They aid in determining whether decisions and resulting actions are helpful or harmful.</p>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🤔 Opening Reflection</div>
+                    <p>Why do you think Tom is meeting with HR and Strategy rather than IT when discussing cyber risk principles?</p>
+                    <button class="choice-button" onclick="showOpeningAnswer('people')">People drive principles</button>
+                    <button class="choice-button" onclick="showOpeningAnswer('strategy')">Strategic alignment needed</button>
+                    <button class="choice-button" onclick="showOpeningAnswer('culture')">Culture determines success</button>
+                    <button class="choice-button" onclick="showOpeningAnswer('all')">All of the above</button>
+                    <div id="opening-result" class="result-box"></div>
+                </div>
+
+                <h3>🏗️ The Two Frameworks Working Together</h3>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>📋 COBIT 5 GEIT: Five Governing Principles</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>COBIT 5 GEIT (Governance of Enterprise Information Technology) provides five principles:</strong></p>
+                        <ol>
+                            <li><strong>Meeting stakeholder needs</strong> - Aligning objectives with stakeholder requirements</li>
+                            <li><strong>Covering the enterprise end-to-end</strong> - Managing IT as a business asset</li>
+                            <li><strong>Applying a single, integrated framework</strong> - Consistent guidance across the organization</li>
+                            <li><strong>Enabling a holistic approach</strong> - Considering all interacting components</li>
+                            <li><strong>Separating governance from management</strong> - Clear distinction between oversight and execution</li>
+                        </ol>
+                        <p style="margin-top:15px; background:#e8f4fd; padding:15px; border-radius:8px;">
+                            <strong>Key Point:</strong> These principles focus on HOW to govern and manage enterprise IT effectively.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎯 ISO 31000: Eleven Risk Management Principles</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>ISO 31000:2009 Risk Management provides principles that guide behavior:</strong></p>
+                        <ol>
+                            <li>Risk management is <strong>transparent and inclusive</strong></li>
+                            <li>Risk management is <strong>dynamic, iterative, and responsive to change</strong></li>
+                            <li>Risk management <strong>creates and protects value</strong></li>
+                            <li>Risk management is <strong>tailored</strong></li>
+                            <li>Risk management <strong>explicitly addresses uncertainty</strong></li>
+                            <li>Risk management is <strong>systematic, structured, and timely</strong></li>
+                            <li>Risk management is an <strong>integral part of all organizational processes</strong></li>
+                            <li>Risk management <strong>takes human and cultural factors into account</strong></li>
+                            <li>Risk management is <strong>part of decision making</strong></li>
+                            <li>Risk management is <strong>based on the best available information</strong></li>
+                            <li>Risk management <strong>facilitates continual improvement</strong></li>
+                        </ol>
+                        <p style="margin-top:15px; background:#fff3cd; padding:15px; border-radius:8px;">
+                            <strong>Important Note:</strong> The word "cyber" is inserted in the text to emphasize IT-specific risk, but these principles apply across the entire organization.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">📊 The Integration Matrix</div>
+                    <p>Table 3.1 shows how ISO 31000 principles map to COBIT 5 principles:</p>
+                    <div style="overflow-x: auto; margin-top:15px;">
+                        <table class="matrix-table">
+                            <tr>
+                                <th>COBIT 5 Principle</th>
+                                <th>Supporting ISO 31000 Principles</th>
+                            </tr>
+                            <tr>
+                                <td><strong>1. Meet Stakeholder Needs</strong></td>
+                                <td>• Transparent and inclusive<br>• Dynamic and responsive to change</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. Cover Enterprise End-to-End</strong></td>
+                                <td>• Creates and protects value<br>• Tailored<br>• Explicitly addresses uncertainty</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. Apply Single Framework</strong></td>
+                                <td>• Systematic, structured, and timely</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4. Enable Holistic Approach</strong></td>
+                                <td>• Integral part of all processes<br>• Takes human factors into account<br>• Part of decision making<br>• Based on best information</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5. Separate Governance/Management</strong></td>
+                                <td>• Facilitates continual improvement</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Quick Check</div>
+                    <p style="margin-bottom:15px;">According to the chapter, what do principles aid in determining?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">A) Whether decisions and actions are helpful or harmful</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) The IT budget allocation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) Technical security requirements</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">D) Compliance frameworks to adopt</div>
+                    <div id="quiz1-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    💡 Opening Insight: Cyber risk management principles aren't just IT guidelines—they're behavioral foundations that guide how PEOPLE across the entire organization make decisions and take actions.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Meeting Stakeholder Needs -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>COBIT Principle 1: Meeting Stakeholder Needs</span>
+                <span class="slide-number">Part 2 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🤝 Meeting Stakeholder Needs Through Transparency and Responsiveness</h2>
+
+                <div class="highlight-box">
+                    <h3>The First COBIT 5 Principle</h3>
+                    <p style="font-size: 18px;">This principle "addresses the need to align individual and departmental objectives and priorities with enterprise and stakeholder needs." It recognizes that stakeholder needs and enterprise goals change over time.</p>
+                </div>
+
+                <h3>🌐 Being Transparent and Inclusive</h3>
+                
+                <div class="iso-principle" onclick="expandIsoPrinciple('transparent')">
+                    <strong>ISO 31000 Principle:</strong> "Risk management is transparent and inclusive"
+                    <div id="transparent-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
+                        <p><strong>What it means:</strong> "Appropriate and timely involvement of stakeholders and, in particular, decision makers at all levels ensures that [cyber] risk management remains relevant and up-to-date."</p>
+                        
+                        <h4 style="margin-top:15px;">Examples of Cyber Risk Stakeholders:</h4>
+                        <ul>
+                            <li>Customers, clients, stockholders</li>
+                            <li>Employees, contractors, supply chain partners</li>
+                            <li>Outsourced partners and critical infrastructure suppliers</li>
+                            <li>Government and regulatory authorities</li>
+                            <li>Nongovernmental organizations</li>
+                            <li>Civil society groups</li>
+                            <li>Members of the public (including media)</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:15px;">Key Questions to Answer:</h4>
+                        <ul>
+                            <li>"What is each stakeholder expecting from the organization when it comes to managing cyber risk?"</li>
+                            <li>"What are the regulations that apply to digital information and sensitive data?"</li>
+                            <li>"What voluntary or contractual obligations exist for network, systems, and data?"</li>
+                        </ul>
+                        
+                        <p style="margin-top:15px; background:#e8f4fd; padding:15px; border-radius:8px;">
+                            <strong>Remember:</strong> The answers may differ depending on the stakeholder!
+                        </p>
+                    </div>
+                </div>
+
+                <h3>🔄 Being Responsive to Change</h3>
+                
+                <div class="iso-principle" onclick="expandIsoPrinciple('dynamic')">
+                    <strong>ISO 31000 Principle:</strong> "Risk management is dynamic, iterative, and responsive to change"
+                    <div id="dynamic-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
+                        <p><strong>Core Message:</strong> "[Cyber] risk management continually senses and responds to change. As external and internal events occur, context and knowledge change, monitoring and review of risks take place, new risks emerge, some change, and others disappear."</p>
+                        
+                        <h4 style="margin-top:15px;">Why This Matters for Cyber:</h4>
+                        <p>Given the disruptive nature of technology and speed of change, this principle addresses the intersection between:</p>
+                        <ul>
+                            <li>Stakeholders with different (sometimes conflicting) needs</li>
+                            <li>Changes in internal and external circumstances</li>
+                            <li>Technology refreshes and updates</li>
+                            <li>Operational process changes</li>
+                            <li>New applications/software solutions</li>
+                            <li>Evolution in how stakeholders access and use systems</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:15px;">Creating Both Opportunities and Threats:</h4>
+                        <div class="two-column">
+                            <div class="info-card">
+                                <h5 style="color:#4caf50;">Opportunities</h5>
+                                <ul>
+                                    <li>Innovation enablement</li>
+                                    <li>Competitive advantage</li>
+                                    <li>Efficiency gains</li>
+                                    <li>New capabilities</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h5 style="color:#f44336;">Threats</h5>
+                                <ul>
+                                    <li>New vulnerabilities</li>
+                                    <li>Attack surface expansion</li>
+                                    <li>Complexity risks</li>
+                                    <li>Integration challenges</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">💭 Stakeholder Scenario</div>
+                    <p>A major customer demands that your organization implement a new security standard that conflicts with regulatory requirements in another jurisdiction. How should you apply these principles?</p>
+                    <button class="choice-button" onclick="showStakeholderAnswer('transparent')">Be transparent about the conflict</button>
+                    <button class="choice-button" onclick="showStakeholderAnswer('prioritize')">Prioritize one stakeholder</button>
+                    <button class="choice-button" onclick="showStakeholderAnswer('ignore')">Ignore the less important requirement</button>
+                    <button class="choice-button" onclick="showStakeholderAnswer('integrate')">Find an integrated solution</button>
+                    <div id="stakeholder-result" class="result-box"></div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🔍 How to Demonstrate These Principles</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Transparency and Inclusiveness is Demonstrated When:</h4>
+                        <ul>
+                            <li>The organization can clearly articulate each stakeholder's expectations</li>
+                            <li>All relevant parties are involved in risk discussions</li>
+                            <li>Communication channels are open and two-way</li>
+                            <li>Stakeholder feedback is actively sought and incorporated</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">Responsiveness to Change is Demonstrated When:</h4>
+                        <ul>
+                            <li>Uncertainties and changes that modify IT assets are integrated into change management</li>
+                            <li>Risk assessments are updated as circumstances evolve</li>
+                            <li>New technologies trigger risk reviews</li>
+                            <li>Stakeholder need changes prompt process adjustments</li>
+                            <li>Formal and informal change processes incorporate risk considerations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Understanding Check</div>
+                    <p style="margin-bottom:15px;">According to the chapter, why is the "dynamic and responsive" principle especially important for cyber risk?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) It reduces IT costs</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">B) Technology's disruptive nature and speed of change</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) It simplifies compliance</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) It eliminates all risks</div>
+                    <div id="quiz2-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Key Principle: Meeting stakeholder needs requires both transparency in engagement AND responsiveness to change—recognizing that different stakeholders have different expectations that evolve over time.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Covering Enterprise & Single Framework -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>COBIT Principles 2 & 3: Enterprise Coverage & Integration</span>
+                <span class="slide-number">Part 3 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🏢 Covering the Enterprise End-to-End & Applying a Single Framework</h2>
+
+                <div class="highlight-box">
+                    <h3>COBIT Principle 2: Enterprise-Wide Perspective</h3>
+                    <p style="font-size: 18px;">Managing IT as an asset is essential for business value creation, covering "all functions and processes within the enterprise." <strong>Accountability rests with business managers, not IT functional roles.</strong></p>
+                </div>
+
+                <h3>💎 Three Supporting ISO Principles for Enterprise Coverage</h3>
+
+                <div class="iso-principle" onclick="expandIsoPrinciple('value')">
+                    <strong>1. Creating and Protecting Value</strong>
+                    <div id="value-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
+                        <p><strong>Principle:</strong> "Risk management creates and protects value"</p>
+                        <p>Focuses on [cyber] risk management contributing to "demonstrable achievement of objectives and improvement of performance."</p>
+                        
+                        <h4 style="margin-top:15px;">Demonstrated When:</h4>
+                        <ul>
+                            <li>Business managers (not just IT) consider uncertainties related to IT assets</li>
+                            <li>Decisions include recognition of organizational value to be gained</li>
+                            <li>Risk considerations include value protection aspects</li>
+                            <li>IT investments are evaluated for business value creation</li>
+                        </ul>
+                        
+                        <div style="background:#e8f4fd; padding:15px; border-radius:8px; margin-top:15px;">
+                            <strong>Critical Shift:</strong> IT assets are business assets, managed by business managers for business value.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="iso-principle" onclick="expandIsoPrinciple('tailored')">
+                    <strong>2. Risk Management is Tailored</strong>
+                    <div id="tailored-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
+                        <p><strong>Principle:</strong> "[Cyber] risk management is aligned with the organization's external and internal context and risk profile"</p>
+                        
+                        <h4 style="margin-top:15px;">Acknowledges Differences In:</h4>
+                        <ul>
+                            <li>Entity's operations</li>
+                            <li>Stakeholder composition</li>
+                            <li>Business environment</li>
+                            <li>Industry requirements</li>
+                            <li>Geographic considerations</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:15px;">Demonstrated Through:</h4>
+                        <ul>
+                            <li>Assessment methodologies customized to circumstances</li>
+                            <li>Decisions based on proprietary knowledge</li>
+                            <li>Actions tailored to specific risk sets</li>
+                            <li>No "one-size-fits-all" approaches</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="iso-principle" onclick="expandIsoPrinciple('uncertainty')">
+                    <strong>3. Explicitly Addressing Uncertainty</strong>
+                    <div id="uncertainty-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
+                        <p><strong>Core Concept:</strong> People acknowledge that the future can be different from the past</p>
+                        
+                        <h4 style="margin-top:15px;">The Principle Recognizes:</h4>
+                        <ul>
+                            <li>Not everything can be known</li>
+                            <li>Circumstances change unpredictably</li>
+                            <li>Ambiguity requires planning</li>
+                            <li>Enterprises must adapt to unpredictable environments</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:15px;">Demonstrated Through:</h4>
+                        <ul>
+                            <li>Assessment methodologies examining potential factors</li>
+                            <li>Scanning for emerging issues</li>
+                            <li>Environmental change monitoring</li>
+                            <li>Scenario planning exercises</li>
+                            <li>Management action planning for various outcomes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="background:#f0f4ff;">
+                    <h3>COBIT Principle 3: Single, Integrated Framework</h3>
+                    <p style="font-size: 18px;">Using an overarching framework incorporating relevant standards (including ISO 31000) provides "consistent and integrated source of guidance" for effective GEIT.</p>
+                </div>
+
+                <h3>📐 Being Systematic, Structured, and Timely</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🎯 The Structured Approach Principle</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>ISO 31000 Principle:</strong> "Risk management is systematic, structured, and timely"</p>
+                        
+                        <h4>What This Means:</h4>
+                        <p>"A systematic, timely and structured approach to [cyber] risk management contributes to efficiency and to consistent, comparable and reliable results."</p>
+                        
+                        <h4 style="margin-top:20px;">Key Requirements:</h4>
+                        <ul>
+                            <li><strong>Management-directed criteria:</strong> Clear standards set by leadership</li>
+                            <li><strong>Replicable metrics:</strong> Consistent measurement approaches</li>
+                            <li><strong>Repeatable processes:</strong> Can be used whenever/wherever needed</li>
+                            <li><strong>Alignment with non-IT:</strong> Same approach for cyber and other risks</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">ISO 31000 Integration Points in COBIT 5:</h4>
+                        <ol>
+                            <li><strong>Evaluate, Direct, and Monitor</strong> - Governance activities</li>
+                            <li><strong>Align, Plan, and Organize</strong> - Management activities</li>
+                        </ol>
+                        
+                        <div style="background:#d4edda; padding:15px; border-radius:8px; margin-top:15px;">
+                            <strong>Success Indicator:</strong> The enterprise establishes and communicates a clear, naturally integrated way of dealing with risk that is appropriate for business management AND applicable to governing enterprise IT.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🔄 Integration Challenge</div>
+                    <p>Your organization uses different risk assessment methods for financial, operational, and cyber risks. What problem does this create?</p>
+                    <button class="choice-button" onclick="showIntegrationAnswer('comparison')">Can't compare risks</button>
+                    <button class="choice-button" onclick="showIntegrationAnswer('resources')">Wastes resources</button>
+                    <button class="choice-button" onclick="showIntegrationAnswer('confusion')">Creates confusion</button>
+                    <button class="choice-button" onclick="showIntegrationAnswer('all')">All of the above</button>
+                    <div id="integration-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Application Question</div>
+                    <p style="margin-bottom:15px;">According to COBIT Principle 2, who has accountability for managing IT assets?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">A) IT functional roles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')">B) Business managers</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">C) The CISO exclusively</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">D) External consultants</div>
+                    <div id="quiz3-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🔗 Integration Message: Enterprise-wide cyber risk management requires business ownership, tailored approaches, explicit uncertainty management, and a single integrated framework that aligns with overall risk management.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Enabling Holistic Approach -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>COBIT Principle 4: Enabling a Holistic Approach</span>
+                <span class="slide-number">Part 4 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🌟 The Holistic Approach: People, Process, Culture, and Information</h2>
+
+                <div class="highlight-box">
+                    <h3>COBIT's Fourth Principle</h3>
+                    <p style="font-size: 18px;">Efficient and effective GEIT implementation requires a holistic approach taking into account several interacting components—called "enablers" in COBIT terms. Four enablers (processes, culture, information, and people/skills) relate directly to four ISO 31000 principles.</p>
+                </div>
+
+                <div class="process-diagram">
+                    <h3>Figure 3.1: Risk Management Unifies Processes</h3>
+                    <div style="position: relative; display: inline-block;">
+                        <div class="process-node process-center" style="position: relative; z-index: 10;">
+                            Risk Management
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px;">
+                            <div class="process-node" onclick="showProcessDetail('legal')">Cyber Legal</div>
+                            <div class="process-node" onclick="showProcessDetail('hr')">Human Resources</div>
+                            <div class="process-node" onclick="showProcessDetail('ops')">Operations</div>
+                            <div class="process-node" onclick="showProcessDetail('cloud')">Cloud</div>
+                            <div class="process-node" onclick="showProcessDetail('infosec')">Information Security</div>
+                            <div class="process-node" onclick="showProcessDetail('tech')">Technology/Infrastructure</div>
+                            <div class="process-node" onclick="showProcessDetail('privacy')">Privacy/Compliance</div>
+                            <div class="process-node" onclick="showProcessDetail('physical')">Physical Security</div>
+                            <div class="process-node" onclick="showProcessDetail('all')">View All Connections</div>
+                        </div>
+                    </div>
+                    <div id="process-detail" style="display:none; margin-top:20px; text-align:left;" class="highlight-box"></div>
+                </div>
+
+                <h3>🔄 Four Critical ISO Principles for Holistic Approach</h3>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>1️⃣ Integral Part of All Organizational Processes</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Core Message:</strong> "[Cyber] risk management is not a stand-alone activity separate from main activities. It's part of management responsibilities and integral to ALL organizational processes."</p>
+                        
+                        <h4>Integration Points:</h4>
+                        <ul>
+                            <li><strong>Strategic planning:</strong> Risk considerations in strategy formation</li>
+                            <li><strong>Project management:</strong> Risk assessment in all projects</li>
+                            <li><strong>Change management:</strong> Risk evaluation for all changes</li>
+                            <li><strong>Daily operations:</strong> Risk awareness in routine activities</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">Natural Intersection for Cyber Risk:</h4>
+                        <p>Since all activities involve risk, risk management becomes the natural intersection for:</p>
+                        <ul>
+                            <li>Legal and compliance functions</li>
+                            <li>Human resources processes</li>
+                            <li>Operational procedures</li>
+                            <li>IT management and protection</li>
+                            <li>Information and physical security</li>
+                            <li>Privacy requirements</li>
+                        </ul>
+                        
+                        <div style="background:#e8f4fd; padding:15px; border-radius:8px; margin-top:15px;">
+                            <strong>Demonstrated By:</strong> People working collaboratively across organizational systems to influence people, processes, and technology in managing cyber risks.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>2️⃣ Taking Human and Cultural Factors Into Account</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Principle:</strong> "Risk management recognizes the capabilities, perceptions, and intentions of external and internal people that can facilitate or hinder achievement of objectives."</p>
+                        
+                        <h4>External Uncertainties to Evaluate:</h4>
+                        <ul>
+                            <li>Disruptive consumer preferences</li>
+                            <li>Behavior of industry participants</li>
+                            <li>Supply chain partner actions</li>
+                            <li>Competing inventions and innovations</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">Internal Uncertainties to Consider:</h4>
+                        <ul>
+                            <li>Innovation capacity</li>
+                            <li>Ethical behavior alignment</li>
+                            <li>Employee motivations</li>
+                            <li>Cultural consistency with expectations</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">Key Questions Organizations Must Answer:</h4>
+                        <ul style="background:#fff3cd; padding:20px; border-radius:8px;">
+                            <li>"Is this project consistent with cultural expectations for managing cyber risk?"</li>
+                            <li>"Will people behave in the way we anticipate?"</li>
+                            <li>"If not, what alternatives can reduce negative effects and increase positive effects?"</li>
+                        </ul>
+                        
+                        <p style="margin-top:15px;"><strong>Remember:</strong> Answers differ depending on the project, initiative, or individuals involved.</p>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>3️⃣ Risk Management as Part of Decision Making</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Principle:</strong> "[Cyber] risk management helps decision makers make informed choices, prioritize actions and distinguish among alternative courses of action."</p>
+                        
+                        <h4>Decision-Making Hierarchy:</h4>
+                        <table style="width:100%; margin-top:15px;">
+                            <tr style="background:#f5f5f5;">
+                                <th style="padding:10px; border:1px solid #ddd;">Decision Type</th>
+                                <th style="padding:10px; border:1px solid #ddd;">Risk Approach</th>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; border:1px solid #ddd;"><strong>Daily/Automatic</strong></td>
+                                <td style="padding:10px; border:1px solid #ddd;">No formal assessment; relies on individual skills</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; border:1px solid #ddd;"><strong>Complex Projects</strong></td>
+                                <td style="padding:10px; border:1px solid #ddd;">Risk management techniques for options evaluation</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; border:1px solid #ddd;"><strong>Strategic Decisions</strong></td>
+                                <td style="padding:10px; border:1px solid #ddd;">Formal processes with multiple techniques</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="warning-box" style="margin-top:20px;">
+                            <h4>⚠️ The Bias Challenge</h4>
+                            <p>From ANSI/ASIS/RIMS RA.1-2015:</p>
+                            <ul>
+                                <li><strong>Perceptual distortion</strong> from personal preferences</li>
+                                <li><strong>Inaccurate judgment</strong> from experience filters</li>
+                                <li><strong>Illogical analysis</strong> from cognitive limitations</li>
+                                <li><strong>Inherent bias</strong> from underlying assumptions</li>
+                                <li><strong>Failure to imagine</strong> plausible alternatives</li>
+                            </ul>
+                            <p style="margin-top:10px;"><strong>Solution:</strong> Vigorous [cyber] risk management lens to flag and address biases.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>4️⃣ Based on Best Available Information</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <p><strong>Principle:</strong> "Inputs to managing risk are based on information sources such as historical data, experience, stakeholder feedback, observation, forecasts and expert judgement."</p>
+                        
+                        <h4>Information Sources:</h4>
+                        <ul>
+                            <li>Historical data and trends</li>
+                            <li>Organizational experience</li>
+                            <li>Stakeholder feedback</li>
+                            <li>Direct observation</li>
+                            <li>Forecasts and projections</li>
+                            <li>Expert judgment</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">Recognizing Limitations:</h4>
+                        <ul>
+                            <li>Data may be incomplete or outdated</li>
+                            <li>Models have inherent limitations</li>
+                            <li>Experts may disagree</li>
+                            <li>Information may be biased</li>
+                        </ul>
+                        
+                        <div style="background:#d4edda; padding:15px; border-radius:8px; margin-top:15px;">
+                            <strong>Demonstrated By:</strong> Clear agreement on what constitutes verifiable evidence and, when unavailable, what constitutes reliable information or estimates.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🧠 Bias Recognition Exercise</div>
+                    <p>Your team is evaluating a new cloud migration. The IT director says "We've never had a breach, so our current approach is fine." What bias is this?</p>
+                    <button class="choice-button" onclick="showBiasAnswer('normalcy')">Normalcy bias</button>
+                    <button class="choice-button" onclick="showBiasAnswer('confirmation')">Confirmation bias</button>
+                    <button class="choice-button" onclick="showBiasAnswer('optimism')">Optimism bias</button>
+                    <button class="choice-button" onclick="showBiasAnswer('availability')">Availability heuristic</button>
+                    <div id="bias-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Critical Thinking</div>
+                    <p style="margin-bottom:15px;">According to the chapter, what type of decisions benefit from formal risk management processes with multiple techniques?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">A) Daily automatic decisions</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">B) Routine operational tasks</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')">C) Strategic importance decisions</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">D) All decisions equally</div>
+                    <div id="quiz4-feedback" class="feedback"></div>
+                </div>
+
+                <div class="key-takeaway">
+                    🔮 Holistic Insight: Effective cyber risk management integrates with ALL organizational processes, considers human/cultural factors, supports decision-making at all levels, and relies on the best available (though imperfect) information.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Governance vs Management & Conclusion -->
+        <div class="slide">
+            <div class="slide-header" onclick="toggleSlide(this)">
+                <span>COBIT Principle 5: Separating Governance from Management</span>
+                <span class="slide-number">Part 5 of 5</span>
+            </div>
+            <div class="slide-content">
+                <h2>🎭 Separating Governance from Management & Continual Improvement</h2>
+
+                <div class="highlight-box">
+                    <h3>The Fifth COBIT Principle</h3>
+                    <p style="font-size: 18px;">This principle makes a clear distinction between governance and management activities, creating a repeatable, closed-loop system where management feedback ensures alignment with governance direction.</p>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>🏛️ Governance vs Management Activities</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="two-column">
+                            <div class="info-card">
+                                <h4 style="color:#667eea;">Governance Activities</h4>
+                                <p><strong>Based on business needs:</strong></p>
+                                <ul>
+                                    <li><strong>Evaluate:</strong> Assess options and priorities</li>
+                                    <li><strong>Direct:</strong> Set direction and objectives</li>
+                                    <li><strong>Monitor:</strong> Track performance and compliance</li>
+                                </ul>
+                                <p style="margin-top:15px; color:#666;">Performed by: Board and committees</p>
+                            </div>
+                            <div class="info-card">
+                                <h4 style="color:#764ba2;">Management Activities</h4>
+                                <p><strong>Execute governance direction:</strong></p>
+                                <ul>
+                                    <li><strong>Plan:</strong> Develop strategies and tactics</li>
+                                    <li><strong>Build:</strong> Implement capabilities</li>
+                                    <li><strong>Run:</strong> Execute operations</li>
+                                    <li><strong>Monitor:</strong> Track operational performance</li>
+                                </ul>
+                                <p style="margin-top:15px; color:#666;">Performed by: Executive management</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background:#e8f4fd; padding:15px; border-radius:8px; margin-top:20px;">
+                            <h4>The Closed-Loop System:</h4>
+                            <ol>
+                                <li>Governance sets direction based on business needs</li>
+                                <li>Management executes according to direction</li>
+                                <li>Management provides feedback on performance</li>
+                                <li>Governance evaluates and adjusts direction</li>
+                                <li>Cycle repeats continuously</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>📈 Maturity Strategy and Continual Improvement</h3>
+
+                <div class="iso-principle" onclick="expandIsoPrinciple('improvement')">
+                    <strong>ISO 31000 Principle:</strong> "Risk management facilitates continual improvement"
+                    <div id="improvement-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
+                        <p><strong>Core Requirement:</strong> "Organizations should develop and implement strategies to improve their [cyber] risk management maturity alongside all other aspects of their organization."</p>
+                        
+                        <h4 style="margin-top:15px;">The Maturity Journey:</h4>
+                        <ol>
+                            <li><strong>Use processes:</strong> People apply risk management techniques</li>
+                            <li><strong>Gain insights:</strong> Understanding of uncertainties improves</li>
+                            <li><strong>Weigh alternatives:</strong> Better decision-making capability</li>
+                            <li><strong>Make decisions:</strong> More informed choices</li>
+                            <li><strong>Take beneficial actions:</strong> Improved outcomes</li>
+                            <li><strong>Build capabilities:</strong> Natural maturity progression</li>
+                            <li><strong>Apply consistently:</strong> Principles become embedded</li>
+                        </ol>
+                        
+                        <h4 style="margin-top:20px;">Natural Alignment:</h4>
+                        <p>Continual improvement driven by risk maturity strategy aligns naturally with the separation of governance and management because:</p>
+                        <ul>
+                            <li>Governance sets maturity targets</li>
+                            <li>Management implements improvements</li>
+                            <li>Feedback loops drive advancement</li>
+                            <li>IT capabilities naturally improve</li>
+                        </ul>
+                        
+                        <div style="background:#d4edda; padding:15px; border-radius:8px; margin-top:15px;">
+                            <strong>Ultimate Demonstration:</strong> Cyber risk management is embedded not only in IT-related governance and management activities, but in ALL governance and management activities of the enterprise.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <div class="case-study-title">📝 The Complete Integration</div>
+                    <h4>How All Principles Work Together:</h4>
+                    <div style="margin-top:15px;">
+                        <table class="matrix-table">
+                            <tr>
+                                <th>Activity</th>
+                                <th>Governance Role</th>
+                                <th>Management Role</th>
+                                <th>Supporting Principles</th>
+                            </tr>
+                            <tr>
+                                <td>Strategy Setting</td>
+                                <td>Direct objectives</td>
+                                <td>Plan implementation</td>
+                                <td>Meet stakeholder needs, Create value</td>
+                            </tr>
+                            <tr>
+                                <td>Risk Assessment</td>
+                                <td>Evaluate appetite</td>
+                                <td>Build processes</td>
+                                <td>Systematic approach, Best information</td>
+                            </tr>
+                            <tr>
+                                <td>Culture Development</td>
+                                <td>Monitor progress</td>
+                                <td>Run programs</td>
+                                <td>Human factors, Decision making</td>
+                            </tr>
+                            <tr>
+                                <td>Improvement</td>
+                                <td>Direct changes</td>
+                                <td>Monitor metrics</td>
+                                <td>Continual improvement, Responsive</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h3>✅ PRINCIPLES GUIDE ACTIONS - Chapter Conclusion</h3>
+                    <p><strong>The Complete Capability Statement:</strong></p>
+                    <p style="margin-top:15px; line-height:1.8;">Actions are taken by people to achieve enterprise goals and objectives. Principles form the foundation of desirable and positive behavior. Risk management principles in a COBIT 5 approach:</p>
+                    <ul style="margin-top:15px;">
+                        <li>✓ Meet stakeholder needs by being transparent, inclusive, dynamic, iterative and responsive</li>
+                        <li>✓ Cover the enterprise to create and protect value, tailor approaches, and address uncertainty</li>
+                        <li>✓ Apply a single framework being systematic, structured, and timely</li>
+                        <li>✓ Enable holistic approach making risk integral to all processes and decisions, considering human factors, using best data</li>
+                        <li>✓ Facilitate continual improvement through maturity strategy aligned with governance/management separation</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-scenario">
+                    <div class="scenario-title">🎯 Final Application</div>
+                    <p>Your organization wants to improve cyber risk maturity. According to the principles, where should you start?</p>
+                    <button class="choice-button" onclick="showFinalAnswer('tech')">Upgrade technology</button>
+                    <button class="choice-button" onclick="showFinalAnswer('people')">Develop people capabilities</button>
+                    <button class="choice-button" onclick="showFinalAnswer('governance')">Establish governance/management separation</button>
+                    <button class="choice-button" onclick="showFinalAnswer('principles')">Embed principles in behavior</button>
+                    <div id="final-result" class="result-box"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">🎯 Final Assessment</div>
+                    <p style="margin-bottom:15px;">How many ISO 31000 risk management principles support the five COBIT 5 principles?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 5 principles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) 7 principles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">C) 9 principles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">D) 11 principles</div>
+                    <div id="quiz5-feedback" class="feedback"></div>
+                </div>
+
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <span>👤 About the Author: Carol Fox</span>
+                        <span class="expand-icon">▶</span>
+                    </div>
+                    <div class="expandable-content">
+                        <h4>Carol Fox, ARM - VP Strategic Initiatives at RIMS</h4>
+                        <ul>
+                            <li>Led development of numerous RIMS publications on risk management</li>
+                            <li>Chair of U.S. Technical Advisory Group for ISO 31000 family</li>
+                            <li>Participant on COSO ERM Advisory Council</li>
+                            <li>Recipient of RIMS's 2009 Harry & Dorothy Goodell Award</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">Experience Highlights:</h4>
+                        <ul>
+                            <li>Progressive risk management positions across multiple industries</li>
+                            <li>Senior Director of Risk Management at Convergys Corporation</li>
+                            <li>Launched cross-functional IT security project protecting $100M revenue</li>
+                            <li>Miami University graduate with extensive board service</li>
+                        </ul>
+                        
+                        <h4 style="margin-top:20px;">About RIMS:</h4>
+                        <p>The risk management society™ - global not-for-profit representing 3,500+ entities worldwide, with 11,000+ risk management professionals in 60+ countries.</p>
+                    </div>
+                </div>
+
+                <div class="key-takeaway">
+                    🎯 Chapter Takeaway: Cyber risk management principles aren't just guidelines—they're behavioral foundations that guide how people make decisions. Success comes from integrating ISO 31000 risk principles with COBIT 5 governance principles, creating a holistic system where people, not technology, drive effective cyber risk management.
+                </div>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-top: 40px; text-align: center;">
+                    <h2 style="color: white;">Chapter 3 Complete!</h2>
+                    <p style="font-size: 20px; margin-top: 15px;">You've learned how ISO 31000 and COBIT 5 principles work together to guide cyber risk management.</p>
+                    <p style="font-size: 18px; margin-top: 20px;">Remember: People enact principles. Principles guide actions. Actions achieve objectives.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="previousSlide()">⬅ Previous Section</button>
+            <button class="nav-button" onclick="showProgress()">📊 Check Progress</button>
+            <button class="nav-button" onclick="nextSlide()">Next Section ➡</button>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
+            <p style="font-size: 14px; margin-top: 10px;">Chapter 3: Principles Behind Cyber Risk Management | By Carol Fox, RIMS</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+        </div>
+    </div>
+
+    <script>
+        // Track progress
+        let sectionsViewed = new Set();
+        let currentSlide = 0;
+
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 5) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function toggleSlide(header) {
+            const slide = header.nextElementSibling;
+            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
+            sectionsViewed.add(slideNumber);
+            updateProgress();
+        }
+
+        function toggleExpand(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.expand-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedbackDiv = document.getElementById(quizId + '-feedback');
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedbackDiv.innerHTML = '✓ Correct! Well done!';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                element.classList.add('incorrect');
+                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            
+            feedbackDiv.style.display = 'block';
+        }
+
+        function showOpeningAnswer(choice) {
+            const resultDiv = document.getElementById('opening-result');
+            const results = {
+                'people': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Partially correct</h4><p>Yes, people drive principles, but there\'s more to it.</p></div>',
+                'strategy': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Partially correct</h4><p>Strategic alignment is important, but not the complete answer.</p></div>',
+                'culture': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Partially correct</h4><p>Culture is critical, but there are other factors too.</p></div>',
+                'all': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>All three reasons: People enact principles, strategy must align with cyber risk, and culture determines whether principles are actually followed. This is why HR and Strategy are key partners.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function expandIsoPrinciple(principle) {
+            const detailId = principle + '-detail';
+            const detail = document.getElementById(detailId);
+            if (detail) {
+                detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        function showStakeholderAnswer(choice) {
+            const resultDiv = document.getElementById('stakeholder-result');
+            const results = {
+                'transparent': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>Good start!</h4><p>Transparency about conflicts is essential, but you also need to find a solution.</p></div>',
+                'prioritize': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Not recommended</h4><p>Prioritizing one stakeholder over another violates the inclusive principle.</p></div>',
+                'ignore': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Never ignore requirements</h4><p>This could lead to legal or relationship problems.</p></div>',
+                'integrate': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best approach!</h4><p>Be transparent about the conflict AND work to find an integrated solution that addresses both requirements where possible, or clearly communicates trade-offs.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showIntegrationAnswer(choice) {
+            const resultDiv = document.getElementById('integration-result');
+            const results = {
+                'comparison': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>True but incomplete</h4><p>Yes, different methods prevent risk comparison, but there are other issues.</p></div>',
+                'resources': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>True but incomplete</h4><p>Resource waste is a problem, but not the only one.</p></div>',
+                'confusion': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>True but incomplete</h4><p>Confusion is created, but there are additional problems.</p></div>',
+                'all': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>All are problems: Can\'t compare risks across domains, wastes resources on multiple frameworks, and creates confusion about which approach to use. This is why a single, integrated framework is essential.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showProcessDetail(process) {
+            const detailDiv = document.getElementById('process-detail');
+            const details = {
+                'legal': '<h4>Cyber Legal Integration</h4><p>Legal functions integrate with risk management for compliance, contract review, breach response, and regulatory alignment.</p>',
+                'hr': '<h4>Human Resources Integration</h4><p>HR drives security awareness, manages insider risk, handles termination procedures, and builds security culture.</p>',
+                'ops': '<h4>Operations Integration</h4><p>Operations ensures business continuity, manages operational technology risks, and maintains service delivery during incidents.</p>',
+                'cloud': '<h4>Cloud Integration</h4><p>Cloud services require risk assessment for data sovereignty, vendor management, and shared responsibility models.</p>',
+                'infosec': '<h4>Information Security Integration</h4><p>InfoSec provides technical expertise, threat intelligence, and security control implementation within the risk framework.</p>',
+                'tech': '<h4>Technology/Infrastructure Integration</h4><p>IT infrastructure teams manage technical risks, system vulnerabilities, and technology lifecycle within enterprise risk.</p>',
+                'privacy': '<h4>Privacy/Compliance Integration</h4><p>Privacy teams ensure data protection, regulatory compliance, and stakeholder trust through risk management.</p>',
+                'physical': '<h4>Physical Security Integration</h4><p>Physical security protects data centers, prevents unauthorized access, and integrates with cyber controls.</p>',
+                'all': '<h4>Complete Integration View</h4><p>Risk management serves as the central hub connecting all organizational functions. Each function contributes unique perspectives and capabilities, creating a holistic cyber risk management approach that addresses people, process, and technology across the enterprise.</p>'
+            };
+            
+            detailDiv.innerHTML = details[process];
+            detailDiv.style.display = 'block';
+        }
+
+        function showBiasAnswer(choice) {
+            const resultDiv = document.getElementById('bias-result');
+            const results = {
+                'normalcy': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>Normalcy bias: assuming the future will be like the past. "We\'ve never had a breach" doesn\'t mean you won\'t have one tomorrow.</p></div>',
+                'confirmation': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Related but different</h4><p>Confirmation bias seeks information that confirms existing beliefs, but this is about assuming past patterns continue.</p></div>',
+                'optimism': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Close</h4><p>Optimism bias overestimates positive outcomes, which is related but normalcy bias specifically assumes continuity.</p></div>',
+                'availability': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Different concept</h4><p>Availability heuristic overweights easily recalled events. This is about assuming no change.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showFinalAnswer(choice) {
+            const resultDiv = document.getElementById('final-result');
+            const results = {
+                'tech': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Common mistake</h4><p>Technology without principles and people capabilities won\'t improve maturity effectively.</p></div>',
+                'people': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Important element</h4><p>People capabilities are crucial, but need framework and principles to guide them.</p></div>',
+                'governance': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Structural requirement</h4><p>Governance/management separation is important but needs principles to guide it.</p></div>',
+                'principles': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best starting point!</h4><p>Embedding principles in behavior creates the foundation for all other improvements. Principles guide people, who use processes, within governance structures, to achieve maturity.</p></div>'
+            };
+            
+            resultDiv.innerHTML = results[choice];
+            resultDiv.classList.add('show');
+        }
+
+        function showProgress() {
+            const viewed = sectionsViewed.size;
+            const total = 5;
+            const percentage = Math.round((viewed / total) * 100);
+            
+            alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
+                  `${viewed === total ? 'Congratulations! You\'ve completed Chapter 3!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                const slides = document.querySelectorAll('.slide');
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>
