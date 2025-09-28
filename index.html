@@ -143,6 +143,7 @@
         .chapter-4 { background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); }
         .chapter-5 { background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); }
         .chapter-fips { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .chapter-nist { background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%); }
         .chapter-coming { 
             background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
             opacity: 0.7;
@@ -210,6 +211,17 @@
             color: white;
             text-align: center;
         }
+        
+        .section-divider {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 40px 0 20px 0;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -222,6 +234,10 @@
 
         <div class="navigation-tip">
             💡 Click any available chapter to begin your interactive learning journey
+        </div>
+
+        <div class="section-divider">
+            📚 Handbook Chapters
         </div>
 
         <div class="chapters-grid">
@@ -370,35 +386,6 @@
                 </div>
             </a>
 
-            <!-- FIPS 199 Module -->
-            <a href="fips199.html" class="chapter-card">
-                <div class="chapter-header chapter-fips">
-                    <div class="chapter-number">📋</div>
-                    <div class="chapter-title">FIPS 199 Standards</div>
-                    <div class="chapter-subtitle">Security Categorization</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Learn the federal standards for categorizing information and systems based on CIA triad impact levels. Master the high water mark principle and security categorization formulas.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">30 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
             <!-- Future Chapters Placeholder -->
             <div class="chapter-card chapter-coming">
                 <div class="chapter-header chapter-coming">
@@ -429,10 +416,77 @@
             </div>
         </div>
 
+        <div class="section-divider">
+            🔐 NIST Standards Modules
+        </div>
+
+        <div class="chapters-grid">
+            <!-- FIPS 199 Module -->
+            <a href="fips199.html" class="chapter-card">
+                <div class="chapter-header chapter-fips">
+                    <div class="chapter-number">📋</div>
+                    <div class="chapter-title">FIPS 199 Standards</div>
+                    <div class="chapter-subtitle">Security Categorization</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-available">Available</span>
+                    <p class="chapter-description">
+                        Learn the federal standards for categorizing information and systems based on CIA triad impact levels. Master the high water mark principle and security categorization formulas.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">Sections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">30 min</div>
+                            <div class="stat-label">Est. Time</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- NIST SP 800-53 Module -->
+            <a href="nist800-53.html" class="chapter-card">
+                <div class="chapter-header chapter-nist">
+                    <div class="chapter-number">🔒</div>
+                    <div class="chapter-title">NIST SP 800-53</div>
+                    <div class="chapter-subtitle">Security & Privacy Controls</div>
+                </div>
+                <div class="chapter-content">
+                    <span class="status-badge status-available">Available</span>
+                    <p class="chapter-description">
+                        Transform your FIPS 199 categorization into actionable security controls. Explore the 20 control families, understand baselines, and learn the complete journey from risk assessment to implementation.
+                    </p>
+                    <div class="chapter-stats">
+                        <div class="stat">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">Sections</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">60 min</div>
+                            <div class="stat-label">Est. Time</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Interactive</div>
+                            <div class="stat-label">Format</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
         <div class="info-section">
             <h2>📚 About This Learning Portal</h2>
             <p>
                 This interactive learning portal provides an engaging way to explore "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities" edited by Domenic Antonucci. Each chapter has been transformed into an interactive learning experience with scenarios, quizzes, and expandable content.
+            </p>
+            <p>
+                <strong>NIST Standards Integration:</strong> In addition to the handbook chapters, this portal includes comprehensive modules on critical NIST standards including FIPS 199 (Security Categorization) and NIST SP 800-53 (Security Controls). These modules connect federal standards to practical implementation.
             </p>
             <p>
                 <strong>How to Use:</strong> Click on any available chapter to begin. Each chapter is divided into sections that you can explore at your own pace. Interactive elements, knowledge checks, and practical scenarios help reinforce key concepts.
@@ -445,6 +499,7 @@
         <div class="footer">
             <p>📖 Based on "The Cyber Risk Handbook" by John Wiley & Sons</p>
             <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">Interactive Learning Modules for CISS 470</p>
+            <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">NIST Standards Modules Based on Official NIST Publications</p>
         </div>
     </div>
 
