@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Components - Four Pillars of Governance & Risk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .title-section h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        
+        .title-section p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .nav-btn.home {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e0e0e0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .intro-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            animation: slideIn 0.6s ease;
+        }
+        
+        .intro-card h2 {
+            color: #27ae60;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .intro-card p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .pillar-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease backwards;
+        }
+        
+        .pillar-card:nth-child(1) { animation-delay: 0.1s; }
+        .pillar-card:nth-child(2) { animation-delay: 0.2s; }
+        .pillar-card:nth-child(3) { animation-delay: 0.3s; }
+        .pillar-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        
+        .pillar-card.active {
+            border: 3px solid #27ae60;
+        }
+        
+        .pillar-header {
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+        
+        .pillar-header.organisation {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
+        .pillar-header.people {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+        
+        .pillar-header.process {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .pillar-header.technology {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+        }
+        
+        .pillar-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .pillar-title {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .pillar-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+        
+        .pillar-content {
+            padding: 25px;
+        }
+        
+        .pillar-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .key-points {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .key-points h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .key-points ul {
+            list-style: none;
+        }
+        
+        .key-points li {
+            color: #555;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .key-points li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+        }
+        
+        .detail-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .detail-section.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .detail-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #27ae60;
+        }
+        
+        .detail-section h3 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .detail-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .detail-section li {
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .detail-section li strong {
+            color: #2c3e50;
+        }
+        
+        .interaction-matrix {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .interaction-matrix h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .interaction-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .interaction-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .interaction-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .quiz-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .quiz-question {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-question h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .quiz-option {
+            padding: 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f0f0f0;
+            border-color: #27ae60;
+        }
+        
+        .quiz-option.selected {
+            background: #d4edda;
+            border-color: #27ae60;
+        }
+        
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="title-section">
+                <h1>🎯 Core Components</h1>
+                <p>Four Pillars of Governance & Risk Management</p>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn home" onclick="window.location.href='index.html'">🏠 Home</button>
+                <button class="nav-btn" onclick="window.location.href='governance-framework.html'">📊 Full Framework</button>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Introduction Section -->
+        <div class="intro-card">
+            <h2>Understanding the Four Pillars</h2>
+            <p>
+                Effective governance and risk management rest on four fundamental pillars that must work in harmony. 
+                Each component brings unique capabilities and perspectives to the organization's risk posture.
+            </p>
+            <p>
+                These pillars are not isolated silos but interconnected elements that create organizational resilience 
+                through their integration. Click on each pillar below to explore its role in governance and risk management.
+            </p>
+        </div>
+        
+        <!-- Pillars Grid -->
+        <div class="pillars-grid">
+            <!-- Organisation Pillar -->
+            <div class="pillar-card" onclick="showDetail('organisation')">
+                <div class="pillar-header organisation">
+                    <div class="pillar-icon">🏢</div>
+                    <div class="pillar-title">Organisation</div>
+                    <div class="pillar-subtitle">Strategic Leadership & Direction</div>
+                </div>
+                <div class="pillar-content">
+                    <p class="pillar-description">
+                        The apex of governance, providing strategic vision, risk appetite, and organizational structure.
+                    </p>
+                    <div class="key-points">
+                        <h4>Key Areas</h4>
+                        <ul>
+                            <li>Strategic Planning</li>
+                            <li>Governance Structure</li>
+                            <li>Risk Appetite</li>
+                            <li>Compliance Framework</li>
+                        </ul>
+                    </div>
+                    <button class="btn" style="width: 100%;">Explore Details →</button>
+                </div>
+            </div>
+            
+            <!-- People Pillar -->
+            <div class="pillar-card" onclick="showDetail('people')">
+                <div class="pillar-header people">
+                    <div class="pillar-icon">👥</div>
+                    <div class="pillar-title">People</div>
+                    <div class="pillar-subtitle">Human Capital & Culture</div>
+                </div>
+                <div class="pillar-content">
+                    <p class="pillar-description">
+                        The human element driving execution, innovation, and cultural transformation.
+                    </p>
+                    <div class="key-points">
+                        <h4>Key Areas</h4>
+                        <ul>
+                            <li>Competencies & Skills</li>
+                            <li>Risk Culture</li>
+                            <li>Behavioral Standards</li>
+                            <li>Training & Development</li>
+                        </ul>
+                    </div>
+                    <button class="btn" style="width: 100%;">Explore Details →</button>
+                </div>
+            </div>
+            
+            <!-- Process Pillar -->
+            <div class="pillar-card" onclick="showDetail('process')">
+                <div class="pillar-header process">
+                    <div class="pillar-icon">⚙️</div>
+                    <div class="pillar-title">Process</div>
+                    <div class="pillar-subtitle">Operations & Controls</div>
+                </div>
+                <div class="pillar-content">
+                    <p class="pillar-description">
+                        The operational backbone ensuring consistent, controlled, and efficient execution.
+                    </p>
+                    <div class="key-points">
+                        <h4>Key Areas</h4>
+                        <ul>
+                            <li>Standard Procedures</li>
+                            <li>Control Framework</li>
+                            <li>Quality Management</li>
+                            <li>Continuous Improvement</li>
+                        </ul>
+                    </div>
+                    <button class="btn" style="width: 100%;">Explore Details →</button>
+                </div>
+            </div>
+            
+            <!-- Technology Pillar -->
+            <div class="pillar-card" onclick="showDetail('technology')">
+                <div class="pillar-header technology">
+                    <div class="pillar-icon">💻</div>
+                    <div class="pillar-title">Technology</div>
+                    <div class="pillar-subtitle">Digital Infrastructure & Innovation</div>
+                </div>
+                <div class="pillar-content">
+                    <p class="pillar-description">
+                        The digital enabler providing capabilities, automation, and information management.
+                    </p>
+                    <div class="key-points">
+                        <h4>Key Areas</h4>
+                        <ul>
+                            <li>Information Systems</li>
+                            <li>Security Architecture</li>
+                            <li>Data Management</li>
+                            <li>Digital Innovation</li>
+                        </ul>
+                    </div>
+                    <button class="btn" style="width: 100%;">Explore Details →</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Sections -->
+        <div id="organisation-detail" class="detail-section">
+            <h2>🏢 Organisation: Strategic Leadership & Direction</h2>
+            
+            <h3>Overview</h3>
+            <p>
+                The Organisation pillar represents the strategic apex of governance, encompassing board oversight, 
+                executive leadership, and the structural frameworks that guide enterprise direction.
+            </p>
+            
+            <h3>Core Responsibilities</h3>
+            <ul>
+                <li><strong>Vision & Strategy:</strong> Setting long-term organizational direction and strategic objectives that align with stakeholder expectations</li>
+                <li><strong>Governance Structure:</strong> Establishing board committees, reporting lines, and accountability frameworks</li>
+                <li><strong>Risk Appetite:</strong> Defining acceptable risk levels and tolerance thresholds across the enterprise</li>
+                <li><strong>Resource Allocation:</strong> Strategic distribution of capital, human resources, and technology investments</li>
+                <li><strong>Performance Oversight:</strong> Monitoring organizational performance against strategic objectives and risk tolerances</li>
+            </ul>
+            
+            <h3>Risk Management Role</h3>
+            <ul>
+                <li>Ownership of the enterprise risk management framework</li>
+                <li>Setting tone at the top for risk culture</li>
+                <li>Ensuring adequate resources for risk management</li>
+                <li>Regular review of risk reports and escalations</li>
+                <li>Crisis management and business continuity oversight</li>
+            </ul>
+            
+            <h3>Governance Mechanisms</h3>
+            <ul>
+                <li>Board risk committee charter and operations</li>
+                <li>Executive risk committees and forums</li>
+                <li>Strategic planning processes</li>
+                <li>Policy development and approval</li>
+                <li>Stakeholder communication strategies</li>
+            </ul>
+            
+            <button class="btn" onclick="hideDetail('organisation')">Close Details</button>
+        </div>
+        
+        <div id="people-detail" class="detail-section">
+            <h2>👥 People: Human Capital & Culture</h2>
+            
+            <h3>Overview</h3>
+            <p>
+                The People pillar encompasses all human elements within the organization, from individual competencies 
+                to collective culture, driving execution and innovation while managing behavioral risks.
+            </p>
+            
+            <h3>Key Components</h3>
+            <ul>
+                <li><strong>Workforce Composition:</strong> Employees, contractors, management, and board members with diverse skills and perspectives</li>
+                <li><strong>Competency Management:</strong> Skills assessment, capability development, and succession planning</li>
+                <li><strong>Cultural Development:</strong> Values, beliefs, and behaviors that characterize the organization</li>
+                <li><strong>Performance Management:</strong> Goal setting, evaluation, feedback, and recognition systems</li>
+                <li><strong>Change Leadership:</strong> Guiding organizational transformation and adaptation</li>
+            </ul>
+            
+            <h3>Risk Culture Elements</h3>
+            <ul>
+                <li>Risk awareness and education programs</li>
+                <li>Speak-up culture and psychological safety</li>
+                <li>Ethical decision-making frameworks</li>
+                <li>Learning from failures and near-misses</li>
+                <li>Risk-adjusted performance metrics</li>
+            </ul>
+            
+            <h3>People Risk Management</h3>
+            <ul>
+                <li>Insider threat prevention and detection</li>
+                <li>Behavioral risk assessment and monitoring</li>
+                <li>Key person risk and succession planning</li>
+                <li>Training effectiveness measurement</li>
+                <li>Culture assessment and transformation</li>
+            </ul>
+            
+            <button class="btn" onclick="hideDetail('people')">Close Details</button>
+        </div>
+        
+        <div id="process-detail" class="detail-section">
+            <h2>⚙️ Process: Operations & Controls</h2>
+            
+            <h3>Overview</h3>
+            <p>
+                The Process pillar provides the operational framework through which strategy is executed, 
+                ensuring consistency, efficiency, and control across all organizational activities.
+            </p>
+            
+            <h3>Process Architecture</h3>
+            <ul>
+                <li><strong>Core Processes:</strong> Value-creating activities that directly serve customers and stakeholders</li>
+                <li><strong>Support Processes:</strong> Internal processes that enable core operations</li>
+                <li><strong>Management Processes:</strong> Planning, monitoring, and control activities</li>
+                <li><strong>Improvement Processes:</strong> Continuous improvement and innovation mechanisms</li>
+            </ul>
+            
+            <h3>Control Framework</h3>
+            <ul>
+                <li>Preventive controls to avoid risks before they occur</li>
+                <li>Detective controls to identify issues quickly</li>
+                <li>Corrective controls to address problems effectively</li>
+                <li>Compensating controls for residual risks</li>
+                <li>Monitoring and testing of control effectiveness</li>
+            </ul>
+            
+            <h3>Process Governance</h3>
+            <ul>
+                <li>Process ownership and accountability models</li>
+                <li>Standard operating procedures and work instructions</li>
+                <li>Process performance metrics and KPIs</li>
+                <li>Change management procedures</li>
+                <li>Process audit and assurance programs</li>
+            </ul>
+            
+            <button class="btn" onclick="hideDetail('process')">Close Details</button>
+        </div>
+        
+        <div id="technology-detail" class="detail-section">
+            <h2>💻 Technology: Digital Infrastructure & Innovation</h2>
+            
+            <h3>Overview</h3>
+            <p>
+                The Technology pillar encompasses all digital assets, systems, and capabilities that enable 
+                modern business operations while introducing unique risks and opportunities.
+            </p>
+            
+            <h3>Technology Components</h3>
+            <ul>
+                <li><strong>Core Systems:</strong> ERP, CRM, and operational platforms that run the business</li>
+                <li><strong>Data Infrastructure:</strong> Storage, processing, analytics, and reporting capabilities</li>
+                <li><strong>Network & Security:</strong> Connectivity, access controls, and protective technologies</li>
+                <li><strong>Emerging Technologies:</strong> AI, IoT, blockchain, and other innovative solutions</li>
+                <li><strong>Digital Channels:</strong> Customer-facing platforms and interaction points</li>
+            </ul>
+            
+            <h3>Technology Risk Areas</h3>
+            <ul>
+                <li>Cybersecurity threats and vulnerabilities</li>
+                <li>System availability and performance</li>
+                <li>Data privacy and protection</li>
+                <li>Technology obsolescence and technical debt</li>
+                <li>Vendor and third-party dependencies</li>
+            </ul>
+            
+            <h3>IT Governance</h3>
+            <ul>
+                <li>Enterprise architecture standards and guidelines</li>
+                <li>Technology investment decision frameworks</li>
+                <li>Change and release management processes</li>
+                <li>Service level agreements and support models</li>
+                <li>Innovation and digital transformation governance</li>
+            </ul>
+            
+            <button class="btn" onclick="hideDetail('technology')">Close Details</button>
+        </div>
+        
+        <!-- Interaction Matrix -->
+        <div class="interaction-matrix">
+            <h2>🔄 How the Pillars Interact</h2>
+            <div class="matrix-grid">
+                <div class="interaction-card">
+                    <h4>Organisation ↔ People</h4>
+                    <p>Creates organizational culture through tone at the top, values alignment, and leadership modeling.</p>
+                </div>
+                <div class="interaction-card">
+                    <h4>Organisation ↔ Process</h4>
+                    <p>Establishes governance through policies, procedures, and performance management systems.</p>
+                </div>
+                <div class="interaction-card">
+                    <h4>Organisation ↔ Technology</h4>
+                    <p>Defines architecture through strategic technology decisions and investment priorities.</p>
+                </div>
+                <div class="interaction-card">
+                    <h4>People ↔ Process</h4>
+                    <p>Enables emergence through human creativity enhancing structured processes.</p>
+                </div>
+                <div class="interaction-card">
+                    <h4>Process ↔ Technology</h4>
+                    <p>Provides enabling and support through automation and digital workflows.</p>
+                </div>
+                <div class="interaction-card">
+                    <h4>People ↔ Technology</h4>
+                    <p>Addresses human factors through user experience and behavioral considerations.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div class="quiz-section">
+            <h2>✓ Knowledge Check</h2>
+            
+            <div class="quiz-question">
+                <h4>1. Which pillar is responsible for setting the organization's risk appetite?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Organisation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">People</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Process</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Technology</div>
+                </div>
+            </div>
+            
+            <div class="quiz-question">
+                <h4>2. What creates the connection between People and Process pillars?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Architecture</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Emergence</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Governance</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Culture</div>
+                </div>
+            </div>
+            
+            <div class="quiz-question">
+                <h4>3. Which pillar focuses on control frameworks and standard operating procedures?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Organisation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">People</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Process</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Technology</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="button-group">
+            <button class="btn secondary" onclick="window.location.href='index.html'">← Back to Home</button>
+            <button class="btn" onclick="window.location.href='governance-framework.html'">View Full Framework →</button>
+        </div>
+    </div>
+    
+    <script>
+        // Detail section management
+        function showDetail(pillar) {
+            // Hide all details
+            document.querySelectorAll('.detail-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected detail
+            const detailSection = document.getElementById(pillar + '-detail');
+            if (detailSection) {
+                detailSection.classList.add('active');
+                detailSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            // Update pillar cards
+            document.querySelectorAll('.pillar-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Update progress
+            updateProgress();
+        }
+        
+        function hideDetail(pillar) {
+            document.getElementById(pillar + '-detail').classList.remove('active');
+            document.querySelectorAll('.pillar-card').forEach(card => {
+                card.classList.remove('active');
+            });
+        }
+        
+        // Quiz functionality
+        function checkAnswer(element, result) {
+            // Remove previous selections
+            element.parentElement.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Add result class
+            element.classList.add(result);
+            
+            // Update progress
+            updateProgress();
+        }
+        
+        // Progress tracking
+        let viewedSections = new Set();
+        
+        function updateProgress() {
+            // Track viewed sections
+            document.querySelectorAll('.detail-section.active').forEach(section => {
+                viewedSections.add(section.id);
+            });
+            
+            // Track answered questions
+            const totalQuestions = document.querySelectorAll('.quiz-question').length;
+            const answeredQuestions = document.querySelectorAll('.quiz-option.correct, .quiz-option.incorrect').length;
+            
+            // Calculate progress
+            const sectionProgress = (viewedSections.size / 4) * 50; // 50% for viewing all sections
+            const quizProgress = (answeredQuestions / totalQuestions) * 50; // 50% for answering all questions
+            const totalProgress = Math.min(100, sectionProgress + quizProgress);
+            
+            // Update progress bar
+            document.getElementById('progress').style.width = totalProgress + '%';
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial progress
+            updateProgress();
+            
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
