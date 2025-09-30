@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Governance & Risk Management Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .container {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .framework-visual {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .info-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        
+        .svg-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+        
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .node:hover {
+            transform: scale(1.1);
+        }
+        
+        .node-circle {
+            fill: #ffd700;
+            stroke: #ffa500;
+            stroke-width: 3;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .node-circle.active {
+            fill: #ff6b6b;
+            stroke: #ff5252;
+        }
+        
+        .connection-line {
+            stroke: #4CAF50;
+            stroke-width: 25;
+            opacity: 0.8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .connection-line:hover {
+            opacity: 1;
+            stroke-width: 30;
+        }
+        
+        .connection-line.active {
+            stroke: #ff6b6b;
+            opacity: 1;
+        }
+        
+        .node-text, .connection-text {
+            fill: #2c3e50;
+            font-size: 14px;
+            font-weight: bold;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        
+        .connection-text {
+            fill: white;
+            font-size: 12px;
+        }
+        
+        .info-content h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .info-content h3 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            padding: 5px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-content ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .info-content li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+        }
+        
+        .legend {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .legend h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+        
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .welcome-message {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .welcome-message h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-message p {
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Integrated Governance & Risk Management Framework From Book, Get a Better Understanding.</h1>
+        <p>Interactive Model for Strategic Alignment and Risk Management</p>
+    </div>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="framework-visual">
+                <svg class="svg-container" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Connection Lines -->
+                    <!-- Organisation to People (Culture) -->
+                    <line class="connection-line" data-connection="culture" x1="250" y1="60" x2="125" y2="300" />
+                    <text class="connection-text" x="187" y="170" transform="rotate(-60 187 170)">CULTURE</text>
+                    
+                    <!-- Organisation to Process (Governing) -->
+                    <line class="connection-line" data-connection="governing" x1="250" y1="60" x2="250" y2="200" />
+                    <text class="connection-text" x="250" y="130" transform="rotate(-90 250 130)">GOVERNING</text>
+                    
+                    <!-- Organisation to Technology (Architecture) -->
+                    <line class="connection-line" data-connection="architecture" x1="250" y1="60" x2="375" y2="300" />
+                    <text class="connection-text" x="312" y="170" transform="rotate(60 312 170)">ARCHITECTURE</text>
+                    
+                    <!-- People to Process (Emergence) -->
+                    <line class="connection-line" data-connection="emergence" x1="125" y1="300" x2="250" y2="200" />
+                    <text class="connection-text" x="187" y="255" transform="rotate(35 187 255)">EMERGENCE</text>
+                    
+                    <!-- Process to Technology (Enabling) -->
+                    <line class="connection-line" data-connection="enabling" x1="250" y1="200" x2="375" y2="300" />
+                    <text class="connection-text" x="312" y="255" transform="rotate(-35 312 255)">ENABLING</text>
+                    
+                    <!-- People to Technology (Human Factors) -->
+                    <line class="connection-line" data-connection="humanfactors" x1="125" y1="300" x2="375" y2="300" />
+                    <text class="connection-text" x="250" y="305">HUMAN FACTORS</text>
+                    
+                    <!-- Nodes -->
+                    <g class="node" data-node="organisation">
+                        <circle class="node-circle" cx="250" cy="60" r="45" />
+                        <text class="node-text" x="250" y="65">ORGANISATION</text>
+                    </g>
+                    
+                    <g class="node" data-node="people">
+                        <circle class="node-circle" cx="125" cy="300" r="45" />
+                        <text class="node-text" x="125" y="305">PEOPLE</text>
+                    </g>
+                    
+                    <g class="node" data-node="process">
+                        <circle class="node-circle" cx="250" cy="200" r="45" />
+                        <text class="node-text" x="250" y="205">PROCESS</text>
+                    </g>
+                    
+                    <g class="node" data-node="technology">
+                        <circle class="node-circle" cx="375" cy="300" r="45" />
+                        <text class="node-text" x="375" y="305">TECHNOLOGY</text>
+                    </g>
+                </svg>
+                
+                <div class="legend">
+                    <h3>Quick Guide</h3>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ffd700;"></div>
+                            <span>Core Components</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #4CAF50;"></div>
+                            <span>Relationships</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ff6b6b;"></div>
+                            <span>Selected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <div id="info-display" class="info-content">
+                    <div class="welcome-message">
+                        <h3>Welcome to the Interactive Framework</h3>
+                        <p>Click on any node or connection in the diagram to explore detailed information about that component. Use the buttons below for quick navigation through key topics.</p>
+                        <p style="margin-top: 10px;"><strong>Start by clicking on any element to begin exploring!</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="showInfo('organisation')">Organisation</button>
+            <button class="btn" onclick="showInfo('people')">People</button>
+            <button class="btn" onclick="showInfo('process')">Process</button>
+            <button class="btn" onclick="showInfo('technology')">Technology</button>
+            <button class="btn" onclick="showInfo('culture')">Culture Link</button>
+            <button class="btn" onclick="showInfo('governing')">Governing Link</button>
+            <button class="btn" onclick="showInfo('architecture')">Architecture Link</button>
+            <button class="btn" onclick="showInfo('emergence')">Emergence Link</button>
+            <button class="btn" onclick="showInfo('enabling')">Enabling Link</button>
+            <button class="btn" onclick="showInfo('humanfactors')">Human Factors Link</button>
+            <button class="btn" onclick="showInfo('implementation')">Implementation Guide</button>
+            <button class="btn" onclick="showInfo('risks')">Risk Categories</button>
+        </div>
+    </div>
+    
+    <script>
+        const content = {
+            organisation: {
+                title: "Organisation Component",
+                content: `
+                    <h3>Strategic Leadership & Governance</h3>
+                    <ul>
+                        <li><strong>Vision & Strategy:</strong> Setting organizational direction and long-term goals</li>
+                        <li><strong>Governance Structure:</strong> Board oversight, committees, and accountability frameworks</li>
+                        <li><strong>Risk Appetite:</strong> Defining acceptable risk levels and tolerance thresholds</li>
+                        <li><strong>Compliance Framework:</strong> Regulatory requirements and legal obligations</li>
+                        <li><strong>Resource Management:</strong> Strategic allocation of budget, personnel, and assets</li>
+                    </ul>
+                    
+                    <h3>Key Governance Responsibilities</h3>
+                    <ul>
+                        <li>Strategic planning and oversight</li>
+                        <li>Performance monitoring and evaluation</li>
+                        <li>Stakeholder communication and engagement</li>
+                        <li>Cultural tone-setting from the top</li>
+                        <li>Crisis management and business continuity</li>
+                    </ul>
+                    
+                    <h3>Risk Management Role</h3>
+                    <ul>
+                        <li>Enterprise risk management framework ownership</li>
+                        <li>Risk policy development and approval</li>
+                        <li>Risk reporting to stakeholders</li>
+                        <li>Strategic risk identification and mitigation</li>
+                        <li>Integration of risk into decision-making</li>
+                    </ul>
+                `
+            },
+            people: {
+                title: "People Component",
+                content: `
+                    <h3>Human Capital Management</h3>
+                    <ul>
+                        <li><strong>Workforce Composition:</strong> Employees, contractors, management, and board members</li>
+                        <li><strong>Competency Framework:</strong> Skills mapping, capability assessment, and development needs</li>
+                        <li><strong>Behavioral Standards:</strong> Code of conduct, ethics, and professional standards</li>
+                        <li><strong>Performance Management:</strong> Goals, KPIs, reviews, and feedback systems</li>
+                        <li><strong>Talent Pipeline:</strong> Succession planning and leadership development</li>
+                    </ul>
+                    
+                    <h3>Risk Culture Development</h3>
+                    <ul>
+                        <li>Risk awareness training and education</li>
+                        <li>Encouraging speak-up culture and whistleblowing</li>
+                        <li>Reward systems aligned with risk management</li>
+                        <li>Clear accountability and ownership</li>
+                        <li>Learning from failures and near-misses</li>
+                    </ul>
+                    
+                    <h3>Governance Considerations</h3>
+                    <ul>
+                        <li>Diversity and inclusion initiatives</li>
+                        <li>Employee engagement and satisfaction</li>
+                        <li>Health, safety, and wellbeing programs</li>
+                        <li>Change management and communication</li>
+                        <li>Knowledge management and retention</li>
+                    </ul>
+                `
+            },
+            process: {
+                title: "Process Component",
+                content: `
+                    <h3>Operational Excellence</h3>
+                    <ul>
+                        <li><strong>Standard Operating Procedures:</strong> Documented workflows and protocols</li>
+                        <li><strong>Quality Management:</strong> Quality assurance, control points, and continuous improvement</li>
+                        <li><strong>Process Optimization:</strong> Lean, Six Sigma, and efficiency initiatives</li>
+                        <li><strong>Service Delivery:</strong> Customer-facing and internal service processes</li>
+                        <li><strong>Supply Chain Management:</strong> Vendor management and procurement processes</li>
+                    </ul>
+                    
+                    <h3>Control Framework</h3>
+                    <ul>
+                        <li>Preventive controls to avoid risks</li>
+                        <li>Detective controls to identify issues</li>
+                        <li>Corrective controls to address problems</li>
+                        <li>Compensating controls for residual risks</li>
+                        <li>Monitoring and testing of control effectiveness</li>
+                    </ul>
+                    
+                    <h3>Process Governance</h3>
+                    <ul>
+                        <li>Process ownership and accountability</li>
+                        <li>Change management procedures</li>
+                        <li>Documentation standards and retention</li>
+                        <li>Process performance metrics and KPIs</li>
+                        <li>Regular process reviews and updates</li>
+                    </ul>
+                `
+            },
+            technology: {
+                title: "Technology Component",
+                content: `
+                    <h3>Digital Infrastructure</h3>
+                    <ul>
+                        <li><strong>Core Systems:</strong> ERP, CRM, and operational platforms</li>
+                        <li><strong>Data Management:</strong> Storage, processing, analytics, and reporting systems</li>
+                        <li><strong>Network Infrastructure:</strong> Connectivity, cloud services, and communication tools</li>
+                        <li><strong>Security Architecture:</strong> Cybersecurity tools, access controls, and encryption</li>
+                        <li><strong>Emerging Technologies:</strong> AI, IoT, blockchain, and automation tools</li>
+                    </ul>
+                    
+                    <h3>Technology Risk Management</h3>
+                    <ul>
+                        <li>Cyber threat detection and response</li>
+                        <li>Business continuity and disaster recovery</li>
+                        <li>Data privacy and protection compliance</li>
+                        <li>System availability and performance monitoring</li>
+                        <li>Vendor and third-party risk management</li>
+                    </ul>
+                    
+                    <h3>IT Governance Framework</h3>
+                    <ul>
+                        <li>Technology investment decisions and ROI</li>
+                        <li>Architecture standards and guidelines</li>
+                        <li>Change and release management</li>
+                        <li>Service level agreements and support</li>
+                        <li>Innovation and digital transformation initiatives</li>
+                    </ul>
+                `
+            },
+            culture: {
+                title: "Culture (Organisation ↔ People)",
+                content: `
+                    <h3>Cultural Integration</h3>
+                    <ul>
+                        <li><strong>Values Alignment:</strong> Translating organizational values into behavioral expectations</li>
+                        <li><strong>Tone at the Top:</strong> Leadership modeling desired behaviors and attitudes</li>
+                        <li><strong>Communication Flows:</strong> Open, transparent dialogue between levels</li>
+                        <li><strong>Trust Building:</strong> Creating psychological safety and mutual respect</li>
+                        <li><strong>Change Readiness:</strong> Cultural adaptability to organizational evolution</li>
+                    </ul>
+                    
+                    <h3>Risk Culture Indicators</h3>
+                    <ul>
+                        <li>Willingness to report problems and near-misses</li>
+                        <li>Balance between risk-taking and control</li>
+                        <li>Ethical decision-making in grey areas</li>
+                        <li>Collective ownership of risk outcomes</li>
+                        <li>Learning orientation vs. blame culture</li>
+                    </ul>
+                    
+                    <h3>Governance Impact</h3>
+                    <ul>
+                        <li>Cultural assessment and measurement tools</li>
+                        <li>Values-based recruitment and promotion</li>
+                        <li>Cultural transformation programs</li>
+                        <li>Behavioral risk management</li>
+                        <li>Ethics and compliance programs effectiveness</li>
+                    </ul>
+                `
+            },
+            governing: {
+                title: "Governing (Organisation ↔ Process)",
+                content: `
+                    <h3>Strategic Process Alignment</h3>
+                    <ul>
+                        <li><strong>Policy Cascade:</strong> Translating board policies into operational procedures</li>
+                        <li><strong>Performance Management:</strong> Linking process metrics to strategic objectives</li>
+                        <li><strong>Authority Matrix:</strong> Clear delegation and approval hierarchies</li>
+                        <li><strong>Compliance Integration:</strong> Embedding regulatory requirements in processes</li>
+                        <li><strong>Resource Allocation:</strong> Aligning process investment with strategic priorities</li>
+                    </ul>
+                    
+                    <h3>Governance Mechanisms</h3>
+                    <ul>
+                        <li>Board and committee oversight of critical processes</li>
+                        <li>Regular process performance reporting</li>
+                        <li>Strategic process improvement initiatives</li>
+                        <li>Risk-based process prioritization</li>
+                        <li>Process governance forums and reviews</li>
+                    </ul>
+                    
+                    <h3>Risk Governance Integration</h3>
+                    <ul>
+                        <li>Risk appetite translation to process controls</li>
+                        <li>Process risk assessment and monitoring</li>
+                        <li>Incident escalation and reporting procedures</li>
+                        <li>Business continuity planning for critical processes</li>
+                        <li>Process audit and assurance programs</li>
+                    </ul>
+                `
+            },
+            architecture: {
+                title: "Architecture (Organisation ↔ Technology)",
+                content: `
+                    <h3>Enterprise Architecture Alignment</h3>
+                    <ul>
+                        <li><strong>Strategic Technology Roadmap:</strong> Multi-year technology evolution plans</li>
+                        <li><strong>Business-IT Alignment:</strong> Technology investments supporting business strategy</li>
+                        <li><strong>Standards Framework:</strong> Technology standards and principles</li>
+                        <li><strong>Innovation Pipeline:</strong> Emerging technology evaluation and adoption</li>
+                        <li><strong>Legacy Modernization:</strong> Strategic approach to technical debt</li>
+                    </ul>
+                    
+                    <h3>Architectural Governance</h3>
+                    <ul>
+                        <li>Architecture review boards and committees</li>
+                        <li>Technology investment approval processes</li>
+                        <li>Vendor and platform selection criteria</li>
+                        <li>Integration and interoperability standards</li>
+                        <li>Cloud strategy and governance</li>
+                    </ul>
+                    
+                    <h3>Risk Architecture</h3>
+                    <ul>
+                        <li>Security architecture and defense-in-depth</li>
+                        <li>Resilience and redundancy design</li>
+                        <li>Data architecture and governance</li>
+                        <li>Technology risk assessment frameworks</li>
+                        <li>Architectural compliance and audit</li>
+                    </ul>
+                `
+            },
+            emergence: {
+                title: "Emergence (People ↔ Process)",
+                content: `
+                    <h3>Innovation Through Interaction</h3>
+                    <ul>
+                        <li><strong>Bottom-Up Innovation:</strong> Employee-driven process improvements</li>
+                        <li><strong>Adaptive Workflows:</strong> Processes that evolve with user needs</li>
+                        <li><strong>Knowledge Creation:</strong> Learning captured in process refinements</li>
+                        <li><strong>Creative Problem-Solving:</strong> Human insight enhancing structured processes</li>
+                        <li><strong>Continuous Improvement:</strong> Kaizen and employee suggestion systems</li>
+                    </ul>
+                    
+                    <h3>Emergent Risk Patterns</h3>
+                    <ul>
+                        <li>Early warning signals from frontline staff</li>
+                        <li>Behavioral patterns indicating process stress</li>
+                        <li>Workarounds revealing process gaps</li>
+                        <li>Informal networks bypassing formal processes</li>
+                        <li>Cultural resistance to process changes</li>
+                    </ul>
+                    
+                    <h3>Governance Considerations</h3>
+                    <ul>
+                        <li>Balancing standardization with flexibility</li>
+                        <li>Change management and adoption strategies</li>
+                        <li>Process ownership and empowerment</li>
+                        <li>Feedback loops and improvement cycles</li>
+                        <li>Recognition and reward for innovation</li>
+                    </ul>
+                `
+            },
+            enabling: {
+                title: "Enabling & Support (Process ↔ Technology)",
+                content: `
+                    <h3>Technology-Enabled Processes</h3>
+                    <ul>
+                        <li><strong>Process Automation:</strong> RPA, workflow engines, and AI-driven automation</li>
+                        <li><strong>Digital Workflows:</strong> Paperless processes and electronic approvals</li>
+                        <li><strong>Real-Time Monitoring:</strong> Process analytics and performance dashboards</li>
+                        <li><strong>Integration Platforms:</strong> Seamless data flow between systems</li>
+                        <li><strong>Self-Service Capabilities:</strong> User-initiated process execution</li>
+                    </ul>
+                    
+                    <h3>Support Infrastructure</h3>
+                    <ul>
+                        <li>Help desk and technical support services</li>
+                        <li>Service level agreements and performance metrics</li>
+                        <li>Incident and problem management</li>
+                        <li>Change and release coordination</li>
+                        <li>Knowledge management systems</li>
+                    </ul>
+                    
+                    <h3>Risk & Control Automation</h3>
+                    <ul>
+                        <li>Automated control testing and monitoring</li>
+                        <li>Exception reporting and alerts</li>
+                        <li>Compliance tracking and reporting</li>
+                        <li>Audit trail and logging systems</li>
+                        <li>Predictive analytics for risk identification</li>
+                    </ul>
+                `
+            },
+            humanfactors: {
+                title: "Human Factors (People ↔ Technology)",
+                content: `
+                    <h3>Human-Technology Interface</h3>
+                    <ul>
+                        <li><strong>User Experience Design:</strong> Intuitive interfaces and usability</li>
+                        <li><strong>Digital Literacy:</strong> Technology skills development and training</li>
+                        <li><strong>Accessibility:</strong> Inclusive design for all users</li>
+                        <li><strong>Change Management:</strong> Technology adoption strategies</li>
+                        <li><strong>Work-Life Balance:</strong> Managing digital wellness and boundaries</li>
+                    </ul>
+                    
+                    <h3>Human Error Prevention</h3>
+                    <ul>
+                        <li>Error-proof design and fail-safes</li>
+                        <li>Clear alerts and confirmation mechanisms</li>
+                        <li>Training on security awareness</li>
+                        <li>Phishing and social engineering defense</li>
+                        <li>Cognitive load management in system design</li>
+                    </ul>
+                    
+                    <h3>Governance Implications</h3>
+                    <ul>
+                        <li>Technology acceptable use policies</li>
+                        <li>Privacy and data protection for employees</li>
+                        <li>Remote work technology governance</li>
+                        <li>Shadow IT identification and management</li>
+                        <li>Digital ethics and AI governance</li>
+                    </ul>
+                `
+            },
+            implementation: {
+                title: "Implementation Guide",
+                content: `
+                    <h3>Phase 1: Assessment (Months 1-2)</h3>
+                    <ul>
+                        <li><strong>Current State Analysis:</strong> Evaluate existing governance and risk structures</li>
+                        <li><strong>Gap Analysis:</strong> Identify weaknesses in nodes and connections</li>
+                        <li><strong>Stakeholder Mapping:</strong> Identify key players and their roles</li>
+                        <li><strong>Risk Assessment:</strong> Baseline current risk profile</li>
+                        <li><strong>Quick Wins:</strong> Identify immediate improvement opportunities</li>
+                    </ul>
+                    
+                    <h3>Phase 2: Design (Months 3-4)</h3>
+                    <ul>
+                        <li>Develop integrated governance framework</li>
+                        <li>Design risk management processes</li>
+                        <li>Create communication and reporting structures</li>
+                        <li>Define roles and responsibilities</li>
+                        <li>Establish metrics and KPIs</li>
+                    </ul>
+                    
+                    <h3>Phase 3: Implementation (Months 5-9)</h3>
+                    <ul>
+                        <li>Pilot programs in selected areas</li>
+                        <li>Training and capability building</li>
+                        <li>Technology enablement and tools</li>
+                        <li>Process documentation and standardization</li>
+                        <li>Cultural change initiatives</li>
+                    </ul>
+                    
+                    <h3>Phase 4: Optimization (Months 10-12)</h3>
+                    <ul>
+                        <li>Performance monitoring and adjustment</li>
+                        <li>Lessons learned and best practices</li>
+                        <li>Continuous improvement processes</li>
+                        <li>Maturity assessment and benchmarking</li>
+                        <li>Strategic review and future planning</li>
+                    </ul>
+                `
+            },
+            risks: {
+                title: "Risk Categories & Management",
+                content: `
+                    <h3>Strategic Risks</h3>
+                    <ul>
+                        <li><strong>Market Risks:</strong> Competition, disruption, economic changes</li>
+                        <li><strong>Reputation Risks:</strong> Brand damage, stakeholder confidence</li>
+                        <li><strong>Strategic Planning Risks:</strong> Poor decisions, missed opportunities</li>
+                        <li><strong>Governance Risks:</strong> Board effectiveness, succession planning</li>
+                        <li><strong>External Risks:</strong> Geopolitical, regulatory changes</li>
+                    </ul>
+                    
+                    <h3>Operational Risks</h3>
+                    <ul>
+                        <li>Process failures and inefficiencies</li>
+                        <li>Human error and misconduct</li>
+                        <li>Supply chain disruptions</li>
+                        <li>Quality and service delivery issues</li>
+                        <li>Health, safety, and environmental incidents</li>
+                    </ul>
+                    
+                    <h3>Technology Risks</h3>
+                    <ul>
+                        <li>Cyber attacks and data breaches</li>
+                        <li>System failures and downtime</li>
+                        <li>Data integrity and availability</li>
+                        <li>Technology obsolescence</li>
+                        <li>Vendor and third-party dependencies</li>
+                    </ul>
+                    
+                    <h3>Compliance Risks</h3>
+                    <ul>
+                        <li>Regulatory non-compliance and penalties</li>
+                        <li>Legal disputes and litigation</li>
+                        <li>Ethical violations and misconduct</li>
+                        <li>Contract breaches</li>
+                        <li>Intellectual property infringement</li>
+                    </ul>
+                    
+                    <h3>Financial Risks</h3>
+                    <ul>
+                        <li>Credit and counterparty risks</li>
+                        <li>Liquidity and cash flow risks</li>
+                        <li>Market and investment risks</li>
+                        <li>Fraud and financial crime</li>
+                        <li>Budget overruns and cost management</li>
+                    </ul>
+                `
+            }
+        };
+        
+        function showInfo(key) {
+            const infoDisplay = document.getElementById('info-display');
+            const data = content[key];
+            
+            if (data) {
+                infoDisplay.innerHTML = `
+                    <h2>${data.title}</h2>
+                    ${data.content}
+                `;
+                
+                // Update active states
+                document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                // Update visual elements
+                document.querySelectorAll('.node-circle, .connection-line').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                const element = document.querySelector(`[data-node="${key}"], [data-connection="${key}"]`);
+                if (element) {
+                    if (element.classList.contains('connection-line')) {
+                        element.classList.add('active');
+                    } else {
+                        element.querySelector('.node-circle')?.classList.add('active');
+                    }
+                }
+                
+                // Scroll to top of info panel
+                infoDisplay.scrollTop = 0;
+            }
+        }
+        
+        // Add click handlers to SVG elements
+        document.querySelectorAll('.node').forEach(node => {
+            node.addEventListener('click', () => {
+                const nodeType = node.dataset.node;
+                showInfo(nodeType);
+            });
+        });
+        
+        document.querySelectorAll('.connection-line').forEach(line => {
+            line.addEventListener('click', () => {
+                const connectionType = line.dataset.connection;
+                showInfo(connectionType);
+            });
+        });
+    </script>
+</body>
+</html>
