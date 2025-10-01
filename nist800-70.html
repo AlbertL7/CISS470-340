@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIST SP 800-70 - Configuration Checklists Program</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .title-section h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        
+        .title-section p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-btn.home {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e0e0e0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .intro-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            animation: slideIn 0.6s ease;
+        }
+        
+        .intro-card h2 {
+            color: #764ba2;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .intro-card p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .key-concepts {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .key-concepts h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .concept-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .concept-item strong {
+            color: #764ba2;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .concept-item span {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .framework-flow {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .framework-flow h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+        
+        .flow-step:hover {
+            transform: translateX(10px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .flow-step.fips199 {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .flow-step.fips200 {
+            background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+            color: white;
+        }
+        
+        .flow-step.nist800-53 {
+            background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+            color: white;
+        }
+        
+        .flow-step.nist800-70 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 3px solid #ffd700;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+        
+        .flow-step h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .flow-step p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 24px;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        
+        .ncp-overview {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .ncp-overview h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .tier-system {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .tier-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tier-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+        
+        .tier-card.tier1::before {
+            background: #e74c3c;
+        }
+        
+        .tier-card.tier2::before {
+            background: #f39c12;
+        }
+        
+        .tier-card.tier3::before {
+            background: #3498db;
+        }
+        
+        .tier-card.tier4::before {
+            background: #2ecc71;
+        }
+        
+        .tier-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .tier-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .tier-card ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        .tier-card li {
+            color: #555;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .checklist-types {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .checklist-types h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .checklist-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .checklist-card:hover {
+            background: #e8f4fd;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .checklist-card.active {
+            background: #e8f4fd;
+            border-left-color: #764ba2;
+        }
+        
+        .checklist-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checklist-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .checklist-examples {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .checklist-examples h4 {
+            color: #764ba2;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .checklist-examples ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist-examples li {
+            color: #555;
+            font-size: 12px;
+            padding: 3px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .checklist-examples li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+        
+        .checklist-icon {
+            font-size: 24px;
+        }
+        
+        .comparison-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-table {
+            overflow-x: auto;
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table .feature {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .check {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .cross {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .partial {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .stig-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .stig-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .stig-process {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .stig-process h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .process-steps {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-content h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .step-content p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .stig-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stig-cat {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .stig-cat.cat1 {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+        }
+        
+        .stig-cat.cat2 {
+            background: linear-gradient(135deg, #ffd93d 0%, #f9ca24 100%);
+            color: #333;
+        }
+        
+        .stig-cat.cat3 {
+            background: linear-gradient(135deg, #6bcf7f 0%, #4cd137 100%);
+            color: white;
+        }
+        
+        .stig-cat h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .stig-cat p {
+            font-size: 14px;
+        }
+        
+        .implementation-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .implementation-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .impl-tab {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .impl-tab:hover {
+            background: #e8f4fd;
+        }
+        
+        .impl-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .impl-content {
+            display: none;
+        }
+        
+        .impl-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .scenario-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-card h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .control-mapping {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .control-mapping h4 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        
+        .mapping-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 15px;
+        }
+        
+        .mapping-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .mapping-value {
+            color: #555;
+        }
+        
+        .config-example {
+            background: #2c3e50;
+            color: #4cd137;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        .config-example pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .example-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .example-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .example-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .example-tab {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .example-tab:hover {
+            background: #e8f4fd;
+        }
+        
+        .example-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .example-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .example-content.active {
+            display: block;
+        }
+        
+        .example-flow {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .example-flow h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .example-step {
+            background: white;
+            border-left: 3px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        
+        .example-step strong {
+            color: #764ba2;
+        }
+        
+        .implementation-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .implementation-box h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .implementation-box pre {
+            background: #2c3e50;
+            color: #4cd137;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .scap-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .scap-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .scap-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .scap-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .scap-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .scap-card p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .tools-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .tools-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .tools-categories {
+            margin-bottom: 30px;
+        }
+        
+        .tool-category {
+            margin-bottom: 30px;
+        }
+        
+        .tool-category h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .tool-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+        
+        .tool-card.free {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        }
+        
+        .tool-card.commercial {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .tool-card h4 {
+            margin-bottom: 10px;
+        }
+        
+        .tool-card p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        
+        .tool-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+        
+        .quiz-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .quiz-question {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-question h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .quiz-option {
+            padding: 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f0f0f0;
+            border-color: #667eea;
+        }
+        
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .resources-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .resource-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .resource-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .resource-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .resource-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .checklist-grid,
+            .stig-categories,
+            .tools-grid,
+            .scap-components {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="title-section">
+                <h1>🛡️ NIST SP 800-70</h1>
+                <p>National Checklist Program for IT Products</p>
+            </div>
+            <div class="nav-buttons">
+                <a href="index.html" class="nav-btn home">🏠 Home</a>
+                <a href="fips199.html" class="nav-btn">FIPS 199</a>
+                <a href="fips200.html" class="nav-btn">FIPS 200</a>
+                <a href="nist800-53.html" class="nav-btn">NIST 800-53</a>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Introduction -->
+        <div class="intro-card">
+            <h2>Bridging the Gap: From Controls to Configuration</h2>
+            <p>
+                <strong>NIST SP 800-70</strong> is the crucial implementation bridge that transforms abstract security controls 
+                into concrete technical configurations. While FIPS 199, FIPS 200, and NIST 800-53 tell you <em>what</em> 
+                security controls you need, NIST 800-70 shows you <em>how</em> to implement them on actual IT products.
+            </p>
+            <p>
+                The National Checklist Program (NCP) provides standardized, tested configuration checklists that help 
+                organizations implement security controls consistently and effectively across their technology infrastructure.
+                These checklists save organizations significant time and resources while reducing configuration errors and security gaps.
+            </p>
+            
+            <div class="key-concepts">
+                <h3>Key Concepts</h3>
+                <div class="concept-grid">
+                    <div class="concept-item">
+                        <strong>Configuration Baseline</strong>
+                        <span>Standardized secure settings for IT products</span>
+                    </div>
+                    <div class="concept-item">
+                        <strong>Checklist Repository</strong>
+                        <span>Centralized database of validated checklists</span>
+                    </div>
+                    <div class="concept-item">
+                        <strong>SCAP Content</strong>
+                        <span>Machine-readable security configurations</span>
+                    </div>
+                    <div class="concept-item">
+                        <strong>Tier System</strong>
+                        <span>Four-tier checklist complexity model</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Framework Flow -->
+        <div class="framework-flow">
+            <h2>🔄 The Complete Security Framework Flow</h2>
+            <div class="flow-container">
+                <div class="flow-step fips199" onclick="expandStep(this)">
+                    <h3>Step 1: FIPS 199 - Security Categorization</h3>
+                    <p>Determine your system's impact level (Low/Moderate/High) based on potential harm to CIA</p>
+                    <p style="margin-top: 10px; font-size: 12px;">Example: ERP System = {(C, M), (I, H), (A, M)} = HIGH</p>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step fips200" onclick="expandStep(this)">
+                    <h3>Step 2: FIPS 200 - Minimum Requirements</h3>
+                    <p>Address 17 security control families mandated for federal systems</p>
+                    <p style="margin-top: 10px; font-size: 12px;">AC, AT, AU, CA, CM, CP, IA, IR, MA, MP, PE, PL, PS, RA, SA, SC, SI</p>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step nist800-53" onclick="expandStep(this)">
+                    <h3>Step 3: NIST 800-53 - Select Controls</h3>
+                    <p>Choose specific controls from the catalog based on your impact level</p>
+                    <p style="margin-top: 10px; font-size: 12px;">High baseline = 325+ controls across all families</p>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step nist800-70" onclick="expandStep(this)">
+                    <h3>Step 4: NIST 800-70 - Configure Systems ⭐</h3>
+                    <p>Apply standardized configuration checklists to implement selected controls on your IT products</p>
+                    <p style="margin-top: 10px; font-size: 12px;">Windows Server 2019 STIG, Oracle 19c Baseline, Apache 2.4 Hardening Guide</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- National Checklist Program Overview -->
+        <div class="ncp-overview">
+            <h2>📚 National Checklist Program (NCP) Structure</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                The NCP uses a tiered approach to categorize checklists based on their automation level and complexity. 
+                This helps organizations select appropriate checklists based on their technical capabilities and requirements.
+            </p>
+            
+            <div class="tier-system">
+                <div class="tier-card tier1">
+                    <h3>Tier I - Prose</h3>
+                    <p>Human-readable guidance in narrative form</p>
+                    <ul>
+                        <li>PDF or Word documents</li>
+                        <li>Manual implementation required</li>
+                        <li>Good for small organizations</li>
+                        <li>Example: CIS Benchmarks PDFs</li>
+                    </ul>
+                </div>
+                
+                <div class="tier-card tier2">
+                    <h3>Tier II - Generalized</h3>
+                    <p>Configuration files with manual review needed</p>
+                    <ul>
+                        <li>XML, INI, or config files</li>
+                        <li>Some automation possible</li>
+                        <li>Requires customization</li>
+                        <li>Example: Group Policy templates</li>
+                    </ul>
+                </div>
+                
+                <div class="tier-card tier3">
+                    <h3>Tier III - Technology Specific</h3>
+                    <p>Automated scripts for specific products</p>
+                    <ul>
+                        <li>PowerShell, Bash scripts</li>
+                        <li>Direct implementation</li>
+                        <li>Product-specific automation</li>
+                        <li>Example: DISA STIG scripts</li>
+                    </ul>
+                </div>
+                
+                <div class="tier-card tier4">
+                    <h3>Tier IV - SCAP Enabled</h3>
+                    <p>Fully automated scanning and remediation</p>
+                    <ul>
+                        <li>XCCDF, OVAL content</li>
+                        <li>Automated compliance checking</li>
+                        <li>Continuous monitoring capable</li>
+                        <li>Example: SCAP data streams</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Expanded Checklist Types -->
+        <div class="checklist-types">
+            <h2>📋 Comprehensive Checklist Categories</h2>
+            <div class="checklist-grid">
+                <div class="checklist-card" onclick="selectChecklist(this, 'os')">
+                    <h3><span class="checklist-icon">💻</span> Operating Systems</h3>
+                    <p>Windows, Linux, macOS hardening guides with specific security settings and policies</p>
+                    <div class="checklist-examples">
+                        <h4>Common Checklists:</h4>
+                        <ul>
+                            <li>Windows 10/11 Security Baseline</li>
+                            <li>RHEL 8 STIG</li>
+                            <li>Ubuntu CIS Benchmark</li>
+                            <li>macOS Security Configuration</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="checklist-card" onclick="selectChecklist(this, 'db')">
+                    <h3><span class="checklist-icon">🗄️</span> Databases</h3>
+                    <p>Database configurations for data protection, access control, and audit logging</p>
+                    <div class="checklist-examples">
+                        <h4>Common Checklists:</h4>
+                        <ul>
+                            <li>Oracle 19c STIG</li>
+                            <li>MS SQL Server 2019 Baseline</li>
+                            <li>PostgreSQL Security Guide</li>
+                            <li>MongoDB Hardening</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="checklist-card" onclick="selectChecklist(this, 'app')">
+                    <h3><span class="checklist-icon">🌐</span> Web Applications</h3>
+                    <p>Web servers, application servers, and browser security configurations</p>
+                    <div class="checklist-examples">
+                        <h4>Common Checklists:</h4>
+                        <ul>
+                            <li>Apache HTTP Server STIG</li>
+                            <li>IIS 10 Security Guide</li>
+                            <li>Tomcat Hardening</li>
+                            <li>NGINX Security Baseline</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="checklist-card" onclick="selectChecklist(this, 'network')">
+                    <h3><span class="checklist-icon">🔌</span> Network Devices</h3>
+                    <p>Routers, switches, firewalls with hardened network security settings</p>
+                    <div class="checklist-examples">
+                        <h4>Common Checklists:</h4>
+                        <ul>
+                            <li>Cisco IOS Router STIG</li>
+                            <li>Palo Alto Firewall Guide</li>
+                            <li>Juniper Switch Security</li>
+                            <li>F5 Load Balancer Config</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="checklist-card" onclick="selectChecklist(this, 'mobile')">
+                    <h3><span class="checklist-icon">📱</span> Mobile Devices</h3>
+                    <p>iOS, Android configurations for enterprise mobile security</p>
+                    <div class="checklist-examples">
+                        <h4>Common Checklists:</h4>
+                        <ul>
+                            <li>iOS 15+ STIG</li>
+                            <li>Android Enterprise Guide</li>
+                            <li>Samsung Knox Config</li>
+                            <li>MDM Policy Templates</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="checklist-card" onclick="selectChecklist(this, 'virtual')">
+                    <h3><span class="checklist-icon">☁️</span> Cloud & Virtual</h3>
+                    <p>Cloud platforms, containers, and virtualization security</p>
+                    <div class="checklist-examples">
+                        <h4>Common Checklists:</h4>
+                        <ul>
+                            <li>AWS Security Best Practices</li>
+                            <li>Azure Security Baseline</li>
+                            <li>VMware vSphere STIG</li>
+                            <li>Docker/Kubernetes CIS</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comparison Section -->
+        <div class="comparison-section">
+            <h2>⚖️ Checklist Sources Comparison</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>DISA STIGs</th>
+                            <th>CIS Benchmarks</th>
+                            <th>Vendor Baselines</th>
+                            <th>Custom Checklists</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature">Stringency Level</td>
+                            <td class="check">Highest</td>
+                            <td class="partial">High</td>
+                            <td class="partial">Medium</td>
+                            <td class="partial">Variable</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">DoD Mandatory</td>
+                            <td class="check">✓ Yes</td>
+                            <td class="cross">✗ No</td>
+                            <td class="cross">✗ No</td>
+                            <td class="cross">✗ No</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Automation Support</td>
+                            <td class="check">✓ SCAP</td>
+                            <td class="check">✓ Various</td>
+                            <td class="partial">~ Limited</td>
+                            <td class="partial">~ Custom</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Update Frequency</td>
+                            <td class="partial">Quarterly</td>
+                            <td class="check">Regular</td>
+                            <td class="check">With releases</td>
+                            <td class="partial">As needed</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Cost</td>
+                            <td class="check">Free</td>
+                            <td class="partial">Membership</td>
+                            <td class="check">Free</td>
+                            <td class="cross">Development cost</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Flexibility</td>
+                            <td class="cross">Rigid</td>
+                            <td class="partial">Moderate</td>
+                            <td class="check">Flexible</td>
+                            <td class="check">Maximum</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Enhanced STIG Section -->
+        <div class="stig-section">
+            <h2>🔒 Deep Dive: STIGs Implementation</h2>
+            
+            <div class="stig-process">
+                <h3>STIG Implementation Process</h3>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Download STIG</h4>
+                            <p>Get latest version from DISA's public site (public.cyber.mil)</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Review with STIG Viewer</h4>
+                            <p>Understand requirements and document exceptions</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Apply Configurations</h4>
+                            <p>Implement manually or via automation scripts</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Scan for Compliance</h4>
+                            <p>Use SCAP tools to verify implementation</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Remediate Findings</h4>
+                            <p>Fix issues based on CAT severity priorities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stig-categories">
+                <div class="stig-cat cat1">
+                    <h4>CAT I (Critical)</h4>
+                    <p>Fix immediately</p>
+                    <p style="font-size: 12px; margin-top: 10px;">Examples: Default passwords, critical patches missing</p>
+                </div>
+                
+                <div class="stig-cat cat2">
+                    <h4>CAT II (High)</h4>
+                    <p>Fix within 30 days</p>
+                    <p style="font-size: 12px; margin-top: 10px;">Examples: Weak encryption, insufficient logging</p>
+                </div>
+                
+                <div class="stig-cat cat3">
+                    <h4>CAT III (Medium)</h4>
+                    <p>Fix within 90 days</p>
+                    <p style="font-size: 12px; margin-top: 10px;">Examples: Banner messages, documentation</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Expanded Implementation Section -->
+        <div class="implementation-section">
+            <h2>🚀 Real-World Implementation Scenarios</h2>
+            
+            <div class="implementation-tabs">
+                <div class="impl-tab active" onclick="showImplementation('enterprise')">Enterprise Network</div>
+                <div class="impl-tab" onclick="showImplementation('cloud')">Cloud Migration</div>
+                <div class="impl-tab" onclick="showImplementation('zerotrust')">Zero Trust</div>
+            </div>
+            
+            <div id="enterprise-impl" class="impl-content active">
+                <div class="scenario-card">
+                    <h3>Securing an Enterprise Windows Domain</h3>
+                    
+                    <div class="control-mapping">
+                        <h4>Scenario Details</h4>
+                        <div class="mapping-grid">
+                            <div class="mapping-label">Environment:</div>
+                            <div class="mapping-value">500+ Windows 10/11 workstations, 50 Windows Server 2019/2022</div>
+                            
+                            <div class="mapping-label">FIPS 199 Level:</div>
+                            <div class="mapping-value">Moderate Impact</div>
+                            
+                            <div class="mapping-label">Key Controls:</div>
+                            <div class="mapping-value">AC-2, AC-7, AU-2, IA-5, SC-7</div>
+                            
+                            <div class="mapping-label">Checklists Used:</div>
+                            <div class="mapping-value">Windows 10 STIG v2r6, Server 2019 STIG v2r5, Active Directory STIG</div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-example">
+                        <pre>
+# PowerShell Group Policy Configuration
+# Implementing IA-5 Password Requirements
+
+Set-ADDefaultDomainPasswordPolicy -Identity "corp.example.com" `
+    -MinPasswordLength 14 `
+    -PasswordHistoryCount 24 `
+    -MaxPasswordAge "60.00:00:00" `
+    -MinPasswordAge "1.00:00:00" `
+    -ComplexityEnabled $true
+
+# Account Lockout Policy (AC-7)
+Set-ADDefaultDomainPasswordPolicy -Identity "corp.example.com" `
+    -LockoutThreshold 3 `
+    -LockoutDuration "00:15:00" `
+    -LockoutObservationWindow "00:15:00"</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cloud-impl" class="impl-content">
+                <div class="scenario-card">
+                    <h3>Securing Cloud Infrastructure (AWS)</h3>
+                    
+                    <div class="control-mapping">
+                        <h4>Scenario Details</h4>
+                        <div class="mapping-grid">
+                            <div class="mapping-label">Environment:</div>
+                            <div class="mapping-value">Multi-region AWS deployment with 100+ EC2 instances</div>
+                            
+                            <div class="mapping-label">FIPS 199 Level:</div>
+                            <div class="mapping-value">High Impact</div>
+                            
+                            <div class="mapping-label">Key Controls:</div>
+                            <div class="mapping-value">AC-3, AU-9, SC-8, SC-13, SI-4</div>
+                            
+                            <div class="mapping-label">Checklists Used:</div>
+                            <div class="mapping-value">AWS Foundations CIS Benchmark, EC2 Linux STIG</div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-example">
+                        <pre>
+# AWS CloudFormation Template (YAML)
+# Implementing logging and monitoring controls
+
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  CloudTrail:
+    Type: AWS::CloudTrail::Trail
+    Properties:
+      S3BucketName: !Ref LoggingBucket
+      IncludeGlobalServiceEvents: true
+      IsLogging: true
+      IsMultiRegionTrail: true
+      EnableLogFileValidation: true
+      EventSelectors:
+        - IncludeManagementEvents: true
+          ReadWriteType: All
+          DataResources:
+            - Type: "AWS::S3::Object"
+              Values: ["arn:aws:s3:::*/*"]</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="zerotrust-impl" class="impl-content">
+                <div class="scenario-card">
+                    <h3>Zero Trust Architecture Implementation</h3>
+                    
+                    <div class="control-mapping">
+                        <h4>Scenario Details</h4>
+                        <div class="mapping-grid">
+                            <div class="mapping-label">Environment:</div>
+                            <div class="mapping-value">Hybrid cloud with microsegmentation and SASE</div>
+                            
+                            <div class="mapping-label">FIPS 199 Level:</div>
+                            <div class="mapping-value">High Impact</div>
+                            
+                            <div class="mapping-label">Key Controls:</div>
+                            <div class="mapping-value">AC-4, IA-2, IA-8, SC-7, SI-4</div>
+                            
+                            <div class="mapping-label">Checklists Used:</div>
+                            <div class="mapping-value">NIST SP 800-207 guidance, Vendor ZTA configurations</div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-example">
+                        <pre>
+# Zero Trust Policy Engine Configuration
+# JSON policy for microsegmentation
+
+{
+  "policies": [
+    {
+      "name": "Database Access Policy",
+      "effect": "ALLOW",
+      "conditions": {
+        "source": {
+          "identity": ["app-service-account"],
+          "trustLevel": ">= 0.8"
+        },
+        "destination": {
+          "service": "database",
+          "port": 5432
+        },
+        "context": {
+          "mfa": true,
+          "deviceCompliance": "COMPLIANT"
+        }
+      }
+    }
+  ]
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Practical Example -->
+        <div class="example-section">
+            <h2>💡 Step-by-Step Implementation Examples</h2>
+            
+            <div class="example-tabs">
+                <div class="example-tab active" onclick="showExample('password')">Password Policy</div>
+                <div class="example-tab" onclick="showExample('audit')">Audit Logging</div>
+                <div class="example-tab" onclick="showExample('access')">Access Control</div>
+                <div class="example-tab" onclick="showExample('encryption')">Encryption</div>
+            </div>
+            
+            <div id="password-example" class="example-content active">
+                <div class="example-flow">
+                    <h4>Implementing NIST 800-53 Control IA-5 (Authenticator Management)</h4>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 199 Says:</strong> "This is a Moderate impact system"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 200 Says:</strong> "You must address Identification and Authentication requirements"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-53 Says:</strong> "Implement IA-5: Manage information system authenticators by verifying identity, 
+                        enforcing strength requirements, and protecting authenticator content"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-70 (via Windows Server 2019 STIG) Says:</strong>
+                        <div class="implementation-box">
+                            <h4>Specific Configuration Requirements:</h4>
+                            <pre>
+Group Policy Settings:
+├── Password Policy
+│   ├── Minimum password length: 14 characters
+│   ├── Password complexity: Enabled
+│   ├── Maximum password age: 60 days
+│   ├── Minimum password age: 1 day
+│   └── Password history: 24 passwords
+└── Account Lockout Policy
+    ├── Lockout threshold: 3 attempts
+    ├── Lockout duration: 15 minutes
+    └── Reset count after: 15 minutes
+
+Registry Settings:
+HKLM\SYSTEM\CurrentControlSet\Control\Lsa
+└── NoLMHash: DWORD = 1 (Disable LM hash storage)</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="audit-example" class="example-content">
+                <div class="example-flow">
+                    <h4>Implementing NIST 800-53 Control AU-2 (Audit Events)</h4>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 199 Says:</strong> "This is a Moderate impact system"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 200 Says:</strong> "You must address Audit and Accountability requirements"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-53 Says:</strong> "Implement AU-2: Determine audit events, coordinate audit function, 
+                        and provide rationale for auditable events"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-70 (via Linux STIG) Says:</strong>
+                        <div class="implementation-box">
+                            <h4>Specific Audit Rules for /etc/audit/audit.rules:</h4>
+                            <pre>
+# User authentication events
+-w /var/log/faillog -p wa
+-w /var/log/lastlog -p wa
+-w /var/log/tallylog -p wa
+
+# Privileged command execution
+-a always,exit -F path=/usr/bin/passwd -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-passwd
+-a always,exit -F path=/usr/bin/sudo -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-sudo
+
+# File integrity monitoring
+-w /etc/passwd -p wa -k identity
+-w /etc/shadow -p wa -k identity
+-w /etc/group -p wa -k identity
+-w /etc/sudoers -p wa -k actions
+
+# System calls
+-a always,exit -F arch=b64 -S execve -F auid>=1000 -F auid!=4294967295 -k user_commands</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="access-example" class="example-content">
+                <div class="example-flow">
+                    <h4>Implementing NIST 800-53 Control AC-3 (Access Enforcement)</h4>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 199 Says:</strong> "This is a High impact system"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 200 Says:</strong> "You must address Access Control requirements"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-53 Says:</strong> "Implement AC-3: Enforce approved authorizations for logical access 
+                        in accordance with applicable access control policies"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-70 (via Database STIG) Says:</strong>
+                        <div class="implementation-box">
+                            <h4>Oracle Database 19c Access Controls:</h4>
+                            <pre>
+-- Remove unnecessary default accounts
+DROP USER SCOTT CASCADE;
+DROP USER HR CASCADE;
+DROP USER OE CASCADE;
+
+-- Implement least privilege
+REVOKE CREATE SESSION FROM PUBLIC;
+REVOKE CREATE TABLE FROM CONNECT;
+REVOKE CREATE PROCEDURE FROM RESOURCE;
+
+-- Enable unified auditing
+ALTER SYSTEM SET unified_audit_trail=DB,EXTENDED SCOPE=SPFILE;
+CREATE AUDIT POLICY logon_policy ACTIONS LOGON,LOGOFF;
+AUDIT POLICY logon_policy;
+
+-- Row-level security
+BEGIN
+  DBMS_RLS.ADD_POLICY(
+    object_schema => 'APP_SCHEMA',
+    object_name => 'SENSITIVE_DATA',
+    policy_name => 'DATA_ACCESS_POLICY',
+    function_schema => 'SEC_SCHEMA',
+    policy_function => 'CHECK_ACCESS',
+    statement_types => 'SELECT,INSERT,UPDATE,DELETE'
+  );
+END;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="encryption-example" class="example-content">
+                <div class="example-flow">
+                    <h4>Implementing NIST 800-53 Control SC-13 (Cryptographic Protection)</h4>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 199 Says:</strong> "This is a High impact system"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>FIPS 200 Says:</strong> "You must address System and Communications Protection requirements"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-53 Says:</strong> "Implement SC-13: Use FIPS-validated cryptography for information requiring cryptographic protection"
+                    </div>
+                    
+                    <div class="example-step">
+                        <strong>NIST 800-70 (via Application Server STIG) Says:</strong>
+                        <div class="implementation-box">
+                            <h4>Apache Tomcat TLS Configuration:</h4>
+                            <pre>
+&lt;!-- server.xml TLS Connector Configuration --&gt;
+&lt;Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+           maxThreads="150" SSLEnabled="true"&gt;
+    &lt;SSLHostConfig protocols="TLSv1.2,TLSv1.3"
+                   ciphers="TLS_AES_256_GCM_SHA384,
+                           TLS_AES_128_GCM_SHA256,
+                           TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+                           TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+                   certificateVerification="required"
+                   truststoreFile="/opt/tomcat/conf/truststore.jks"
+                   truststorePassword="${TRUSTSTORE_PASSWORD}"&gt;
+        &lt;Certificate certificateKeystoreFile="/opt/tomcat/conf/keystore.jks"
+                     certificateKeystorePassword="${KEYSTORE_PASSWORD}"
+                     type="RSA" /&gt;
+    &lt;/SSLHostConfig&gt;
+&lt;/Connector&gt;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCAP Section -->
+        <div class="scap-section">
+            <h2>🔧 SCAP: Automation Protocol for NIST 800-70</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                The Security Content Automation Protocol (SCAP) enables automated vulnerability management, security measurement, 
+                and policy compliance evaluation. It's the technical foundation for Tier IV checklists in NIST 800-70.
+            </p>
+            
+            <div class="scap-components">
+                <div class="scap-card">
+                    <h4>XCCDF</h4>
+                    <p>eXtensible Configuration Checklist Description Format - Describes security checklists</p>
+                </div>
+                
+                <div class="scap-card">
+                    <h4>OVAL</h4>
+                    <p>Open Vulnerability Assessment Language - Defines system states and configurations</p>
+                </div>
+                
+                <div class="scap-card">
+                    <h4>CPE</h4>
+                    <p>Common Platform Enumeration - Identifies IT products and platforms</p>
+                </div>
+                
+                <div class="scap-card">
+                    <h4>CVE</h4>
+                    <p>Common Vulnerabilities and Exposures - Standard vulnerability identifiers</p>
+                </div>
+                
+                <div class="scap-card">
+                    <h4>CVSS</h4>
+                    <p>Common Vulnerability Scoring System - Rates vulnerability severity</p>
+                </div>
+                
+                <div class="scap-card">
+                    <h4>CCE</h4>
+                    <p>Common Configuration Enumeration - Identifies security configurations</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Tools Section -->
+        <div class="tools-section">
+            <h2>🛠️ Comprehensive Tool Ecosystem</h2>
+            
+            <div class="tools-categories">
+                <div class="tool-category">
+                    <h3>Government/Free Tools</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card free">
+                            <h4>DISA STIG Viewer</h4>
+                            <p>View and create STIG checklists</p>
+                            <span class="tool-badge">FREE</span>
+                        </div>
+                        
+                        <div class="tool-card free">
+                            <h4>SCC (SCAP Compliance Checker)</h4>
+                            <p>DISA's automated scanning tool</p>
+                            <span class="tool-badge">FREE</span>
+                        </div>
+                        
+                        <div class="tool-card free">
+                            <h4>OpenSCAP</h4>
+                            <p>Open-source SCAP implementation</p>
+                            <span class="tool-badge">OPEN SOURCE</span>
+                        </div>
+                        
+                        <div class="tool-card free">
+                            <h4>Microsoft SCT</h4>
+                            <p>Security Compliance Toolkit</p>
+                            <span class="tool-badge">FREE</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h3>Commercial Solutions</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card commercial">
+                            <h4>Tenable Nessus</h4>
+                            <p>Vulnerability scanner with STIG audits</p>
+                            <span class="tool-badge">COMMERCIAL</span>
+                        </div>
+                        
+                        <div class="tool-card commercial">
+                            <h4>Rapid7 InsightVM</h4>
+                            <p>Vulnerability management platform</p>
+                            <span class="tool-badge">COMMERCIAL</span>
+                        </div>
+                        
+                        <div class="tool-card commercial">
+                            <h4>Qualys VMDR</h4>
+                            <p>Cloud-based compliance scanning</p>
+                            <span class="tool-badge">COMMERCIAL</span>
+                        </div>
+                        
+                        <div class="tool-card commercial">
+                            <h4>Tripwire Enterprise</h4>
+                            <p>Configuration management</p>
+                            <span class="tool-badge">COMMERCIAL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div class="quiz-section">
+            <h2>✓ Knowledge Check</h2>
+            
+            <div class="quiz-question">
+                <h4>1. What is the primary purpose of NIST SP 800-70?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Not quite. That\'s FIPS 199\'s role.')">
+                        Categorize information systems by impact level
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s NIST 800-53\'s function.')">
+                        Provide a catalog of security controls
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! NIST 800-70 provides standardized configuration checklists.')">
+                        Bridge the gap between controls and technical implementation
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s FIPS 200\'s purpose.')">
+                        Define minimum security requirements
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <h4>2. Which tier of NCP checklists provides fully automated scanning?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Tier I is prose/narrative guidance.')">
+                        Tier I - Prose
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Tier II has configuration files but limited automation.')">
+                        Tier II - Generalized
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Tier III has scripts but not full SCAP support.')">
+                        Tier III - Technology Specific
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! Tier IV uses SCAP for full automation.')">
+                        Tier IV - SCAP Enabled
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <h4>3. Which severity level of STIG findings must be fixed immediately?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! CAT I findings pose immediate threat.')">
+                        CAT I (Critical)
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'CAT II should be fixed within 30 days.')">
+                        CAT II (High)
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'CAT III can be fixed within 90 days.')">
+                        CAT III (Medium)
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'There is no CAT IV in STIGs.')">
+                        CAT IV (Low)
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <h4>4. What does SCAP stand for?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Close, but not quite right.')">
+                        Security Configuration Assessment Protocol
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! SCAP is the Security Content Automation Protocol.')">
+                        Security Content Automation Protocol
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s not the correct expansion.')">
+                        System Compliance Automation Platform
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Incorrect expansion of the acronym.')">
+                        Security Checklist Application Program
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <h4>5. How does NIST 800-70 relate to the other standards?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It actually comes after all three.')">
+                        It replaces FIPS 199, FIPS 200, and NIST 800-53
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It\'s actually the implementation layer.')">
+                        It's an optional supplement for advanced users
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Exactly! It provides the HOW after the others define the WHAT.')">
+                        It provides implementation guidance for controls selected through the other standards
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It\'s actually for configuration, not categorization.')">
+                        It's an alternative to FIPS 199 for categorization
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+        </div>
+        
+        <!-- Additional Resources -->
+        <div class="resources-section">
+            <h2>📚 Additional Resources</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4>Official NIST NCP Repository</h4>
+                    <p>Access the complete National Checklist Program database</p>
+                    <a href="#" class="resource-link">nvd.nist.gov/ncp/repository</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>DISA STIG Library</h4>
+                    <p>Download all current STIGs and implementation guides</p>
+                    <a href="#" class="resource-link">public.cyber.mil</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>CIS Benchmarks</h4>
+                    <p>Access consensus-developed secure configuration guides</p>
+                    <a href="#" class="resource-link">cisecurity.org/benchmarks</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="button-group">
+            <a href="nist800-53.html" class="btn secondary">← NIST 800-53</a>
+            <a href="index.html" class="btn">Back to Home</a>
+            <button class="btn" onclick="downloadSummary()">📥 Download Summary</button>
+        </div>
+    </div>
+    
+    <script>
+        // Progress tracking
+        let sectionsViewed = new Set();
+        let totalSections = 10;
+        
+        function updateProgress() {
+            const progress = (sectionsViewed.size / totalSections) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        // Track section viewing
+        function trackSection(sectionName) {
+            sectionsViewed.add(sectionName);
+            updateProgress();
+        }
+        
+        // Flow step interaction
+        function expandStep(element) {
+            trackSection('framework-flow');
+            const allSteps = document.querySelectorAll('.flow-step');
+            allSteps.forEach(step => {
+                if (step !== element) {
+                    step.style.transform = 'translateX(0)';
+                    step.style.borderColor = 'transparent';
+                }
+            });
+            
+            if (element.style.transform === 'translateX(10px)') {
+                element.style.transform = 'translateX(0)';
+                element.style.borderColor = 'transparent';
+            } else {
+                element.style.transform = 'translateX(10px)';
+                element.style.borderColor = '#667eea';
+            }
+        }
+        
+        // Checklist selection
+        function selectChecklist(element, type) {
+            trackSection('checklists');
+            const allCards = document.querySelectorAll('.checklist-card');
+            allCards.forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+        }
+        
+        // Implementation tabs
+        function showImplementation(type) {
+            trackSection('implementation');
+            // Update tabs
+            const tabs = document.querySelectorAll('.impl-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update content
+            const contents = document.querySelectorAll('.impl-content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(type + '-impl').classList.add('active');
+        }
+        
+        // Example tabs
+        function showExample(type) {
+            trackSection('examples');
+            // Update tabs
+            const tabs = document.querySelectorAll('.example-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update content
+            const contents = document.querySelectorAll('.example-content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(type + '-example').classList.add('active');
+        }
+        
+        // Quiz functionality
+        function checkAnswer(element, result, feedback) {
+            trackSection('quiz');
+            // Clear previous selections in this question
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                option.onclick = null;
+            });
+            
+            // Mark the selected answer
+            element.classList.add(result);
+            
+            // Show feedback
+            const feedbackDiv = element.parentElement.nextElementSibling;
+            feedbackDiv.className = 'feedback show ' + result;
+            feedbackDiv.textContent = feedback;
+        }
+        
+        // Download summary function
+        function downloadSummary() {
+            const summary = `
+NIST SP 800-70 Comprehensive Summary
+=====================================
+
+Purpose: Bridges the gap between security controls (WHAT) and technical implementation (HOW)
+
+THE SECURITY FRAMEWORK FLOW:
+1. FIPS 199: Categorize your system (Low/Moderate/High)
+2. FIPS 200: Address 17 mandatory security families
+3. NIST 800-53: Select specific controls from catalog
+4. NIST 800-70: Apply configuration checklists to implement controls
+
+NATIONAL CHECKLIST PROGRAM (NCP) TIERS:
+- Tier I (Prose): Human-readable narrative guidance
+- Tier II (Generalized): Configuration files with manual review
+- Tier III (Technology Specific): Automated scripts for products
+- Tier IV (SCAP Enabled): Fully automated scanning and remediation
+
+CHECKLIST CATEGORIES:
+1. Operating Systems (Windows, Linux, macOS)
+2. Databases (Oracle, SQL Server, PostgreSQL)
+3. Web Applications (Apache, IIS, NGINX)
+4. Network Devices (Routers, Switches, Firewalls)
+5. Mobile Devices (iOS, Android)
+6. Cloud & Virtual (AWS, Azure, VMware, Docker)
+
+STIG SEVERITY CATEGORIES:
+- CAT I (Critical): Fix immediately - Direct threat
+- CAT II (High): Fix within 30 days - Potential threat
+- CAT III (Medium): Fix within 90 days - Degraded security
+
+COMPARISON OF SOURCES:
+                    STIGs   CIS     Vendor  Custom
+Stringency:         High    High    Medium  Variable
+DoD Mandatory:      Yes     No      No      No
+Automation:         SCAP    Various Limited Custom
+Cost:              Free    Member  Free    Dev Cost
+Flexibility:       Rigid   Moderate Flex    Maximum
+
+SCAP COMPONENTS:
+- XCCDF: Checklist descriptions
+- OVAL: System state definitions
+- CPE: Platform enumeration
+- CVE: Vulnerability identifiers
+- CVSS: Vulnerability scoring
+- CCE: Configuration enumeration
+
+IMPLEMENTATION PROCESS:
+1. Download appropriate checklist
+2. Review requirements
+3. Apply configurations
+4. Scan for compliance
+5. Remediate findings by severity
+
+KEY TOOLS:
+Government/Free:
+- DISA STIG Viewer
+- SCC (SCAP Compliance Checker)
+- OpenSCAP
+- Microsoft Security Compliance Toolkit
+
+Commercial:
+- Tenable Nessus
+- Rapid7 InsightVM
+- Qualys VMDR
+- Tripwire Enterprise
+
+REMEMBER: NIST 800-70 transforms abstract requirements into concrete technical settings!
+            `;
+            
+            const blob = new Blob([summary], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'NIST_800-70_Complete_Summary.txt';
+            a.click();
+        }
+        
+        // Initialize animations and tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track initial view
+            trackSection('introduction');
+            
+            // Animate cards on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Track section viewing
+                        if (entry.target.classList.contains('ncp-overview')) trackSection('ncp');
+                        if (entry.target.classList.contains('stig-section')) trackSection('stig');
+                        if (entry.target.classList.contains('scap-section')) trackSection('scap');
+                        if (entry.target.classList.contains('tools-section')) trackSection('tools');
+                        if (entry.target.classList.contains('resources-section')) trackSection('resources');
+                    }
+                });
+            });
+            
+            // Observe all major sections
+            document.querySelectorAll('.intro-card, .framework-flow, .ncp-overview, .checklist-types, .comparison-section, .stig-section, .implementation-section, .example-section, .scap-section, .tools-section, .quiz-section, .resources-section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+            
+            // Animate tier cards
+            const cards = document.querySelectorAll('.tier-card, .checklist-card, .stig-cat, .scap-card, .tool-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>
