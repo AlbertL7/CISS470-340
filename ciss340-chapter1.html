@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Keys & Concepts - Comprehensive Visual Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            color: #444;
+            margin: 50px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #667eea;
+            margin: 25px 0 15px;
+            font-size: 1.5em;
+        }
+        
+        .concept-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .explanation-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .key-type-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .key-icon {
+            font-size: 40px;
+        }
+        
+        .definition {
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .analogy-box {
+            background: linear-gradient(135deg, #f093fb20, #f5576c20);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px dashed #f093fb;
+        }
+        
+        .analogy-header {
+            font-weight: bold;
+            color: #f5576c;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        /* Enhanced Table Styles */
+        .table-container {
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .data-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .primary-key-cell {
+            background: #fff3cd;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .foreign-key-cell {
+            background: #ffe0ec;
+            position: relative;
+        }
+        
+        .unique-key-cell {
+            background: #d1ecf1;
+            position: relative;
+        }
+        
+        .composite-key-cell {
+            background: linear-gradient(45deg, #fff3cd 50%, #ffd9a3 50%);
+            font-weight: bold;
+        }
+        
+        .key-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .pk-indicator {
+            background: #ffc107;
+            color: #856404;
+        }
+        
+        .fk-indicator {
+            background: #e91e63;
+            color: white;
+        }
+        
+        .uk-indicator {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        /* Visual Examples */
+        .visual-example {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .example-table {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .table-title {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .connection-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #667eea;
+            padding: 20px;
+        }
+        
+        /* Rule boxes */
+        .rules-box {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .rules-header {
+            color: #2e7d32;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .rule-item {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .rule-item::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        /* Warning boxes */
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .warning-header {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        /* Use case boxes */
+        .use-case {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .use-case-title {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* Code examples */
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .comment {
+            color: #6a9955;
+        }
+        
+        .keyword {
+            color: #c586c0;
+        }
+        
+        .highlight {
+            background: #ffeb3b;
+            color: #000;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        /* Comparison table */
+        .comparison-table {
+            width: 100%;
+            margin: 30px 0;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            background: white;
+            border: 1px solid #ddd;
+        }
+        
+        .check {
+            color: #4caf50;
+            font-size: 24px;
+        }
+        
+        .cross {
+            color: #f44336;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔑 Complete Guide to Database Keys & Relationships</h1>
+        
+        <!-- Primary Keys Section -->
+        <div class="concept-section">
+            <h2>1. PRIMARY KEYS - The Unique Identifier</h2>
+            
+            <div class="explanation-box">
+                <div class="key-type-header">
+                    <span class="key-icon">🔑</span>
+                    <div>
+                        <h3 style="margin: 0;">What is a Primary Key?</h3>
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> A primary key is a column (or combination of columns) that uniquely identifies each row in a table. No two rows can have the same primary key value, and it can NEVER be NULL.
+                </div>
+                
+                <div class="analogy-box">
+                    <div class="analogy-header">🎯 Real-World Analogy:</div>
+                    <p><strong>Social Security Number:</strong> Just like your SSN uniquely identifies you among all US residents, a primary key uniquely identifies a row among all rows in a table.</p>
+                    <p><strong>Student ID:</strong> In a school, every student has a unique ID number. Even if two students have the same name, their ID numbers are different.</p>
+                    <p><strong>License Plate:</strong> Every car has a unique license plate number within a state - that's its primary key in the DMV database!</p>
+                </div>
+                
+                <div class="rules-box">
+                    <div class="rules-header">📋 Primary Key Rules:</div>
+                    <div class="rule-item">Must be UNIQUE - no duplicates allowed</div>
+                    <div class="rule-item">Cannot be NULL - must always have a value</div>
+                    <div class="rule-item">Values should NEVER change once assigned</div>
+                    <div class="rule-item">Every table should have one (best practice)</div>
+                    <div class="rule-item">Only ONE primary key per table</div>
+                    <div class="rule-item">Automatically creates an index for fast lookups</div>
+                </div>
+            </div>
+            
+            <h3>Visual Example: Primary Key in Action</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>employee_id <span class="key-indicator pk-indicator">PRIMARY KEY</span></th>
+                            <th>first_name</th>
+                            <th>last_name</th>
+                            <th>email</th>
+                            <th>hire_date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="primary-key-cell">1001</td>
+                            <td>John</td>
+                            <td>Smith</td>
+                            <td>john.smith@company.com</td>
+                            <td>2023-01-15</td>
+                        </tr>
+                        <tr>
+                            <td class="primary-key-cell">1002</td>
+                            <td>Sarah</td>
+                            <td>Johnson</td>
+                            <td>sarah.j@company.com</td>
+                            <td>2023-02-20</td>
+                        </tr>
+                        <tr>
+                            <td class="primary-key-cell">1003</td>
+                            <td>John</td>
+                            <td>Smith</td>
+                            <td>john.smith2@company.com</td>
+                            <td>2023-03-10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 10px;">
+                ↑ Notice: Two employees named "John Smith", but different employee_ids (1001 vs 1003)
+            </p>
+            
+            <div class="use-case">
+                <div class="use-case-title">💡 Why Primary Keys Matter:</div>
+                <ul>
+                    <li><strong>Data Integrity:</strong> Prevents duplicate records from being inserted</li>
+                    <li><strong>Relationships:</strong> Other tables can reliably reference this row</li>
+                    <li><strong>Performance:</strong> Database creates an index automatically for fast searches</li>
+                    <li><strong>Updates/Deletes:</strong> Can target exactly one row without ambiguity</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Composite Primary Keys Section -->
+        <div class="concept-section">
+            <h2>2. COMPOSITE PRIMARY KEYS - When One Column Isn't Enough</h2>
+            
+            <div class="explanation-box">
+                <div class="key-type-header">
+                    <span class="key-icon">🔑🔑</span>
+                    <div>
+                        <h3 style="margin: 0;">What is a Composite Primary Key?</h3>
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> A composite primary key uses TWO or more columns together to create a unique identifier. The combination must be unique, even if individual values repeat.
+                </div>
+                
+                <div class="analogy-box">
+                    <div class="analogy-header">🎯 Real-World Analogy:</div>
+                    <p><strong>Flight Identification:</strong> A flight is uniquely identified by the combination of airline + flight number + date. "AA 1234" isn't unique (flies daily), but "AA 1234 on March 15, 2024" is unique.</p>
+                    <p><strong>Apartment Number:</strong> Building 5, Apartment 2B. Neither "5" nor "2B" is unique alone, but together they identify exactly one apartment.</p>
+                    <p><strong>Class Enrollment:</strong> Student ID + Course ID together. Student 1001 can take many courses, Course MATH101 has many students, but Student 1001 in MATH101 is unique.</p>
+                </div>
+            </div>
+            
+            <h3>Visual Example: Order Line Items (Classic Composite Key Use Case)</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>order_id <span class="key-indicator pk-indicator">PK-1</span></th>
+                            <th>line_number <span class="key-indicator pk-indicator">PK-2</span></th>
+                            <th>product_id</th>
+                            <th>quantity</th>
+                            <th>price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="composite-key-cell">5001</td>
+                            <td class="composite-key-cell">1</td>
+                            <td>PROD-100</td>
+                            <td>2</td>
+                            <td>$29.99</td>
+                        </tr>
+                        <tr>
+                            <td class="composite-key-cell">5001</td>
+                            <td class="composite-key-cell">2</td>
+                            <td>PROD-200</td>
+                            <td>1</td>
+                            <td>$49.99</td>
+                        </tr>
+                        <tr>
+                            <td class="composite-key-cell">5001</td>
+                            <td class="composite-key-cell">3</td>
+                            <td>PROD-150</td>
+                            <td>3</td>
+                            <td>$19.99</td>
+                        </tr>
+                        <tr>
+                            <td class="composite-key-cell">5002</td>
+                            <td class="composite-key-cell">1</td>
+                            <td>PROD-100</td>
+                            <td>1</td>
+                            <td>$29.99</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 10px;">
+                ↑ Order 5001 has 3 lines, Order 5002 has 1 line. The combination of order_id + line_number is unique.
+            </p>
+            
+            <div class="warning-box">
+                <div class="warning-header">⚠️ Important Notes:</div>
+                <ul>
+                    <li>BOTH columns together form ONE primary key (not two separate keys)</li>
+                    <li>Individual columns CAN have duplicate values</li>
+                    <li>The COMBINATION must be unique</li>
+                    <li>BOTH columns become NOT NULL automatically</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Foreign Keys Section -->
+        <div class="concept-section">
+            <h2>3. FOREIGN KEYS - The Relationship Builders</h2>
+            
+            <div class="explanation-box">
+                <div class="key-type-header">
+                    <span class="key-icon">🔗</span>
+                    <div>
+                        <h3 style="margin: 0;">What is a Foreign Key?</h3>
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> A foreign key is a column (or columns) that creates a link between two tables. It contains values that match the primary key values in another table, establishing a parent-child relationship.
+                </div>
+                
+                <div class="analogy-box">
+                    <div class="analogy-header">🎯 Real-World Analogy:</div>
+                    <p><strong>Emergency Contact:</strong> Your employee record has your spouse's employee ID as emergency contact. That ID is a "foreign key" pointing to their full record.</p>
+                    <p><strong>Credit Card Statement:</strong> Each transaction shows a merchant ID, which links to the merchant's full details in another system.</p>
+                    <p><strong>Bibliography Reference:</strong> A [3] in your essay points to source #3 in your bibliography - that's a foreign key relationship!</p>
+                </div>
+            </div>
+            
+            <h3>Visual Example: How Foreign Keys Connect Tables</h3>
+            
+            <div class="warning-box" style="margin-bottom: 30px;">
+                <div class="warning-header">🔍 CRITICAL: Foreign Key EXISTS IN ONLY ONE TABLE!</div>
+                <p><strong>NO, both tables DO NOT have foreign keys!</strong> This is a common misconception.</p>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Parent Table (Departments):</strong> Has ONLY its primary key, NO foreign key</li>
+                    <li><strong>Child Table (Employees):</strong> Has the foreign key that points to the parent</li>
+                    <li><strong>The Rule:</strong> In a one-to-many relationship, the foreign key is ALWAYS on the "many" side (child table)</li>
+                </ul>
+            </div>
+            
+            <div class="analogy-box" style="margin-bottom: 30px;">
+                <div class="analogy-header">🎯 Think of it like Phone Contacts:</div>
+                <p>Your mom doesn't need to store your phone number in her contact list to be your mom. But YOU store HER number in YOUR phone to call her. The foreign key is like storing someone else's number - only the person who needs to "call" (reference) the other table has it.</p>
+            </div>
+            
+            <div class="visual-example">
+                <div class="example-table">
+                    <div class="table-title">DEPARTMENTS Table (Parent - No Foreign Key Here!)</div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>dept_id <span class="key-indicator pk-indicator">PK</span></th>
+                                <th>dept_name</th>
+                                <th>location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="primary-key-cell">10</td>
+                                <td>Sales</td>
+                                <td>New York</td>
+                            </tr>
+                            <tr>
+                                <td class="primary-key-cell">20</td>
+                                <td>IT</td>
+                                <td>San Francisco</td>
+                            </tr>
+                            <tr>
+                                <td class="primary-key-cell">30</td>
+                                <td>HR</td>
+                                <td>Chicago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="text-align: center; color: #666; margin-top: 10px;">
+                        ↑ This table has ONLY its primary key (dept_id)
+                    </p>
+                </div>
+                
+                <div class="connection-arrow">
+                    ← referenced by →
+                </div>
+                
+                <div class="example-table">
+                    <div class="table-title">EMPLOYEES Table (Child - Foreign Key is HERE!)</div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>emp_id <span class="key-indicator pk-indicator">PK</span></th>
+                                <th>emp_name</th>
+                                <th>dept_id <span class="key-indicator fk-indicator">FK→DEPARTMENTS</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="primary-key-cell">1001</td>
+                                <td>Alice Johnson</td>
+                                <td class="foreign-key-cell">10</td>
+                            </tr>
+                            <tr>
+                                <td class="primary-key-cell">1002</td>
+                                <td>Bob Smith</td>
+                                <td class="foreign-key-cell">20</td>
+                            </tr>
+                            <tr>
+                                <td class="primary-key-cell">1003</td>
+                                <td>Carol White</td>
+                                <td class="foreign-key-cell">10</td>
+                            </tr>
+                            <tr>
+                                <td class="primary-key-cell">1004</td>
+                                <td>David Brown</td>
+                                <td class="foreign-key-cell">20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="text-align: center; color: #666; margin-top: 10px;">
+                        ↑ The foreign key (dept_id) is ONLY in this table, pointing to Departments
+                    </p>
+                </div>
+            </div>
+            
+            <div class="explanation-box" style="margin-top: 30px; background: #e8f5e9;">
+                <h4 style="color: #2e7d32;">How It Works:</h4>
+                <ul>
+                    <li>The value "10" in Employees.dept_id matches the value "10" in Departments.dept_id</li>
+                    <li>This creates a link: "Alice Johnson works in Sales department"</li>
+                    <li>The foreign key ensures you can't assign an employee to department 99 (doesn't exist)</li>
+                    <li>Multiple employees can have the same dept_id value (many employees in one department)</li>
+                </ul>
+            </div>
+            
+            <div class="rules-box">
+                <div class="rules-header">📋 Foreign Key Rules:</div>
+                <div class="rule-item">Must match an existing primary key value in the parent table (or be NULL)</div>
+                <div class="rule-item">Enforces "referential integrity" - can't reference non-existent data</div>
+                <div class="rule-item">Can have multiple foreign keys in one table</div>
+                <div class="rule-item">Can be NULL (unless specified as NOT NULL)</div>
+                <div class="rule-item">Same column can be both a primary key AND a foreign key</div>
+                <div class="rule-item">Updates/deletes in parent table can cascade to child tables</div>
+            </div>
+            
+            <div class="use-case">
+                <div class="use-case-title">💡 What Foreign Keys Prevent:</div>
+                <ul>
+                    <li><strong>Orphan Records:</strong> Can't have an employee in department 99 if department 99 doesn't exist</li>
+                    <li><strong>Broken Links:</strong> Can't delete a department that still has employees</li>
+                    <li><strong>Data Inconsistency:</strong> If department 10 moves from "New York" to "Boston", all employees stay connected</li>
+                </ul>
+            </div>
+            
+            <div class="explanation-box" style="margin-top: 30px; background: #ffebee; border-left: 5px solid #f44336;">
+                <h4 style="color: #c62828;">❌ Common Misconception: "Both Tables Have Foreign Keys"</h4>
+                <p style="margin-top: 15px;"><strong>This is WRONG!</strong> Here's why:</p>
+                
+                <div style="display: flex; gap: 30px; margin-top: 20px;">
+                    <div style="flex: 1;">
+                        <h5 style="color: #c62828;">❌ INCORRECT Thinking:</h5>
+                        <p>"Departments table has a foreign key to Employees"<br>
+                        "Employees table has a foreign key to Departments"</p>
+                        <p style="margin-top: 10px; color: #666;">This would create a circular reference and doesn't make sense!</p>
+                    </div>
+                    
+                    <div style="flex: 1;">
+                        <h5 style="color: #2e7d32;">✅ CORRECT Understanding:</h5>
+                        <p><strong>Parent (Departments):</strong> Has ONLY primary key<br>
+                        <strong>Child (Employees):</strong> Has foreign key pointing to parent</p>
+                        <p style="margin-top: 10px; color: #666;">One-way reference from child to parent!</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px;">
+                    <strong>Remember:</strong> In a relationship, only the table that needs to "look up" information in another table has the foreign key. It's like having someone's phone number - only the person who needs to make the call stores the number!
+                </div>
+            </div>
+        </div>
+        
+        <!-- Unique Keys Section -->
+        <div class="concept-section">
+            <h2>4. UNIQUE KEYS - The Alternative Identifiers</h2>
+            
+            <div class="explanation-box">
+                <div class="key-type-header">
+                    <span class="key-icon">🎯</span>
+                    <div>
+                        <h3 style="margin: 0;">What is a Unique Key?</h3>
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> A unique key ensures all values in a column (or combination of columns) are different from each other. Unlike primary keys, a table can have multiple unique keys and they CAN contain NULL values (but only one NULL).
+                </div>
+                
+                <div class="analogy-box">
+                    <div class="analogy-header">🎯 Real-World Analogy:</div>
+                    <p><strong>Email Address:</strong> In a user table, the user_id is primary key, but email must also be unique. Two users can't share an email.</p>
+                    <p><strong>Phone Number:</strong> Your phone number is unique to you, but it's not your primary identifier (that's your account number).</p>
+                    <p><strong>ISBN for Books:</strong> A book's primary key might be book_id, but ISBN is also unique and useful for lookups.</p>
+                </div>
+            </div>
+            
+            <h3>Visual Example: Multiple Unique Constraints</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>user_id <span class="key-indicator pk-indicator">PK</span></th>
+                            <th>username <span class="key-indicator uk-indicator">UNIQUE</span></th>
+                            <th>email <span class="key-indicator uk-indicator">UNIQUE</span></th>
+                            <th>ssn <span class="key-indicator uk-indicator">UNIQUE</span></th>
+                            <th>first_name</th>
+                            <th>last_name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="primary-key-cell">1</td>
+                            <td class="unique-key-cell">johndoe</td>
+                            <td class="unique-key-cell">john@email.com</td>
+                            <td class="unique-key-cell">123-45-6789</td>
+                            <td>John</td>
+                            <td>Doe</td>
+                        </tr>
+                        <tr>
+                            <td class="primary-key-cell">2</td>
+                            <td class="unique-key-cell">janedoe</td>
+                            <td class="unique-key-cell">jane@email.com</td>
+                            <td class="unique-key-cell">987-65-4321</td>
+                            <td>Jane</td>
+                            <td>Doe</td>
+                        </tr>
+                        <tr>
+                            <td class="primary-key-cell">3</td>
+                            <td class="unique-key-cell">bobsmith</td>
+                            <td class="unique-key-cell">bob@email.com</td>
+                            <td class="unique-key-cell">NULL</td>
+                            <td>Bob</td>
+                            <td>Smith</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 10px;">
+                ↑ This table has 1 primary key and 3 unique keys. Note: SSN can be NULL for international users.
+            </p>
+        </div>
+        
+        <!-- Comparison Section -->
+        <div class="concept-section">
+            <h2>5. KEY COMPARISON - Understanding the Differences</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Primary Key</th>
+                        <th>Foreign Key</th>
+                        <th>Unique Key</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Purpose</strong></td>
+                        <td>Uniquely identify each row</td>
+                        <td>Link to another table</td>
+                        <td>Ensure uniqueness</td>
+                    </tr>
+                    <tr>
+                        <td><strong>How many per table?</strong></td>
+                        <td>Only ONE</td>
+                        <td>Can have MANY</td>
+                        <td>Can have MANY</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Can be NULL?</strong></td>
+                        <td><span class="cross">✗</span> Never</td>
+                        <td><span class="check">✓</span> Yes (usually)</td>
+                        <td><span class="check">✓</span> Yes (only once)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Must be unique?</strong></td>
+                        <td><span class="check">✓</span> Always</td>
+                        <td><span class="cross">✗</span> No</td>
+                        <td><span class="check">✓</span> Always</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Creates index?</strong></td>
+                        <td><span class="check">✓</span> Automatically</td>
+                        <td><span class="cross">✗</span> Optional</td>
+                        <td><span class="check">✓</span> Automatically</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Example</strong></td>
+                        <td>employee_id</td>
+                        <td>department_id (in employees)</td>
+                        <td>email, ssn</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Real-World Database Example -->
+        <div class="concept-section">
+            <h2>6. COMPLETE EXAMPLE - E-Commerce Database</h2>
+            
+            <h3>Scenario: Online Store Database Design</h3>
+            
+            <div class="explanation-box">
+                <p>Let's see how all these keys work together in a real e-commerce database:</p>
+                
+                <div class="code-box">
+                    <span class="comment">-- Customers table with primary and unique keys</span><br>
+                    CREATE TABLE customers (<br>
+                    &nbsp;&nbsp;<span class="highlight">customer_id INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">email VARCHAR(100) UNIQUE NOT NULL</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">phone VARCHAR(20) UNIQUE</span>,<br>
+                    &nbsp;&nbsp;first_name VARCHAR(50) NOT NULL,<br>
+                    &nbsp;&nbsp;last_name VARCHAR(50) NOT NULL<br>
+                    );<br><br>
+                    
+                    <span class="comment">-- Products table</span><br>
+                    CREATE TABLE products (<br>
+                    &nbsp;&nbsp;<span class="highlight">product_id INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">sku VARCHAR(50) UNIQUE NOT NULL</span>,<br>
+                    &nbsp;&nbsp;product_name VARCHAR(200) NOT NULL,<br>
+                    &nbsp;&nbsp;price DECIMAL(10,2) NOT NULL<br>
+                    );<br><br>
+                    
+                    <span class="comment">-- Orders table with foreign key to customers</span><br>
+                    CREATE TABLE orders (<br>
+                    &nbsp;&nbsp;<span class="highlight">order_id INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">customer_id INT</span>,<br>
+                    &nbsp;&nbsp;order_date DATETIME DEFAULT CURRENT_TIMESTAMP,<br>
+                    &nbsp;&nbsp;total_amount DECIMAL(10,2),<br>
+                    &nbsp;&nbsp;<span class="highlight">FOREIGN KEY (customer_id) REFERENCES customers(customer_id)</span><br>
+                    );<br><br>
+                    
+                    <span class="comment">-- Order_Items with composite primary key and foreign keys</span><br>
+                    CREATE TABLE order_items (<br>
+                    &nbsp;&nbsp;<span class="highlight">order_id INT</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">item_number INT</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">product_id INT</span>,<br>
+                    &nbsp;&nbsp;quantity INT NOT NULL,<br>
+                    &nbsp;&nbsp;price DECIMAL(10,2) NOT NULL,<br>
+                    &nbsp;&nbsp;<span class="highlight">PRIMARY KEY (order_id, item_number)</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">FOREIGN KEY (order_id) REFERENCES orders(order_id)</span>,<br>
+                    &nbsp;&nbsp;<span class="highlight">FOREIGN KEY (product_id) REFERENCES products(product_id)</span><br>
+                    );
+                </div>
+            </div>
+            
+            <div class="visual-example">
+                <div class="use-case">
+                    <div class="use-case-title">🔑 Primary Keys in Action:</div>
+                    <ul>
+                        <li><strong>customer_id:</strong> Each customer gets unique ID (1, 2, 3...)</li>
+                        <li><strong>product_id:</strong> Each product gets unique ID</li>
+                        <li><strong>order_id:</strong> Each order gets unique ID</li>
+                        <li><strong>(order_id, item_number):</strong> Composite key for line items</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case">
+                    <div class="use-case-title">🔗 Foreign Keys in Action:</div>
+                    <ul>
+                        <li><strong>orders.customer_id:</strong> Links each order to a customer</li>
+                        <li><strong>order_items.order_id:</strong> Links items to their order</li>
+                        <li><strong>order_items.product_id:</strong> Links items to products</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case">
+                    <div class="use-case-title">🎯 Unique Keys in Action:</div>
+                    <ul>
+                        <li><strong>customers.email:</strong> No duplicate emails allowed</li>
+                        <li><strong>customers.phone:</strong> Each phone number unique (can be NULL)</li>
+                        <li><strong>products.sku:</strong> Product codes must be unique</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- EER Diagrams Section -->
+        <div class="concept-section">
+            <h2>7. EER DIAGRAMS - The Database Blueprint</h2>
+            
+            <div class="explanation-box">
+                <div class="key-type-header">
+                    <span class="key-icon">📐</span>
+                    <div>
+                        <h3 style="margin: 0;">What is an EER Diagram?</h3>
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <strong>Definition:</strong> An Enhanced Entity-Relationship (EER) diagram is a visual representation of your database structure. It shows all tables (entities), their columns (attributes), data types, keys, and most importantly, how tables relate to each other.
+                </div>
+                
+                <div class="analogy-box">
+                    <div class="analogy-header">🎯 Real-World Analogy:</div>
+                    <p><strong>Floor Plan:</strong> Like a floor plan shows room layouts and doorways between rooms, an EER diagram shows tables and connections between them.</p>
+                    <p><strong>Family Tree:</strong> Shows relationships between family members, just like EER shows relationships between tables.</p>
+                    <p><strong>Subway Map:</strong> Shows stations (tables) and lines connecting them (relationships).</p>
+                </div>
+            </div>
+            
+            <h3>Understanding EER Symbols - The Visual Language</h3>
+            
+            <div class="visual-example">
+                <div style="flex: 1;">
+                    <h4 style="color: #667eea; margin-bottom: 20px;">Table Representation:</h4>
+                    <div style="border: 3px solid #667eea; border-radius: 10px; padding: 0; background: white; max-width: 300px;">
+                        <div style="background: #667eea; color: white; padding: 10px; font-weight: bold;">TABLE_NAME</div>
+                        <div style="padding: 10px;">
+                            <div>🔑 id: INT (Primary Key)</div>
+                            <div>💎 foreign_id: INT (Foreign Key)</div>
+                            <div>🔸 unique_field: VARCHAR (Unique)</div>
+                            <div>&nbsp;&nbsp;&nbsp; regular_field: VARCHAR</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="flex: 1;">
+                    <h4 style="color: #667eea; margin-bottom: 20px;">Key Symbols:</h4>
+                    <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                        <div style="margin: 10px 0;">🔑 = Primary Key (PK)</div>
+                        <div style="margin: 10px 0;">💎 = Foreign Key (FK)</div>
+                        <div style="margin: 10px 0;">🔸 = Unique Key (UK)</div>
+                        <div style="margin: 10px 0;">NN = Not Null</div>
+                        <div style="margin: 10px 0;">AI = Auto Increment</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 40px;">Relationship Line Symbols - The Connection Types</h3>
+            
+            <div style="background: white; padding: 30px; border-radius: 15px; margin: 30px 0;">
+                <h4 style="color: #667eea; text-align: center; margin-bottom: 30px;">How to Read Relationship Lines</h4>
+                
+                <!-- One-to-One -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                    <div style="flex: 1; text-align: center;">
+                        <div style="font-weight: bold; color: #667eea;">PERSON</div>
+                    </div>
+                    <div style="flex: 2; text-align: center;">
+                        <svg width="200" height="40">
+                            <line x1="10" y1="20" x2="190" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="10" y1="15" x2="10" y2="25" stroke="#667eea" stroke-width="2"/>
+                            <line x1="190" y1="15" x2="190" y2="25" stroke="#667eea" stroke-width="2"/>
+                        </svg>
+                        <div style="color: #666; font-size: 14px;">One-to-One</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="font-weight: bold; color: #667eea;">PASSPORT</div>
+                    </div>
+                </div>
+                
+                <!-- One-to-Many -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                    <div style="flex: 1; text-align: center;">
+                        <div style="font-weight: bold; color: #667eea;">CUSTOMER</div>
+                    </div>
+                    <div style="flex: 2; text-align: center;">
+                        <svg width="200" height="40">
+                            <line x1="10" y1="20" x2="190" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="10" y1="15" x2="10" y2="25" stroke="#667eea" stroke-width="2"/>
+                            <line x1="180" y1="20" x2="190" y2="15" stroke="#667eea" stroke-width="2"/>
+                            <line x1="180" y1="20" x2="190" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="180" y1="20" x2="190" y2="25" stroke="#667eea" stroke-width="2"/>
+                        </svg>
+                        <div style="color: #666; font-size: 14px;">One-to-Many (Most Common)</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="font-weight: bold; color: #667eea;">ORDERS</div>
+                    </div>
+                </div>
+                
+                <!-- Many-to-Many -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                    <div style="flex: 1; text-align: center;">
+                        <div style="font-weight: bold; color: #667eea;">STUDENTS</div>
+                    </div>
+                    <div style="flex: 2; text-align: center;">
+                        <svg width="200" height="40">
+                            <line x1="20" y1="20" x2="180" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="10" y1="15" x2="20" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="10" y1="20" x2="20" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="10" y1="25" x2="20" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="180" y1="20" x2="190" y2="15" stroke="#667eea" stroke-width="2"/>
+                            <line x1="180" y1="20" x2="190" y2="20" stroke="#667eea" stroke-width="2"/>
+                            <line x1="180" y1="20" x2="190" y2="25" stroke="#667eea" stroke-width="2"/>
+                        </svg>
+                        <div style="color: #666; font-size: 14px;">Many-to-Many</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="font-weight: bold; color: #667eea;">COURSES</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="explanation-box">
+                <h4>Symbol Breakdown:</h4>
+                <div style="display: flex; gap: 40px; margin-top: 20px;">
+                    <div style="flex: 1;">
+                        <h5 style="color: #667eea;">Line Endings:</h5>
+                        <ul>
+                            <li><strong>Single Line ( | ):</strong> "One" - exactly one</li>
+                            <li><strong>Crow's Foot ( ⪪ ):</strong> "Many" - zero or more</li>
+                            <li><strong>Circle ( O ):</strong> Optional - can be zero</li>
+                            <li><strong>Double Line ( || ):</strong> Mandatory - must have at least one</li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1;">
+                        <h5 style="color: #667eea;">How to Read:</h5>
+                        <ul>
+                            <li>Read from left to right AND right to left</li>
+                            <li>"One customer can have many orders"</li>
+                            <li>"Each order belongs to one customer"</li>
+                            <li>The symbol closest to the table describes that table's participation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 40px;">Complete EER Diagram Example - Online Store Database</h3>
+            
+            <div style="background: #f8f9fa; padding: 40px; border-radius: 15px; margin: 30px 0;">
+                
+                <!-- First Relationship: Customers to Orders -->
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 40px;">
+                    <div style="border: 3px solid #667eea; border-radius: 10px; background: white; padding: 0;">
+                        <div style="background: #667eea; color: white; padding: 10px; font-weight: bold;">CUSTOMERS</div>
+                        <div style="padding: 10px; font-size: 14px;">
+                            <div style="background: #fff3cd; padding: 3px; border-radius: 3px;">🔑 customer_id: INT (PK)</div>
+                            <div>🔸 email: VARCHAR(100)</div>
+                            <div>first_name: VARCHAR(50)</div>
+                            <div>last_name: VARCHAR(50)</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 30px;">
+                        <div style="font-size: 40px; color: #667eea;">│────⪪</div>
+                        <div style="color: #667eea; font-weight: bold; margin-top: 5px;">One-to-Many</div>
+                    </div>
+                    
+                    <div style="border: 3px solid #667eea; border-radius: 10px; background: white; padding: 0;">
+                        <div style="background: #667eea; color: white; padding: 10px; font-weight: bold;">ORDERS</div>
+                        <div style="padding: 10px; font-size: 14px;">
+                            <div style="background: #fff3cd; padding: 3px; border-radius: 3px;">🔑 order_id: INT (PK)</div>
+                            <div style="background: #ffe0ec; padding: 3px; border-radius: 3px;">💎 customer_id: INT (FK)</div>
+                            <div>order_date: DATETIME</div>
+                            <div>total_amount: DECIMAL</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 40px;">
+                    <strong>☝️ Notice:</strong> Only ORDERS table has the foreign key (customer_id). CUSTOMERS table doesn't need one!
+                </div>
+                
+                <!-- Second Relationship: Orders to Order_Items -->
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 40px;">
+                    <div style="border: 3px solid #667eea; border-radius: 10px; background: white; padding: 0;">
+                        <div style="background: #667eea; color: white; padding: 10px; font-weight: bold;">ORDERS</div>
+                        <div style="padding: 10px; font-size: 14px;">
+                            <div style="background: #fff3cd; padding: 3px; border-radius: 3px;">🔑 order_id: INT (PK)</div>
+                            <div>💎 customer_id: INT (FK)</div>
+                            <div>order_date: DATETIME</div>
+                            <div>total_amount: DECIMAL</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 30px;">
+                        <div style="font-size: 40px; color: #667eea;">│────⪪</div>
+                        <div style="color: #667eea; font-weight: bold; margin-top: 5px;">One-to-Many</div>
+                    </div>
+                    
+                    <div style="border: 3px solid #667eea; border-radius: 10px; background: white; padding: 0;">
+                        <div style="background: #667eea; color: white; padding: 10px; font-weight: bold;">ORDER_ITEMS</div>
+                        <div style="padding: 10px; font-size: 14px;">
+                            <div style="background: #fff3cd; padding: 3px; border-radius: 3px;">🔑🔑 order_id + line_num</div>
+                            <div style="background: #ffe0ec; padding: 3px; border-radius: 3px;">💎 order_id: INT (FK)</div>
+                            <div style="background: #ffe0ec; padding: 3px; border-radius: 3px;">💎 product_id: INT (FK)</div>
+                            <div>quantity: INT</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 40px;">
+                    <strong>☝️ Notice:</strong> ORDER_ITEMS has two foreign keys because it connects to two different parent tables (Orders and Products)
+                </div>
+                
+                <!-- Third Relationship: Products to Order_Items -->
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 40px;">
+                    <div style="border: 3px solid #667eea; border-radius: 10px; background: white; padding: 0;">
+                        <div style="background: #667eea; color: white; padding: 10px; font-weight: bold;">PRODUCTS</div>
+                        <div style="padding: 10px; font-size: 14px;">
+                            <div style="background: #fff3cd; padding: 3px; border-radius: 3px;">🔑 product_id: INT (PK)</div>
+                            <div>🔸 sku: VARCHAR(50)</div>
+                            <div>product_name: VARCHAR</div>
+                            <div>price: DECIMAL</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 30px;">
+                        <div style="font-size: 40px; color: #667eea;">│────⪪</div>
+                        <div style="color: #667eea; font-weight: bold; margin-top: 5px;">One-to-Many</div>
+                    </div>
+                    
+                    <div style="border: 3px solid #667eea; border-radius: 10px; background: white; padding: 0;">
+                        <div style="background: #667eea; color: white; padding: 10px; font-weight: bold;">ORDER_ITEMS</div>
+                        <div style="padding: 10px; font-size: 14px;">
+                            <div style="background: #fff3cd; padding: 3px; border-radius: 3px;">🔑🔑 order_id + line_num</div>
+                            <div style="background: #ffe0ec; padding: 3px; border-radius: 3px;">💎 product_id: INT (FK)</div>
+                            <div>quantity: INT</div>
+                            <div>unit_price: DECIMAL</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 20px; border-radius: 10px; border: 2px solid #4caf50;">
+                    <h4 style="color: #2e7d32;">🎓 Key Pattern to Remember:</h4>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Parent tables</strong> (CUSTOMERS, PRODUCTS, ORDERS when parent): Have ONLY their primary keys</li>
+                        <li><strong>Child tables</strong> (ORDERS when child, ORDER_ITEMS): Have foreign keys pointing to parents</li>
+                        <li><strong>Junction tables</strong> (ORDER_ITEMS): Have multiple foreign keys to connect multiple parents</li>
+                        <li><strong>Direction:</strong> Foreign keys always point FROM child TO parent, never the other way</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="rules-box">
+                <div class="rules-header">📋 How to Read an EER Diagram:</div>
+                <div class="rule-item">Start by identifying all primary keys (🔑) - these are the unique identifiers</div>
+                <div class="rule-item">Look for foreign keys (💎) - these create the relationships</div>
+                <div class="rule-item">Follow the relationship lines to understand how tables connect</div>
+                <div class="rule-item">Read relationships both ways: "One X has many Y" and "Each Y belongs to one X"</div>
+                <div class="rule-item">Identify junction tables (like ORDER_ITEMS) that resolve many-to-many relationships</div>
+                <div class="rule-item">Note data types and constraints (NN = Not Null, AI = Auto Increment)</div>
+            </div>
+            
+            <div class="analogy-box">
+                <div class="analogy-header">💡 Quick Tips for Understanding EER Diagrams:</div>
+                <p><strong>Crow's Foot = Many:</strong> Think of it like a bird's foot spreading out to grab many things</p>
+                <p><strong>Single Line = One:</strong> A straight line represents a single connection</p>
+                <p><strong>Foreign Keys Point Back:</strong> They're like breadcrumbs leading back to the parent table</p>
+                <p><strong>Junction Tables:</strong> Like a sign-up sheet that connects students to classes</p>
+            </div>
+        </div>
+        
+        <!-- Best Practices -->
+        <div class="concept-section">
+            <h2>8. BEST PRACTICES & TIPS</h2>
+            
+            <div class="rules-box">
+                <div class="rules-header">✅ DO's:</div>
+                <div class="rule-item">Always define a primary key for every table</div>
+                <div class="rule-item">Use auto-increment integers for primary keys when possible</div>
+                <div class="rule-item">Create foreign keys to enforce relationships</div>
+                <div class="rule-item">Add unique constraints to natural keys (email, username, etc.)</div>
+                <div class="rule-item">Name keys descriptively (customer_id, not just id)</div>
+                <div class="rule-item">Index foreign key columns for better performance</div>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-header">❌ DON'Ts:</div>
+                <ul>
+                    <li>Don't use data that might change as primary key (like email)</li>
+                    <li>Don't create tables without primary keys</li>
+                    <li>Don't ignore foreign key constraints - they prevent bad data</li>
+                    <li>Don't use spaces or special characters in key names</li>
+                    <li>Don't make composite keys unnecessarily complex</li>
+                </ul>
+            </div>
+            
+            <div class="analogy-box">
+                <div class="analogy-header">💭 Final Memory Trick:</div>
+                <p><strong>Primary Key</strong> = Your ID card number (one per person, never changes)</p>
+                <p><strong>Foreign Key</strong> = Your mom's phone number in your contacts (points to her)</p>
+                <p><strong>Unique Key</strong> = Your email address (unique but not your main ID)</p>
+                <p><strong>Composite Key</strong> = Building + Apartment number (need both to be unique)</p>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
