@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cyber Risk Handbook - Interactive Learning Portal</title>
+    <title>Cybersecurity Learning Portal</title>
     <style>
         * {
             margin: 0;
@@ -15,7 +15,94 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
+            padding: 0;
+        }
+        
+        /* Tab Navigation Styles */
+        .tab-navigation {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .tab-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 0;
+        }
+        
+        .tab-button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tab-button:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .tab-button.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: scaleX(0);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+        
+        .course-label {
+            display: block;
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 2px;
+            font-weight: normal;
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
             padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
         
         .container {
@@ -146,6 +233,7 @@
         .chapter-fips200 { background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%); }
         .chapter-nist { background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%); }
         .chapter-governance { background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); }
+        .chapter-ciss340 { background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%); }
         .chapter-coming { 
             background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
             opacity: 0.7;
@@ -224,412 +312,767 @@
             font-size: 18px;
             font-weight: bold;
         }
+        
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🛡️ THE CYBER RISK HANDBOOK</h1>
-            <p>Interactive Learning Portal - CISS 470</p>
-            <p style="font-size: 16px; margin-top: 10px; opacity: 0.8;">Creating and Measuring Effective Cybersecurity Capabilities</p>
+    <!-- Tab Navigation -->
+    <nav class="tab-navigation">
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('ciss470')">
+                    <span class="course-label">Advanced</span>
+                    CISS 470
+                </button>
+                <button class="tab-button" onclick="switchTab('ciss340')">
+                    <span class="course-label">Fundamentals</span>
+                    CISS 340
+                </button>
+            </div>
         </div>
+    </nav>
 
-        <div class="navigation-tip">
-            💡 Click any available chapter to begin your interactive learning journey
-        </div>
+    <!-- CISS 470 Content -->
+    <div id="ciss470" class="tab-content active">
+        <div class="container">
+            <div class="header">
+                <h1>🛡️ THE CYBER RISK HANDBOOK</h1>
+                <p>Interactive Learning Portal - CISS 470</p>
+                <p style="font-size: 16px; margin-top: 10px; opacity: 0.8;">Creating and Measuring Effective Cybersecurity Capabilities</p>
+            </div>
 
-        <div class="section-divider">
-            📚 Handbook Chapters
-        </div>
+            <div class="navigation-tip">
+                💡 Click any available chapter to begin your interactive learning journey
+            </div>
 
-        <div class="chapters-grid">
-            <!-- Chapter 1 -->
-            <a href="chapter1.html" class="chapter-card">
-                <div class="chapter-header chapter-1">
-                    <div class="chapter-number">1</div>
-                    <div class="chapter-title">Introduction to Cyber Risk</div>
-                    <div class="chapter-subtitle">The CEO's Wake-Up Call</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Meet CEO Tom as he discovers cyber risk is not just an IT issue but an enterprise-wide challenge requiring executive ownership and comprehensive capabilities.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">5</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">45 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+            <div class="section-divider">
+                📚 Handbook Chapters
+            </div>
+
+            <div class="chapters-grid">
+                <!-- Chapter 1 -->
+                <a href="chapter1.html" class="chapter-card">
+                    <div class="chapter-header chapter-1">
+                        <div class="chapter-number">1</div>
+                        <div class="chapter-title">Introduction to Cyber Risk</div>
+                        <div class="chapter-subtitle">The CEO's Wake-Up Call</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Meet CEO Tom as he discovers cyber risk is not just an IT issue but an enterprise-wide challenge requiring executive ownership and comprehensive capabilities.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">45 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <!-- Chapter 2 -->
-            <a href="chapter2.html" class="chapter-card">
-                <div class="chapter-header chapter-2">
-                    <div class="chapter-number">2</div>
-                    <div class="chapter-title">Board Cyber Risk Oversight</div>
-                    <div class="chapter-subtitle">The Radical Departure</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Learn why boards need radical change in cyber risk governance, the NACD framework, barriers to action, and four practical steps for transformation.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">5</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">40 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+                <!-- Chapter 2 -->
+                <a href="chapter2.html" class="chapter-card">
+                    <div class="chapter-header chapter-2">
+                        <div class="chapter-number">2</div>
+                        <div class="chapter-title">Board Cyber Risk Oversight</div>
+                        <div class="chapter-subtitle">The Radical Departure</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Learn why boards need radical change in cyber risk governance, the NACD framework, barriers to action, and four practical steps for transformation.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">40 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <!-- Chapter 3 -->
-            <a href="chapter3.html" class="chapter-card">
-                <div class="chapter-header chapter-3">
-                    <div class="chapter-number">3</div>
-                    <div class="chapter-title">Principles Behind Cyber Risk</div>
-                    <div class="chapter-subtitle">ISO 31000 meets COBIT 5</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Discover how ISO 31000 risk principles and COBIT 5 governance principles work together to guide enterprise cyber risk management through people and behavior.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">5</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">35 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+                <!-- Chapter 3 -->
+                <a href="chapter3.html" class="chapter-card">
+                    <div class="chapter-header chapter-3">
+                        <div class="chapter-number">3</div>
+                        <div class="chapter-title">Principles Behind Cyber Risk</div>
+                        <div class="chapter-subtitle">ISO 31000 meets COBIT 5</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Discover how ISO 31000 risk principles and COBIT 5 governance principles work together to guide enterprise cyber risk management through people and behavior.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">35 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <!-- Chapter 4 -->
-            <a href="chapter4.html" class="chapter-card">
-                <div class="chapter-header chapter-4">
-                    <div class="chapter-number">4</div>
-                    <div class="chapter-title">Cybersecurity Policies</div>
-                    <div class="chapter-subtitle">Six Essential Policy Areas</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Learn why organizations need six distinct policies covering social media, ransomware, cloud, big data, IoT, and BYOD—not just one comprehensive policy.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">50 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+                <!-- Chapter 4 -->
+                <a href="chapter4.html" class="chapter-card">
+                    <div class="chapter-header chapter-4">
+                        <div class="chapter-number">4</div>
+                        <div class="chapter-title">Cybersecurity Policies</div>
+                        <div class="chapter-subtitle">Six Essential Policy Areas</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Learn why organizations need six distinct policies covering social media, ransomware, cloud, big data, IoT, and BYOD—not just one comprehensive policy.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">50 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <!-- Chapter 5 -->
-            <a href="chapter5.html" class="chapter-card">
-                <div class="chapter-header chapter-5">
-                    <div class="chapter-number">5</div>
-                    <div class="chapter-title">Strategic Performance</div>
-                    <div class="chapter-subtitle">Measuring What Matters</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Master the art of measuring cybersecurity effectiveness by avoiding common pitfalls and building a three-component system for strategic performance management.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">55 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+                <!-- Chapter 5 -->
+                <a href="chapter5.html" class="chapter-card">
+                    <div class="chapter-header chapter-5">
+                        <div class="chapter-number">5</div>
+                        <div class="chapter-title">Strategic Performance</div>
+                        <div class="chapter-subtitle">Measuring What Matters</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Master the art of measuring cybersecurity effectiveness by avoiding common pitfalls and building a three-component system for strategic performance management.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">55 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <!-- Future Chapters Placeholder -->
-            <div class="chapter-card chapter-coming">
-                <div class="chapter-header chapter-coming">
-                    <div class="chapter-number">6+</div>
-                    <div class="chapter-title">More Chapters Coming Soon</div>
-                    <div class="chapter-subtitle">Under Development</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-coming">Coming Soon</span>
-                    <p class="chapter-description">
-                        Additional chapters covering risk appetite, processes, organizational structures, culture, information management, and more will be added throughout the semester.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">21</div>
-                            <div class="stat-label">More Chapters</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">2024</div>
-                            <div class="stat-label">Release Year</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+                <!-- Future Chapters Placeholder -->
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">6+</div>
+                        <div class="chapter-title">More Chapters Coming Soon</div>
+                        <div class="chapter-subtitle">Under Development</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Additional chapters covering risk appetite, processes, organizational structures, culture, information management, and more will be added throughout the semester.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">21</div>
+                                <div class="stat-label">More Chapters</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">2024</div>
+                                <div class="stat-label">Release Year</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="section-divider">
-            🔐 NIST Standards Modules
-        </div>
+            <div class="section-divider">
+                🔐 NIST Standards Modules
+            </div>
 
-        <div class="chapters-grid">
-            <!-- FIPS 199 Module -->
-            <a href="fips199.html" class="chapter-card">
-                <div class="chapter-header chapter-fips">
-                    <div class="chapter-number">📋</div>
-                    <div class="chapter-title">FIPS 199 Standards</div>
-                    <div class="chapter-subtitle">Security Categorization</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Learn the federal standards for categorizing information and systems based on CIA triad impact levels. Master the high water mark principle and security categorization formulas.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">30 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+            <div class="chapters-grid">
+                <!-- FIPS 199 Module -->
+                <a href="fips199.html" class="chapter-card">
+                    <div class="chapter-header chapter-fips">
+                        <div class="chapter-number">📋</div>
+                        <div class="chapter-title">FIPS 199 Standards</div>
+                        <div class="chapter-subtitle">Security Categorization</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Learn the federal standards for categorizing information and systems based on CIA triad impact levels. Master the high water mark principle and security categorization formulas.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">30 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <!-- FIPS 200 Module -->
-            <a href="fips200.html" class="chapter-card">
-                <div class="chapter-header chapter-fips200">
-                    <div class="chapter-number">🏛️</div>
-                    <div class="chapter-title">FIPS 200</div>
-                    <div class="chapter-subtitle">Minimum Security Requirements</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Discover the critical bridge between risk categorization and control selection. Master the 17 minimum security requirements that every federal system must address and understand the mandatory baseline selection process.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">45 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+                <!-- FIPS 200 Module -->
+                <a href="fips200.html" class="chapter-card">
+                    <div class="chapter-header chapter-fips200">
+                        <div class="chapter-number">🏛️</div>
+                        <div class="chapter-title">FIPS 200</div>
+                        <div class="chapter-subtitle">Minimum Security Requirements</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Discover the critical bridge between risk categorization and control selection. Master the 17 minimum security requirements that every federal system must address and understand the mandatory baseline selection process.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">45 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <!-- NIST SP 800-53 Module -->
-            <a href="nist800-53.html" class="chapter-card">
-                <div class="chapter-header chapter-nist">
-                    <div class="chapter-number">🔒</div>
-                    <div class="chapter-title">NIST SP 800-53</div>
-                    <div class="chapter-subtitle">Security & Privacy Controls</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Transform your FIPS 199 categorization into actionable security controls. Explore the 20 control families, understand baselines, and learn the complete journey from risk assessment to implementation.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Sections</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">60 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
+                <!-- NIST SP 800-53 Module -->
+                <a href="nist800-53.html" class="chapter-card">
+                    <div class="chapter-header chapter-nist">
+                        <div class="chapter-number">🔒</div>
+                        <div class="chapter-title">NIST SP 800-53</div>
+                        <div class="chapter-subtitle">Security & Privacy Controls</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Transform your FIPS 199 categorization into actionable security controls. Explore the 20 control families, understand baselines, and learn the complete journey from risk assessment to implementation.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">60 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
 
                 <!-- NIST SP 800-70 Module -->
-        <a href="nist800-70.html" class="chapter-card">
-            <div class="chapter-header chapter-nist">
-                <div class="chapter-number">🛠️</div>
-                <div class="chapter-title">NIST SP 800-70</div>
-                <div class="chapter-subtitle">Configuration Checklists</div>
+                <a href="nist800-70.html" class="chapter-card">
+                    <div class="chapter-header chapter-nist">
+                        <div class="chapter-number">🛠️</div>
+                        <div class="chapter-title">NIST SP 800-70</div>
+                        <div class="chapter-subtitle">Configuration Checklists</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Bridge the gap from controls to implementation. Learn how the National Checklist Program transforms NIST 800-53 controls into specific technical configurations, including STIGs and automated compliance tools.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Checklist Types</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">40 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <div class="chapter-content">
-                <span class="status-badge status-available">Available</span>
-                <p class="chapter-description">
-                    Bridge the gap from controls to implementation. Learn how the National Checklist Program transforms NIST 800-53 controls into specific technical configurations, including STIGs and automated compliance tools.
+
+            <div class="section-divider">
+                🏛️ Governance & Risk Management Modules From Course Text Book
+            </div>
+            <div class="chapters-grid">
+                <!-- Integrated Framework Overview Module -->
+                <a href="governance-framework.html" class="chapter-card">
+                    <div class="chapter-header chapter-governance">
+                        <div class="chapter-number">🔄</div>
+                        <div class="chapter-title">Integrated Framework</div>
+                        <div class="chapter-subtitle">Complete Overview</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Master the integrated framework connecting Organisation, People, Process, and Technology. Understand how all components work together to create effective governance and risk management.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">10</div>
+                                <div class="stat-label">Components</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">45 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Core Components Module -->
+                <a href="core-components.html" class="chapter-card">
+                    <div class="chapter-header chapter-governance">
+                        <div class="chapter-number">🎯</div>
+                        <div class="chapter-title">Core Components</div>
+                        <div class="chapter-subtitle">Four Pillars Analysis</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Deep dive into Organisation, People, Process, and Technology nodes. Learn their individual roles in governance, risk responsibilities, and strategic importance.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">4</div>
+                                <div class="stat-label">Pillars</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">30 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Detailed</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div> 
+
+            <div class="info-section">
+                <h2>📚 About CISS 470 - Advanced Cybersecurity</h2>
+                <p>
+                    This interactive learning portal provides an engaging way to explore "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities" edited by Domenic Antonucci. Each chapter has been transformed into an interactive learning experience with scenarios, quizzes, and expandable content.
                 </p>
-                <div class="chapter-stats">
-                    <div class="stat">
-                        <div class="stat-value">6</div>
-                        <div class="stat-label">Checklist Types</div>
+                <p>
+                    <strong>NIST Standards Integration:</strong> In addition to the handbook chapters, this portal includes comprehensive modules on critical NIST standards including FIPS 199 (Security Categorization), FIPS 200 (Minimum Security Requirements), and NIST SP 800-53 (Security Controls). These modules connect federal standards to practical implementation.
+                </p>
+                <p>
+                    <strong>How to Use:</strong> Click on any available chapter to begin. Each chapter is divided into sections that you can explore at your own pace. Interactive elements, knowledge checks, and practical scenarios help reinforce key concepts.
+                </p>
+                <p>
+                    <strong>Navigation:</strong> Within each chapter, use the navigation buttons to move between sections, check your progress, and test your understanding with built-in quizzes.
+                </p>
+            </div>
+
+            <div class="footer">
+                <p>📖 Based on "The Cyber Risk Handbook" by John Wiley & Sons</p>
+                <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">Interactive Learning Modules for CISS 470</p>
+                <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">NIST Standards Modules Based on Official NIST Publications</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CISS 340 Content -->
+    <div id="ciss340" class="tab-content">
+        <div class="container">
+            <div class="header">
+                <h1>🔐 CYBERSECURITY FUNDAMENTALS</h1>
+                <p>Interactive Learning Portal - CISS 340</p>
+                <p style="font-size: 16px; margin-top: 10px; opacity: 0.8;">Building Your Foundation in Information Security</p>
+            </div>
+
+            <div class="navigation-tip">
+                💡 Click any available chapter to begin your interactive learning journey
+            </div>
+
+            <div class="section-divider">
+                📚 Course Chapters
+            </div>
+
+            <div class="chapters-grid">
+                <!-- Chapter 1 -->
+                <a href="ciss340-chapter1.html" class="chapter-card">
+                    <div class="chapter-header chapter-ciss340">
+                        <div class="chapter-number">1</div>
+                        <div class="chapter-title">An Introduction to Relational Databases</div>
+                        <div class="chapter-subtitle">Fundamentals & Core Concepts</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value">40 min</div>
-                        <div class="stat-label">Est. Time</div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            learn how to use SQL to work with a relational database such as MySQL. If you’ve never worked with relational databases before, this chapter will teach you what they are and how they work. It also shows you some examples of SQL statements that you’ll be able to code yourself after completing section 1.
+
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">40 min</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value">Interactive</div>
-                        <div class="stat-label">Format</div>
+                </a>
+
+                <!-- Chapters 2-10 -->
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">2</div>
+                        <div class="chapter-title">Chapter 2</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">3</div>
+                        <div class="chapter-title">Chapter 3</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">4</div>
+                        <div class="chapter-title">Chapter 4</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">5</div>
+                        <div class="chapter-title">Chapter 5</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">6</div>
+                        <div class="chapter-title">Chapter 6</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">7</div>
+                        <div class="chapter-title">Chapter 7</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">8</div>
+                        <div class="chapter-title">Chapter 8</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">9</div>
+                        <div class="chapter-title">Chapter 9</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chapter-card chapter-coming">
+                    <div class="chapter-header chapter-coming">
+                        <div class="chapter-number">10</div>
+                        <div class="chapter-title">Chapter 10</div>
+                        <div class="chapter-subtitle">Coming Soon</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-coming">Coming Soon</span>
+                        <p class="chapter-description">
+                            Chapter content is currently being developed and will be available soon.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Sections</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">TBD</div>
+                                <div class="stat-label">Est. Time</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">Interactive</div>
+                                <div class="stat-label">Format</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </a>
 
-        <div class="section-divider">
-            🏛️ Governance & Risk Management Modules From Coarse Text Book
-        </div>
-        <div class="chapters-grid">
-            <!-- Integrated Framework Overview Module -->
-            <a href="governance-framework.html" class="chapter-card">
-                <div class="chapter-header chapter-governance">
-                    <div class="chapter-number">🔄</div>
-                    <div class="chapter-title">Integrated Framework</div>
-                    <div class="chapter-subtitle">Complete Overview</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Master the integrated framework connecting Organisation, People, Process, and Technology. Understand how all components work together to create effective governance and risk management.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">10</div>
-                            <div class="stat-label">Components</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">45 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Interactive</div>
-                            <div class="stat-label">Format</div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Core Components Module -->
-            <a href="core-components.html" class="chapter-card">
-                <div class="chapter-header chapter-governance">
-                    <div class="chapter-number">🎯</div>
-                    <div class="chapter-title">Core Components</div>
-                    <div class="chapter-subtitle">Four Pillars Analysis</div>
-                </div>
-                <div class="chapter-content">
-                    <span class="status-badge status-available">Available</span>
-                    <p class="chapter-description">
-                        Deep dive into Organisation, People, Process, and Technology nodes. Learn their individual roles in governance, risk responsibilities, and strategic importance.
-                    </p>
-                    <div class="chapter-stats">
-                        <div class="stat">
-                            <div class="stat-value">4</div>
-                            <div class="stat-label">Pillars</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">30 min</div>
-                            <div class="stat-label">Est. Time</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">Detailed</div>
-                            <div class="stat-label">Format</div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div> 
-
-        <div class="info-section">
-            <h2>📚 About This Learning Portal</h2>
-            <p>
-                This interactive learning portal provides an engaging way to explore "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities" edited by Domenic Antonucci. Each chapter has been transformed into an interactive learning experience with scenarios, quizzes, and expandable content.
-            </p>
-            <p>
-                <strong>NIST Standards Integration:</strong> In addition to the handbook chapters, this portal includes comprehensive modules on critical NIST standards including FIPS 199 (Security Categorization), FIPS 200 (Minimum Security Requirements), and NIST SP 800-53 (Security Controls). These modules connect federal standards to practical implementation.
-            </p>
-            <p>
-                <strong>How to Use:</strong> Click on any available chapter to begin. Each chapter is divided into sections that you can explore at your own pace. Interactive elements, knowledge checks, and practical scenarios help reinforce key concepts.
-            </p>
-            <p>
-                <strong>Navigation:</strong> Within each chapter, use the navigation buttons to move between sections, check your progress, and test your understanding with built-in quizzes.
-            </p>
-        </div>
-
-        <div class="footer">
-            <p>📖 Based on "The Cyber Risk Handbook" by John Wiley & Sons</p>
-            <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">Interactive Learning Modules for CISS 470</p>
-            <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">NIST Standards Modules Based on Official NIST Publications</p>
+            <div class="footer">
+                <p>🎓 CISS 340: Building Your Cybersecurity Foundation</p>
+                <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">Interactive Learning Modules - Content Coming Soon</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Add animation to cards on page load
-        window.addEventListener('load', function() {
-            const cards = document.querySelectorAll('.chapter-card');
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.currentTarget.classList.add('active');
+            
+            // Re-trigger animations for newly displayed cards
+            animateCards();
+        }
+        
+        // Animate cards function
+        function animateCards() {
+            const activeTab = document.querySelector('.tab-content.active');
+            const cards = activeTab.querySelectorAll('.chapter-card');
             cards.forEach((card, index) => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
@@ -639,6 +1082,11 @@
                     card.style.transform = 'translateY(0)';
                 }, index * 100);
             });
+        }
+        
+        // Add animation to cards on page load
+        window.addEventListener('load', function() {
+            animateCards();
         });
     </script>
 </body>
