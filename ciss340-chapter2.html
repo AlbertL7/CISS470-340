@@ -3247,200 +3247,253 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
     </div>
 
     <script>
-        let visitedSections = new Set();
-        let quizAnswers = {};
-        
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Remove active from all nav items
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-            
-            // Show selected section
-            const selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.classList.add('active');
-            }
-            
-            // Mark nav item as active
-            event.target.closest('.nav-item').classList.add('active');
-            
-            // Track progress
-            visitedSections.add(sectionId);
-            updateProgress();
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
+  // Track visited sections + quiz selections (persisted in localStorage)
+  let visitedSections = new Set();
+  // quizAnswers: { [questionNum]: { optionId: string, isCorrect: boolean } }
+  let quizAnswers = {};
+
+  // ---- Helpers for storage ----
+  const LS_PROGRESS_KEY = 'mysqlProgress';
+  const LS_QUIZ_KEY = 'mysqlQuizAnswers';
+
+  function saveProgress() {
+    localStorage.setItem(LS_PROGRESS_KEY, JSON.stringify(Array.from(visitedSections)));
+  }
+  function saveQuiz() {
+    localStorage.setItem(LS_QUIZ_KEY, JSON.stringify(quizAnswers));
+  }
+  function loadProgress() {
+    const saved = localStorage.getItem(LS_PROGRESS_KEY);
+    if (saved) visitedSections = new Set(JSON.parse(saved));
+  }
+  function loadQuiz() {
+    const saved = localStorage.getItem(LS_QUIZ_KEY);
+    if (saved) quizAnswers = JSON.parse(saved);
+  }
+
+  // ---- Section navigation ----
+  function getTotalSections() {
+    // Count all visible content sections + 1 for the quiz (if present)
+    const contentCount = document.querySelectorAll('.content-section').length;
+    const hasQuiz = !!document.getElementById('quiz');
+    return contentCount + (hasQuiz ? 1 : 0);
+  }
+
+  function updateProgress() {
+    const total = Math.max(getTotalSections(), 1);
+    const completed = visitedSections.size;
+    const percentage = Math.round((completed / total) * 100);
+
+    const bar = document.getElementById('progressBar');
+    const text = document.getElementById('progressText');
+    if (bar) bar.style.width = percentage + '%';
+    if (text) text.textContent = percentage;
+
+    saveProgress();
+  }
+
+  // Pass the clicked nav element explicitly (don’t rely on global `event`)
+  function showSection(sectionId, navEl) {
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+
+    // Deactivate all nav items
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+
+    // Show selected section
+    const selected = document.getElementById(sectionId);
+    if (selected) selected.classList.add('active');
+
+    // Mark nav as active
+    if (navEl && navEl.classList) navEl.classList.add('active');
+
+    // Track progress
+    visitedSections.add(sectionId);
+    updateProgress();
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Optional: attach click handlers for nav items if your HTML uses data-section
+  function wireNav() {
+    document.querySelectorAll('.nav-item[data-section]').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const sid = item.getAttribute('data-section');
+        if (sid) showSection(sid, item);
+      });
+    });
+  }
+
+  // ---- Quiz logic ----
+  // Expect each option to have a unique id (or we’ll synthesize one)
+  function ensureOptionIds() {
+    document.querySelectorAll('.quiz-question').forEach((q, idx) => {
+      q.setAttribute('data-question', q.getAttribute('data-question') || String(idx + 1));
+      q.querySelectorAll('.quiz-option').forEach((opt, i) => {
+        if (!opt.id) opt.id = `q${q.getAttribute('data-question')}_opt${i + 1}`;
+      });
+    });
+  }
+
+  function selectQuizOption(element, questionNum) {
+    const question = element.closest('.quiz-question');
+    if (!question) return;
+
+    // Clear previous selection
+    question.querySelectorAll('.quiz-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+
+    // Mark selected
+    element.classList.add('selected');
+
+    // Store answer (record the specific option chosen)
+    quizAnswers[questionNum] = {
+      optionId: element.id,
+      isCorrect: element.hasAttribute('data-correct')
+    };
+    saveQuiz();
+  }
+
+  function submitQuiz() {
+    const totalQuestions = document.querySelectorAll('.quiz-question').length;
+    const answeredQuestions = Object.keys(quizAnswers).length;
+
+    if (answeredQuestions < totalQuestions) {
+      alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${totalQuestions} questions.`);
+      return;
+    }
+
+    // Grade and mark options
+    let correctAnswers = 0;
+    for (let i = 1; i <= totalQuestions; i++) {
+      const qSel = `.quiz-question[data-question="${i}"]`;
+      const question = document.querySelector(qSel);
+      if (!question) continue;
+
+      const chosen = quizAnswers[i];
+      if (chosen?.isCorrect) correctAnswers++;
+
+      question.querySelectorAll('.quiz-option').forEach(opt => {
+        const isCorrect = opt.hasAttribute('data-correct');
+        if (isCorrect) {
+          opt.classList.add('correct');
         }
-        
-        function updateProgress() {
-            const totalSections = 14; // Updated to include quiz
-            const completed = visitedSections.size;
-            const percentage = Math.round((completed / totalSections) * 100);
-            
-            document.getElementById('progressBar').style.width = percentage + '%';
-            document.getElementById('progressText').textContent = percentage;
-            
-            // Save progress
-            localStorage.setItem('mysqlProgress', JSON.stringify(Array.from(visitedSections)));
+        if (opt.id === chosen?.optionId && !isCorrect) {
+          opt.classList.add('incorrect');
         }
-        
-        // Quiz functions
-        function selectQuizOption(element, questionNum) {
-            // Remove previous selection for this question
-            const question = element.closest('.quiz-question');
-            const options = question.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Mark selected
-            element.classList.add('selected');
-            
-            // Store answer
-            quizAnswers[questionNum] = element.hasAttribute('data-correct');
-        }
-        
-        function submitQuiz() {
-            // Check if all questions answered
-            const totalQuestions = 20;
-            const answeredQuestions = Object.keys(quizAnswers).length;
-            
-            if (answeredQuestions < totalQuestions) {
-                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${totalQuestions} questions.`);
-                return;
-            }
-            
-            // Calculate score
-            let correctAnswers = 0;
-            for (let i = 1; i <= totalQuestions; i++) {
-                if (quizAnswers[i]) {
-                    correctAnswers++;
-                }
-                
-                // Show correct/incorrect for each question
-                const question = document.querySelector(`.quiz-question[data-question="${i}"]`);
-                const options = question.querySelectorAll('.quiz-option');
-                options.forEach(opt => {
-                    if (opt.hasAttribute('data-correct')) {
-                        opt.classList.add('correct');
-                    } else if (opt.classList.contains('selected') && !opt.hasAttribute('data-correct')) {
-                        opt.classList.add('incorrect');
-                    }
-                });
-            }
-            
-            // Calculate and display score
-            const score = (correctAnswers * 5); // 5 points per question
-            document.getElementById('finalScore').textContent = score;
-            
-            // Set score message
-            const messageEl = document.getElementById('scoreMessage');
-            if (score >= 90) {
-                messageEl.textContent = "🎉 Outstanding! You're a MySQL Workbench expert!";
-                messageEl.style.color = '#22543d';
-            } else if (score >= 70) {
-                messageEl.textContent = "✅ Great job! You have a solid understanding of MySQL Workbench.";
-                messageEl.style.color = '#2b6cb1';
-            } else if (score >= 50) {
-                messageEl.textContent = "📚 Good effort! Review the sections you struggled with.";
-                messageEl.style.color = '#d69e2e';
-            } else {
-                messageEl.textContent = "📖 Keep learning! Review the material and try again.";
-                messageEl.style.color = '#e53e3e';
-            }
-            
-            // Show score
-            document.getElementById('quizScore').style.display = 'block';
-            
-            // Scroll to top of quiz
-            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
-            
-            // Mark quiz as completed in progress
-            visitedSections.add('quiz-completed');
-            updateProgress();
-        }
-        
-        function resetQuiz() {
-            // Reset answers
-            quizAnswers = {};
-            
-            // Remove all selections and correct/incorrect classes
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('selected', 'correct', 'incorrect');
-            });
-            
-            // Hide score
-            document.getElementById('quizScore').style.display = 'none';
-            
-            // Scroll to first question
-            document.querySelector('.quiz-question').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Initialize progress
-        visitedSections.add('intro');
-        updateProgress();
-        
-        // Add keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'ArrowRight') {
-                // Next section
-                const activeItem = document.querySelector('.nav-item.active');
-                const nextItem = activeItem?.parentElement?.nextElementSibling?.querySelector('.nav-item') || 
-                                activeItem?.nextElementSibling;
-                if (nextItem && nextItem.classList.contains('nav-item')) {
-                    nextItem.click();
-                }
-            } else if (e.ctrlKey && e.key === 'ArrowLeft') {
-                // Previous section
-                const activeItem = document.querySelector('.nav-item.active');
-                const prevItem = activeItem?.parentElement?.previousElementSibling?.querySelector('.nav-item:last-child') || 
-                                activeItem?.previousElementSibling;
-                if (prevItem && prevItem.classList.contains('nav-item')) {
-                    prevItem.click();
-                }
-            }
-        });
-        
-        // Auto-save progress to localStorage
-        window.addEventListener('beforeunload', function() {
-            localStorage.setItem('mysqlProgress', JSON.stringify(Array.from(visitedSections)));
-            if (Object.keys(quizAnswers).length > 0) {
-                localStorage.setItem('mysqlQuizAnswers', JSON.stringify(quizAnswers));
-            }
-        });
-        
-        // Restore progress on load
-        window.addEventListener('load', function() {
-            const saved = localStorage.getItem('mysqlProgress');
-            if (saved) {
-                visitedSections = new Set(JSON.parse(saved));
-                updateProgress();
-            }
-            
-            // Restore quiz answers if any
-            const savedAnswers = localStorage.getItem('mysqlQuizAnswers');
-            if (savedAnswers) {
-                quizAnswers = JSON.parse(savedAnswers);
-                // Re-select the previously chosen options
-                Object.keys(quizAnswers).forEach(questionNum => {
-                    const question = document.querySelector(`.quiz-question[data-question="${questionNum}"]`);
-                    if (question) {
-                        const options = question.querySelectorAll('.quiz-option');
-                        options.forEach(opt => {
-                            if ((opt.hasAttribute('data-correct') && quizAnswers[questionNum]) ||
-                                (!opt.hasAttribute('data-correct') && !quizAnswers[questionNum])) {
-                                // This logic needs refinement to properly restore selections
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    </script>
+      });
+    }
+
+    // Score: 5 points per question
+    const score = correctAnswers * 5;
+    const scoreEl = document.getElementById('finalScore');
+    if (scoreEl) scoreEl.textContent = score;
+
+    const messageEl = document.getElementById('scoreMessage');
+    if (messageEl) {
+      if (score >= 90) {
+        messageEl.textContent = "🎉 Outstanding! You're a MySQL Workbench expert!";
+        messageEl.style.color = '#22543d';
+      } else if (score >= 70) {
+        messageEl.textContent = "✅ Great job! You have a solid understanding of MySQL Workbench.";
+        messageEl.style.color = '#2b6cb1';
+      } else if (score >= 50) {
+        messageEl.textContent = "📚 Good effort! Review the sections you struggled with.";
+        messageEl.style.color = '#d69e2e';
+      } else {
+        messageEl.textContent = "📖 Keep learning! Review the material and try again.";
+        messageEl.style.color = '#e53e3e';
+      }
+    }
+
+    const scoreBox = document.getElementById('quizScore');
+    if (scoreBox) scoreBox.style.display = 'block';
+
+    const quiz = document.getElementById('quiz');
+    if (quiz) quiz.scrollIntoView({ behavior: 'smooth' });
+
+    // Mark quiz as completed
+    visitedSections.add('quiz-completed');
+    updateProgress();
+  }
+
+  function resetQuiz() {
+    quizAnswers = {};
+    saveQuiz(); // overwrite saved answers
+
+    document.querySelectorAll('.quiz-option').forEach(opt => {
+      opt.classList.remove('selected', 'correct', 'incorrect');
+    });
+
+    const scoreBox = document.getElementById('quizScore');
+    if (scoreBox) scoreBox.style.display = 'none';
+
+    const firstQ = document.querySelector('.quiz-question');
+    if (firstQ) firstQ.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ---- Restore state on load ----
+  window.addEventListener('load', function() {
+    ensureOptionIds();
+    loadProgress();
+    loadQuiz();
+    updateProgress();
+    wireNav();
+
+    // Restore section ‘active’ state if desired (optional):
+    // If you want to land where the user left off, pick the last visited section that exists.
+    // const lastVisited = Array.from(visitedSections).reverse().find(id => document.getElementById(id));
+    // if (lastVisited) showSection(lastVisited);
+
+    // Restore quiz selections
+    Object.keys(quizAnswers).forEach(qNum => {
+      const chosen = quizAnswers[qNum];
+      const opt = document.getElementById(chosen?.optionId);
+      const qEl = document.querySelector(`.quiz-question[data-question="${qNum}"]`);
+      if (qEl) {
+        qEl.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+      }
+      if (opt) opt.classList.add('selected');
+    });
+
+    // Seed initial progress if nothing saved
+    if (visitedSections.size === 0) {
+      visitedSections.add('intro'); // adjust if your first section id differs
+      updateProgress();
+    }
+  });
+
+  // ---- Keyboard navigation (kept, but safer) ----
+  document.addEventListener('keydown', function(e) {
+    if (!e.ctrlKey) return;
+
+    const items = Array.from(document.querySelectorAll('.nav-item'));
+    const activeIdx = items.findIndex(i => i.classList.contains('active'));
+
+    if (e.key === 'ArrowRight') {
+      const next = items[activeIdx + 1] || items[0];
+      if (next?.dataset?.section) showSection(next.dataset.section, next);
+    } else if (e.key === 'ArrowLeft') {
+      const prev = items[activeIdx - 1] || items[items.length - 1];
+      if (prev?.dataset?.section) showSection(prev.dataset.section, prev);
+    }
+  });
+
+  // ---- Persist on unload ----
+  window.addEventListener('beforeunload', function() {
+    saveProgress();
+    saveQuiz();
+  });
+
+  // Expose required functions if you call them inline from HTML
+  window.showSection = showSection;
+  window.selectQuizOption = selectQuizOption;
+  window.submitQuiz = submitQuiz;
+  window.resetQuiz = resetQuiz;
+</script>
+
 </body>
 </html>
