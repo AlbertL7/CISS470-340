@@ -1454,49 +1454,1789 @@ WHERE primary_key = 123;
                     </div>
                 </div>
 
-                <!-- Continue with remaining sections... -->
-                <!-- Template for sections 7-13 follows similar pattern -->
-
+                <!-- Section 7: Column Definitions -->
                 <div class="content-section" id="columns">
                     <h2>How to View and Edit Column Definitions</h2>
-                    <p>Understanding and modifying table structure is fundamental to database design. This section covers column management in detail.</p>
-                    <!-- Content continues... -->
+                    
+                    <p>Understanding and modifying table structure is fundamental to database design. MySQL Workbench provides comprehensive tools for viewing and editing column definitions without writing complex ALTER TABLE statements.</p>
+
+                    <h3>Accessing Table Structure Editor</h3>
+                    <p>Multiple ways to access the table structure editor:</p>
+                    <ul>
+                        <li>Right-click table → <strong>"Alter Table"</strong></li>
+                        <li>Select table → Click wrench icon in toolbar</li>
+                        <li>Database menu → <strong>"Alter Table"</strong></li>
+                        <li>Double-click table while holding <span class="keyboard-shortcut">Alt</span></li>
+                    </ul>
+
+                    <h3>Table Editor Interface</h3>
+                    <p>The table editor provides a comprehensive view of your table structure:</p>
+
+                    <h4>Column Grid Components:</h4>
+                    <ul>
+                        <li><strong>Column Name:</strong> Identifier for the field</li>
+                        <li><strong>Datatype:</strong> Data type and size (VARCHAR(255), INT, etc.)</li>
+                        <li><strong>PK:</strong> Primary Key checkbox</li>
+                        <li><strong>NN:</strong> Not Null constraint</li>
+                        <li><strong>UQ:</strong> Unique constraint</li>
+                        <li><strong>BIN:</strong> Binary attribute for string types</li>
+                        <li><strong>UN:</strong> Unsigned for numeric types</li>
+                        <li><strong>ZF:</strong> Zero Fill for numeric types</li>
+                        <li><strong>AI:</strong> Auto Increment</li>
+                        <li><strong>G:</strong> Generated column</li>
+                        <li><strong>Default/Expression:</strong> Default value or expression</li>
+                    </ul>
+
+                    <div class="code-block">
+-- Example column definitions in table editor:
+customer_id    INT          PK NN UN AI    -- Primary key, auto-increment
+first_name     VARCHAR(50)     NN          -- Required field
+email          VARCHAR(100)    NN UQ       -- Unique, required
+created_date   DATETIME           DEFAULT CURRENT_TIMESTAMP
+is_active      TINYINT(1)         DEFAULT 1
+balance        DECIMAL(10,2)      DEFAULT 0.00</div>
+
+                    <h3>MySQL Data Types Reference</h3>
+
+                    <h4>Numeric Data Types:</h4>
+                    <ul>
+                        <li><strong>TINYINT:</strong> -128 to 127 (or 0 to 255 unsigned)</li>
+                        <li><strong>SMALLINT:</strong> -32,768 to 32,767</li>
+                        <li><strong>MEDIUMINT:</strong> -8,388,608 to 8,388,607</li>
+                        <li><strong>INT/INTEGER:</strong> -2,147,483,648 to 2,147,483,647</li>
+                        <li><strong>BIGINT:</strong> -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807</li>
+                        <li><strong>DECIMAL(M,D):</strong> Exact decimal with M total digits, D after decimal</li>
+                        <li><strong>FLOAT:</strong> Single-precision floating-point</li>
+                        <li><strong>DOUBLE:</strong> Double-precision floating-point</li>
+                    </ul>
+
+                    <h4>String Data Types:</h4>
+                    <ul>
+                        <li><strong>CHAR(M):</strong> Fixed-length string (0-255 characters)</li>
+                        <li><strong>VARCHAR(M):</strong> Variable-length string (0-65,535 characters)</li>
+                        <li><strong>TINYTEXT:</strong> Maximum 255 bytes</li>
+                        <li><strong>TEXT:</strong> Maximum 65,535 bytes</li>
+                        <li><strong>MEDIUMTEXT:</strong> Maximum 16,777,215 bytes</li>
+                        <li><strong>LONGTEXT:</strong> Maximum 4,294,967,295 bytes</li>
+                        <li><strong>BINARY(M):</strong> Fixed-length binary string</li>
+                        <li><strong>VARBINARY(M):</strong> Variable-length binary string</li>
+                        <li><strong>BLOB types:</strong> TINYBLOB, BLOB, MEDIUMBLOB, LONGBLOB</li>
+                    </ul>
+
+                    <h4>Date and Time Data Types:</h4>
+                    <ul>
+                        <li><strong>DATE:</strong> 'YYYY-MM-DD' format</li>
+                        <li><strong>TIME:</strong> 'HH:MM:SS' format</li>
+                        <li><strong>DATETIME:</strong> 'YYYY-MM-DD HH:MM:SS'</li>
+                        <li><strong>TIMESTAMP:</strong> Auto-updates, timezone-aware</li>
+                        <li><strong>YEAR:</strong> Year in 2 or 4 digit format</li>
+                    </ul>
+
+                    <div class="tip-box">
+                        <h4>💡 Data Type Best Practices</h4>
+                        <ul>
+                            <li>Use smallest data type that fits your data</li>
+                            <li>VARCHAR for variable-length strings, CHAR for fixed</li>
+                            <li>DECIMAL for money, not FLOAT or DOUBLE</li>
+                            <li>DATETIME vs TIMESTAMP: DATETIME for birthdays, TIMESTAMP for record tracking</li>
+                            <li>Use UNSIGNED for IDs and counts (doubles positive range)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Adding New Columns</h3>
+                    <ol>
+                        <li>Open table in Alter Table editor</li>
+                        <li>Click last row in column grid (empty row)</li>
+                        <li>Enter column name</li>
+                        <li>Select data type from dropdown</li>
+                        <li>Set constraints (NN, UQ, etc.)</li>
+                        <li>Specify default value if needed</li>
+                        <li>Click <strong>"Apply"</strong> to generate SQL</li>
+                        <li>Review generated ALTER TABLE statement</li>
+                        <li>Click <strong>"Apply"</strong> to execute</li>
+                    </ol>
+
+                    <h3>Modifying Existing Columns</h3>
+
+                    <h4>Safe Modifications:</h4>
+                    <ul>
+                        <li>Increasing VARCHAR length</li>
+                        <li>Adding/removing DEFAULT values</li>
+                        <li>Changing NULL to NOT NULL (if no nulls exist)</li>
+                        <li>Adding comments</li>
+                    </ul>
+
+                    <h4>Risky Modifications (may lose data):</h4>
+                    <ul>
+                        <li>Decreasing column size</li>
+                        <li>Changing data types</li>
+                        <li>Adding NOT NULL to column with NULLs</li>
+                        <li>Removing columns</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Data Loss Warning</h4>
+                        <p>Always backup your data before modifying column definitions. Some changes can result in permanent data loss:</p>
+                        <ul>
+                            <li>Changing VARCHAR(100) to VARCHAR(50) truncates longer values</li>
+                            <li>Changing DECIMAL to INT loses decimal precision</li>
+                            <li>Dropping columns permanently deletes all data in that column</li>
+                        </ul>
+                    </div>
+
+                    <h3>Managing Indexes</h3>
+                    <p>The Indexes tab in the table editor allows index management:</p>
+
+                    <h4>Creating an Index:</h4>
+                    <ol>
+                        <li>Navigate to Indexes tab</li>
+                        <li>Click empty row to add new index</li>
+                        <li>Specify index name (or use default)</li>
+                        <li>Select index type:
+                            <ul>
+                                <li><strong>INDEX:</strong> Standard index</li>
+                                <li><strong>UNIQUE:</strong> Enforces uniqueness</li>
+                                <li><strong>FULLTEXT:</strong> For text searching</li>
+                                <li><strong>SPATIAL:</strong> For geometric data</li>
+                            </ul>
+                        </li>
+                        <li>Add columns to index</li>
+                        <li>Specify column order and length</li>
+                    </ol>
+
+                    <div class="code-block">
+-- Generated SQL for index creation:
+ALTER TABLE customers 
+ADD INDEX idx_full_name (last_name, first_name);
+
+ALTER TABLE customers 
+ADD UNIQUE INDEX idx_email (email);
+
+ALTER TABLE products 
+ADD FULLTEXT INDEX idx_description (description);</div>
+
+                    <h3>Foreign Keys Management</h3>
+
+                    <h4>Adding Foreign Key Constraints:</h4>
+                    <ol>
+                        <li>Navigate to Foreign Keys tab</li>
+                        <li>Click + to add new foreign key</li>
+                        <li>Name the constraint (e.g., fk_customer_order)</li>
+                        <li>Select referenced table</li>
+                        <li>Map local columns to foreign columns</li>
+                        <li>Set ON UPDATE and ON DELETE rules:
+                            <ul>
+                                <li><strong>RESTRICT:</strong> Prevent action</li>
+                                <li><strong>CASCADE:</strong> Propagate changes</li>
+                                <li><strong>SET NULL:</strong> Set to NULL</li>
+                                <li><strong>NO ACTION:</strong> Same as RESTRICT</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Table Options and Properties</h3>
+
+                    <h4>Important Table Options:</h4>
+                    <ul>
+                        <li><strong>Engine:</strong> InnoDB (default), MyISAM, Memory</li>
+                        <li><strong>Charset:</strong> utf8mb4 recommended for full Unicode</li>
+                        <li><strong>Collation:</strong> utf8mb4_unicode_ci for case-insensitive</li>
+                        <li><strong>Auto Increment:</strong> Starting value for AI columns</li>
+                        <li><strong>Comment:</strong> Table description</li>
+                        <li><strong>Row Format:</strong> Dynamic, Compact, Compressed</li>
+                    </ul>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 7: Table Structure Design</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Create a complete table structure:</p>
+                            <ol>
+                                <li>Create a new table called 'products'</li>
+                                <li>Add columns:
+                                    <ul>
+                                        <li>product_id (INT, PK, AUTO_INCREMENT)</li>
+                                        <li>name (VARCHAR(100), NOT NULL)</li>
+                                        <li>description (TEXT)</li>
+                                        <li>price (DECIMAL(10,2), NOT NULL)</li>
+                                        <li>stock_quantity (INT, DEFAULT 0)</li>
+                                        <li>created_at (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)</li>
+                                    </ul>
+                                </li>
+                                <li>Add index on name column</li>
+                                <li>Add check constraint for price > 0</li>
+                                <li>Generate and review the CREATE TABLE statement</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <h3>Column Comments and Documentation</h3>
+                    <p>Add comments to columns for documentation:</p>
+                    <div class="code-block">
+ALTER TABLE customers 
+MODIFY COLUMN customer_id INT COMMENT 'Unique customer identifier',
+MODIFY COLUMN email VARCHAR(100) COMMENT 'Primary contact email',
+MODIFY COLUMN created_date DATETIME COMMENT 'Account creation timestamp';</div>
+
+                    <div class="success-box">
+                        <h4>✅ Table Design Checklist</h4>
+                        <ul>
+                            <li>Choose appropriate data types for each column</li>
+                            <li>Define primary key (usually auto-increment ID)</li>
+                            <li>Add NOT NULL constraints where appropriate</li>
+                            <li>Create indexes for frequently searched columns</li>
+                            <li>Implement foreign keys for relationships</li>
+                            <li>Add comments for documentation</li>
+                            <li>Set proper charset and collation</li>
+                        </ul>
+                    </div>
                 </div>
 
+                <!-- Section 8: SQL Statements -->
                 <div class="content-section" id="sqlstatements">
                     <h2>How to Enter and Execute SQL Statements</h2>
-                    <p>The SQL Editor is where you write and execute queries. Master these features for efficient database interaction.</p>
-                    <!-- Content continues... -->
+                    
+                    <p>The SQL Editor is the heart of MySQL Workbench, providing a powerful environment for writing, executing, and optimizing SQL queries. Master these features to become proficient in database interaction.</p>
+
+                    <h3>SQL Editor Interface</h3>
+                    <p>The SQL Editor consists of several key components:</p>
+
+                    <h4>Main Editor Components:</h4>
+                    <ul>
+                        <li><strong>Query Tab:</strong> Where you write SQL statements</li>
+                        <li><strong>Result Grid:</strong> Displays query results in table format</li>
+                        <li><strong>Action Output:</strong> Shows messages and execution details</li>
+                        <li><strong>Execution Plan:</strong> Visual representation of query execution</li>
+                        <li><strong>Query Stats:</strong> Performance metrics and timing</li>
+                        <li><strong>Toolbar:</strong> Quick access to common actions</li>
+                    </ul>
+
+                    <h3>Writing SQL Statements</h3>
+
+                    <h4>SQL Editor Features:</h4>
+                    <ul>
+                        <li><strong>Syntax Highlighting:</strong> Color-coded SQL keywords</li>
+                        <li><strong>Auto-completion:</strong> IntelliSense for tables, columns, functions</li>
+                        <li><strong>Code Folding:</strong> Collapse/expand code blocks</li>
+                        <li><strong>Bracket Matching:</strong> Highlights matching parentheses</li>
+                        <li><strong>Line Numbers:</strong> For easy reference</li>
+                        <li><strong>Multiple Cursors:</strong> Edit multiple lines simultaneously</li>
+                    </ul>
+
+                    <div class="tip-box">
+                        <h4>💡 Auto-completion Shortcuts</h4>
+                        <ul>
+                            <li><span class="keyboard-shortcut">Ctrl+Space</span> - Trigger auto-completion</li>
+                            <li><span class="keyboard-shortcut">Tab</span> - Accept suggestion</li>
+                            <li><span class="keyboard-shortcut">Esc</span> - Cancel auto-completion</li>
+                            <li>Type table alias + "." for column suggestions</li>
+                        </ul>
+                    </div>
+
+                    <h3>Executing Queries</h3>
+
+                    <h4>Execution Methods:</h4>
+                    <ul>
+                        <li><strong>Execute Statement:</strong> <span class="keyboard-shortcut">Ctrl+Enter</span> - Runs current statement</li>
+                        <li><strong>Execute All:</strong> <span class="keyboard-shortcut">Ctrl+Shift+Enter</span> - Runs entire script</li>
+                        <li><strong>Execute Selection:</strong> Select text + <span class="keyboard-shortcut">Ctrl+Enter</span></li>
+                        <li><strong>Execute Current Statement:</strong> Cursor position determines statement</li>
+                        <li><strong>Explain Query:</strong> <span class="keyboard-shortcut">Ctrl+Alt+X</span> - Shows execution plan</li>
+                    </ul>
+
+                    <h4>Query Examples:</h4>
+                    <div class="code-block">
+-- Basic SELECT statement
+SELECT * FROM customers 
+WHERE created_date >= '2024-01-01'
+ORDER BY last_name, first_name;
+
+-- JOIN multiple tables
+SELECT 
+    c.customer_id,
+    c.first_name,
+    c.last_name,
+    COUNT(o.order_id) as order_count,
+    SUM(o.total_amount) as total_spent
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id
+HAVING order_count > 5;
+
+-- INSERT with multiple rows
+INSERT INTO products (name, price, stock_quantity)
+VALUES 
+    ('Widget A', 19.99, 100),
+    ('Widget B', 29.99, 50),
+    ('Widget C', 39.99, 25);
+
+-- UPDATE with JOIN
+UPDATE orders o
+INNER JOIN customers c ON o.customer_id = c.customer_id
+SET o.discount = 0.1
+WHERE c.customer_type = 'VIP'
+    AND o.order_date >= CURDATE() - INTERVAL 30 DAY;</div>
+
+                    <h3>Working with Result Sets</h3>
+
+                    <h4>Result Grid Features:</h4>
+                    <ul>
+                        <li><strong>Sort Results:</strong> Click column headers</li>
+                        <li><strong>Filter Results:</strong> Right-click → Filter Rows</li>
+                        <li><strong>Export Data:</strong> Save results as CSV, JSON, XML</li>
+                        <li><strong>Edit Results:</strong> Make changes directly in grid</li>
+                        <li><strong>Copy Results:</strong> Select and copy to clipboard</li>
+                        <li><strong>Wrap Text:</strong> Toggle for long text fields</li>
+                    </ul>
+
+                    <h4>Result Export Options:</h4>
+                    <ol>
+                        <li>Execute your query</li>
+                        <li>Right-click in result grid</li>
+                        <li>Select "Export Result Set"</li>
+                        <li>Choose format:
+                            <ul>
+                                <li>CSV - Spreadsheet compatible</li>
+                                <li>JSON - Web applications</li>
+                                <li>XML - Data interchange</li>
+                                <li>HTML - Web display</li>
+                                <li>SQL INSERT - Database migration</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Query Beautification and Formatting</h3>
+
+                    <h4>Auto-formatting Options:</h4>
+                    <ul>
+                        <li>Edit → Format → Beautify Query</li>
+                        <li>Or <span class="keyboard-shortcut">Ctrl+B</span></li>
+                        <li>Customizable formatting rules in preferences</li>
+                    </ul>
+
+                    <div class="code-block">
+-- Before beautification:
+select c.name,count(*) from customers c inner join orders o on c.id=o.customer_id where c.active=1 group by c.id;
+
+-- After beautification:
+SELECT 
+    c.name,
+    COUNT(*) 
+FROM customers c 
+INNER JOIN orders o 
+    ON c.id = o.customer_id 
+WHERE c.active = 1 
+GROUP BY c.id;</div>
+
+                    <h3>Query History and Reuse</h3>
+
+                    <h4>Accessing Query History:</h4>
+                    <ul>
+                        <li>View → Panels → History Output</li>
+                        <li>Shows all executed queries with timestamps</li>
+                        <li>Double-click to load query into editor</li>
+                        <li>Right-click for options (copy, append, save)</li>
+                    </ul>
+
+                    <h3>SQL Snippets and Templates</h3>
+
+                    <h4>Creating Reusable Snippets:</h4>
+                    <ol>
+                        <li>Write commonly used SQL</li>
+                        <li>Select the code</li>
+                        <li>Right-click → Save as Snippet</li>
+                        <li>Assign name and optional trigger</li>
+                        <li>Use trigger + Tab to insert</li>
+                    </ol>
+
+                    <h4>Built-in Templates:</h4>
+                    <div class="code-block">
+-- Type 'sel' + Tab for SELECT template:
+SELECT column_list
+FROM table_name
+WHERE condition;
+
+-- Type 'ins' + Tab for INSERT template:
+INSERT INTO table_name (column1, column2)
+VALUES (value1, value2);
+
+-- Type 'upd' + Tab for UPDATE template:
+UPDATE table_name
+SET column1 = value1
+WHERE condition;</div>
+
+                    <h3>Performance Analysis</h3>
+
+                    <h4>Query Profiling:</h4>
+                    <ol>
+                        <li>Enable profiling: Query → Toggle Profiling</li>
+                        <li>Execute your query</li>
+                        <li>View detailed timing breakdown</li>
+                        <li>Identify bottlenecks</li>
+                    </ol>
+
+                    <h4>Execution Plan Analysis:</h4>
+                    <ul>
+                        <li>Visual execution plan shows query flow</li>
+                        <li>Cost estimates for each operation</li>
+                        <li>Index usage indicators</li>
+                        <li>Join type visualization</li>
+                        <li>Warnings for missing indexes</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Performance Red Flags</h4>
+                        <ul>
+                            <li>Full table scans on large tables</li>
+                            <li>Using filesort for ORDER BY</li>
+                            <li>Temporary tables for GROUP BY</li>
+                            <li>Missing indexes on JOIN columns</li>
+                            <li>Type conversions in WHERE clause</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 8: SQL Execution Mastery</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Practice various SQL execution techniques:</p>
+                            <ol>
+                                <li>Write a SELECT query with JOIN</li>
+                                <li>Execute using different methods (current, all, selection)</li>
+                                <li>Export results to CSV</li>
+                                <li>View and analyze execution plan</li>
+                                <li>Save query as snippet</li>
+                                <li>Use query history to re-run</li>
+                                <li>Beautify a complex query</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <h3>Keyboard Shortcuts Reference</h3>
+                    <ul>
+                        <li><span class="keyboard-shortcut">Ctrl+Enter</span> - Execute current statement</li>
+                        <li><span class="keyboard-shortcut">Ctrl+Shift+Enter</span> - Execute all statements</li>
+                        <li><span class="keyboard-shortcut">Ctrl+T</span> - New query tab</li>
+                        <li><span class="keyboard-shortcut">Ctrl+W</span> - Close tab</li>
+                        <li><span class="keyboard-shortcut">Ctrl+S</span> - Save script</li>
+                        <li><span class="keyboard-shortcut">Ctrl+O</span> - Open script</li>
+                        <li><span class="keyboard-shortcut">Ctrl+/</span> - Comment/uncomment line</li>
+                        <li><span class="keyboard-shortcut">Ctrl+D</span> - Duplicate line</li>
+                        <li><span class="keyboard-shortcut">F6</span> - Execute and explain</li>
+                    </ul>
                 </div>
 
+                <!-- Section 9: Error Handling -->
                 <div class="content-section" id="errors">
                     <h2>How to Handle Syntax Errors</h2>
-                    <p>Error handling is crucial for debugging SQL. Learn to interpret and fix common SQL errors quickly.</p>
-                    <!-- Content continues... -->
+                    
+                    <p>Error handling is a crucial skill for database development. Understanding MySQL error messages and knowing how to fix common issues will save you hours of debugging time.</p>
+
+                    <h3>Understanding MySQL Error Messages</h3>
+                    <p>MySQL error messages follow a standard format:</p>
+                    <div class="code-block">
+Error Code: 1064
+SQL State: 42000
+Message: You have an error in your SQL syntax; check the manual that 
+         corresponds to your MySQL server version for the right syntax 
+         to use near 'FORM customers WHERE id = 1' at line 1</div>
+
+                    <h4>Error Message Components:</h4>
+                    <ul>
+                        <li><strong>Error Code:</strong> Unique numeric identifier (e.g., 1064)</li>
+                        <li><strong>SQL State:</strong> Standard SQL error state (e.g., 42000)</li>
+                        <li><strong>Message:</strong> Human-readable error description</li>
+                        <li><strong>Location:</strong> "near 'xxx'" indicates error position</li>
+                        <li><strong>Line Number:</strong> Which line contains the error</li>
+                    </ul>
+
+                    <h3>Common Syntax Errors and Solutions</h3>
+
+                    <h4>1. Error 1064: SQL Syntax Error</h4>
+                    <div class="warning-box">
+                        <h4>Common Causes:</h4>
+                        <ul>
+                            <li>Misspelled keywords (SELCT instead of SELECT)</li>
+                            <li>Missing commas between columns</li>
+                            <li>Incorrect quotation marks</li>
+                            <li>Reserved words used as identifiers</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+-- WRONG: Misspelled keyword
+SELCT * FROM customers;
+-- Error: Unknown command 'SELCT'
+
+-- CORRECT:
+SELECT * FROM customers;
+
+-- WRONG: Missing comma
+SELECT first_name last_name FROM customers;
+-- Error: Syntax error near 'last_name'
+
+-- CORRECT:
+SELECT first_name, last_name FROM customers;
+
+-- WRONG: Reserved word without backticks
+CREATE TABLE order (id INT);
+-- Error: 'order' is a reserved word
+
+-- CORRECT:
+CREATE TABLE `order` (id INT);</div>
+
+                    <h4>2. Error 1054: Unknown Column</h4>
+                    <div class="code-block">
+-- WRONG: Column doesn't exist
+SELECT customer_name FROM customers;
+-- Error: Unknown column 'customer_name' in 'field list'
+
+-- Debugging steps:
+-- 1. Check actual column names:
+SHOW COLUMNS FROM customers;
+-- 2. Verify spelling and case
+-- 3. Ensure table alias is correct
+
+-- CORRECT:
+SELECT first_name, last_name FROM customers;</div>
+
+                    <h4>3. Error 1146: Table Doesn't Exist</h4>
+                    <div class="code-block">
+-- WRONG: Table name typo
+SELECT * FROM costumers;
+-- Error: Table 'database.costumers' doesn't exist
+
+-- Debugging:
+-- 1. List all tables:
+SHOW TABLES;
+-- 2. Check current database:
+SELECT DATABASE();
+-- 3. Verify table name spelling
+
+-- CORRECT:
+SELECT * FROM customers;</div>
+
+                    <h4>4. Error 1136: Column Count Mismatch</h4>
+                    <div class="code-block">
+-- WRONG: Values don't match columns
+INSERT INTO customers (first_name, last_name, email)
+VALUES ('John', 'Doe');
+-- Error: Column count doesn't match value count at row 1
+
+-- CORRECT: Provide all values
+INSERT INTO customers (first_name, last_name, email)
+VALUES ('John', 'Doe', 'john@example.com');
+
+-- OR specify only columns with values:
+INSERT INTO customers (first_name, last_name)
+VALUES ('John', 'Doe');</div>
+
+                    <h4>5. Error 1062: Duplicate Entry</h4>
+                    <div class="code-block">
+-- WRONG: Violating unique constraint
+INSERT INTO customers (email) VALUES ('john@example.com');
+INSERT INTO customers (email) VALUES ('john@example.com');
+-- Error: Duplicate entry 'john@example.com' for key 'email'
+
+-- Solutions:
+-- 1. Use INSERT IGNORE to skip duplicates:
+INSERT IGNORE INTO customers (email) VALUES ('john@example.com');
+
+-- 2. Use ON DUPLICATE KEY UPDATE:
+INSERT INTO customers (email, updated_at) 
+VALUES ('john@example.com', NOW())
+ON DUPLICATE KEY UPDATE updated_at = NOW();
+
+-- 3. Check before inserting:
+INSERT INTO customers (email)
+SELECT 'john@example.com'
+WHERE NOT EXISTS (
+    SELECT 1 FROM customers WHERE email = 'john@example.com'
+);</div>
+
+                    <h3>Visual Error Indicators in Workbench</h3>
+
+                    <h4>Editor Error Highlighting:</h4>
+                    <ul>
+                        <li><strong>Red Underline:</strong> Syntax errors</li>
+                        <li><strong>Yellow Underline:</strong> Warnings</li>
+                        <li><strong>Red X Icon:</strong> Line with error</li>
+                        <li><strong>Hover Tooltip:</strong> Error description</li>
+                        <li><strong>Error Panel:</strong> List of all errors</li>
+                    </ul>
+
+                    <h3>Advanced Error Debugging</h3>
+
+                    <h4>Using MySQL Error Log:</h4>
+                    <div class="code-block">
+-- View error log location:
+SHOW VARIABLES LIKE 'log_error';
+
+-- Check recent errors (if you have FILE privilege):
+SELECT * FROM mysql.general_log 
+WHERE command_type = 'Query' 
+AND argument LIKE '%ERROR%'
+ORDER BY event_time DESC 
+LIMIT 10;</div>
+
+                    <h4>Enabling Detailed Error Information:</h4>
+                    <div class="code-block">
+-- Show warnings after query execution:
+SHOW WARNINGS;
+
+-- Get detailed error information:
+SHOW ERRORS;
+
+-- Get count of warnings:
+SHOW COUNT(*) WARNINGS;
+
+-- Set warning verbosity:
+SET sql_mode = 'TRADITIONAL';  -- Strict mode
+SET sql_mode = '';             -- Permissive mode</div>
+
+                    <h3>Error Prevention Strategies</h3>
+
+                    <h4>Best Practices to Avoid Errors:</h4>
+                    <ul>
+                        <li><strong>Use Backticks:</strong> For table/column names with spaces or reserved words</li>
+                        <li><strong>Qualify Columns:</strong> Use table aliases in JOINs</li>
+                        <li><strong>Test Incrementally:</strong> Build complex queries step by step</li>
+                        <li><strong>Use Comments:</strong> Document complex logic</li>
+                        <li><strong>Validate Data Types:</strong> Ensure type compatibility</li>
+                        <li><strong>Check Constraints:</strong> Before INSERT/UPDATE operations</li>
+                    </ul>
+
+                    <div class="tip-box">
+                        <h4>💡 Query Validation Checklist</h4>
+                        <ol>
+                            <li>Are all keywords spelled correctly?</li>
+                            <li>Do all referenced tables exist?</li>
+                            <li>Are column names correct?</li>
+                            <li>Are strings properly quoted?</li>
+                            <li>Are all parentheses balanced?</li>
+                            <li>Do GROUP BY queries include all non-aggregate columns?</li>
+                            <li>Are JOIN conditions specified?</li>
+                        </ol>
+                    </div>
+
+                    <h3>Common JOIN Errors</h3>
+                    <div class="code-block">
+-- ERROR: Ambiguous column
+SELECT name FROM customers c
+JOIN orders o ON c.id = o.customer_id;
+-- Error: Column 'name' in field list is ambiguous
+
+-- CORRECT: Qualify with alias
+SELECT c.name FROM customers c
+JOIN orders o ON c.id = o.customer_id;
+
+-- ERROR: Missing JOIN condition
+SELECT * FROM customers c
+JOIN orders o;
+-- Results in cartesian product!
+
+-- CORRECT: Specify JOIN condition
+SELECT * FROM customers c
+JOIN orders o ON c.id = o.customer_id;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 9: Error Debugging</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Fix these broken queries:</p>
+                            <ol>
+                                <li>SLEECT * FORM users WEHRE age > 18;</li>
+                                <li>INSERT INTO products VALUES ('Widget');</li>
+                                <li>SELECT user.name, COUNT(*) FROM orders;</li>
+                                <li>UPDATE customers SET WHERE id = 1;</li>
+                                <li>DELETE * FROM orders WHERE total < 0;</li>
+                            </ol>
+                            <p>Document the error type and correction for each.</p>
+                        </div>
+                    </div>
+
+                    <h3>Error Recovery Techniques</h3>
+
+                    <h4>Transaction Rollback:</h4>
+                    <div class="code-block">
+-- Start transaction for safety
+START TRANSACTION;
+
+-- Try risky operations
+UPDATE customers SET credit = credit * 1.1;
+-- Check if correct
+SELECT * FROM customers LIMIT 5;
+
+-- If error or unexpected results:
+ROLLBACK;
+
+-- If everything looks good:
+COMMIT;</div>
+
+                    <div class="success-box">
+                        <h4>✅ Error Resolution Workflow</h4>
+                        <ol>
+                            <li>Read the complete error message</li>
+                            <li>Identify the error location ("near 'xxx'")</li>
+                            <li>Check syntax at that location</li>
+                            <li>Verify object names (tables, columns)</li>
+                            <li>Test simplified version of query</li>
+                            <li>Gradually add complexity back</li>
+                            <li>Use EXPLAIN to verify query plan</li>
+                        </ol>
+                    </div>
                 </div>
 
+                <!-- Section 10: SQL Scripts -->
                 <div class="content-section" id="scripts">
-                    <h2>Working with SQL Scripts</h2>
-                    <p>SQL scripts allow you to save and reuse complex queries and database operations.</p>
-                    <!-- Content continues... -->
+                    <h2>How to Open, Save, and Execute SQL Scripts</h2>
+                    
+                    <p>SQL scripts are essential for saving queries, automating database tasks, and managing database schemas. Learn to effectively work with script files to streamline your database development workflow.</p>
+
+                    <h3>Understanding SQL Scripts</h3>
+                    <p>SQL scripts are text files containing one or more SQL statements that can be executed as a batch. They typically have a .sql extension and can include:</p>
+                    <ul>
+                        <li>DDL statements (CREATE, ALTER, DROP)</li>
+                        <li>DML statements (INSERT, UPDATE, DELETE)</li>
+                        <li>Queries (SELECT)</li>
+                        <li>Stored procedures and functions</li>
+                        <li>Comments and documentation</li>
+                        <li>Variables and control flow statements</li>
+                    </ul>
+
+                    <h3>Creating SQL Scripts</h3>
+
+                    <h4>New Script Creation:</h4>
+                    <ol>
+                        <li>File → New Query Tab (or <span class="keyboard-shortcut">Ctrl+T</span>)</li>
+                        <li>Write your SQL statements</li>
+                        <li>Add comments for documentation</li>
+                        <li>File → Save Script (or <span class="keyboard-shortcut">Ctrl+S</span>)</li>
+                        <li>Choose location and filename.sql</li>
+                    </ol>
+
+                    <h4>Script Structure Best Practices:</h4>
+                    <div class="code-block">
+-- =============================================
+-- Script: create_database_schema.sql
+-- Author: Your Name
+-- Date: 2024-01-15
+-- Description: Creates complete database schema
+-- Version: 1.0
+-- =============================================
+
+-- Set configuration
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+-- Create database if not exists
+CREATE DATABASE IF NOT EXISTS `myapp_db`
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_unicode_ci;
+
+USE `myapp_db`;
+
+-- Drop existing tables (careful in production!)
+DROP TABLE IF EXISTS `order_items`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `customers`;
+
+-- Create customers table
+CREATE TABLE `customers` (
+    `customer_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(100) NOT NULL,
+    `first_name` VARCHAR(50) NOT NULL,
+    `last_name` VARCHAR(50) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`customer_id`),
+    UNIQUE INDEX `idx_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Create orders table
+CREATE TABLE `orders` (
+    `order_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `customer_id` INT UNSIGNED NOT NULL,
+    `order_date` DATETIME NOT NULL,
+    `total_amount` DECIMAL(10,2) NOT NULL,
+    `status` ENUM('pending', 'processing', 'shipped', 'delivered') DEFAULT 'pending',
+    PRIMARY KEY (`order_id`),
+    INDEX `idx_customer` (`customer_id`),
+    CONSTRAINT `fk_orders_customer`
+        FOREIGN KEY (`customer_id`)
+        REFERENCES `customers` (`customer_id`)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insert sample data
+INSERT INTO `customers` (`email`, `first_name`, `last_name`) VALUES
+('john.doe@example.com', 'John', 'Doe'),
+('jane.smith@example.com', 'Jane', 'Smith');
+
+-- Restore settings
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- End of script
+SELECT 'Schema creation complete!' as Message;</div>
+
+                    <h3>Opening and Loading Scripts</h3>
+
+                    <h4>Methods to Open Scripts:</h4>
+                    <ul>
+                        <li><strong>File Menu:</strong> File → Open SQL Script (<span class="keyboard-shortcut">Ctrl+O</span>)</li>
+                        <li><strong>Drag and Drop:</strong> Drag .sql file into Workbench</li>
+                        <li><strong>Recent Files:</strong> File → Recent Files</li>
+                        <li><strong>From Navigator:</strong> Right-click in file system navigator</li>
+                    </ul>
+
+                    <h4>Script Loading Options:</h4>
+                    <ul>
+                        <li><strong>New Tab:</strong> Opens in new query tab</li>
+                        <li><strong>Append:</strong> Adds to current tab</li>
+                        <li><strong>Replace:</strong> Replaces current tab content</li>
+                    </ul>
+
+                    <h3>Executing SQL Scripts</h3>
+
+                    <h4>Execution Options:</h4>
+                    <ul>
+                        <li><strong>Execute All:</strong> Run entire script (<span class="keyboard-shortcut">Ctrl+Shift+Enter</span>)</li>
+                        <li><strong>Execute Selection:</strong> Run highlighted portion</li>
+                        <li><strong>Execute Line by Line:</strong> Step through statements</li>
+                        <li><strong>Execute to Cursor:</strong> Run up to cursor position</li>
+                    </ul>
+
+                    <div class="tip-box">
+                        <h4>💡 Large Script Execution</h4>
+                        <p>For scripts with many statements:</p>
+                        <ul>
+                            <li>Use delimiter changes for stored procedures</li>
+                            <li>Add progress indicators with SELECT statements</li>
+                            <li>Include error handling with CONTINUE HANDLER</li>
+                            <li>Consider breaking into smaller scripts</li>
+                        </ul>
+                    </div>
+
+                    <h3>Working with Script Delimiters</h3>
+
+                    <h4>Changing Delimiters for Complex Scripts:</h4>
+                    <div class="code-block">
+-- Change delimiter for stored procedures
+DELIMITER $
+
+CREATE PROCEDURE UpdateCustomerStatus()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE cust_id INT;
+    DECLARE cur CURSOR FOR 
+        SELECT customer_id FROM customers WHERE status = 'inactive';
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    OPEN cur;
+    
+    read_loop: LOOP
+        FETCH cur INTO cust_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        -- Process each customer
+        UPDATE customers 
+        SET status = 'active',
+            updated_at = NOW()
+        WHERE customer_id = cust_id;
+    END LOOP;
+    
+    CLOSE cur;
+END$
+
+-- Restore default delimiter
+DELIMITER ;</div>
+
+                    <h3>Script Organization and Management</h3>
+
+                    <h4>Recommended Folder Structure:</h4>
+                    <div class="code-block">
+project_database/
+├── schema/
+│   ├── 01_create_database.sql
+│   ├── 02_create_tables.sql
+│   ├── 03_create_indexes.sql
+│   └── 04_create_constraints.sql
+├── data/
+│   ├── 01_initial_data.sql
+│   ├── 02_test_data.sql
+│   └── 03_sample_data.sql
+├── procedures/
+│   ├── stored_procedures.sql
+│   └── functions.sql
+├── migrations/
+│   ├── v1.0_to_v1.1.sql
+│   └── v1.1_to_v2.0.sql
+└── maintenance/
+    ├── backup_script.sql
+    └── cleanup_script.sql</div>
+
+                    <h3>Script Variables and Parameters</h3>
+
+                    <h4>Using Variables in Scripts:</h4>
+                    <div class="code-block">
+-- User-defined variables
+SET @company_name = 'Acme Corp';
+SET @start_date = '2024-01-01';
+SET @end_date = '2024-12-31';
+
+-- Use variables in queries
+SELECT * FROM orders 
+WHERE order_date BETWEEN @start_date AND @end_date;
+
+INSERT INTO companies (name, created_date) 
+VALUES (@company_name, NOW());
+
+-- Session variables
+SET SESSION sql_mode = 'STRICT_ALL_TABLES';
+SET SESSION time_zone = '+00:00';
+
+-- Prepared statements with variables
+SET @sql = 'SELECT * FROM customers WHERE email = ?';
+PREPARE stmt FROM @sql;
+SET @email = 'john@example.com';
+EXECUTE stmt USING @email;
+DEALLOCATE PREPARE stmt;</div>
+
+                    <h3>Script Import and Export</h3>
+
+                    <h4>Exporting Database to Script:</h4>
+                    <ol>
+                        <li>Server → Data Export</li>
+                        <li>Select database/tables</li>
+                        <li>Choose export options:
+                            <ul>
+                                <li>Structure only</li>
+                                <li>Data only</li>
+                                <li>Structure and data</li>
+                            </ul>
+                        </li>
+                        <li>Export to self-contained file</li>
+                    </ol>
+
+                    <h4>Importing Scripts:</h4>
+                    <ol>
+                        <li>Server → Data Import</li>
+                        <li>Select import from self-contained file</li>
+                        <li>Choose .sql file</li>
+                        <li>Select default target schema</li>
+                        <li>Start Import</li>
+                    </ol>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Script Safety Precautions</h4>
+                        <ul>
+                            <li>Always review scripts before execution</li>
+                            <li>Test on development database first</li>
+                            <li>Create backups before running DDL scripts</li>
+                            <li>Use transactions for data modifications</li>
+                            <li>Check for DROP statements carefully</li>
+                        </ul>
+                    </div>
+
+                    <h3>Script Templates</h3>
+
+                    <h4>Data Migration Script Template:</h4>
+                    <div class="code-block">
+-- Data Migration Script Template
+START TRANSACTION;
+
+-- Step 1: Validation
+SELECT 'Starting migration...' as Status;
+SELECT COUNT(*) as 'Records to migrate' FROM source_table;
+
+-- Step 2: Create temporary table
+CREATE TEMPORARY TABLE temp_migration AS
+SELECT * FROM source_table WHERE condition;
+
+-- Step 3: Data transformation
+UPDATE temp_migration SET
+    column1 = UPPER(column1),
+    column2 = DATE_FORMAT(column2, '%Y-%m-%d');
+
+-- Step 4: Insert into target
+INSERT INTO target_table
+SELECT * FROM temp_migration;
+
+-- Step 5: Verification
+SELECT COUNT(*) as 'Records migrated' FROM target_table;
+
+-- Step 6: Cleanup
+DROP TEMPORARY TABLE temp_migration;
+
+-- Commit or rollback based on verification
+-- COMMIT;
+-- ROLLBACK;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 10: Script Management</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Create and execute a complete database script:</p>
+                            <ol>
+                                <li>Create a new script file</li>
+                                <li>Add header comments with author and date</li>
+                                <li>Write CREATE TABLE statements for a blog system (posts, comments, users)</li>
+                                <li>Include foreign key relationships</li>
+                                <li>Add sample data with INSERT statements</li>
+                                <li>Save the script with meaningful name</li>
+                                <li>Execute the script and verify results</li>
+                                <li>Export the schema to a backup script</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Section 11: MySQL Reference Manual -->
                 <div class="content-section" id="manual">
-                    <h2>Using the MySQL Reference Manual</h2>
-                    <p>The MySQL Reference Manual is your comprehensive guide to all MySQL features and functions.</p>
-                    <!-- Content continues... -->
+                    <h2>How to Use the MySQL Reference Manual</h2>
+                    
+                    <p>The MySQL Reference Manual is your comprehensive guide to every aspect of MySQL. Learning to navigate and use it effectively is essential for solving problems and understanding advanced features.</p>
+
+                    <h3>Accessing the MySQL Reference Manual</h3>
+
+                    <h4>Access Methods:</h4>
+                    <ul>
+                        <li><strong>From Workbench:</strong> Help → MySQL Documentation</li>
+                        <li><strong>Online:</strong> dev.mysql.com/doc/</li>
+                        <li><strong>Context Help:</strong> Select keyword + F1</li>
+                        <li><strong>Downloadable PDF:</strong> Available for offline use</li>
+                        <li><strong>Built-in Help:</strong> HELP command in MySQL</li>
+                    </ul>
+
+                    <h3>Manual Structure and Organization</h3>
+
+                    <h4>Main Sections:</h4>
+                    <ul>
+                        <li><strong>General Information:</strong> Licensing, overview, what's new</li>
+                        <li><strong>Installing and Upgrading:</strong> Platform-specific instructions</li>
+                        <li><strong>Tutorial:</strong> Getting started guide</li>
+                        <li><strong>MySQL Programs:</strong> Client and utility programs</li>
+                        <li><strong>Server Administration:</strong> Configuration and management</li>
+                        <li><strong>Security:</strong> Access control and encryption</li>
+                        <li><strong>Backup and Recovery:</strong> Data protection strategies</li>
+                        <li><strong>Optimization:</strong> Performance tuning</li>
+                        <li><strong>SQL Statement Syntax:</strong> Complete SQL reference</li>
+                        <li><strong>Data Types:</strong> Detailed type specifications</li>
+                        <li><strong>Functions and Operators:</strong> Built-in functions</li>
+                        <li><strong>Storage Engines:</strong> InnoDB, MyISAM, etc.</li>
+                    </ul>
+
+                    <h3>Using Built-in Help System</h3>
+
+                    <div class="code-block">
+-- Get help on specific statement
+HELP 'SELECT';
+
+-- Search for help topics
+HELP 'CREATE%';
+
+-- Get help on functions
+HELP 'DATE_FORMAT';
+
+-- List all help categories
+HELP 'contents';
+
+-- Get help on data types
+HELP 'INT';
+HELP 'VARCHAR';
+
+-- Get help on operators
+HELP 'LIKE';
+HELP 'BETWEEN';</div>
+
+                    <h3>Searching the Documentation</h3>
+
+                    <h4>Effective Search Strategies:</h4>
+                    <ul>
+                        <li><strong>Use Exact Terms:</strong> Search for "CREATE INDEX" not "make index"</li>
+                        <li><strong>Check Version:</strong> Ensure documentation matches your MySQL version</li>
+                        <li><strong>Use Table of Contents:</strong> Navigate hierarchically for context</li>
+                        <li><strong>Search Examples:</strong> Look for code samples</li>
+                        <li><strong>Read Notes/Warnings:</strong> Important compatibility information</li>
+                    </ul>
+
+                    <h3>Common Documentation Lookups</h3>
+
+                    <h4>SQL Syntax Reference:</h4>
+                    <div class="code-block">
+-- Example: Looking up JOIN syntax
+-- Manual Section: 13.2.10 SELECT Statement
+
+SELECT syntax:
+SELECT
+    [ALL | DISTINCT | DISTINCTROW ]
+    [HIGH_PRIORITY]
+    [STRAIGHT_JOIN]
+    [SQL_SMALL_RESULT] [SQL_BIG_RESULT] [SQL_BUFFER_RESULT]
+    select_expr [, select_expr] ...
+    [FROM table_references
+      [PARTITION partition_list]]
+    [WHERE where_condition]
+    [GROUP BY {col_name | expr | position}
+      [ASC | DESC], ... [WITH ROLLUP]]
+    [HAVING where_condition]
+    [ORDER BY {col_name | expr | position}
+      [ASC | DESC], ...]
+    [LIMIT {[offset,] row_count | row_count OFFSET offset}]</div>
+
+                    <h4>Function Reference Lookup:</h4>
+                    <div class="tip-box">
+                        <h4>💡 Function Documentation Format</h4>
+                        <p>Each function entry includes:</p>
+                        <ul>
+                            <li>Syntax definition</li>
+                            <li>Parameter descriptions</li>
+                            <li>Return values</li>
+                            <li>Usage examples</li>
+                            <li>Version information</li>
+                            <li>Related functions</li>
+                        </ul>
+                    </div>
+
+                    <h3>Understanding Documentation Conventions</h3>
+
+                    <h4>Syntax Notation:</h4>
+                    <ul>
+                        <li><strong>[ ]</strong> - Optional elements</li>
+                        <li><strong>{ }</strong> - Required choice</li>
+                        <li><strong>|</strong> - OR separator</li>
+                        <li><strong>...</strong> - Repeatable elements</li>
+                        <li><strong>UPPERCASE</strong> - SQL keywords</li>
+                        <li><strong>lowercase</strong> - User-supplied values</li>
+                    </ul>
+
+                    <h3>Version-Specific Documentation</h3>
+
+                    <h4>Finding Version Information:</h4>
+                    <div class="code-block">
+-- Check your MySQL version
+SELECT VERSION();
+
+-- Get detailed version info
+SHOW VARIABLES LIKE '%version%';
+
+-- Check feature availability
+SELECT * FROM INFORMATION_SCHEMA.ENGINES;
+SELECT * FROM INFORMATION_SCHEMA.PLUGINS;</div>
+
+                    <h4>Version Compatibility Notes:</h4>
+                    <ul>
+                        <li>Features marked "MySQL 8.0+"</li>
+                        <li>Deprecation warnings</li>
+                        <li>Migration guides between versions</li>
+                        <li>Breaking changes sections</li>
+                    </ul>
+
+                    <h3>Practical Documentation Use Cases</h3>
+
+                    <h4>1. Learning New Features:</h4>
+                    <p>Example: Understanding Window Functions (MySQL 8.0+)</p>
+                    <div class="code-block">
+-- Documentation: Section 12.20 Window Functions
+-- Example from manual:
+SELECT 
+    employee_id,
+    salary,
+    department,
+    RANK() OVER (PARTITION BY department ORDER BY salary DESC) as rank,
+    DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) as dense_rank,
+    ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as row_num
+FROM employees;</div>
+
+                    <h4>2. Troubleshooting Errors:</h4>
+                    <p>Error codes are documented in Appendix B</p>
+                    <ul>
+                        <li>Error number</li>
+                        <li>SQLSTATE value</li>
+                        <li>Message text</li>
+                        <li>Possible causes</li>
+                        <li>Solutions</li>
+                    </ul>
+
+                    <h4>3. Performance Optimization:</h4>
+                    <p>Chapter 8: Optimization covers:</p>
+                    <ul>
+                        <li>Query optimization</li>
+                        <li>Index strategies</li>
+                        <li>Server configuration</li>
+                        <li>Hardware considerations</li>
+                    </ul>
+
+                    <h3>Documentation Quick Reference</h3>
+
+                    <h4>Most Used Manual Sections:</h4>
+                    <ul>
+                        <li><strong>3.3:</strong> Creating and Using a Database</li>
+                        <li><strong>11:</strong> Data Types</li>
+                        <li><strong>12:</strong> Functions and Operators</li>
+                        <li><strong>13:</strong> SQL Statement Syntax</li>
+                        <li><strong>14.7:</strong> InnoDB Storage Engine</li>
+                        <li><strong>25:</strong> Stored Objects</li>
+                        <li><strong>B:</strong> Error Messages</li>
+                    </ul>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 11: Manual Navigation</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Use the MySQL manual to research:</p>
+                            <ol>
+                                <li>Find the exact syntax for CREATE TRIGGER</li>
+                                <li>Look up the DATE_ADD() function parameters</li>
+                                <li>Find the maximum length for VARCHAR</li>
+                                <li>Research error code 1452 (foreign key)</li>
+                                <li>Find JSON functions available in your MySQL version</li>
+                                <li>Look up index optimization best practices</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <h4>✅ Documentation Best Practices</h4>
+                        <ul>
+                            <li>Bookmark frequently used sections</li>
+                            <li>Keep manual open while coding</li>
+                            <li>Read examples, not just syntax</li>
+                            <li>Check version compatibility</li>
+                            <li>Use search function effectively</li>
+                            <li>Contribute to documentation by reporting issues</li>
+                        </ul>
+                    </div>
                 </div>
 
+                <!-- Section 12: Command Line Client -->
                 <div class="content-section" id="commandline">
                     <h2>MySQL Command Line Client</h2>
-                    <p>While Workbench provides a GUI, the command line client remains powerful for automation and scripting.</p>
-                    <!-- Content continues... -->
+                    
+                    <p>While MySQL Workbench provides a powerful GUI, the command line client remains essential for automation, scripting, and remote administration. Master the CLI for complete MySQL control.</p>
+
+                    <h3>Starting the MySQL Command Line Client</h3>
+
+                    <h4>Windows:</h4>
+                    <div class="code-block">
+# Method 1: From Start Menu
+Start → MySQL → MySQL 8.0 Command Line Client
+
+# Method 2: From Command Prompt
+cd C:\Program Files\MySQL\MySQL Server 8.0\bin
+mysql -u root -p
+
+# Method 3: If MySQL is in PATH
+mysql -u username -p</div>
+
+                    <h4>macOS/Linux:</h4>
+                    <div class="code-block">
+# Open terminal and run:
+mysql -u root -p
+
+# With specific host and port:
+mysql -h localhost -P 3306 -u root -p
+
+# Connect to specific database:
+mysql -u root -p database_name
+
+# Connect with options:
+mysql --user=root --password --host=localhost --port=3306</div>
+
+                    <h3>Connection Options and Parameters</h3>
+
+                    <h4>Common Connection Flags:</h4>
+                    <div class="code-block">
+# Basic connection parameters
+-u, --user=name       # Username
+-p, --password[=pwd]  # Password (prompt if not provided)
+-h, --host=name       # Server hostname
+-P, --port=#          # Port number
+-D, --database=name   # Default database
+-S, --socket=name     # Socket file (Unix)
+
+# Additional useful options
+--ssl-mode=REQUIRED   # Force SSL connection
+--local-infile        # Enable LOAD DATA LOCAL
+-e, --execute="SQL"   # Execute command and quit
+-B, --batch           # Batch mode (tab-separated output)
+-N, --skip-column-names # Don't write column names
+-s, --silent          # Silent mode
+-v, --verbose         # Verbose output
+--default-character-set=utf8mb4  # Set character set</div>
+
+                    <h3>Command Line Client Interface</h3>
+
+                    <h4>MySQL Prompt:</h4>
+                    <div class="code-block">
+mysql>                 # Ready for new statement
+    ->                 # Waiting for statement completion
+    '>                 # Waiting for string completion
+    ">                 # Waiting for string completion
+    `>                 # Waiting for identifier completion
+    /*>                # Waiting for comment completion</div>
+
+                    <h3>Essential CLI Commands</h3>
+
+                    <h4>Database Navigation:</h4>
+                    <div class="code-block">
+-- Show all databases
+SHOW DATABASES;
+
+-- Select a database
+USE database_name;
+
+-- Show current database
+SELECT DATABASE();
+
+-- Show all tables
+SHOW TABLES;
+
+-- Show table structure
+DESCRIBE table_name;
+-- or
+SHOW COLUMNS FROM table_name;
+
+-- Show table creation statement
+SHOW CREATE TABLE table_name;
+
+-- Show indexes
+SHOW INDEX FROM table_name;</div>
+
+                    <h4>User and Privilege Management:</h4>
+                    <div class="code-block">
+-- Show current user
+SELECT USER();
+
+-- Show all users
+SELECT User, Host FROM mysql.user;
+
+-- Create user
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+
+-- Grant privileges
+GRANT SELECT, INSERT, UPDATE ON database.* TO 'username'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost' WITH GRANT OPTION;
+
+-- Show grants
+SHOW GRANTS FOR 'username'@'localhost';
+
+-- Revoke privileges
+REVOKE INSERT ON database.* FROM 'username'@'localhost';
+
+-- Change password
+ALTER USER 'username'@'localhost' IDENTIFIED BY 'new_password';</div>
+
+                    <h3>Working with SQL Files</h3>
+
+                    <h4>Executing SQL Files:</h4>
+                    <div class="code-block">
+# Method 1: From outside MySQL
+mysql -u root -p database_name < script.sql
+
+# Method 2: From within MySQL
+mysql> source /path/to/script.sql;
+-- or
+mysql> \. /path/to/script.sql
+
+# Execute and save output
+mysql -u root -p database_name < script.sql > output.txt
+
+# Execute with verbose output
+mysql -u root -p -v database_name < script.sql</div>
+
+                    <h3>Output Formatting and Redirection</h3>
+
+                    <h4>Output Formats:</h4>
+                    <div class="code-block">
+-- Vertical output (useful for wide tables)
+SELECT * FROM customers\G
+
+-- HTML output
+mysql -H -e "SELECT * FROM customers" database_name > output.html
+
+-- XML output
+mysql -X -e "SELECT * FROM customers" database_name > output.xml
+
+-- Tab-separated values
+mysql -B -e "SELECT * FROM customers" database_name > output.tsv
+
+-- Disable column headers
+mysql -N -e "SELECT * FROM customers" database_name</div>
+
+                    <h3>Client Commands and Shortcuts</h3>
+
+                    <h4>MySQL Client Commands:</h4>
+                    <div class="code-block">
+-- Clear screen
+\c or Ctrl+C      -- Cancel current statement
+\q or quit or exit -- Quit MySQL
+\h or help        -- Display help
+\? or help        -- Synonym for help
+\g or ;           -- Execute statement
+\G                -- Execute and display vertically
+\! command        -- Execute system command
+\s or status      -- Server status information
+\u database       -- Use database
+\r                -- Reconnect to server
+\e                -- Edit command in editor
+\p                -- Print current command
+\R prompt         -- Change prompt
+\t                -- Toggle output to file</div>
+
+                    <h3>Batch Mode Operations</h3>
+
+                    <h4>Automation Scripts:</h4>
+                    <div class="code-block">
+#!/bin/bash
+# Backup script using CLI
+
+# Variables
+DB_USER="root"
+DB_PASS="password"
+DB_NAME="myapp"
+BACKUP_DIR="/backup"
+DATE=$(date +%Y%m%d_%H%M%S)
+
+# Create backup
+mysqldump -u $DB_USER -p$DB_PASS $DB_NAME > $BACKUP_DIR/backup_$DATE.sql
+
+# Compress backup
+gzip $BACKUP_DIR/backup_$DATE.sql
+
+# Delete old backups (older than 30 days)
+find $BACKUP_DIR -name "backup_*.sql.gz" -mtime +30 -delete
+
+echo "Backup completed: backup_$DATE.sql.gz"</div>
+
+                    <h3>Advanced CLI Features</h3>
+
+                    <h4>Using Pager:</h4>
+                    <div class="code-block">
+-- Set pager for large results
+mysql> pager less
+PAGER set to 'less'
+
+-- Now results will open in less
+mysql> SELECT * FROM large_table;
+
+-- Disable pager
+mysql> nopager
+PAGER set to stdout</div>
+
+                    <h4>Command History:</h4>
+                    <ul>
+                        <li>Up/Down arrows - Navigate history</li>
+                        <li>Ctrl+R - Reverse search history</li>
+                        <li>History file: ~/.mysql_history</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Security Considerations</h4>
+                        <ul>
+                            <li>Never include passwords in command line (visible in process list)</li>
+                            <li>Use configuration files for credentials</li>
+                            <li>Protect .mysql_history file</li>
+                            <li>Use SSL for remote connections</li>
+                            <li>Limit client host access</li>
+                        </ul>
+                    </div>
+
+                    <h3>Configuration Files</h3>
+
+                    <h4>my.cnf / my.ini Configuration:</h4>
+                    <div class="code-block">
+# ~/.my.cnf (Unix) or my.ini (Windows)
+[client]
+host=localhost
+user=myusername
+password=mypassword
+database=mydatabase
+default-character-set=utf8mb4
+
+[mysql]
+prompt=(\\u@\\h) [\\d]>\\_
+auto-rehash
+show-warnings</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 12: CLI Mastery</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Complete these CLI operations:</p>
+                            <ol>
+                                <li>Connect to MySQL from command line</li>
+                                <li>Create a new database from CLI</li>
+                                <li>Execute a SQL script file</li>
+                                <li>Export query results to CSV format</li>
+                                <li>Use pager for large result sets</li>
+                                <li>Create a backup using mysqldump</li>
+                                <li>Write a batch script for daily backups</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <h4>✅ CLI Best Practices</h4>
+                        <ul>
+                            <li>Use configuration files for connection details</li>
+                            <li>Alias common commands in shell</li>
+                            <li>Keep SQL scripts organized</li>
+                            <li>Use batch mode for automation</li>
+                            <li>Implement proper error handling in scripts</li>
+                            <li>Regular backup automation</li>
+                            <li>Monitor and rotate log files</li>
+                        </ul>
+                    </div>
                 </div>
 
+                <!-- Section 13: Perspective and Best Practices -->
                 <div class="content-section" id="perspective">
-                    <h2>Best Practices and Perspective</h2>
-                    <p>Consolidate your learning with professional best practices for database management.</p>
-                    <!-- Content continues... -->
+                    <h2>Perspective and Best Practices</h2>
+                    
+                    <p>After mastering MySQL Workbench's features, it's essential to understand professional best practices and develop a comprehensive perspective on database management. This section consolidates your learning with industry standards and expert recommendations.</p>
+
+                    <h3>Database Development Lifecycle</h3>
+
+                    <h4>Professional Development Workflow:</h4>
+                    <ol>
+                        <li><strong>Requirements Analysis:</strong> Understand business needs</li>
+                        <li><strong>Conceptual Design:</strong> Entity-relationship modeling</li>
+                        <li><strong>Logical Design:</strong> Normalization and relationships</li>
+                        <li><strong>Physical Design:</strong> Indexes, partitions, storage</li>
+                        <li><strong>Implementation:</strong> Create database objects</li>
+                        <li><strong>Testing:</strong> Validate functionality and performance</li>
+                        <li><strong>Deployment:</strong> Production rollout</li>
+                        <li><strong>Maintenance:</strong> Ongoing optimization and updates</li>
+                    </ol>
+
+                    <h3>Database Design Best Practices</h3>
+
+                    <h4>Normalization Guidelines:</h4>
+                    <ul>
+                        <li><strong>1NF:</strong> Eliminate repeating groups, ensure atomic values</li>
+                        <li><strong>2NF:</strong> Remove partial dependencies</li>
+                        <li><strong>3NF:</strong> Remove transitive dependencies</li>
+                        <li><strong>BCNF:</strong> Every determinant is a candidate key</li>
+                        <li><strong>Balance:</strong> Sometimes denormalization improves performance</li>
+                    </ul>
+
+                    <h4>Naming Conventions:</h4>
+                    <div class="code-block">
+-- Table naming
+CREATE TABLE customers (...)        -- Plural, lowercase
+CREATE TABLE order_items (...)      -- Snake_case for multiple words
+
+-- Column naming
+customer_id INT                     -- Snake_case
+first_name VARCHAR(50)              -- Descriptive names
+created_at TIMESTAMP                -- Consistent suffixes
+is_active BOOLEAN                   -- Boolean prefix
+
+-- Index naming
+INDEX idx_customers_email           -- idx_tablename_columns
+UNIQUE KEY uk_customers_ssn         -- uk_ for unique keys
+FOREIGN KEY fk_orders_customer      -- fk_table_reference
+
+-- Stored procedure naming
+PROCEDURE sp_get_customer_orders    -- sp_ prefix
+FUNCTION fn_calculate_tax           -- fn_ prefix
+TRIGGER trg_audit_customer_update   -- trg_ prefix</div>
+
+                    <h3>Query Optimization Strategies</h3>
+
+                    <h4>Writing Efficient Queries:</h4>
+                    <ul>
+                        <li><strong>Use Indexes:</strong> Create indexes on JOIN and WHERE columns</li>
+                        <li><strong>Avoid SELECT *:</strong> Specify only needed columns</li>
+                        <li><strong>Limit Results:</strong> Use LIMIT for large datasets</li>
+                        <li><strong>Join Efficiently:</strong> Start with smallest table</li>
+                        <li><strong>Use EXISTS:</strong> Instead of IN for subqueries</li>
+                        <li><strong>Avoid Functions in WHERE:</strong> Prevents index usage</li>
+                    </ul>
+
+                    <div class="tip-box">
+                        <h4>💡 Query Optimization Checklist</h4>
+                        <ol>
+                            <li>Run EXPLAIN on complex queries</li>
+                            <li>Check for full table scans</li>
+                            <li>Verify index usage</li>
+                            <li>Monitor slow query log</li>
+                            <li>Use query cache when appropriate</li>
+                            <li>Consider partitioning large tables</li>
+                        </ol>
+                    </div>
+
+                    <h3>Security Best Practices</h3>
+
+                    <h4>Database Security Layers:</h4>
+                    <ul>
+                        <li><strong>Network Security:</strong> Firewalls, VPNs, SSL/TLS</li>
+                        <li><strong>Access Control:</strong> User privileges, role-based access</li>
+                        <li><strong>Data Encryption:</strong> At-rest and in-transit</li>
+                        <li><strong>Auditing:</strong> Log all access and changes</li>
+                        <li><strong>Input Validation:</strong> Prevent SQL injection</li>
+                        <li><strong>Regular Updates:</strong> Patch management</li>
+                    </ul>
+
+                    <h4>User Privilege Management:</h4>
+                    <div class="code-block">
+-- Principle of Least Privilege
+-- Create application user with minimal rights
+CREATE USER 'app_user'@'10.0.0.%' IDENTIFIED BY 'strong_password';
+
+-- Grant only necessary privileges
+GRANT SELECT, INSERT, UPDATE ON myapp.* TO 'app_user'@'10.0.0.%';
+
+-- No DELETE privilege unless required
+-- No DDL privileges for application users
+-- No GRANT OPTION for regular users
+
+-- Create read-only user for reporting
+CREATE USER 'report_user'@'%' IDENTIFIED BY 'password';
+GRANT SELECT ON myapp.* TO 'report_user'@'%';
+
+-- Audit user privileges regularly
+SELECT * FROM information_schema.user_privileges;</div>
+
+                    <h3>Backup and Recovery Strategy</h3>
+
+                    <h4>Comprehensive Backup Plan:</h4>
+                    <ul>
+                        <li><strong>Full Backups:</strong> Weekly complete database backup</li>
+                        <li><strong>Incremental Backups:</strong> Daily changes only</li>
+                        <li><strong>Binary Logs:</strong> Point-in-time recovery</li>
+                        <li><strong>Off-site Storage:</strong> Geographic redundancy</li>
+                        <li><strong>Automated Testing:</strong> Verify backup integrity</li>
+                        <li><strong>Documentation:</strong> Recovery procedures</li>
+                    </ul>
+
+                    <h4>Backup Implementation:</h4>
+                    <div class="code-block">
+# Comprehensive backup script
+#!/bin/bash
+
+# Full backup with mysqldump
+mysqldump --all-databases --single-transaction \
+          --routines --triggers --events \
+          --master-data=2 > full_backup.sql
+
+# Binary log backup
+mysqlbinlog --read-from-remote-server --host=localhost \
+            --raw --stop-never binlog.000001
+
+# Physical backup with Percona XtraBackup
+xtrabackup --backup --target-dir=/backup/
+
+# Test backup restoration
+mysql test_restore < full_backup.sql
+mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
+
+                    <h3>Performance Monitoring</h3>
+
+                    <h4>Key Performance Indicators:</h4>
+                    <ul>
+                        <li><strong>Query Response Time:</strong> Average and 95th percentile</li>
+                        <li><strong>Throughput:</strong> Queries per second</li>
+                        <li><strong>Connection Pool:</strong> Usage and wait time</li>
+                        <li><strong>Buffer Pool Hit Ratio:</strong> Cache effectiveness</li>
+                        <li><strong>Disk I/O:</strong> Read/write operations</li>
+                        <li><strong>Lock Waits:</strong> Concurrency issues</li>
+                    </ul>
+
+                    <h3>Version Control for Databases</h3>
+
+                    <h4>Database Change Management:</h4>
+                    <ul>
+                        <li><strong>Migration Scripts:</strong> Version-numbered SQL files</li>
+                        <li><strong>Schema Versioning:</strong> Track database version</li>
+                        <li><strong>Rollback Scripts:</strong> Undo migrations</li>
+                        <li><strong>Change Documentation:</strong> Detailed changelog</li>
+                        <li><strong>Review Process:</strong> Peer review for changes</li>
+                    </ul>
+
+                    <h3>Team Collaboration</h3>
+
+                    <h4>Development Team Practices:</h4>
+                    <ul>
+                        <li><strong>Shared Development Database:</strong> Common testing environment</li>
+                        <li><strong>Individual Schemas:</strong> Developer sandboxes</li>
+                        <li><strong>Code Reviews:</strong> SQL and schema changes</li>
+                        <li><strong>Documentation:</strong> ERD diagrams and data dictionary</li>
+                        <li><strong>Standardization:</strong> Coding standards and templates</li>
+                    </ul>
+
+                    <h3>Common Pitfalls to Avoid</h3>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Database Anti-Patterns</h4>
+                        <ul>
+                            <li>Using MySQL as a queue (use dedicated queue systems)</li>
+                            <li>Storing files in BLOB columns (use file system + path)</li>
+                            <li>Not using foreign keys (data integrity issues)</li>
+                            <li>Over-normalization (performance problems)</li>
+                            <li>Ignoring time zones (use UTC consistently)</li>
+                            <li>Not planning for growth (scalability issues)</li>
+                            <li>Weak passwords and security</li>
+                            <li>No backup strategy</li>
+                        </ul>
+                    </div>
+
+                    <h3>Future Learning Path</h3>
+
+                    <h4>Advanced Topics to Explore:</h4>
+                    <ul>
+                        <li><strong>Replication:</strong> Master-slave and master-master setups</li>
+                        <li><strong>Clustering:</strong> MySQL Cluster and Galera</li>
+                        <li><strong>Sharding:</strong> Horizontal partitioning strategies</li>
+                        <li><strong>NoSQL Integration:</strong> Document stores with MySQL</li>
+                        <li><strong>Cloud Databases:</strong> AWS RDS, Google Cloud SQL</li>
+                        <li><strong>Performance Tuning:</strong> Advanced optimization</li>
+                        <li><strong>High Availability:</strong> Failover and load balancing</li>
+                    </ul>
+
+                    <h3>Professional Certifications</h3>
+
+                    <h4>MySQL Certification Path:</h4>
+                    <ul>
+                        <li><strong>MySQL Developer:</strong> Application development focus</li>
+                        <li><strong>MySQL DBA:</strong> Administration and operations</li>
+                        <li><strong>MySQL Cluster DBA:</strong> High availability specialist</li>
+                        <li><strong>Cloud Certifications:</strong> AWS, Azure, GCP database tracks</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <h4>✅ Your MySQL Workbench Journey Complete!</h4>
+                        <p>You've now mastered:</p>
+                        <ul>
+                            <li>MySQL Workbench interface and navigation</li>
+                            <li>Database connections and server monitoring</li>
+                            <li>Table design and data manipulation</li>
+                            <li>SQL query writing and optimization</li>
+                            <li>Script management and automation</li>
+                            <li>Command line operations</li>
+                            <li>Professional best practices</li>
+                        </ul>
+                        <p><strong>Next Steps:</strong> Apply these skills in real projects, contribute to open source, and continue learning advanced topics!</p>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Final Project: Complete Database System</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Create a complete e-commerce database system:</p>
+                            <ol>
+                                <li>Design normalized schema (customers, products, orders)</li>
+                                <li>Implement with proper data types and constraints</li>
+                                <li>Create indexes for performance</li>
+                                <li>Write stored procedures for common operations</li>
+                                <li>Implement triggers for audit trails</li>
+                                <li>Create views for reporting</li>
+                                <li>Set up user roles with appropriate privileges</li>
+                                <li>Document with ERD and data dictionary</li>
+                                <li>Create backup and recovery procedures</li>
+                                <li>Write sample queries demonstrating functionality</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
