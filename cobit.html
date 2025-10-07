@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COBIT Framework - Interactive Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            animation: fadeIn 1s ease-in;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #a8e6cf;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .enablers-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,249,250,0.95) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideInLeft 1s ease-out;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .enablers-title {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            margin: -30px -30px 20px -30px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .enablers-diagram {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            min-height: 450px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .enablers-diagram::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(168,230,207,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .enabler-box {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .enabler-box::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+        }
+
+        .enabler-box:hover::before {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .enabler-box .number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(255,255,255,0.2);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .enabler-box span {
+            position: relative;
+            z-index: 1;
+            display: block;
+            line-height: 1.3;
+        }
+
+        .enabler-box:hover {
+            transform: translateY(-8px) scale(1.05) rotateX(10deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 20px rgba(0,210,255,0.3);
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .enabler-box.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: scale(1.1) rotateY(5deg);
+            border-color: #fff;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.5), 0 0 40px rgba(245, 87, 108, 0.3);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(245, 87, 108, 0.5), 0 0 40px rgba(245, 87, 108, 0.3); }
+            50% { box-shadow: 0 10px 40px rgba(245, 87, 108, 0.7), 0 0 60px rgba(245, 87, 108, 0.5); }
+        }
+
+        /* Tooltip for enabler boxes */
+        .tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(17, 153, 142, 0.95) 0%, rgba(56, 239, 125, 0.95) 100%);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 20;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(56, 239, 125, 0.95);
+        }
+
+        .enabler-box:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Particle effects */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(168,230,207,0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 4s infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { left: 35%; animation-delay: 1s; }
+        .particle:nth-child(4) { left: 50%; animation-delay: 1.5s; }
+        .particle:nth-child(5) { left: 65%; animation-delay: 2s; }
+        .particle:nth-child(6) { left: 80%; animation-delay: 2.5s; }
+        .particle:nth-child(7) { left: 90%; animation-delay: 3s; }
+
+        /* Progress indicator */
+        .progress-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .enabler-box:hover .progress-ring {
+            opacity: 0.3;
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke: rgba(255,255,255,0.3);
+            stroke-width: 2;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            animation: progress 2s linear infinite;
+        }
+
+        @keyframes progress {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .processes {
+            top: 40px;
+            left: 25px;
+            width: 130px;
+            height: 65px;
+        }
+
+        .org-structures {
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 65px;
+        }
+
+        .culture {
+            top: 40px;
+            right: 25px;
+            width: 150px;
+            height: 65px;
+        }
+
+        .principles {
+            top: 150px;
+            left: 25px;
+            right: 25px;
+            height: 55px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .resources-container {
+            background: linear-gradient(135deg, rgba(26, 42, 108, 0.9) 0%, rgba(42, 82, 152, 0.9) 100%);
+            border-radius: 12px;
+            padding: 15px;
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            right: 25px;
+            height: 140px;
+            border: 2px solid rgba(168,230,207,0.3);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        .resources-label {
+            text-align: center;
+            color: #a8e6cf;
+            font-weight: bold;
+            margin-top: 100px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .information {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 130px;
+            height: 60px;
+        }
+
+        .services {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 60px;
+        }
+
+        .people {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 150px;
+            height: 60px;
+        }
+
+        /* Animated connecting lines */
+        .connector {
+            position: absolute;
+            background: linear-gradient(180deg, rgba(168,230,207,0.6) 0%, rgba(220,237,200,0.4) 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(168,230,207,0.5);
+            z-index: 5;
+        }
+
+        .connector::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, transparent 100%);
+            animation: flow 2s linear infinite;
+        }
+
+        @keyframes flow {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200%); }
+        }
+
+        .connector-vertical-1 {
+            width: 3px;
+            height: 40px;
+            top: 105px;
+            left: 89px;
+        }
+
+        .connector-vertical-2 {
+            width: 3px;
+            height: 40px;
+            top: 105px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connector-vertical-3 {
+            width: 3px;
+            height: 40px;
+            top: 105px;
+            right: 99px;
+        }
+
+        .connector-horizontal {
+            position: absolute;
+            height: 3px;
+            top: 175px;
+            left: 90px;
+            right: 100px;
+            background: linear-gradient(90deg, rgba(168,230,207,0.3) 0%, rgba(168,230,207,0.6) 50%, rgba(168,230,207,0.3) 100%);
+            box-shadow: 0 0 15px rgba(168,230,207,0.5);
+            z-index: 5;
+        }
+
+        .connector-horizontal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%);
+            animation: flowHorizontal 3s linear infinite;
+        }
+
+        @keyframes flowHorizontal {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Arrow indicators */
+        .arrow-down {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid rgba(168,230,207,0.8);
+            z-index: 6;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(3px); }
+        }
+
+        .arrow-1 {
+            top: 140px;
+            left: 84px;
+        }
+
+        .arrow-2 {
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .arrow-3 {
+            top: 140px;
+            right: 94px;
+        }
+
+        .info-panel {
+            background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,249,250,0.95) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideInRight 1s ease-out;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .info-panel h2 {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .info-content {
+            min-height: 300px;
+        }
+
+        .info-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .info-section.active {
+            display: block;
+        }
+
+        .info-section h3 {
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+
+        .info-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .info-section li {
+            margin-bottom: 8px;
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #cfd9ff 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .tab-button:hover {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.3);
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            animation: fadeIn 1.5s ease-in;
+            border: 1px solid rgba(168,230,207,0.3);
+        }
+
+        .quiz-section h2 {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .quiz-question {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(168,230,207,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .quiz-question h3 {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
+
+        .quiz-option:hover {
+            background: linear-gradient(135deg, #e0f2ff 0%, #caedfb 100%);
+            border-color: #00d2ff;
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #d4f4dd 0%, #b8e6c1 100%);
+            border-color: #38ef7d;
+            color: #22543d;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #ffd6d9 0%, #ffb3ba 100%);
+            border-color: #f5576c;
+            color: #742a2a;
+        }
+
+        .check-answer-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(58, 123, 213, 0.3);
+        }
+
+        .check-answer-btn:hover {
+            background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(58, 123, 213, 0.4);
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, #d4f4dd 0%, #b8e6c1 100%);
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #ffd6d9 0%, #ffb3ba 100%);
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        .legend {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,249,250,0.9) 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid rgba(168,230,207,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .legend h3 {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>COBIT Framework</h1>
+            <p class="subtitle">Control Objectives for Information and Related Technologies</p>
+        </header>
+
+        <div class="main-content">
+            <div class="enablers-container">
+                <div class="enablers-title">COBIT 5 Enablers</div>
+                <div class="enablers-diagram">
+                    <!-- Floating particles for visual effect -->
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+
+                    <!-- Top row enablers -->
+                    <div class="enabler-box processes" onclick="showInfo('processes')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                        <div class="number">2</div>
+                        <span>Processes</span>
+                        <div class="tooltip">Click to explore process governance</div>
+                        <svg class="progress-ring" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45"/>
+                        </svg>
+                    </div>
+                    <div class="enabler-box org-structures" onclick="showInfo('orgStructures')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                        <div class="number">3</div>
+                        <span>Organisational<br>Structures</span>
+                        <div class="tooltip">Learn about decision-making entities</div>
+                        <svg class="progress-ring" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45"/>
+                        </svg>
+                    </div>
+                    <div class="enabler-box culture" onclick="showInfo('culture')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                        <div class="number">4</div>
+                        <span>Culture, Ethics<br>and Behaviour</span>
+                        <div class="tooltip">Discover the human factor in IT governance</div>
+                        <svg class="progress-ring" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45"/>
+                        </svg>
+                    </div>
+
+                    <!-- Animated Connectors -->
+                    <div class="connector connector-vertical-1"></div>
+                    <div class="connector connector-vertical-2"></div>
+                    <div class="connector connector-vertical-3"></div>
+                    
+                    <!-- Arrows -->
+                    <div class="arrow-down arrow-1"></div>
+                    <div class="arrow-down arrow-2"></div>
+                    <div class="arrow-down arrow-3"></div>
+
+                    <!-- Horizontal connector -->
+                    <div class="connector-horizontal"></div>
+
+                    <!-- Middle layer -->
+                    <div class="enabler-box principles" onclick="showInfo('principles')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                        <div class="number">1</div>
+                        <span>Principles, Policies and Frameworks</span>
+                        <div class="tooltip">Foundation of IT governance guidance</div>
+                        <svg class="progress-ring" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45"/>
+                        </svg>
+                    </div>
+
+                    <!-- Resources container -->
+                    <div class="resources-container">
+                        <div class="enabler-box information" onclick="showInfo('information')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                            <div class="number">5</div>
+                            <span>Information</span>
+                            <div class="tooltip">Data as organizational asset</div>
+                            <svg class="progress-ring" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45"/>
+                            </svg>
+                        </div>
+                        <div class="enabler-box services" onclick="showInfo('services')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                            <div class="number">6</div>
+                            <span>Services,<br>Infrastructure<br>and Applications</span>
+                            <div class="tooltip">Technology foundation & IT services</div>
+                            <svg class="progress-ring" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45"/>
+                            </svg>
+                        </div>
+                        <div class="enabler-box people" onclick="showInfo('people')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                            <div class="number">7</div>
+                            <span>People, Skills<br>and Competencies</span>
+                            <div class="tooltip">Human capital & expertise</div>
+                            <svg class="progress-ring" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45"/>
+                            </svg>
+                        </div>
+                        <div class="resources-label">Resources</div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <h3>Interactive Guide</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);"></div>
+                        <span>Click any enabler to learn more</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);"></div>
+                        <span>Hover effect shows interaction</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                        <span>Active selection</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <h2>COBIT Learning Center</h2>
+                <div class="tabs-container">
+                    <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+                    <button class="tab-button" onclick="showTab('principles')">5 Principles</button>
+                    <button class="tab-button" onclick="showTab('domains')">Process Domains</button>
+                    <button class="tab-button" onclick="showTab('implementation')">Implementation</button>
+                    <button class="tab-button" onclick="showTab('benefits')">Benefits</button>
+                </div>
+
+                <div class="info-content">
+                    <!-- Overview Tab -->
+                    <div id="overview" class="info-section active">
+                        <h3>What is COBIT?</h3>
+                        <p>COBIT (Control Objectives for Information and Related Technologies) is a framework created by ISACA for the governance and management of enterprise IT. It helps organizations achieve their objectives through effective governance and management of IT.</p>
+                        
+                        <h3>Key Features</h3>
+                        <ul>
+                            <li>Comprehensive framework covering the enterprise end-to-end</li>
+                            <li>Provides a holistic approach to governance and management</li>
+                            <li>Enables IT to be governed and managed in an integrated way</li>
+                            <li>Helps optimize IT investments and manage IT-related risk</li>
+                        </ul>
+
+                        <h3>The 7 Enablers</h3>
+                        <p>Click on any enabler in the diagram to learn about its specific role in the COBIT framework. Each enabler is crucial for successful IT governance and management.</p>
+                    </div>
+
+                    <!-- 5 Principles Tab -->
+                    <div id="principles-tab" class="info-section">
+                        <h3>COBIT 5 Principles</h3>
+                        <p>COBIT 5 is based on five key principles:</p>
+                        
+                        <h3>1. Meeting Stakeholder Needs</h3>
+                        <p>Enterprises exist to create value for stakeholders by maintaining a balance between benefits, risk, and resource use.</p>
+
+                        <h3>2. Covering the Enterprise End-to-End</h3>
+                        <p>COBIT integrates governance of enterprise IT into enterprise governance and covers all functions and processes.</p>
+
+                        <h3>3. Applying a Single Integrated Framework</h3>
+                        <p>COBIT aligns with other relevant standards and frameworks at a high level, allowing the enterprise to use it as an overarching framework.</p>
+
+                        <h3>4. Enabling a Holistic Approach</h3>
+                        <p>Efficient governance and management require a holistic approach using the seven enablers.</p>
+
+                        <h3>5. Separating Governance From Management</h3>
+                        <p>COBIT makes a clear distinction between governance and management, which require different structures and serve different purposes.</p>
+                    </div>
+
+                    <!-- Process Domains Tab -->
+                    <div id="domains" class="info-section">
+                        <h3>COBIT Process Reference Model</h3>
+                        <p>COBIT 5 includes 37 governance and management processes organized into 5 domains:</p>
+
+                        <h3>Governance Domain</h3>
+                        <ul>
+                            <li><strong>EDM (Evaluate, Direct and Monitor):</strong> 5 processes for governance activities</li>
+                        </ul>
+
+                        <h3>Management Domains</h3>
+                        <ul>
+                            <li><strong>APO (Align, Plan and Organize):</strong> 13 processes for IT strategy and planning</li>
+                            <li><strong>BAI (Build, Acquire and Implement):</strong> 10 processes for solution delivery</li>
+                            <li><strong>DSS (Deliver, Service and Support):</strong> 6 processes for service delivery and support</li>
+                            <li><strong>MEA (Monitor, Evaluate and Assess):</strong> 3 processes for performance monitoring</li>
+                        </ul>
+                    </div>
+
+                    <!-- Implementation Tab -->
+                    <div id="implementation" class="info-section">
+                        <h3>COBIT Implementation Lifecycle</h3>
+                        <p>COBIT provides a structured approach to implementation through seven phases:</p>
+
+                        <h3>Phase 1: Initiate Programme</h3>
+                        <ul>
+                            <li>Identify drivers and obtain management buy-in</li>
+                            <li>Establish governance structures</li>
+                        </ul>
+
+                        <h3>Phase 2: Define Problems and Opportunities</h3>
+                        <ul>
+                            <li>Assess current state</li>
+                            <li>Define pain points</li>
+                        </ul>
+
+                        <h3>Phase 3: Define Road Map</h3>
+                        <ul>
+                            <li>Set improvement targets</li>
+                            <li>Analyze gaps</li>
+                        </ul>
+
+                        <h3>Phase 4: Plan Programme</h3>
+                        <ul>
+                            <li>Define projects</li>
+                            <li>Develop improvement plan</li>
+                        </ul>
+
+                        <h3>Phase 5-6: Execute and Monitor</h3>
+                        <ul>
+                            <li>Implement improvements</li>
+                            <li>Monitor progress and performance</li>
+                        </ul>
+
+                        <h3>Phase 7: Sustain</h3>
+                        <ul>
+                            <li>Embed new approaches</li>
+                            <li>Monitor and improve continuously</li>
+                        </ul>
+                    </div>
+
+                    <!-- Benefits Tab -->
+                    <div id="benefits" class="info-section">
+                        <h3>Benefits of Implementing COBIT</h3>
+                        
+                        <h3>For the Enterprise</h3>
+                        <ul>
+                            <li>Maintain high-quality information for decision-making</li>
+                            <li>Achieve strategic goals through effective IT use</li>
+                            <li>Achieve operational excellence through reliable technology</li>
+                            <li>Maintain IT-related risk at acceptable levels</li>
+                            <li>Optimize cost of IT services and technology</li>
+                        </ul>
+
+                        <h3>For IT Management</h3>
+                        <ul>
+                            <li>Clear ownership and accountability through RACI charts</li>
+                            <li>Clear view on how to organize IT functions</li>
+                            <li>Better planning and monitoring tools</li>
+                            <li>Improved communication with business stakeholders</li>
+                        </ul>
+
+                        <h3>For Auditors</h3>
+                        <ul>
+                            <li>Comprehensive control objectives</li>
+                            <li>Clear audit trails and accountability</li>
+                            <li>Standardized assessment approach</li>
+                            <li>Risk-based audit planning</li>
+                        </ul>
+                    </div>
+
+                    <!-- Dynamic content for enabler details -->
+                    <div id="enabler-details" class="info-section">
+                        <!-- Content will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <h2>Test Your COBIT Knowledge</h2>
+            
+            <div class="quiz-question">
+                <h3>Question 1: How many enablers are defined in COBIT 5?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q1')">5 enablers</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q1')">6 enablers</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q1')" data-correct="true">7 enablers</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q1')">8 enablers</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q1')">Check Answer</button>
+                <div id="feedback-q1" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 2: Which of the following is NOT a COBIT 5 principle?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q2')">Meeting Stakeholder Needs</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q2')">Covering the Enterprise End-to-End</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q2')" data-correct="true">Maximizing IT Investment Returns</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q2')">Enabling a Holistic Approach</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q2')">Check Answer</button>
+                <div id="feedback-q2" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 3: What does the 'BAI' domain stand for in COBIT processes?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q3')">Business Alignment and Integration</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q3')" data-correct="true">Build, Acquire and Implement</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q3')">Business Analysis and Innovation</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q3')">Benchmark, Assess and Improve</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q3')">Check Answer</button>
+                <div id="feedback-q3" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 4: Which enabler category includes "Information", "Services, Infrastructure and Applications", and "People, Skills and Competencies"?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q4')">Governance Enablers</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q4')" data-correct="true">Resources</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q4')">Management Enablers</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q4')">Organizational Enablers</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q4')">Check Answer</button>
+                <div id="feedback-q4" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 5: What does EDM stand for in COBIT's governance domain?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q5')">Enterprise Data Management</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q5')">Execute, Deliver and Maintain</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q5')" data-correct="true">Evaluate, Direct and Monitor</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q5')">Enterprise Decision Making</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q5')">Check Answer</button>
+                <div id="feedback-q5" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 6: How many process domains are in the COBIT 5 framework?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q6')">3 domains</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q6')">4 domains</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q6')" data-correct="true">5 domains</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q6')">6 domains</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q6')">Check Answer</button>
+                <div id="feedback-q6" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 7: Which COBIT principle emphasizes the distinction between governance and management?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q7')">Principle 2: Covering the Enterprise End-to-End</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q7')">Principle 3: Applying a Single Integrated Framework</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q7')">Principle 4: Enabling a Holistic Approach</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q7')" data-correct="true">Principle 5: Separating Governance From Management</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q7')">Check Answer</button>
+                <div id="feedback-q7" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 8: Which management domain focuses on service delivery and support?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q8')">APO (Align, Plan and Organize)</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q8')">BAI (Build, Acquire and Implement)</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q8')" data-correct="true">DSS (Deliver, Service and Support)</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q8')">MEA (Monitor, Evaluate and Assess)</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q8')">Check Answer</button>
+                <div id="feedback-q8" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 9: What is the primary purpose of the "Principles, Policies and Frameworks" enabler?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q9')">To define organizational structure</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q9')" data-correct="true">To translate desired behavior into practical guidance</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q9')">To manage IT infrastructure</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q9')">To measure performance metrics</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q9')">Check Answer</button>
+                <div id="feedback-q9" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Question 10: Which stakeholder group would primarily benefit from COBIT's RACI charts and clear accountability structures?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this, 'q10')">External customers</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q10')" data-correct="true">IT Management</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q10')">Software vendors</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q10')">Regulatory bodies</div>
+                </div>
+                <button class="check-answer-btn" onclick="checkAnswer('q10')">Check Answer</button>
+                <div id="feedback-q10" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedOptions = {};
+        let activeEnablers = [];
+        let currentTooltip = null;
+
+        function showTooltip(element) {
+            // Add subtle animation to connectors when hovering
+            const connectors = document.querySelectorAll('.connector, .connector-horizontal');
+            connectors.forEach(c => {
+                c.style.opacity = '0.8';
+                c.style.boxShadow = '0 0 25px rgba(168,230,207,0.8)';
+            });
+        }
+
+        function hideTooltip() {
+            const connectors = document.querySelectorAll('.connector, .connector-horizontal');
+            connectors.forEach(c => {
+                c.style.opacity = '';
+                c.style.boxShadow = '';
+            });
+        }
+
+        function showInfo(enabler) {
+            // Remove active class from all enablers
+            const allEnablers = document.querySelectorAll('.enabler-box');
+            allEnablers.forEach(e => e.classList.remove('active'));
+            
+            // Add active class to clicked enabler
+            event.target.closest('.enabler-box').classList.add('active');
+            
+            // Add visual feedback to connectors
+            animateConnectors();
+            
+            // Hide all tabs
+            const allSections = document.querySelectorAll('.info-section');
+            allSections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active from all tab buttons
+            const allTabs = document.querySelectorAll('.tab-button');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show enabler details
+            const detailsSection = document.getElementById('enabler-details');
+            detailsSection.classList.add('active');
+            
+            // Update content based on enabler
+            let content = '';
+            
+            switch(enabler) {
+                case 'processes':
+                    content = `
+                        <h3>📋 Enabler 2: Processes</h3>
+                        <p>Processes are a key enabler in COBIT, representing a set of practices and activities to achieve certain objectives and produce outputs. They form the operational backbone of IT governance and management.</p>
+                        
+                        <h3>🌟 Real-World Analogy:</h3>
+                        <p><strong>Think of processes like a restaurant's recipes and procedures.</strong> Just as a restaurant has specific recipes (processes) for each dish, with exact ingredients (inputs), cooking steps (activities), and final presentations (outputs), IT processes define exactly how technology services should be delivered. The head chef's recipe book ensures consistency whether it's the lunch or dinner shift - similarly, COBIT processes ensure IT services are consistent regardless of who's working.</p>
+
+                        <h3>Key Components:</h3>
+                        <ul>
+                            <li><strong>Process Practices:</strong> Specific management activities (like a chef's preparation steps)</li>
+                            <li><strong>Work Products:</strong> Inputs and outputs (ingredients and finished dishes)</li>
+                            <li><strong>RACI Charts:</strong> Who does what (like kitchen staff assignments)</li>
+                            <li><strong>Goals and Metrics:</strong> Success measurements (customer satisfaction, food quality scores)</li>
+                            <li><strong>Capability Levels:</strong> Process maturity from 0 (incomplete) to 5 (optimizing)</li>
+                        </ul>
+
+                        <h3>37 COBIT Processes Across 5 Domains:</h3>
+                        <ul>
+                            <li><strong>EDM (Governance):</strong> 5 processes - Board-level oversight</li>
+                            <li><strong>APO (Align, Plan, Organize):</strong> 13 processes - Strategic planning</li>
+                            <li><strong>BAI (Build, Acquire, Implement):</strong> 10 processes - Change and projects</li>
+                            <li><strong>DSS (Deliver, Service, Support):</strong> 6 processes - Operations</li>
+                            <li><strong>MEA (Monitor, Evaluate, Assess):</strong> 3 processes - Performance tracking</li>
+                        </ul>
+
+                        <h3>Practical Examples:</h3>
+                        <ul>
+                            <li><strong>Incident Management Process:</strong> How to handle system outages (like handling a kitchen fire)</li>
+                            <li><strong>Change Management:</strong> Implementing new software (like introducing a new menu)</li>
+                            <li><strong>Backup Process:</strong> Regular data protection (like keeping recipe copies in a safe)</li>
+                            <li><strong>Access Control:</strong> Who can access what systems (like who has keys to the wine cellar)</li>
+                        </ul>
+
+                        <h3>Why This Matters:</h3>
+                        <p>Without defined processes, IT becomes chaotic - imagine a restaurant where every chef cooks differently with no recipes. Processes ensure predictability, quality, and efficiency in IT service delivery, making technology a reliable business partner rather than an unpredictable cost center.</p>
+                    `;
+                    break;
+                    
+                case 'orgStructures':
+                    content = `
+                        <h3>🏛️ Enabler 3: Organisational Structures</h3>
+                        <p>Organizational structures are the key decision-making entities in an enterprise. They define who makes decisions, who is accountable, and how different groups interact to govern and manage IT effectively.</p>
+                        
+                        <h3>🌟 Real-World Analogy:</h3>
+                        <p><strong>Think of organizational structures like a city government.</strong> Just as a city has a mayor (CEO), city council (Board), planning commission (Architecture Board), police department (Security), and various committees for different needs, an organization needs different structures for IT governance. Each has specific authority and responsibilities - the planning commission can't arrest people, and the police can't approve building permits. Similarly, IT structures have distinct roles that work together but maintain separation of duties.</p>
+
+                        <h3>Key Decision-Making Entities:</h3>
+                        <ul>
+                            <li><strong>Board of Directors:</strong> Ultimate accountability (City Council - sets laws and budgets)</li>
+                            <li><strong>Executive Committee:</strong> Strategic decisions (Mayor's Cabinet)</li>
+                            <li><strong>IT Strategy Committee:</strong> IT direction and investment (Technology Planning Board)</li>
+                            <li><strong>Architecture Board:</strong> Technical standards (Building Standards Committee)</li>
+                            <li><strong>IT Steering Committee:</strong> Project priorities (Capital Projects Board)</li>
+                            <li><strong>Risk & Audit Committee:</strong> Compliance oversight (Internal Affairs)</li>
+                            <li><strong>PMO (Project Management Office):</strong> Project governance (Public Works Department)</li>
+                        </ul>
+
+                        <h3>Critical Responsibilities:</h3>
+                        <ul>
+                            <li><strong>Strategic Alignment:</strong> Ensuring IT supports business goals</li>
+                            <li><strong>Investment Decisions:</strong> Approving budgets and major expenditures</li>
+                            <li><strong>Resource Allocation:</strong> Assigning people and money to priorities</li>
+                            <li><strong>Policy Setting:</strong> Establishing rules and standards</li>
+                            <li><strong>Performance Monitoring:</strong> Tracking success and addressing issues</li>
+                            <li><strong>Risk Management:</strong> Identifying and mitigating threats</li>
+                        </ul>
+
+                        <h3>Practical Examples:</h3>
+                        <ul>
+                            <li><strong>IT Investment Committee</strong> approves $5M for cloud migration (like city council approving new highway)</li>
+                            <li><strong>Architecture Board</strong> mandates all new apps must be cloud-native (like requiring all new buildings to be earthquake-resistant)</li>
+                            <li><strong>Security Committee</strong> responds to breach incident (like emergency response team during crisis)</li>
+                            <li><strong>Data Governance Council</strong> defines data privacy rules (like health department setting restaurant standards)</li>
+                        </ul>
+
+                        <h3>Common Pitfalls to Avoid:</h3>
+                        <ul>
+                            <li>Committees without clear authority (toothless tigers)</li>
+                            <li>Overlapping responsibilities causing confusion</li>
+                            <li>Missing representation from key stakeholders</li>
+                            <li>Too many layers slowing decision-making</li>
+                        </ul>
+
+                        <h3>Why This Matters:</h3>
+                        <p>Without proper organizational structures, IT decisions become political battles or fall through cracks. Clear structures ensure rapid, informed decisions with appropriate oversight - preventing both rogue IT projects and analysis paralysis.</p>
+                    `;
+                    break;
+                    
+                case 'culture':
+                    content = `
+                        <h3>🤝 Enabler 4: Culture, Ethics and Behaviour</h3>
+                        <p>Culture, ethics and behavior are often the "make or break" factors in IT governance. They represent the unwritten rules, shared values, and behavioral norms that influence how people actually work versus how policies say they should work.</p>
+                        
+                        <h3>🌟 Real-World Analogy:</h3>
+                        <p><strong>Culture is like the personality of a sports team.</strong> Two teams can have the same playbook (processes), same coaching structure (organization), and same equipment (technology), but their culture determines success. A team with a "winning culture" shows accountability, continuous improvement, and mutual support. They follow plays not because of rules, but because "that's how we do things here." Similarly, IT culture determines whether governance succeeds or exists only on paper.</p>
+
+                        <h3>Key Cultural Elements:</h3>
+                        <ul>
+                            <li><strong>Core Values:</strong> What the organization truly prioritizes (winning vs. just playing)</li>
+                            <li><strong>Risk Appetite:</strong> Comfort with uncertainty (aggressive vs. conservative play style)</li>
+                            <li><strong>Communication Style:</strong> How information flows (open huddles vs. top-down commands)</li>
+                            <li><strong>Learning Orientation:</strong> Response to failure (blame vs. improvement focus)</li>
+                            <li><strong>Collaboration Patterns:</strong> How teams work together (star players vs. team effort)</li>
+                            <li><strong>Ethical Standards:</strong> Behavioral boundaries (fair play vs. win at any cost)</li>
+                            <li><strong>Innovation Mindset:</strong> Openness to change (trying new plays vs. sticking to basics)</li>
+                        </ul>
+
+                        <h3>Real Examples of Culture Impact:</h3>
+                        <ul>
+                            <li><strong>Security Culture:</strong> Employees who naturally think "Is this secure?" vs. those who share passwords</li>
+                            <li><strong>Data Culture:</strong> Teams that instinctively protect customer data vs. those who email spreadsheets</li>
+                            <li><strong>Agile Culture:</strong> Groups embracing rapid iteration vs. those demanding perfect specifications</li>
+                            <li><strong>Service Culture:</strong> IT seeing themselves as business enablers vs. technology gatekeepers</li>
+                            <li><strong>Quality Culture:</strong> Pride in error-free releases vs. "we'll fix it in production"</li>
+                        </ul>
+
+                        <h3>Building the Right Culture:</h3>
+                        <ul>
+                            <li><strong>Tone at the Top:</strong> Leaders model desired behaviors (coach's attitude shapes team)</li>
+                            <li><strong>Reward Systems:</strong> Recognize good governance behaviors (MVP awards for teamwork)</li>
+                            <li><strong>Stories and Symbols:</strong> Celebrate governance successes (trophy case of achievements)</li>
+                            <li><strong>Training Programs:</strong> Build awareness and skills (regular practice sessions)</li>
+                            <li><strong>Accountability Measures:</strong> Consequences for violations (benchings for rule-breaking)</li>
+                            <li><strong>Open Communication:</strong> Safe spaces for raising concerns (team meetings for honest feedback)</li>
+                        </ul>
+
+                        <h3>Cultural Anti-Patterns to Avoid:</h3>
+                        <ul>
+                            <li><strong>"Hero Culture":</strong> Rewarding firefighting over prevention</li>
+                            <li><strong>"Blame Culture":</strong> Punishing honest mistakes, encouraging cover-ups</li>
+                            <li><strong>"Silo Culture":</strong> Departments competing instead of collaborating</li>
+                            <li><strong>"Shadow IT Culture":</strong> Business units bypassing IT entirely</li>
+                            <li><strong>"Checkbox Culture":</strong> Following rules minimally without understanding why</li>
+                        </ul>
+
+                        <h3>Why This Matters:</h3>
+                        <p>Peter Drucker said "Culture eats strategy for breakfast." The best governance framework fails if culture opposes it. When culture aligns with governance goals, compliance becomes natural rather than forced, and the organization achieves sustainable excellence rather than temporary compliance.</p>
+                    `;
+                    break;
+                    
+                case 'principles':
+                    content = `
+                        <h3>📜 Enabler 1: Principles, Policies and Frameworks</h3>
+                        <p>These are the vehicles to translate desired behavior into practical guidance for day-to-day management. They form the constitutional foundation of IT governance, establishing the "laws of the land" for technology management.</p>
+                        
+                        <h3>🌟 Real-World Analogy:</h3>
+                        <p><strong>Think of this like a country's legal system.</strong> Principles are like constitutional values (freedom, justice), policies are like laws (speed limits, tax codes), and frameworks are like the legal structure (courts, enforcement agencies). Just as citizens need clear laws to know what's expected, IT staff need clear principles and policies to guide their decisions. Without them, everyone interprets "doing the right thing" differently, leading to chaos.</p>
+
+                        <h3>The Three Components Explained:</h3>
+                        
+                        <h4>1. PRINCIPLES (Constitutional Values):</h4>
+                        <ul>
+                            <li><strong>Definition:</strong> Fundamental beliefs guiding all decisions</li>
+                            <li><strong>Example:</strong> "Customer data is sacred" or "Security trumps convenience"</li>
+                            <li><strong>Real Application:</strong> When facing a tough choice, principles provide the North Star</li>
+                            <li><strong>Number:</strong> Usually 5-10 core principles, memorable and clear</li>
+                        </ul>
+
+                        <h4>2. POLICIES (Specific Laws):</h4>
+                        <ul>
+                            <li><strong>Definition:</strong> Mandatory rules with consequences for violation</li>
+                            <li><strong>Example:</strong> "All laptops must be encrypted" or "Passwords must be 12+ characters"</li>
+                            <li><strong>Real Application:</strong> Clear do's and don'ts that can be audited</li>
+                            <li><strong>Structure:</strong> Purpose, scope, requirements, exceptions, consequences</li>
+                        </ul>
+
+                        <h4>3. FRAMEWORKS (Legal Structure):</h4>
+                        <ul>
+                            <li><strong>Definition:</strong> Structured approaches for complex governance areas</li>
+                            <li><strong>Example:</strong> Risk management framework, project governance framework</li>
+                            <li><strong>Real Application:</strong> Step-by-step methodologies for consistency</li>
+                            <li><strong>Components:</strong> Processes, templates, decision trees, escalation paths</li>
+                        </ul>
+
+                        <h3>Real-World Policy Examples:</h3>
+                        <ul>
+                            <li><strong>Information Security Policy:</strong> Defines acceptable use, access controls, incident response</li>
+                            <li><strong>Data Retention Policy:</strong> What to keep, how long, where to store, when to delete</li>
+                            <li><strong>Cloud Usage Policy:</strong> Approved providers, data classification, compliance requirements</li>
+                            <li><strong>BYOD Policy:</strong> Personal device usage, security requirements, privacy boundaries</li>
+                            <li><strong>Software Development Policy:</strong> Coding standards, testing requirements, deployment rules</li>
+                        </ul>
+
+                        <h3>Framework Implementation Examples:</h3>
+                        <ul>
+                            <li><strong>Project Management Framework:</strong> How to initiate, plan, execute, and close projects</li>
+                            <li><strong>Vendor Management Framework:</strong> Selection, contracting, monitoring, termination</li>
+                            <li><strong>Change Management Framework:</strong> Request, assess, approve, implement, review</li>
+                            <li><strong>Architecture Framework:</strong> Standards, patterns, technology choices, review processes</li>
+                        </ul>
+
+                        <h3>Common Mistakes to Avoid:</h3>
+                        <ul>
+                            <li><strong>Policy Proliferation:</strong> 500 policies no one reads or follows</li>
+                            <li><strong>Vague Principles:</strong> "Be good" vs. "Protect customer privacy above all else"</li>
+                            <li><strong>Outdated Policies:</strong> Rules for technologies retired years ago</li>
+                            <li><strong>Unenforceable Rules:</strong> Policies with no monitoring or consequences</li>
+                            <li><strong>Copy-Paste Policies:</strong> Using another company's policies without customization</li>
+                        </ul>
+
+                        <h3>Why This Matters:</h3>
+                        <p>Principles, policies, and frameworks transform good intentions into consistent actions. They eliminate the excuse "I didn't know" and create a level playing field where everyone understands expectations. Without them, IT governance becomes a series of arbitrary decisions based on whoever shouts loudest.</p>
+                    `;
+                    break;
+                    
+                case 'information':
+                    content = `
+                        <h3>💾 Enabler 5: Information</h3>
+                        <p>Information is pervasive throughout any organization and is necessary for keeping the organization running and well governed. In the digital age, information is often more valuable than physical assets, making its governance critical for success.</p>
+                        
+                        <h3>🌟 Real-World Analogy:</h3>
+                        <p><strong>Information is like the blood in your body.</strong> Just as blood carries oxygen and nutrients to every cell, removes waste, and fights infections, information flows through every part of an organization, enabling decisions, coordinating activities, and identifying problems. Poor information quality is like anemia - the organization becomes weak and sluggish. Information breaches are like wounds - they can be fatal if not properly managed.</p>
+
+                        <h3>The Information Lifecycle (Birth to Death):</h3>
+                        <ul>
+                            <li><strong>1. Planning:</strong> What information do we need? (Like planning a library)</li>
+                            <li><strong>2. Collection/Creation:</strong> Gathering or generating data (Writing or acquiring books)</li>
+                            <li><strong>3. Processing:</strong> Transforming raw data into useful information (Editing and formatting)</li>
+                            <li><strong>4. Storage:</strong> Keeping information safe and accessible (Library shelving system)</li>
+                            <li><strong>5. Usage:</strong> Applying information to decisions and actions (People reading books)</li>
+                            <li><strong>6. Sharing:</strong> Distributing to those who need it (Library loans)</li>
+                            <li><strong>7. Archive:</strong> Long-term preservation of valuable information (Rare books section)</li>
+                            <li><strong>8. Disposal:</strong> Secure deletion when no longer needed (Recycling old newspapers)</li>
+                        </ul>
+
+                        <h3>Information Quality Dimensions:</h3>
+                        <ul>
+                            <li><strong>Accuracy:</strong> Is it correct? (Wrong patient records could kill someone)</li>
+                            <li><strong>Completeness:</strong> Do we have all we need? (Missing credit history = bad loan decisions)</li>
+                            <li><strong>Timeliness:</strong> Is it current? (Yesterday's stock prices won't help today's trades)</li>
+                            <li><strong>Consistency:</strong> Does it match across systems? (Customer has 3 different addresses)</li>
+                            <li><strong>Availability:</strong> Can users access it when needed? (Emergency room needs patient history NOW)</li>
+                            <li><strong>Confidentiality:</strong> Is it protected? (Leaked merger plans tank stock price)</li>
+                            <li><strong>Integrity:</strong> Has it been tampered with? (Modified financial records hide fraud)</li>
+                        </ul>
+
+                        <h3>Types of Information to Govern:</h3>
+                        <ul>
+                            <li><strong>Master Data:</strong> Core business entities (customers, products, employees)</li>
+                            <li><strong>Transactional Data:</strong> Business events (orders, payments, shipments)</li>
+                            <li><strong>Analytical Data:</strong> Metrics and insights (KPIs, trends, forecasts)</li>
+                            <li><strong>Unstructured Data:</strong> Documents, emails, images, videos</li>
+                            <li><strong>Metadata:</strong> Data about data (who created it, when, why)</li>
+                            <li><strong>Reference Data:</strong> Standards and codes (country codes, product categories)</li>
+                        </ul>
+
+                        <h3>Real-World Information Disasters:</h3>
+                        <ul>
+                            <li><strong>Equifax Breach (2017):</strong> 147 million people's data exposed - poor information security</li>
+                            <li><strong>NASA Mars Orbiter (1999):</strong> Crashed due to metric/imperial confusion - information quality failure</li>
+                            <li><strong>Knight Capital (2012):</strong> Lost $440M in 45 minutes - old test data in production</li>
+                            <li><strong>Target Breach (2013):</strong> 40 million cards compromised - third-party information sharing failure</li>
+                        </ul>
+
+                        <h3>Information Governance Best Practices:</h3>
+                        <ul>
+                            <li><strong>Data Classification:</strong> Label sensitivity levels (public, internal, confidential, secret)</li>
+                            <li><strong>Data Ownership:</strong> Assign accountable individuals for each dataset</li>
+                            <li><strong>Quality Controls:</strong> Validation rules, reconciliation, exception reporting</li>
+                            <li><strong>Access Management:</strong> Need-to-know basis, regular reviews</li>
+                            <li><strong>Retention Rules:</strong> Keep what's required, delete what's not</li>
+                            <li><strong>Privacy Compliance:</strong> GDPR, CCPA, HIPAA requirements</li>
+                        </ul>
+
+                        <h3>Why This Matters:</h3>
+                        <p>"Data is the new oil" isn't just a cliché - information drives modern business. Poor information governance leads to bad decisions, compliance failures, security breaches, and lost opportunities. Good information governance turns data into a strategic weapon that provides competitive advantage.</p>
+                    `;
+                    break;
+                    
+                case 'services':
+                    content = `
+                        <h3>⚙️ Enabler 6: Services, Infrastructure and Applications</h3>
+                        <p>This enabler encompasses all technology components that deliver value to the business - from physical servers to cloud services, from networks to applications. It's the tangible technology layer that users interact with daily.</p>
+                        
+                        <h3>🌟 Real-World Analogy:</h3>
+                        <p><strong>Think of this like a modern transportation system.</strong> Infrastructure is like roads, bridges, and rails (networks, servers). Applications are like different vehicle types - cars for personal transport (email), buses for groups (collaboration tools), trucks for cargo (data processing systems). Services are the complete journeys - Uber combines infrastructure (roads) with applications (cars and apps) to deliver door-to-door transport. Just as a city needs coordinated transport planning, IT needs integrated management of all technology layers.</p>
+
+                        <h3>The Three Layers Explained:</h3>
+
+                        <h4>1. INFRASTRUCTURE (The Foundation):</h4>
+                        <ul>
+                            <li><strong>Physical Layer:</strong> Data centers, servers, storage, network equipment</li>
+                            <li><strong>Virtualization:</strong> Virtual machines, containers, software-defined networks</li>
+                            <li><strong>Cloud Platforms:</strong> IaaS (AWS EC2), PaaS (Azure App Service), SaaS (Office 365)</li>
+                            <li><strong>End-User Devices:</strong> Laptops, phones, tablets, IoT devices</li>
+                            <li><strong>Network Components:</strong> Routers, firewalls, load balancers, WAN links</li>
+                            <li><strong>Real Example:</strong> Moving from on-premise servers to AWS reduced costs by 40%</li>
+                        </ul>
+
+                        <h4>2. APPLICATIONS (The Tools):</h4>
+                        <ul>
+                            <li><strong>Business Applications:</strong> ERP (SAP), CRM (Salesforce), HR systems (Workday)</li>
+                            <li><strong>Productivity Tools:</strong> Email, office suites, collaboration platforms</li>
+                            <li><strong>Custom Applications:</strong> In-house developed systems for unique needs</li>
+                            <li><strong>Mobile Apps:</strong> Customer-facing and employee apps</li>
+                            <li><strong>Analytics Platforms:</strong> Business intelligence, data warehouses, AI/ML tools</li>
+                            <li><strong>Real Example:</strong> Implementing Salesforce increased sales productivity by 25%</li>
+                        </ul>
+
+                        <h4>3. SERVICES (The Experience):</h4>
+                        <ul>
+                            <li><strong>Business Services:</strong> "Process a customer order" combining multiple systems</li>
+                            <li><strong>IT Services:</strong> "Provide email" including servers, software, support</li>
+                            <li><strong>Digital Services:</strong> Customer portals, mobile banking, e-commerce</li>
+                            <li><strong>Support Services:</strong> Help desk, training, documentation</li>
+                            <li><strong>Platform Services:</strong> API management, integration platforms, microservices</li>
+                            <li><strong>Real Example:</strong> Digital banking service processes 1M transactions daily</li>
+                        </ul>
+
+                        <h3>Modern Architecture Patterns:</h3>
+                        <ul>
+                            <li><strong>Microservices:</strong> Breaking monoliths into small, independent services</li>
+                            <li><strong>Serverless:</strong> Running code without managing servers (AWS Lambda)</li>
+                            <li><strong>Containers:</strong> Packaging applications for portability (Docker, Kubernetes)</li>
+                            <li><strong>API-First:</strong> Building services that others can easily consume</li>
+                            <li><strong>Cloud-Native:</strong> Designed specifically for cloud environments</li>
+                            <li><strong>Edge Computing:</strong> Processing data closer to where it's created</li>
+                        </ul>
+
+                        <h3>Service Management Considerations:</h3>
+                        <ul>
+                            <li><strong>Availability:</strong> 99.99% uptime = 52 minutes downtime per year</li>
+                            <li><strong>Performance:</strong> Response time under 2 seconds for user satisfaction</li>
+                            <li><strong>Scalability:</strong> Handle Black Friday traffic spikes without crashing</li>
+                            <li><strong>Security:</strong> Protect against 100,000+ daily attack attempts</li>
+                            <li><strong>Cost Optimization:</strong> Right-sizing resources, auto-scaling, reserved instances</li>
+                            <li><strong>Disaster Recovery:</strong> RPO (data loss tolerance) and RTO (downtime tolerance)</li>
+                        </ul>
+
+                        <h3>Real-World Technology Failures:</h3>
+                        <ul>
+                            <li><strong>AWS Outage (2021):</strong> Took down Netflix, Disney+ - single point of failure</li>
+                            <li><strong>Facebook Outage (2021):</strong> 6-hour global outage - configuration error</li>
+                            <li><strong>British Airways (2017):</strong> Power failure grounded 75,000 passengers - no DR plan</li>
+                            <li><strong>TSB Bank (2018):</strong> Migration failure locked out 1.9M customers for weeks</li>
+                        </ul>
+
+                        <h3>Emerging Technologies to Govern:</h3>
+                        <ul>
+                            <li><strong>AI/ML Services:</strong> ChatGPT, computer vision, predictive analytics</li>
+                            <li><strong>Blockchain:</strong> Distributed ledgers for supply chain, finance</li>
+                            <li><strong>IoT Platforms:</strong> Connected devices generating massive data</li>
+                            <li><strong>Quantum Computing:</strong> Next-generation processing power</li>
+                            <li><strong>5G Networks:</strong> Ultra-fast, low-latency connectivity</li>
+                        </ul>
+
+                        <h3>Why This Matters:</h3>
+                        <p>Technology services are how IT delivers value. Poor service management leads to outages, security breaches, and wasted money. Excellence here means the business can depend on technology as a competitive advantage rather than viewing it as a necessary evil. The goal is invisible excellence - technology that just works.</p>
+                    `;
+                    break;
+                    
+                case 'people':
+                    content = `
+                        <h3>👥 Enabler 7: People, Skills and Competencies</h3>
+                        <p>People are the most critical enabler - without skilled, motivated individuals, all other enablers fail. This encompasses everyone from the Board to developers, from business users to external partners. Success depends on having the right people with the right skills in the right roles.</p>
+                        
+                        <h3>🌟 Real-World Analogy:</h3>
+                        <p><strong>Think of people like an orchestra performing a symphony.</strong> You need different instruments (roles) - violins (developers), brass (architects), percussion (operations), and a conductor (CIO). Each musician needs technical skill on their instrument, ability to read music (follow processes), and teamwork to play in harmony. One out-of-tune violin or an absent drummer ruins the entire performance. Similarly, IT success requires coordinated expertise across many specialties.</p>
+
+                        <h3>The Modern IT Talent Landscape:</h3>
+
+                        <h4>TECHNICAL ROLES & SKILLS:</h4>
+                        <ul>
+                            <li><strong>Cloud Architects:</strong> Design scalable, secure cloud solutions (AWS, Azure, GCP certified)</li>
+                            <li><strong>DevOps Engineers:</strong> Bridge development and operations (CI/CD, automation, monitoring)</li>
+                            <li><strong>Data Scientists:</strong> Extract insights from data (Python, R, machine learning)</li>
+                            <li><strong>Security Specialists:</strong> Protect against threats (ethical hacking, compliance, incident response)</li>
+                            <li><strong>Full-Stack Developers:</strong> Build end-to-end solutions (front-end, back-end, databases)</li>
+                            <li><strong>AI/ML Engineers:</strong> Implement artificial intelligence (TensorFlow, neural networks)</li>
+                        </ul>
+
+                        <h4>GOVERNANCE & MANAGEMENT ROLES:</h4>
+                        <ul>
+                            <li><strong>Chief Information Officer (CIO):</strong> Strategic IT leadership and business alignment</li>
+                            <li><strong>Chief Information Security Officer (CISO):</strong> Security strategy and risk management</li>
+                            <li><strong>Enterprise Architects:</strong> Design overall technology landscape</li>
+                            <li><strong>Product Owners:</strong> Bridge business needs with technical delivery</li>
+                            <li><strong>Scrum Masters:</strong> Facilitate agile development processes</li>
+                            <li><strong>IT Auditors:</strong> Ensure compliance and identify control gaps</li>
+                        </ul>
+
+                        <h3>Critical Competency Categories:</h3>
+
+                        <h4>1. TECHNICAL COMPETENCIES:</h4>
+                        <ul>
+                            <li>Programming languages and frameworks</li>
+                            <li>Cloud platforms and services</li>
+                            <li>Security tools and practices</li>
+                            <li>Data management and analytics</li>
+                            <li>Network and infrastructure</li>
+                            <li>Emerging technologies (AI, blockchain, IoT)</li>
+                        </ul>
+
+                        <h4>2. BUSINESS COMPETENCIES:</h4>
+                        <ul>
+                            <li>Industry knowledge (banking, healthcare, retail specifics)</li>
+                            <li>Financial acumen (budgeting, ROI, business cases)</li>
+                            <li>Process improvement (Lean, Six Sigma)</li>
+                            <li>Vendor management and negotiation</li>
+                            <li>Regulatory compliance understanding</li>
+                            <li>Strategic thinking and planning</li>
+                        </ul>
+
+                        <h4>3. SOFT SKILLS (Often the Differentiator):</h4>
+                        <ul>
+                            <li><strong>Communication:</strong> Explaining technical concepts to executives</li>
+                            <li><strong>Problem-Solving:</strong> Debugging production issues at 3 AM</li>
+                            <li><strong>Collaboration:</strong> Working across time zones and cultures</li>
+                            <li><strong>Adaptability:</strong> Learning new technologies constantly</li>
+                            <li><strong>Leadership:</strong> Influencing without authority</li>
+                            <li><strong>Customer Focus:</strong> Understanding user needs, not just requirements</li>
+                        </ul>
+
+                        <h3>Building IT Talent Capability:</h3>
+                        <ul>
+                            <li><strong>Recruitment:</strong> Competitive packages, remote work, interesting projects</li>
+                            <li><strong>Training Programs:</strong> Certifications, bootcamps, conferences, online courses</li>
+                            <li><strong>Mentoring:</strong> Pairing juniors with seniors, reverse mentoring for new tech</li>
+                            <li><strong>Career Paths:</strong> Technical track (architect) vs management track (CIO)</li>
+                            <li><strong>Performance Management:</strong> Regular feedback, goal setting, recognition</li>
+                            <li><strong>Retention Strategies:</strong> Growth opportunities, work-life balance, meaningful work</li>
+                        </ul>
+
+                        <h3>The Skills Gap Challenge:</h3>
+                        <ul>
+                            <li><strong>Supply vs Demand:</strong> 3.5 million unfilled cybersecurity jobs globally</li>
+                            <li><strong>Rapid Change:</strong> Skills become obsolete in 2-3 years</li>
+                            <li><strong>Competition:</strong> Tech giants offering $300K+ packages</li>
+                            <li><strong>Geographic Constraints:</strong> Talent concentrated in tech hubs</li>
+                            <li><strong>Diversity Challenge:</strong> Only 25% of IT workers are women</li>
+                        </ul>
+
+                        <h3>Future of IT Work:</h3>
+                        <ul>
+                            <li><strong>AI Augmentation:</strong> Copilots helping developers code 50% faster</li>
+                            <li><strong>Remote-First:</strong> Global talent pools, async collaboration</li>
+                            <li><strong>Gig Economy:</strong> Specialized contractors for specific projects</li>
+                            <li><strong>Continuous Learning:</strong> 20% of time dedicated to skill development</li>
+                            <li><strong>Cross-Functional Teams:</strong> Business and IT boundaries blurring</li>
+                        </ul>
+
+                        <h3>Real-World People Success Stories:</h3>
+                        <ul>
+                            <li><strong>Netflix:</strong> "Freedom and Responsibility" culture attracts top talent</li>
+                            <li><strong>Google:</strong> 20% time for innovation created Gmail and AdSense</li>
+                            <li><strong>Spotify:</strong> Autonomous squads model empowers teams</li>
+                            <li><strong>Microsoft:</strong> Growth mindset transformation under Satya Nadella</li>
+                        </ul>
+
+                        <h3>Why This Matters:</h3>
+                        <p>Technology is ultimately created and managed by people. The best processes, tools, and frameworks fail without skilled people to implement them. Organizations that treat IT staff as interchangeable resources fail, while those investing in people development create innovation engines. Remember: "Culture eats strategy for breakfast, but people cook the culture."</p>
+                    `;
+                    break;
+            }
+            
+            detailsSection.innerHTML = content;
+        }
+
+        function animateConnectors() {
+            const connectors = document.querySelectorAll('.connector, .connector-horizontal');
+            connectors.forEach((connector, index) => {
+                setTimeout(() => {
+                    connector.style.transform = 'scale(1.2)';
+                    connector.style.opacity = '1';
+                    setTimeout(() => {
+                        connector.style.transform = 'scale(1)';
+                        connector.style.opacity = '';
+                    }, 300);
+                }, index * 100);
+            });
+        }
+
+        function showTab(tabName) {
+            // Hide all sections
+            const allSections = document.querySelectorAll('.info-section');
+            allSections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active from all enablers
+            const allEnablers = document.querySelectorAll('.enabler-box');
+            allEnablers.forEach(e => e.classList.remove('active'));
+            
+            // Remove active from all tabs
+            const allTabs = document.querySelectorAll('.tab-button');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected section
+            if (tabName === 'principles') {
+                document.getElementById('principles-tab').classList.add('active');
+            } else {
+                const section = document.getElementById(tabName);
+                if (section) {
+                    section.classList.add('active');
+                }
+            }
+            
+            // Add active to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function selectOption(element, questionId) {
+            // Remove previous selection for this question
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.style.background = 'white';
+                opt.style.borderColor = '#e2e8f0';
+            });
+            
+            // Highlight selected option
+            element.style.background = 'linear-gradient(135deg, #e0f2ff 0%, #caedfb 100%)';
+            element.style.borderColor = '#00d2ff';
+            
+            // Store selection
+            selectedOptions[questionId] = element;
+        }
+
+        function checkAnswer(questionId) {
+            const selected = selectedOptions[questionId];
+            const feedback = document.getElementById(`feedback-${questionId}`);
+            
+            if (!selected) {
+                feedback.textContent = '⚠️ Please select an answer first!';
+                feedback.className = 'feedback incorrect show';
+                return;
+            }
+            
+            const isCorrect = selected.hasAttribute('data-correct');
+            const options = selected.parentElement.querySelectorAll('.quiz-option');
+            
+            // Show correct/incorrect styling
+            options.forEach(opt => {
+                if (opt.hasAttribute('data-correct')) {
+                    opt.classList.add('correct');
+                } else if (opt === selected && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show feedback with emojis
+            if (isCorrect) {
+                feedback.textContent = '✅ Correct! Excellent work!';
+                feedback.className = 'feedback correct show';
+                // Add celebration animation
+                selected.style.animation = 'glow 1s ease-in-out';
+            } else {
+                feedback.textContent = '❌ Not quite. The correct answer is highlighted in green. Review the concept and try again!';
+                feedback.className = 'feedback incorrect show';
+            }
+        }
+
+        // Add some animation on page load
+        window.addEventListener('load', () => {
+            const enablerBoxes = document.querySelectorAll('.enabler-box');
+            enablerBoxes.forEach((box, index) => {
+                setTimeout(() => {
+                    box.style.animation = 'fadeIn 0.5s ease-in';
+                }, index * 100);
+            });
+            
+            // Animate connectors on load
+            setTimeout(() => {
+                animateConnectors();
+            }, 700);
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '1' && e.key <= '7') {
+                const enablerMap = {
+                    '1': 'principles',
+                    '2': 'processes',
+                    '3': 'orgStructures',
+                    '4': 'culture',
+                    '5': 'information',
+                    '6': 'services',
+                    '7': 'people'
+                };
+                
+                const enablerClass = enablerMap[e.key];
+                if (enablerClass) {
+                    const element = document.querySelector(`.${enablerClass}`);
+                    if (element) {
+                        element.click();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
