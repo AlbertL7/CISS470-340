@@ -1,0 +1,4682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL SELECT Statement - Complete Interactive Learning Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(247,250,252,0.95) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #718096;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .learning-path {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-height: 85vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 10px;
+        }
+
+        .progress-tracker {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-section h3 {
+            color: #4a5568;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            background: #f7fafc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: linear-gradient(90deg, #edf2f7 0%, #e9ecef 100%);
+            border-left-color: #2a5298;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-left-color: white;
+            font-weight: 600;
+        }
+
+        .nav-item .number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: rgba(42, 82, 152, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            margin-right: 10px;
+            font-weight: bold;
+            color: #2a5298;
+        }
+
+        .nav-item.active .number {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .content-section {
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .content-section h2 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 15px;
+        }
+
+        .content-section h3 {
+            color: #4a5568;
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            padding-left: 15px;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .content-section h4 {
+            color: #718096;
+            font-size: 1.4em;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #4a5568;
+            font-size: 16px;
+        }
+
+        .content-section ul, .content-section ol {
+            margin: 15px 0 20px 30px;
+        }
+
+        .content-section li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .code-block::before {
+            content: 'SQL';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(42, 82, 152, 0.2);
+            color: #2a5298;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .sql-result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .sql-result th {
+            background: #e9ecef;
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .sql-result td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #1e3c7215 0%, #2a529815 100%);
+            border-left: 4px solid #2a5298;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .tip-box h4 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .warning-box {
+            background: #fff5f5;
+            border-left: 4px solid #fc8181;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            color: #e53e3e;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .success-box h4 {
+            color: #22543d;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .practice-exercise {
+            background: linear-gradient(135deg, #f0f4f8 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .practice-exercise h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .exercise-task {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2a5298;
+        }
+
+        .syntax-highlight {
+            color: #3182ce;
+            font-weight: 600;
+            font-family: monospace;
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .operator-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .operator-table th {
+            background: #1e3c72;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .operator-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .operator-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .quiz-container {
+            background: linear-gradient(135deg, #1e3c7215 0%, #2a529815 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .quiz-question h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .quiz-option {
+            background: #f7fafc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #2a5298;
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            background: linear-gradient(135deg, #1e3c7215 0%, #2a529815 100%);
+            border-color: #2a5298;
+        }
+
+        .quiz-option.correct {
+            background: #f0fdf4;
+            border-color: #48bb78;
+        }
+
+        .quiz-option.incorrect {
+            background: #fff5f5;
+            border-color: #fc8181;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(42, 82, 152, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(42, 82, 152, 0.4);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SQL SELECT Statement Mastery</h1>
+            <p class="subtitle">Complete Guide to Query Writing and Data Retrieval</p>
+        </header>
+
+        <div class="learning-path">
+            <div class="sidebar">
+                <div class="progress-tracker">
+                    <h3>Your Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    <p style="margin-top: 10px; color: #718096; font-size: 14px;">
+                        <span id="progressText">0</span>% Complete
+                    </p>
+                </div>
+
+                <h2>Learning Modules</h2>
+                
+                <div class="nav-section">
+                    <h3>Introduction</h3>
+                    <div class="nav-item active" onclick="showSection('intro')">
+                        <span class="number">1</span>
+                        Introduction to SELECT
+                    </div>
+                    <div class="nav-item" onclick="showSection('syntax')">
+                        <span class="number">2</span>
+                        Basic Syntax & Examples
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <h3>SELECT Clause</h3>
+                    <div class="nav-item" onclick="showSection('columns')">
+                        <span class="number">3</span>
+                        Column Specifications
+                    </div>
+                    <div class="nav-item" onclick="showSection('aliases')">
+                        <span class="number">4</span>
+                        Column Aliases
+                    </div>
+                    <div class="nav-item" onclick="showSection('expressions')">
+                        <span class="number">5</span>
+                        Arithmetic Expressions
+                    </div>
+                    <div class="nav-item" onclick="showSection('concat')">
+                        <span class="number">6</span>
+                        String Concatenation
+                    </div>
+                    <div class="nav-item" onclick="showSection('functions')">
+                        <span class="number">7</span>
+                        Built-in Functions
+                    </div>
+                    <div class="nav-item" onclick="showSection('nofrom')">
+                        <span class="number">8</span>
+                        Testing Without FROM
+                    </div>
+                    <div class="nav-item" onclick="showSection('distinct')">
+                        <span class="number">9</span>
+                        DISTINCT Keyword
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <h3>WHERE Clause</h3>
+                    <div class="nav-item" onclick="showSection('comparison')">
+                        <span class="number">10</span>
+                        Comparison Operators
+                    </div>
+                    <div class="nav-item" onclick="showSection('logical')">
+                        <span class="number">11</span>
+                        Logical Operators
+                    </div>
+                    <div class="nav-item" onclick="showSection('in')">
+                        <span class="number">12</span>
+                        IN Operator
+                    </div>
+                    <div class="nav-item" onclick="showSection('between')">
+                        <span class="number">13</span>
+                        BETWEEN Operator
+                    </div>
+                    <div class="nav-item" onclick="showSection('pattern')">
+                        <span class="number">14</span>
+                        LIKE & REGEXP
+                    </div>
+                    <div class="nav-item" onclick="showSection('null')">
+                        <span class="number">15</span>
+                        IS NULL Clause
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Sorting & Limiting</h3>
+                    <div class="nav-item" onclick="showSection('orderby')">
+                        <span class="number">16</span>
+                        ORDER BY Basics
+                    </div>
+                    <div class="nav-item" onclick="showSection('orderadvanced')">
+                        <span class="number">17</span>
+                        Advanced Sorting
+                    </div>
+                    <div class="nav-item" onclick="showSection('limit')">
+                        <span class="number">18</span>
+                        LIMIT Clause
+                    </div>
+                    <div class="nav-item" onclick="showSection('perspective')">
+                        <span class="number">19</span>
+                        Best Practices
+                    </div>
+                    <div class="nav-item" onclick="showSection('quiz')">
+                        <span class="number">20</span>
+                        📝 Final Quiz
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Section 1: Introduction -->
+                <div class="content-section active" id="intro">
+                    <h2>Introduction to the SELECT Statement</h2>
+                    
+                    <p>The SELECT statement is the cornerstone of SQL and the most frequently used command in database operations. It's your primary tool for retrieving data from one or more tables in a database. Mastering the SELECT statement is essential for anyone working with databases.</p>
+
+                    <h3>What is the SELECT Statement?</h3>
+                    <p>The SELECT statement is a Data Query Language (DQL) command that retrieves data from a database. Think of it as asking questions to your database and getting answers in the form of result sets. It's non-destructive, meaning it only reads data without modifying it.</p>
+
+                    <h3>Why SELECT is Fundamental</h3>
+                    <ul>
+                        <li><strong>Data Retrieval:</strong> Extract exactly the information you need from vast databases</li>
+                        <li><strong>Data Analysis:</strong> Perform calculations and transformations on data</li>
+                        <li><strong>Reporting:</strong> Generate reports by combining and formatting data</li>
+                        <li><strong>Data Validation:</strong> Check data integrity and verify business rules</li>
+                        <li><strong>Application Development:</strong> Power applications with dynamic data queries</li>
+                        <li><strong>Decision Making:</strong> Provide insights for business intelligence</li>
+                    </ul>
+
+                    <h3>The Power of SELECT</h3>
+                    <p>With SELECT statements, you can:</p>
+                    <ul>
+                        <li>Retrieve all or specific columns from a table</li>
+                        <li>Filter data based on conditions</li>
+                        <li>Sort results in any order</li>
+                        <li>Group and aggregate data</li>
+                        <li>Join multiple tables</li>
+                        <li>Perform calculations and transformations</li>
+                        <li>Limit the number of results</li>
+                    </ul>
+
+                    <div class="tip-box">
+                        <h4>💡 Learning Tip</h4>
+                        <p>The SELECT statement is like learning a new language. Start with simple queries and gradually add complexity. Practice with real data to understand how each clause affects your results.</p>
+                    </div>
+
+                    <h3>SELECT Statement Components</h3>
+                    <p>A complete SELECT statement can include these clauses (in this order):</p>
+                    <ol>
+                        <li><strong>SELECT:</strong> Specifies columns to retrieve</li>
+                        <li><strong>FROM:</strong> Identifies the table(s)</li>
+                        <li><strong>WHERE:</strong> Filters rows based on conditions</li>
+                        <li><strong>GROUP BY:</strong> Groups rows with same values</li>
+                        <li><strong>HAVING:</strong> Filters grouped results</li>
+                        <li><strong>ORDER BY:</strong> Sorts the results</li>
+                        <li><strong>LIMIT:</strong> Restricts number of rows returned</li>
+                    </ol>
+
+                    <h3>Real-World Applications</h3>
+                    <p>SELECT statements are used everywhere:</p>
+                    <ul>
+                        <li><strong>E-commerce:</strong> Finding products, checking inventory, order history</li>
+                        <li><strong>Banking:</strong> Account balances, transaction history, fraud detection</li>
+                        <li><strong>Healthcare:</strong> Patient records, appointment scheduling, test results</li>
+                        <li><strong>Social Media:</strong> User profiles, posts, friendships, recommendations</li>
+                        <li><strong>Analytics:</strong> User behavior, sales trends, performance metrics</li>
+                    </ul>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Mental Exercise</h4>
+                        <div class="exercise-task">
+                            <p><strong>Think About It:</strong> Before we dive into syntax, think about what questions you might ask a database:</p>
+                            <ul>
+                                <li>Who are our top 10 customers by sales?</li>
+                                <li>What products are low in stock?</li>
+                                <li>Which employees were hired last year?</li>
+                                <li>What's the average order value this month?</li>
+                            </ul>
+                            <p>Each of these questions will translate into a SELECT statement!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Basic Syntax -->
+                <div class="content-section" id="syntax">
+                    <h2>Basic Syntax of the SELECT Statement</h2>
+                    
+                    <p>Understanding the fundamental syntax of SELECT is crucial. Let's start with the simplest form and gradually build complexity.</p>
+
+                    <h3>Simplest SELECT Syntax</h3>
+                    <div class="code-block">
+-- Most basic SELECT: retrieve all columns from a table
+SELECT * FROM table_name;
+
+-- Basic SELECT with specific columns
+SELECT column1, column2, column3 
+FROM table_name;
+
+-- SELECT with WHERE clause
+SELECT column1, column2 
+FROM table_name
+WHERE condition;
+
+-- Complete SELECT syntax structure
+SELECT [DISTINCT] column_list
+FROM table_name
+[WHERE condition]
+[GROUP BY column_list]
+[HAVING condition]
+[ORDER BY column_list [ASC|DESC]]
+[LIMIT number];</div>
+
+                    <h3>Understanding Each Component</h3>
+                    <h4>1. The SELECT Keyword</h4>
+                    <p>Always comes first, followed by what you want to retrieve:</p>
+                    <ul>
+                        <li><span class="syntax-highlight">*</span> - Selects all columns</li>
+                        <li><span class="syntax-highlight">column_name</span> - Specific column</li>
+                        <li><span class="syntax-highlight">expression</span> - Calculated value</li>
+                        <li><span class="syntax-highlight">function()</span> - Function result</li>
+                    </ul>
+
+                    <h4>2. The FROM Clause</h4>
+                    <p>Specifies the table(s) containing your data:</p>
+                    <ul>
+                        <li>Required for most queries (except testing expressions)</li>
+                        <li>Can reference single or multiple tables</li>
+                        <li>Can use table aliases for clarity</li>
+                    </ul>
+
+                    <h3>Basic SELECT Examples</h3>
+                    
+                    <h4>Example 1: Select All Columns</h4>
+                    <div class="code-block">
+-- Retrieve everything from the customers table
+SELECT * FROM customers;
+
+-- Output: All rows and all columns from customers table</div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Warning About SELECT *</h4>
+                        <p>While convenient for exploration, avoid SELECT * in production code because:</p>
+                        <ul>
+                            <li>Retrieves unnecessary data, impacting performance</li>
+                            <li>Makes code less maintainable</li>
+                            <li>Can break applications if columns are added/removed</li>
+                            <li>Doesn't document what data is actually needed</li>
+                        </ul>
+                    </div>
+
+                    <h4>Example 2: Select Specific Columns</h4>
+                    <div class="code-block">
+-- Select only needed columns
+SELECT first_name, last_name, email 
+FROM customers;
+
+-- Output: Just these three columns for all customers</div>
+
+                    <h4>Example 3: SELECT with WHERE</h4>
+                    <div class="code-block">
+-- Find customers from New York
+SELECT first_name, last_name, city, state
+FROM customers
+WHERE state = 'NY';
+
+-- Find orders over $100
+SELECT order_id, customer_id, total_amount
+FROM orders
+WHERE total_amount > 100;</div>
+
+                    <h4>Example 4: SELECT with Multiple Clauses</h4>
+                    <div class="code-block">
+-- Complete query with multiple clauses
+SELECT 
+    product_name,
+    category,
+    price
+FROM products
+WHERE price BETWEEN 10 AND 50
+    AND category = 'Electronics'
+ORDER BY price DESC
+LIMIT 10;
+
+-- This query:
+-- 1. Selects three columns
+-- 2. From products table  
+-- 3. Filters for Electronics between $10-50
+-- 4. Sorts by price (highest first)
+-- 5. Returns only top 10 results</div>
+
+                    <h3>Sample Database Tables</h3>
+                    <p>For our examples, imagine these tables:</p>
+                    
+                    <div class="sql-result">
+                        <strong>customers table:</strong>
+                        <table>
+                            <tr>
+                                <th>customer_id</th>
+                                <th>first_name</th>
+                                <th>last_name</th>
+                                <th>email</th>
+                                <th>city</th>
+                                <th>state</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>John</td>
+                                <td>Smith</td>
+                                <td>john@email.com</td>
+                                <td>New York</td>
+                                <td>NY</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jane</td>
+                                <td>Doe</td>
+                                <td>jane@email.com</td>
+                                <td>Los Angeles</td>
+                                <td>CA</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="sql-result">
+                        <strong>products table:</strong>
+                        <table>
+                            <tr>
+                                <th>product_id</th>
+                                <th>product_name</th>
+                                <th>category</th>
+                                <th>price</th>
+                                <th>stock</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Laptop</td>
+                                <td>Electronics</td>
+                                <td>899.99</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Mouse</td>
+                                <td>Electronics</td>
+                                <td>29.99</td>
+                                <td>100</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 1</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write SELECT statements for these scenarios:</p>
+                            <ol>
+                                <li>Get all products from the Electronics category</li>
+                                <li>Find customers whose email contains 'gmail'</li>
+                                <li>List products with stock less than 20</li>
+                                <li>Show customer names sorted alphabetically</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Column Specifications -->
+                <div class="content-section" id="columns">
+                    <h2>How to Code Column Specifications</h2>
+                    
+                    <p>The SELECT clause is where you specify exactly what data you want to retrieve. Let's explore all the ways to specify columns and data in your SELECT statements.</p>
+
+                    <h3>Basic Column Selection</h3>
+                    
+                    <h4>Selecting All Columns</h4>
+                    <div class="code-block">
+-- Using asterisk to select all columns
+SELECT * FROM employees;
+
+-- Equivalent to listing every column
+SELECT employee_id, first_name, last_name, email, 
+       phone, hire_date, job_id, salary, 
+       commission_pct, manager_id, department_id
+FROM employees;</div>
+
+                    <h4>Selecting Specific Columns</h4>
+                    <div class="code-block">
+-- Select only the columns you need
+SELECT first_name, last_name, salary
+FROM employees;
+
+-- Columns can be in any order (not table order)
+SELECT salary, last_name, first_name
+FROM employees;
+
+-- Repeat columns if needed
+SELECT first_name, last_name, salary, salary * 12 as annual_salary
+FROM employees;</div>
+
+                    <h3>Qualified Column Names</h3>
+                    <p>When working with multiple tables or for clarity, use qualified names:</p>
+                    <div class="code-block">
+-- Fully qualified: database.table.column
+SELECT mydb.employees.first_name,
+       mydb.employees.salary
+FROM mydb.employees;
+
+-- Table qualified: table.column
+SELECT employees.first_name,
+       employees.salary
+FROM employees;
+
+-- Using table alias qualification
+SELECT e.first_name,
+       e.salary
+FROM employees e;</div>
+
+                    <h3>Column Selection Best Practices</h3>
+                    
+                    <div class="tip-box">
+                        <h4>💡 Pro Tips for Column Selection</h4>
+                        <ul>
+                            <li><strong>Be Specific:</strong> Only select columns you actually need</li>
+                            <li><strong>Order Matters:</strong> Put most important columns first</li>
+                            <li><strong>Use Meaningful Names:</strong> Make your queries self-documenting</li>
+                            <li><strong>Consider Performance:</strong> Fewer columns = faster queries</li>
+                            <li><strong>Think About Network:</strong> Less data transfer with specific columns</li>
+                        </ul>
+                    </div>
+
+                    <h3>Working with Different Data Types</h3>
+                    
+                    <h4>Numeric Columns</h4>
+                    <div class="code-block">
+-- Selecting numeric columns
+SELECT 
+    employee_id,      -- Integer
+    salary,           -- Decimal
+    commission_pct    -- Decimal percentage
+FROM employees;
+
+-- Numeric columns can be used in calculations
+SELECT 
+    product_id,
+    price,
+    quantity,
+    price * quantity AS total_value
+FROM order_items;</div>
+
+                    <h4>String Columns</h4>
+                    <div class="code-block">
+-- Selecting character/string columns
+SELECT 
+    first_name,       -- VARCHAR
+    last_name,        -- VARCHAR
+    job_title,        -- VARCHAR or CHAR
+    description       -- TEXT
+FROM employees;
+
+-- String columns can be concatenated
+SELECT 
+    first_name,
+    last_name,
+    CONCAT(first_name, ' ', last_name) AS full_name
+FROM employees;</div>
+
+                    <h4>Date and Time Columns</h4>
+                    <div class="code-block">
+-- Selecting date/time columns
+SELECT 
+    order_id,
+    order_date,       -- DATE
+    shipped_date,     -- DATE
+    delivery_time     -- TIMESTAMP
+FROM orders;
+
+-- Date columns can be formatted
+SELECT 
+    order_id,
+    DATE_FORMAT(order_date, '%M %d, %Y') AS formatted_date
+FROM orders;</div>
+
+                    <h3>Column Selection Patterns</h3>
+                    
+                    <h4>Pattern 1: Core Information Query</h4>
+                    <div class="code-block">
+-- Select identifying information
+SELECT 
+    customer_id,
+    first_name,
+    last_name,
+    email
+FROM customers;</div>
+
+                    <h4>Pattern 2: Summary Query</h4>
+                    <div class="code-block">
+-- Select aggregated information
+SELECT 
+    COUNT(*) as total_orders,
+    SUM(total_amount) as revenue,
+    AVG(total_amount) as avg_order_value
+FROM orders;</div>
+
+                    <h4>Pattern 3: Detail Query</h4>
+                    <div class="code-block">
+-- Select comprehensive details
+SELECT 
+    o.order_id,
+    o.order_date,
+    c.first_name,
+    c.last_name,
+    p.product_name,
+    oi.quantity,
+    oi.unit_price,
+    oi.quantity * oi.unit_price as line_total
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 2</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write column specifications for these requirements:</p>
+                            <ol>
+                                <li>Select customer ID, full name (first + last), and email</li>
+                                <li>Get product name, price, and price with 10% discount</li>
+                                <li>Retrieve order date, ship date, and days between them</li>
+                                <li>Select employee salary and calculated annual salary</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Aliases -->
+                <div class="content-section" id="aliases">
+                    <h2>How to Name Columns Using Aliases</h2>
+                    
+                    <p>Column aliases allow you to rename columns in your result set, making them more readable and meaningful. This is essential for calculated columns, clarifying ambiguous names, and creating user-friendly output.</p>
+
+                    <h3>Basic Alias Syntax</h3>
+                    <div class="code-block">
+-- Using AS keyword (recommended for clarity)
+SELECT first_name AS FirstName
+FROM employees;
+
+-- Without AS keyword (also valid)
+SELECT first_name FirstName
+FROM employees;
+
+-- Using quotes for aliases with spaces
+SELECT first_name AS "First Name"
+FROM employees;
+
+-- Using backticks in MySQL
+SELECT first_name AS `First Name`
+FROM employees;</div>
+
+                    <h3>When to Use Aliases</h3>
+                    
+                    <h4>1. Renaming Columns for Clarity</h4>
+                    <div class="code-block">
+-- Original column names might be cryptic
+SELECT 
+    emp_id AS "Employee ID",
+    f_name AS "First Name",
+    l_name AS "Last Name",
+    dept_cd AS "Department Code"
+FROM emp_table;
+
+-- Result has user-friendly column headers</div>
+
+                    <h4>2. Calculated Columns (Required)</h4>
+                    <div class="code-block">
+-- Aliases for calculated columns
+SELECT 
+    product_name,
+    price,
+    price * 0.9 AS discounted_price,
+    price * 0.1 AS discount_amount,
+    quantity * price AS total_value
+FROM products;
+
+-- Without aliases, calculated columns have no name
+SELECT price * 0.9 FROM products;  -- Column name: "price * 0.9" (ugly!)</div>
+
+                    <h4>3. Function Results</h4>
+                    <div class="code-block">
+-- Aliases for function results
+SELECT 
+    COUNT(*) AS total_customers,
+    MAX(credit_limit) AS highest_credit,
+    MIN(credit_limit) AS lowest_credit,
+    AVG(credit_limit) AS average_credit,
+    CONCAT(city, ', ', state) AS location
+FROM customers;</div>
+
+                    <h4>4. Disambiguating Columns</h4>
+                    <div class="code-block">
+-- When joining tables with same column names
+SELECT 
+    c.name AS customer_name,
+    e.name AS employee_name,
+    c.email AS customer_email,
+    e.email AS employee_email
+FROM customers c
+JOIN employees e ON c.assigned_rep = e.employee_id;</div>
+
+                    <h3>Alias Naming Conventions</h3>
+                    
+                    <div class="tip-box">
+                        <h4>💡 Best Practices for Aliases</h4>
+                        <ul>
+                            <li><strong>Be Descriptive:</strong> Use meaningful names that explain the data</li>
+                            <li><strong>Be Consistent:</strong> Follow a naming convention throughout your project</li>
+                            <li><strong>Avoid Reserved Words:</strong> Don't use SQL keywords as aliases</li>
+                            <li><strong>Consider the Audience:</strong> Use terms familiar to end users</li>
+                            <li><strong>Keep It Reasonable:</strong> Not too short, not too long</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common Alias Patterns</h3>
+                    
+                    <h4>CamelCase Pattern</h4>
+                    <div class="code-block">
+SELECT 
+    first_name AS FirstName,
+    last_name AS LastName,
+    hire_date AS HireDate,
+    salary * 12 AS AnnualSalary
+FROM employees;</div>
+
+                    <h4>Snake_Case Pattern</h4>
+                    <div class="code-block">
+SELECT 
+    first_name AS first_name,
+    last_name AS last_name,
+    hire_date AS hire_date,
+    salary * 12 AS annual_salary
+FROM employees;</div>
+
+                    <h4>Readable Phrases Pattern</h4>
+                    <div class="code-block">
+SELECT 
+    first_name AS "First Name",
+    last_name AS "Last Name",
+    hire_date AS "Date Hired",
+    salary * 12 AS "Annual Salary",
+    DATEDIFF(NOW(), hire_date) AS "Days Employed"
+FROM employees;</div>
+
+                    <h3>Advanced Alias Usage</h3>
+                    
+                    <h4>Dynamic Column Names</h4>
+                    <div class="code-block">
+-- Using aliases for pivot-like results
+SELECT 
+    product_category,
+    SUM(CASE WHEN MONTH(order_date) = 1 THEN quantity ELSE 0 END) AS "January",
+    SUM(CASE WHEN MONTH(order_date) = 2 THEN quantity ELSE 0 END) AS "February",
+    SUM(CASE WHEN MONTH(order_date) = 3 THEN quantity ELSE 0 END) AS "March"
+FROM orders
+GROUP BY product_category;</div>
+
+                    <h4>Aliases in Subqueries</h4>
+                    <div class="code-block">
+-- Outer query uses aliases from subquery
+SELECT 
+    EmployeeName,
+    Department,
+    MonthlySalary,
+    MonthlySalary * 12 AS AnnualSalary
+FROM (
+    SELECT 
+        CONCAT(first_name, ' ', last_name) AS EmployeeName,
+        department_name AS Department,
+        salary AS MonthlySalary
+    FROM employees e
+    JOIN departments d ON e.department_id = d.department_id
+) AS EmployeeDetails;</div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Alias Limitations</h4>
+                        <ul>
+                            <li>Cannot use aliases in WHERE clause (in most databases)</li>
+                            <li>Cannot reference aliases in the same SELECT level</li>
+                            <li>Some databases have length limits for aliases</li>
+                            <li>Special characters may require quoting</li>
+                        </ul>
+                        <div class="code-block">
+-- This won't work:
+SELECT salary * 12 AS annual_salary
+FROM employees
+WHERE annual_salary > 50000;  -- Error!
+
+-- Do this instead:
+SELECT salary * 12 AS annual_salary
+FROM employees
+WHERE salary * 12 > 50000;</div>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 3</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Add appropriate aliases to these queries:</p>
+                            <ol>
+                                <li>SELECT first_name, last_name, salary * 12 FROM employees;</li>
+                                <li>SELECT COUNT(*), AVG(price), MAX(price) FROM products;</li>
+                                <li>SELECT order_date, DATEDIFF(ship_date, order_date) FROM orders;</li>
+                                <li>SELECT CONCAT(address, ', ', city, ', ', state, ' ', zip) FROM customers;</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Continue with remaining sections... -->
+                <!-- Section 5: Arithmetic Expressions -->
+                <div class="content-section" id="expressions">
+                    <h2>How to Code Arithmetic Expressions</h2>
+                    
+                    <p>SQL allows you to perform calculations directly in your SELECT statements. This powerful feature lets you derive new values from existing data without modifying the database.</p>
+
+                    <h3>Basic Arithmetic Operators</h3>
+                    <table class="operator-table">
+                        <tr>
+                            <th>Operator</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                        <tr>
+                            <td>+</td>
+                            <td>Addition</td>
+                            <td>10 + 5</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>Subtraction</td>
+                            <td>10 - 5</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>*</td>
+                            <td>Multiplication</td>
+                            <td>10 * 5</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>/</td>
+                            <td>Division</td>
+                            <td>10 / 5</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>% or MOD</td>
+                            <td>Modulo (remainder)</td>
+                            <td>10 % 3</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
+
+                    <h3>Simple Arithmetic Examples</h3>
+                    <div class="code-block">
+-- Basic calculations with columns
+SELECT 
+    product_name,
+    price,
+    quantity,
+    price * quantity AS total_value,
+    price * 1.08 AS price_with_tax,
+    price - (price * 0.10) AS discounted_price
+FROM products;
+
+-- Salary calculations
+SELECT 
+    first_name,
+    last_name,
+    salary AS monthly_salary,
+    salary * 12 AS annual_salary,
+    salary * 12 * 0.15 AS annual_bonus,
+    (salary * 12) + (salary * 12 * 0.15) AS total_compensation
+FROM employees;</div>
+
+                    <h3>Order of Operations</h3>
+                    <p>SQL follows standard mathematical order of operations (PEMDAS):</p>
+                    <ol>
+                        <li><strong>P</strong>arentheses ( )</li>
+                        <li><strong>E</strong>xponents (power functions)</li>
+                        <li><strong>M</strong>ultiplication and <strong>D</strong>ivision (left to right)</li>
+                        <li><strong>A</strong>ddition and <strong>S</strong>ubtraction (left to right)</li>
+                    </ol>
+
+                    <div class="code-block">
+-- Without parentheses
+SELECT 
+    100 + 20 * 3 AS result1,        -- Result: 160 (multiplication first)
+    (100 + 20) * 3 AS result2;      -- Result: 360 (parentheses first)
+
+-- Complex calculation
+SELECT 
+    product_name,
+    price,
+    quantity,
+    -- Wrong: price + price * 0.08 * quantity
+    -- Right: (price + price * 0.08) * quantity
+    (price + price * 0.08) * quantity AS total_with_tax
+FROM order_items;</div>
+
+                    <h3>Working with NULL Values</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ NULL in Arithmetic</h4>
+                        <p>Any arithmetic operation with NULL results in NULL:</p>
+                        <div class="code-block">
+SELECT 
+    10 + NULL,        -- Result: NULL
+    NULL * 100,       -- Result: NULL
+    NULL / 5,         -- Result: NULL
+    100 - NULL;       -- Result: NULL</div>
+                        <p>Use COALESCE or IFNULL to handle NULLs:</p>
+                        <div class="code-block">
+SELECT 
+    salary,
+    commission_pct,
+    salary + (salary * COALESCE(commission_pct, 0)) AS total_pay
+FROM employees;</div>
+                    </div>
+
+                    <h3>Practical Business Calculations</h3>
+                    
+                    <h4>Profit Margin Calculation</h4>
+                    <div class="code-block">
+SELECT 
+    product_name,
+    cost,
+    price,
+    price - cost AS profit,
+    ROUND((price - cost) / cost * 100, 2) AS profit_margin_pct
+FROM products
+WHERE cost > 0;  -- Avoid division by zero</div>
+
+                    <h4>Date Arithmetic</h4>
+                    <div class="code-block">
+-- Calculate age, days employed, etc.
+SELECT 
+    first_name,
+    last_name,
+    birth_date,
+    FLOOR(DATEDIFF(CURDATE(), birth_date) / 365) AS age,
+    hire_date,
+    DATEDIFF(CURDATE(), hire_date) AS days_employed,
+    DATEDIFF(CURDATE(), hire_date) / 365 AS years_employed
+FROM employees;</div>
+
+                    <h4>Running Totals and Averages</h4>
+                    <div class="code-block">
+-- Calculate various statistics
+SELECT 
+    department_id,
+    COUNT(*) AS employee_count,
+    SUM(salary) AS total_salaries,
+    AVG(salary) AS average_salary,
+    MIN(salary) AS lowest_salary,
+    MAX(salary) AS highest_salary,
+    MAX(salary) - MIN(salary) AS salary_range
+FROM employees
+GROUP BY department_id;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 4</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write arithmetic expressions for these scenarios:</p>
+                            <ol>
+                                <li>Calculate 15% tip on a restaurant bill</li>
+                                <li>Convert temperature from Celsius to Fahrenheit (F = C * 9/5 + 32)</li>
+                                <li>Calculate compound interest (Principal * (1 + rate)^years)</li>
+                                <li>Determine discount percentage from original and sale price</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: CONCAT Function -->
+                <div class="content-section" id="concat">
+                    <h2>How to Use CONCAT Function to Join Strings</h2>
+                    
+                    <p>String concatenation is the process of joining two or more strings together. This is essential for formatting output, creating full names, building addresses, and generating dynamic messages.</p>
+
+                    <h3>CONCAT Function Syntax</h3>
+                    <div class="code-block">
+-- Basic CONCAT syntax
+CONCAT(string1, string2, ...)
+
+-- Simple example
+SELECT CONCAT('Hello', ' ', 'World') AS greeting;
+-- Result: 'Hello World'
+
+-- Concatenating columns
+SELECT CONCAT(first_name, ' ', last_name) AS full_name
+FROM employees;</div>
+
+                    <h3>Different Concatenation Methods</h3>
+                    
+                    <h4>Method 1: CONCAT Function</h4>
+                    <div class="code-block">
+-- Standard CONCAT function (MySQL, PostgreSQL)
+SELECT 
+    CONCAT(first_name, ' ', last_name) AS full_name,
+    CONCAT(address, ', ', city, ', ', state, ' ', zip) AS full_address,
+    CONCAT('$', FORMAT(salary, 2)) AS formatted_salary
+FROM employees;</div>
+
+                    <h4>Method 2: Concatenation Operator ||</h4>
+                    <div class="code-block">
+-- Using || operator (PostgreSQL, Oracle, SQLite)
+SELECT 
+    first_name || ' ' || last_name AS full_name,
+    address || ', ' || city || ', ' || state || ' ' || zip AS full_address
+FROM employees;
+
+-- Note: In MySQL, need to set sql_mode for || to work:
+SET sql_mode = 'PIPES_AS_CONCAT';</div>
+
+                    <h4>Method 3: + Operator (SQL Server)</h4>
+                    <div class="code-block">
+-- SQL Server uses + for concatenation
+SELECT 
+    first_name + ' ' + last_name AS full_name,
+    address + ', ' + city + ', ' + state + ' ' + zip AS full_address
+FROM employees;</div>
+
+                    <h3>Advanced CONCAT Techniques</h3>
+                    
+                    <h4>CONCAT_WS (Concat with Separator)</h4>
+                    <div class="code-block">
+-- CONCAT_WS: First argument is separator
+SELECT 
+    CONCAT_WS(' ', first_name, middle_name, last_name) AS full_name,
+    CONCAT_WS(', ', address, city, state, zip) AS full_address,
+    CONCAT_WS(' - ', product_code, product_name, category) AS product_info
+FROM employees;
+
+-- Advantage: Automatically handles NULL values
+-- If middle_name is NULL, no extra space appears</div>
+
+                    <h4>Building Complex Strings</h4>
+                    <div class="code-block">
+-- Creating formatted messages
+SELECT 
+    CONCAT('Dear ', first_name, ',') AS salutation,
+    CONCAT('Your order #', order_id, ' has been shipped on ', 
+           DATE_FORMAT(ship_date, '%M %d, %Y')) AS notification,
+    CONCAT('Employee: ', first_name, ' ', last_name, 
+           ' (ID: ', employee_id, ')') AS employee_label
+FROM orders;</div>
+
+                    <h3>Handling NULL Values in Concatenation</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ NULL Concatenation Behavior</h4>
+                        <p>Different databases handle NULL differently in concatenation:</p>
+                        <ul>
+                            <li><strong>MySQL CONCAT:</strong> Returns NULL if any part is NULL</li>
+                            <li><strong>PostgreSQL ||:</strong> Treats NULL as empty string</li>
+                            <li><strong>SQL Server +:</strong> Returns NULL if any part is NULL</li>
+                        </ul>
+                        <div class="code-block">
+-- Handling NULLs safely
+SELECT 
+    -- Using COALESCE
+    CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) AS name1,
+    
+    -- Using IFNULL (MySQL)
+    CONCAT(IFNULL(first_name, ''), ' ', IFNULL(last_name, '')) AS name2,
+    
+    -- Using CONCAT_WS (handles NULLs automatically)
+    CONCAT_WS(' ', first_name, last_name) AS name3
+FROM employees;</div>
+                    </div>
+
+                    <h3>Practical Concatenation Examples</h3>
+                    
+                    <h4>Creating Email Addresses</h4>
+                    <div class="code-block">
+SELECT 
+    first_name,
+    last_name,
+    LOWER(CONCAT(first_name, '.', last_name, '@company.com')) AS email,
+    LOWER(CONCAT(SUBSTRING(first_name, 1, 1), last_name, '@company.com')) AS short_email
+FROM employees;</div>
+
+                    <h4>Formatting Phone Numbers</h4>
+                    <div class="code-block">
+-- From: 5551234567 To: (555) 123-4567
+SELECT 
+    phone,
+    CONCAT('(', SUBSTRING(phone, 1, 3), ') ',
+           SUBSTRING(phone, 4, 3), '-',
+           SUBSTRING(phone, 7, 4)) AS formatted_phone
+FROM customers
+WHERE LENGTH(phone) = 10;</div>
+
+                    <h4>Building SQL Dynamically</h4>
+                    <div class="code-block">
+-- Generate INSERT statements
+SELECT 
+    CONCAT('INSERT INTO customers (first_name, last_name, email) VALUES (',
+           QUOTE(first_name), ', ',
+           QUOTE(last_name), ', ',
+           QUOTE(email), ');') AS insert_statement
+FROM customers;</div>
+
+                    <div class="tip-box">
+                        <h4>💡 Performance Tips</h4>
+                        <ul>
+                            <li>Concatenation in SELECT is generally fast</li>
+                            <li>Avoid concatenation in WHERE clauses when possible</li>
+                            <li>Consider storing frequently concatenated values</li>
+                            <li>Use generated columns for common concatenations</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 5</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Use CONCAT to create these strings:</p>
+                            <ol>
+                                <li>Full name in format: "Last, First"</li>
+                                <li>Complete address on one line</li>
+                                <li>Product description: "ProductName (Category) - $Price"</li>
+                                <li>Date range: "From DATE1 to DATE2"</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 7: Built-in Functions -->
+                <div class="content-section" id="functions">
+                    <h2>Built-in Functions in SELECT</h2>
+
+                    <p>SQL provides a rich set of built-in functions that allow you to manipulate and transform data directly in your queries. These functions can be used in SELECT clauses, WHERE conditions, and other parts of your SQL statements.</p>
+
+                    <h3>String Functions</h3>
+                    <div class="code-block">
+-- CONCAT - Combine strings
+SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
+
+-- UPPER / LOWER - Change case
+SELECT UPPER(first_name), LOWER(email) FROM customers;
+
+-- LENGTH - Get string length
+SELECT product_name, LENGTH(product_name) AS name_length FROM products;
+
+-- SUBSTRING - Extract part of string
+SELECT SUBSTRING(phone_number, 1, 3) AS area_code FROM customers;
+
+-- TRIM - Remove spaces
+SELECT TRIM(product_name) AS cleaned_name FROM products;
+
+-- REPLACE - Replace text
+SELECT REPLACE(description, 'old', 'new') AS updated_desc FROM products;</div>
+
+                    <h3>Numeric Functions</h3>
+                    <div class="code-block">
+-- ROUND - Round to decimal places
+SELECT product_name, ROUND(price, 2) AS rounded_price FROM products;
+
+-- CEIL / FLOOR - Round up/down
+SELECT CEIL(price) AS rounded_up, FLOOR(price) AS rounded_down FROM products;
+
+-- ABS - Absolute value
+SELECT ABS(profit_loss) AS absolute_value FROM transactions;
+
+-- MOD - Modulo (remainder)
+SELECT order_id, MOD(order_id, 10) AS last_digit FROM orders;</div>
+
+                    <h3>Date and Time Functions</h3>
+                    <div class="code-block">
+-- NOW / CURDATE / CURTIME - Current date/time
+SELECT NOW() AS current_datetime, CURDATE() AS current_date, CURTIME() AS current_time;
+
+-- DATE_FORMAT - Format dates
+SELECT DATE_FORMAT(order_date, '%Y-%m-%d') AS formatted_date FROM orders;
+
+-- DATEDIFF - Days between dates
+SELECT DATEDIFF(ship_date, order_date) AS days_to_ship FROM orders;
+
+-- DATE_ADD / DATE_SUB - Add/subtract time
+SELECT DATE_ADD(order_date, INTERVAL 7 DAY) AS expected_delivery FROM orders;</div>
+
+                    <h3>Aggregate Functions (Preview)</h3>
+                    <div class="code-block">
+-- COUNT - Count rows
+SELECT COUNT(*) AS total_customers FROM customers;
+
+-- SUM - Total of column
+SELECT SUM(amount) AS total_sales FROM orders;
+
+-- AVG - Average value
+SELECT AVG(price) AS average_price FROM products;
+
+-- MIN / MAX - Minimum/maximum values
+SELECT MIN(price) AS cheapest, MAX(price) AS most_expensive FROM products;</div>
+
+                    <div class="tip-box">
+                        <h4>💡 Function Tips</h4>
+                        <ul>
+                            <li>Functions can be nested: <span class="syntax-highlight">UPPER(TRIM(name))</span></li>
+                            <li>Use aliases to make function results readable</li>
+                            <li>Functions can be used in WHERE, ORDER BY, and other clauses</li>
+                            <li>Some functions are database-specific (check your SQL dialect)</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 7</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write queries using built-in functions:</p>
+                            <ol>
+                                <li>Get full names in uppercase from customers table</li>
+                                <li>Extract year from order_date and count orders per year</li>
+                                <li>Calculate 10% discount on all product prices, rounded to 2 decimals</li>
+                                <li>Find products with names longer than 20 characters</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 8: Testing Without FROM -->
+                <div class="content-section" id="nofrom">
+                    <h2>Testing Expressions Without FROM Clause</h2>
+                    
+                    <p>MySQL allows you to execute SELECT statements without a FROM clause, which is incredibly useful for testing expressions, functions, and calculations without needing any table data. This feature helps you validate your SQL logic before applying it to actual data.</p>
+
+                    <h3>Basic Syntax Without FROM</h3>
+                    <div class="code-block">
+-- Simple expression testing
+SELECT 1 + 1;
+-- Result: 2
+
+-- Multiple expressions
+SELECT 10 * 5, 100 / 4, 7 % 3;
+-- Result: 50, 25, 1
+
+-- Testing functions
+SELECT NOW(), CURDATE(), VERSION();
+
+-- Testing string operations
+SELECT CONCAT('Hello', ' ', 'World') AS greeting;</div>
+
+                    <h3>Why Use SELECT Without FROM?</h3>
+                    <ul>
+                        <li><strong>Testing Calculations:</strong> Verify mathematical expressions</li>
+                        <li><strong>Function Testing:</strong> Understand how functions work</li>
+                        <li><strong>Date/Time Operations:</strong> Check current timestamps</li>
+                        <li><strong>String Manipulation:</strong> Test concatenation and formatting</li>
+                        <li><strong>Quick Calculations:</strong> Use MySQL as a calculator</li>
+                        <li><strong>Debugging:</strong> Isolate expression problems</li>
+                    </ul>
+
+                    <h3>Testing Mathematical Expressions</h3>
+                    <div class="code-block">
+-- Complex calculations
+SELECT 
+    (100 + 50) * 2 AS calculation1,
+    POWER(2, 8) AS two_to_eighth,
+    SQRT(144) AS square_root,
+    ROUND(PI(), 4) AS pi_value,
+    CEILING(4.3) AS ceiling_value,
+    FLOOR(4.7) AS floor_value;
+
+-- Testing order of operations
+SELECT 
+    10 + 20 * 3 AS without_parens,      -- Result: 70
+    (10 + 20) * 3 AS with_parens;       -- Result: 90
+
+-- Financial calculations
+SELECT 
+    1000 * POWER(1.05, 10) AS compound_interest,
+    ROUND(1000 * 0.0825, 2) AS simple_interest;</div>
+
+                    <h3>Testing String Functions</h3>
+                    <div class="code-block">
+-- String manipulation tests
+SELECT 
+    LENGTH('Hello World') AS string_length,
+    UPPER('hello') AS uppercase,
+    LOWER('HELLO') AS lowercase,
+    REVERSE('Hello') AS reversed,
+    SUBSTRING('Hello World', 1, 5) AS substring_result;
+
+-- Complex string operations
+SELECT 
+    CONCAT('First', ' ', 'Last') AS full_name,
+    CONCAT_WS('-', '2024', '01', '15') AS date_string,
+    REPLACE('Hello World', 'World', 'MySQL') AS replaced,
+    TRIM('  spaces  ') AS trimmed,
+    LPAD('5', 3, '0') AS padded;</div>
+
+                    <h3>Testing Date and Time Functions</h3>
+                    <div class="code-block">
+-- Current date/time functions
+SELECT 
+    NOW() AS current_datetime,
+    CURDATE() AS today,
+    CURTIME() AS current_time,
+    UNIX_TIMESTAMP() AS unix_time;
+
+-- Date calculations
+SELECT 
+    DATE_ADD(CURDATE(), INTERVAL 30 DAY) AS thirty_days_later,
+    DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AS one_year_ago,
+    DATEDIFF('2024-12-31', CURDATE()) AS days_until_year_end,
+    DAYNAME(CURDATE()) AS today_name,
+    MONTHNAME(CURDATE()) AS current_month;
+
+-- Date formatting
+SELECT 
+    DATE_FORMAT(NOW(), '%W, %M %d, %Y') AS formatted_date,
+    DATE_FORMAT(NOW(), '%h:%i %p') AS time_12hour,
+    DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s') AS iso_format;</div>
+
+                    <h3>Testing Conditional Logic</h3>
+                    <div class="code-block">
+-- CASE statements without FROM
+SELECT 
+    CASE 
+        WHEN 100 > 50 THEN 'Greater'
+        ELSE 'Less or Equal'
+    END AS comparison;
+
+-- Multiple conditions
+SELECT 
+    CASE 
+        WHEN DAYOFWEEK(CURDATE()) IN (1, 7) THEN 'Weekend'
+        WHEN DAYOFWEEK(CURDATE()) = 6 THEN 'Friday!'
+        ELSE 'Weekday'
+    END AS day_type;
+
+-- IF function
+SELECT 
+    IF(10 > 5, 'True', 'False') AS simple_if,
+    IF(HOUR(NOW()) < 12, 'Good Morning', 'Good Afternoon') AS greeting;</div>
+
+                    <h3>System Information Queries</h3>
+                    <div class="code-block">
+-- Database system information
+SELECT 
+    VERSION() AS mysql_version,
+    DATABASE() AS current_database,
+    USER() AS current_user,
+    CONNECTION_ID() AS connection_id,
+    CHARSET('test') AS default_charset;
+
+-- Session variables
+SELECT 
+    @@sql_mode AS sql_mode,
+    @@time_zone AS timezone,
+    @@max_connections AS max_conn,
+    @@version_comment AS version_info;</div>
+
+                    <div class="tip-box">
+                        <h4>💡 Pro Tips</h4>
+                        <ul>
+                            <li>Use SELECT without FROM as a quick calculator</li>
+                            <li>Test complex expressions before using in real queries</li>
+                            <li>Verify date calculations and formatting</li>
+                            <li>Check function behavior with different inputs</li>
+                            <li>Some databases use DUAL table: SELECT 1 FROM DUAL</li>
+                        </ul>
+                    </div>
+
+                    <h3>Practical Use Cases</h3>
+                    
+                    <h4>Generating Test Data</h4>
+                    <div class="code-block">
+-- Generate random values
+SELECT 
+    FLOOR(RAND() * 100) AS random_number,
+    CONCAT('USER_', FLOOR(RAND() * 1000)) AS random_username,
+    DATE_ADD(CURDATE(), INTERVAL FLOOR(RAND() * 365) DAY) AS random_date,
+    ELT(FLOOR(RAND() * 3) + 1, 'Active', 'Inactive', 'Pending') AS random_status;</div>
+
+                    <h4>Creating Constants</h4>
+                    <div class="code-block">
+-- Define constants for use in queries
+SELECT 
+    0.0825 AS tax_rate,
+    1.10 AS markup_factor,
+    'USD' AS default_currency,
+    30 AS payment_terms_days;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 8</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Use SELECT without FROM to:</p>
+                            <ol>
+                                <li>Calculate the area of a circle with radius 5 (A = πr²)</li>
+                                <li>Test what day of the week January 1, 2025 falls on</li>
+                                <li>Generate a random password with 8 characters</li>
+                                <li>Format the current time in 5 different ways</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 9: DISTINCT -->
+                <div class="content-section" id="distinct">
+                    <h2>How to Eliminate Duplicate Rows with DISTINCT</h2>
+                    
+                    <p>The DISTINCT keyword is used to return only unique (different) values in the result set. It's essential when you need to find unique values or eliminate duplicate rows from your query results.</p>
+
+                    <h3>Basic DISTINCT Syntax</h3>
+                    <div class="code-block">
+-- Basic DISTINCT usage
+SELECT DISTINCT column_name
+FROM table_name;
+
+-- DISTINCT with multiple columns
+SELECT DISTINCT column1, column2
+FROM table_name;
+
+-- Count distinct values
+SELECT COUNT(DISTINCT column_name)
+FROM table_name;</div>
+
+                    <h3>Understanding How DISTINCT Works</h3>
+                    <p>DISTINCT operates on the entire row of selected columns, not individual columns:</p>
+                    
+                    <div class="sql-result">
+                        <strong>Original data:</strong>
+                        <table>
+                            <tr><th>city</th><th>state</th></tr>
+                            <tr><td>New York</td><td>NY</td></tr>
+                            <tr><td>Los Angeles</td><td>CA</td></tr>
+                            <tr><td>New York</td><td>NY</td></tr>
+                            <tr><td>Chicago</td><td>IL</td></tr>
+                            <tr><td>New York</td><td>NY</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+-- Returns unique cities
+SELECT DISTINCT city FROM customers;
+-- Result: New York, Los Angeles, Chicago
+
+-- Returns unique city-state combinations
+SELECT DISTINCT city, state FROM customers;
+-- Result: (New York, NY), (Los Angeles, CA), (Chicago, IL)</div>
+
+                    <h3>Common DISTINCT Use Cases</h3>
+                    
+                    <h4>Finding Unique Values</h4>
+                    <div class="code-block">
+-- Find all unique categories
+SELECT DISTINCT category 
+FROM products
+ORDER BY category;
+
+-- Find unique years from dates
+SELECT DISTINCT YEAR(order_date) AS order_year
+FROM orders
+ORDER BY order_year DESC;
+
+-- Find unique customer locations
+SELECT DISTINCT city, state, country
+FROM customers
+ORDER BY country, state, city;</div>
+
+                    <h4>Counting Unique Values</h4>
+                    <div class="code-block">
+-- Count unique customers who placed orders
+SELECT COUNT(DISTINCT customer_id) AS unique_customers
+FROM orders;
+
+-- Count distinct products sold by category
+SELECT 
+    category,
+    COUNT(DISTINCT product_id) AS unique_products
+FROM products
+GROUP BY category;
+
+-- Compare total vs unique
+SELECT 
+    COUNT(*) AS total_orders,
+    COUNT(DISTINCT customer_id) AS unique_customers,
+    COUNT(*) / COUNT(DISTINCT customer_id) AS avg_orders_per_customer
+FROM orders;</div>
+
+                    <h3>DISTINCT with NULL Values</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ NULL Handling</h4>
+                        <p>DISTINCT treats NULL as a single unique value:</p>
+                        <div class="code-block">
+-- If column has: 'A', 'B', 'A', NULL, NULL
+SELECT DISTINCT column FROM table;
+-- Returns: 'A', 'B', NULL (one NULL, not two)</div>
+                    </div>
+
+                    <h3>DISTINCT vs GROUP BY</h3>
+                    <div class="code-block">
+-- These queries return the same results
+-- Using DISTINCT
+SELECT DISTINCT category
+FROM products;
+
+-- Using GROUP BY
+SELECT category
+FROM products
+GROUP BY category;
+
+-- GROUP BY is more powerful for aggregations
+SELECT 
+    category,
+    COUNT(*) as product_count,
+    AVG(price) as avg_price
+FROM products
+GROUP BY category;</div>
+
+                    <h3>Performance Considerations</h3>
+                    <div class="tip-box">
+                        <h4>💡 Performance Tips</h4>
+                        <ul>
+                            <li>DISTINCT requires sorting, which can be slow on large datasets</li>
+                            <li>Consider using GROUP BY if you need aggregations anyway</li>
+                            <li>Index columns used with DISTINCT for better performance</li>
+                            <li>Limit result set with WHERE before applying DISTINCT</li>
+                            <li>Be cautious with DISTINCT on multiple columns</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced DISTINCT Examples</h3>
+                    
+                    <h4>DISTINCT with Expressions</h4>
+                    <div class="code-block">
+-- Distinct calculated values
+SELECT DISTINCT 
+    YEAR(order_date) AS year,
+    MONTH(order_date) AS month
+FROM orders
+ORDER BY year, month;
+
+-- Distinct concatenated values
+SELECT DISTINCT CONCAT(first_name, ' ', last_name) AS full_name
+FROM employees
+ORDER BY full_name;</div>
+
+                    <h4>DISTINCT in Subqueries</h4>
+                    <div class="code-block">
+-- Find customers who ordered specific products
+SELECT DISTINCT customer_id
+FROM orders
+WHERE order_id IN (
+    SELECT DISTINCT order_id
+    FROM order_items
+    WHERE product_id = 100
+);
+
+-- Count distinct values in subquery
+SELECT 
+    category,
+    (SELECT COUNT(DISTINCT supplier_id) 
+     FROM products p2 
+     WHERE p2.category = p1.category) AS unique_suppliers
+FROM products p1
+GROUP BY category;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 9</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write queries using DISTINCT:</p>
+                            <ol>
+                                <li>Find all unique job titles in the company</li>
+                                <li>Count how many different countries customers are from</li>
+                                <li>Get unique month-year combinations from order dates</li>
+                                <li>Find distinct product-supplier combinations</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 10: Comparison Operators -->
+                <div class="content-section" id="comparison">
+                    <h2>How to Use Comparison Operators</h2>
+                    
+                    <p>Comparison operators are fundamental to filtering data in WHERE clauses. They allow you to compare values and create conditions that determine which rows are included in your result set.</p>
+
+                    <h3>Complete List of Comparison Operators</h3>
+                    <table class="operator-table">
+                        <tr>
+                            <th>Operator</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                        <tr>
+                            <td>=</td>
+                            <td>Equal to</td>
+                            <td>5 = 5</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>!= or &lt;&gt;</td>
+                            <td>Not equal to</td>
+                            <td>5 != 3</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>&gt;</td>
+                            <td>Greater than</td>
+                            <td>5 &gt; 3</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>&lt;</td>
+                            <td>Less than</td>
+                            <td>3 &lt; 5</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>&gt;=</td>
+                            <td>Greater than or equal to</td>
+                            <td>5 &gt;= 5</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>&lt;=</td>
+                            <td>Less than or equal to</td>
+                            <td>3 &lt;= 5</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>&lt;=&gt;</td>
+                            <td>NULL-safe equal</td>
+                            <td>NULL &lt;=&gt; NULL</td>
+                            <td>TRUE</td>
+                        </tr>
+                    </table>
+
+                    <h3>Basic Comparison Examples</h3>
+                    <div class="code-block">
+-- Equal to
+SELECT * FROM products WHERE price = 29.99;
+SELECT * FROM employees WHERE department_id = 10;
+
+-- Not equal to (both syntaxes work)
+SELECT * FROM products WHERE category != 'Electronics';
+SELECT * FROM products WHERE category <> 'Electronics';
+
+-- Greater than / Less than
+SELECT * FROM products WHERE price > 100;
+SELECT * FROM products WHERE quantity < 10;
+
+-- Greater than or equal / Less than or equal
+SELECT * FROM employees WHERE salary >= 50000;
+SELECT * FROM orders WHERE order_date <= '2024-12-31';</div>
+
+                    <h3>Comparing Different Data Types</h3>
+                    
+                    <h4>Numeric Comparisons</h4>
+                    <div class="code-block">
+-- Integer and decimal comparisons
+SELECT * FROM products 
+WHERE price > 49.99 AND price < 99.99;
+
+-- Calculated value comparisons
+SELECT * FROM order_items 
+WHERE quantity * unit_price > 1000;
+
+-- Percentage comparisons
+SELECT * FROM products 
+WHERE discount_percent >= 0.10;</div>
+
+                    <h4>String Comparisons</h4>
+                    <div class="code-block">
+-- String equality (case-insensitive by default in MySQL)
+SELECT * FROM customers WHERE last_name = 'Smith';
+
+-- String inequality
+SELECT * FROM products WHERE category != 'Books';
+
+-- Alphabetical comparisons
+SELECT * FROM customers WHERE last_name > 'M';  -- Names starting N-Z
+SELECT * FROM customers WHERE first_name < 'John';  -- Names before John
+
+-- Case-sensitive comparison (using BINARY)
+SELECT * FROM users WHERE BINARY username = 'JohnDoe';</div>
+
+                    <h4>Date Comparisons</h4>
+                    <div class="code-block">
+-- Date comparisons
+SELECT * FROM orders WHERE order_date > '2024-01-01';
+SELECT * FROM orders WHERE order_date >= CURDATE();
+
+-- Date range comparisons
+SELECT * FROM employees 
+WHERE hire_date >= '2023-01-01' 
+  AND hire_date <= '2023-12-31';
+
+-- Comparing with calculated dates
+SELECT * FROM orders 
+WHERE order_date > DATE_SUB(CURDATE(), INTERVAL 30 DAY);</div>
+
+                    <h3>NULL-Safe Comparison</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ NULL Comparisons</h4>
+                        <p>Regular operators return NULL when comparing with NULL:</p>
+                        <div class="code-block">
+-- These return no results (NULL comparison)
+SELECT * FROM employees WHERE commission_pct = NULL;     -- Wrong!
+SELECT * FROM employees WHERE commission_pct != NULL;    -- Wrong!
+
+-- Correct NULL checking
+SELECT * FROM employees WHERE commission_pct IS NULL;
+SELECT * FROM employees WHERE commission_pct IS NOT NULL;
+
+-- NULL-safe equal operator <=>
+SELECT * FROM employees WHERE commission_pct <=> NULL;   -- Works!</div>
+                    </div>
+
+                    <h3>Combining Multiple Comparisons</h3>
+                    <div class="code-block">
+-- Multiple conditions with AND
+SELECT * FROM products 
+WHERE price > 50 
+  AND price < 200 
+  AND category = 'Electronics'
+  AND stock_quantity > 0;
+
+-- Multiple conditions with OR
+SELECT * FROM orders 
+WHERE status = 'Pending' 
+   OR status = 'Processing' 
+   OR order_date = CURDATE();
+
+-- Complex combinations
+SELECT * FROM employees 
+WHERE (salary > 50000 AND department_id = 10)
+   OR (salary > 40000 AND department_id = 20)
+   OR (commission_pct > 0.10);</div>
+
+                    <h3>Comparison with Subqueries</h3>
+                    <div class="code-block">
+-- Compare with single value from subquery
+SELECT * FROM products 
+WHERE price > (SELECT AVG(price) FROM products);
+
+-- Compare with maximum value
+SELECT * FROM employees 
+WHERE salary = (SELECT MAX(salary) FROM employees);
+
+-- Compare with calculated value
+SELECT * FROM orders 
+WHERE total_amount > (
+    SELECT AVG(total_amount) * 2 
+    FROM orders 
+    WHERE YEAR(order_date) = YEAR(CURDATE())
+);</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 10</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write WHERE clauses using comparison operators:</p>
+                            <ol>
+                                <li>Find products priced between $10 and $50 (without BETWEEN)</li>
+                                <li>Get orders placed after last Monday</li>
+                                <li>Find employees with salary above department average</li>
+                                <li>Get customers from cities starting with letters A-M</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 11: Logical Operators -->
+                <div class="content-section" id="logical">
+                    <h2>How to Use AND, OR, and NOT Logical Operators</h2>
+                    
+                    <p>Logical operators allow you to combine multiple conditions in WHERE clauses, creating complex filters for precise data retrieval. Understanding their behavior and precedence is crucial for writing accurate queries.</p>
+
+                    <h3>The Three Logical Operators</h3>
+                    <table class="operator-table">
+                        <tr>
+                            <th>Operator</th>
+                            <th>Description</th>
+                            <th>Returns TRUE when</th>
+                        </tr>
+                        <tr>
+                            <td>AND</td>
+                            <td>All conditions must be true</td>
+                            <td>Both/all conditions are TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>OR</td>
+                            <td>At least one condition must be true</td>
+                            <td>Any condition is TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>NOT</td>
+                            <td>Reverses the condition</td>
+                            <td>Condition is FALSE</td>
+                        </tr>
+                    </table>
+
+                    <h3>Using the AND Operator</h3>
+                    <div class="code-block">
+-- Both conditions must be true
+SELECT * FROM products 
+WHERE price > 50 AND category = 'Electronics';
+
+-- Multiple AND conditions
+SELECT * FROM employees 
+WHERE department_id = 10 
+  AND salary > 50000 
+  AND hire_date > '2020-01-01';
+
+-- AND with different data types
+SELECT * FROM orders 
+WHERE customer_id = 100 
+  AND order_date >= '2024-01-01' 
+  AND total_amount > 500.00 
+  AND status = 'Shipped';</div>
+
+                    <h3>Using the OR Operator</h3>
+                    <div class="code-block">
+-- Any condition can be true
+SELECT * FROM products 
+WHERE category = 'Electronics' OR category = 'Computers';
+
+-- Multiple OR conditions
+SELECT * FROM orders 
+WHERE status = 'Pending' 
+   OR status = 'Processing' 
+   OR status = 'Confirmed';
+
+-- OR with different columns
+SELECT * FROM customers 
+WHERE city = 'New York' 
+   OR state = 'CA' 
+   OR country = 'Canada';</div>
+
+                    <h3>Using the NOT Operator</h3>
+                    <div class="code-block">
+-- NOT with simple conditions
+SELECT * FROM products WHERE NOT category = 'Books';
+-- Equivalent to: WHERE category != 'Books'
+
+-- NOT with IN
+SELECT * FROM orders 
+WHERE status NOT IN ('Cancelled', 'Returned');
+
+-- NOT with LIKE
+SELECT * FROM customers 
+WHERE email NOT LIKE '%@gmail.com';
+
+-- NOT with BETWEEN
+SELECT * FROM products 
+WHERE price NOT BETWEEN 10 AND 50;
+
+-- NOT with EXISTS
+SELECT * FROM customers c
+WHERE NOT EXISTS (
+    SELECT 1 FROM orders o 
+    WHERE o.customer_id = c.customer_id
+);</div>
+
+                    <h3>Operator Precedence</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ Important: Operator Precedence</h4>
+                        <p>Order of evaluation (highest to lowest):</p>
+                        <ol>
+                            <li>Parentheses ( )</li>
+                            <li>NOT</li>
+                            <li>AND</li>
+                            <li>OR</li>
+                        </ol>
+                        <p>Always use parentheses to make your intention clear!</p>
+                    </div>
+
+                    <div class="code-block">
+-- Without parentheses - AND is evaluated first
+SELECT * FROM products 
+WHERE category = 'Electronics' 
+   OR category = 'Computers' 
+  AND price > 1000;
+-- This means: Electronics OR (Computers AND price > 1000)
+
+-- With parentheses - clearer intention
+SELECT * FROM products 
+WHERE (category = 'Electronics' OR category = 'Computers')
+  AND price > 1000;
+-- This means: (Electronics OR Computers) AND price > 1000
+
+-- Complex example
+SELECT * FROM orders 
+WHERE (status = 'Shipped' AND ship_date > '2024-01-01')
+   OR (status = 'Pending' AND order_date < '2024-01-01')
+   OR (priority = 'High' AND NOT status = 'Cancelled');</div>
+
+                    <h3>Truth Tables</h3>
+                    <h4>AND Truth Table</h4>
+                    <table class="operator-table">
+                        <tr>
+                            <th>Condition A</th>
+                            <th>Condition B</th>
+                            <th>A AND B</th>
+                        </tr>
+                        <tr>
+                            <td>TRUE</td>
+                            <td>TRUE</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>TRUE</td>
+                            <td>FALSE</td>
+                            <td>FALSE</td>
+                        </tr>
+                        <tr>
+                            <td>FALSE</td>
+                            <td>TRUE</td>
+                            <td>FALSE</td>
+                        </tr>
+                        <tr>
+                            <td>FALSE</td>
+                            <td>FALSE</td>
+                            <td>FALSE</td>
+                        </tr>
+                    </table>
+
+                    <h4>OR Truth Table</h4>
+                    <table class="operator-table">
+                        <tr>
+                            <th>Condition A</th>
+                            <th>Condition B</th>
+                            <th>A OR B</th>
+                        </tr>
+                        <tr>
+                            <td>TRUE</td>
+                            <td>TRUE</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>TRUE</td>
+                            <td>FALSE</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>FALSE</td>
+                            <td>TRUE</td>
+                            <td>TRUE</td>
+                        </tr>
+                        <tr>
+                            <td>FALSE</td>
+                            <td>FALSE</td>
+                            <td>FALSE</td>
+                        </tr>
+                    </table>
+
+                    <h3>Common Patterns and Best Practices</h3>
+                    
+                    <h4>Pattern: Multiple Values for Same Column</h4>
+                    <div class="code-block">
+-- Inefficient with OR
+SELECT * FROM products 
+WHERE category = 'Electronics' 
+   OR category = 'Computers' 
+   OR category = 'Software';
+
+-- Better with IN
+SELECT * FROM products 
+WHERE category IN ('Electronics', 'Computers', 'Software');</div>
+
+                    <h4>Pattern: Range Conditions</h4>
+                    <div class="code-block">
+-- Using AND for range
+SELECT * FROM products 
+WHERE price >= 100 AND price <= 500;
+
+-- Better with BETWEEN
+SELECT * FROM products 
+WHERE price BETWEEN 100 AND 500;</div>
+
+                    <h4>Pattern: Exclusion Lists</h4>
+                    <div class="code-block">
+-- Using NOT and OR
+SELECT * FROM orders 
+WHERE NOT (status = 'Cancelled' OR status = 'Returned');
+
+-- Better with NOT IN
+SELECT * FROM orders 
+WHERE status NOT IN ('Cancelled', 'Returned');</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 11</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write complex WHERE clauses:</p>
+                            <ol>
+                                <li>Find products that are either Electronics over $100 OR Books under $20</li>
+                                <li>Get employees in departments 10, 20, or 30 with salary > 40000</li>
+                                <li>Find orders that are NOT (Cancelled OR Returned) AND total > 100</li>
+                                <li>Get customers from (NY OR CA) AND (created in 2024 OR VIP status)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 12: IN Operator -->
+                <div class="content-section" id="in">
+                    <h2>How to Use the IN Operator</h2>
+                    
+                    <p>The IN operator allows you to specify multiple values in a WHERE clause. It's a shorthand for multiple OR conditions and makes queries more readable and efficient when checking if a value matches any value in a list.</p>
+
+                    <h3>IN Operator Syntax</h3>
+                    <div class="code-block">
+-- Basic IN syntax
+SELECT column_names
+FROM table_name
+WHERE column_name IN (value1, value2, value3, ...);
+
+-- NOT IN syntax
+SELECT column_names
+FROM table_name
+WHERE column_name NOT IN (value1, value2, value3, ...);</div>
+
+                    <h3>Basic IN Examples</h3>
+                    <div class="code-block">
+-- Check for specific values
+SELECT * FROM products 
+WHERE category IN ('Electronics', 'Computers', 'Software');
+
+-- Numeric values
+SELECT * FROM orders 
+WHERE customer_id IN (100, 200, 300, 400, 500);
+
+-- Date values
+SELECT * FROM events 
+WHERE event_date IN ('2024-01-01', '2024-07-04', '2024-12-25');
+
+-- Using NOT IN
+SELECT * FROM employees 
+WHERE department_id NOT IN (10, 20, 30);</div>
+
+                    <h3>IN vs Multiple OR Conditions</h3>
+                    <div class="code-block">
+-- Using OR (verbose and harder to read)
+SELECT * FROM customers 
+WHERE state = 'NY' 
+   OR state = 'CA' 
+   OR state = 'TX' 
+   OR state = 'FL' 
+   OR state = 'IL';
+
+-- Using IN (cleaner and more maintainable)
+SELECT * FROM customers 
+WHERE state IN ('NY', 'CA', 'TX', 'FL', 'IL');
+
+-- Performance is typically similar or better with IN</div>
+
+                    <h3>IN with Subqueries</h3>
+                    <div class="code-block">
+-- Find customers who have placed orders
+SELECT * FROM customers 
+WHERE customer_id IN (
+    SELECT DISTINCT customer_id 
+    FROM orders
+);
+
+-- Find products in categories with high sales
+SELECT * FROM products 
+WHERE category IN (
+    SELECT category 
+    FROM product_sales 
+    GROUP BY category 
+    HAVING SUM(quantity) > 1000
+);
+
+-- Nested subqueries
+SELECT * FROM employees 
+WHERE department_id IN (
+    SELECT department_id 
+    FROM departments 
+    WHERE location_id IN (
+        SELECT location_id 
+        FROM locations 
+        WHERE country = 'USA'
+    )
+);</div>
+
+                    <h3>NOT IN with NULL Values</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ NULL Handling with IN/NOT IN</h4>
+                        <p>Be careful with NULL values in NOT IN:</p>
+                        <div class="code-block">
+-- If the list contains NULL, NOT IN returns no results
+SELECT * FROM products 
+WHERE category NOT IN ('Electronics', NULL);  -- Returns nothing!
+
+-- Safe alternatives:
+-- 1. Filter out NULLs in subquery
+SELECT * FROM products 
+WHERE category NOT IN (
+    SELECT category FROM categories 
+    WHERE category IS NOT NULL
+);
+
+-- 2. Use NOT EXISTS instead
+SELECT * FROM products p
+WHERE NOT EXISTS (
+    SELECT 1 FROM categories c 
+    WHERE p.category = c.category
+);</div>
+                    </div>
+
+                    <h3>Performance Considerations</h3>
+                    <div class="tip-box">
+                        <h4>💡 Performance Tips for IN</h4>
+                        <ul>
+                            <li>IN is optimized for small to medium lists (< 1000 items)</li>
+                            <li>For very large lists, consider using a temporary table and JOIN</li>
+                            <li>Index the column being checked with IN</li>
+                            <li>IN with subqueries may be rewritten as EXISTS by optimizer</li>
+                            <li>Avoid using IN with columns that allow NULL</li>
+                        </ul>
+                    </div>
+
+                    <h3>Advanced IN Usage</h3>
+                    
+                    <h4>IN with Multiple Columns (Row Constructors)</h4>
+                    <div class="code-block">
+-- MySQL supports row constructors
+SELECT * FROM orders 
+WHERE (customer_id, status) IN (
+    (100, 'Shipped'),
+    (200, 'Pending'),
+    (300, 'Processing')
+);
+
+-- Equivalent to:
+SELECT * FROM orders 
+WHERE (customer_id = 100 AND status = 'Shipped')
+   OR (customer_id = 200 AND status = 'Pending')
+   OR (customer_id = 300 AND status = 'Processing');</div>
+
+                    <h4>Dynamic IN Lists</h4>
+                    <div class="code-block">
+-- Using IN with CASE results
+SELECT * FROM products 
+WHERE price IN (
+    CASE 
+        WHEN category = 'Electronics' THEN 999.99
+        WHEN category = 'Books' THEN 29.99
+        ELSE 49.99
+    END
+);
+
+-- Using IN with calculated values
+SELECT * FROM orders 
+WHERE MONTH(order_date) IN (1, 4, 7, 10);  -- Quarterly months
+
+-- Using IN with string manipulation
+SELECT * FROM customers 
+WHERE SUBSTRING(zip_code, 1, 3) IN ('100', '101', '102');</div>
+
+                    <h3>Practical Examples</h3>
+                    
+                    <h4>Finding Records with Specific Statuses</h4>
+                    <div class="code-block">
+-- Active statuses
+SELECT * FROM accounts 
+WHERE status IN ('Active', 'Verified', 'Premium');
+
+-- Excluded statuses
+SELECT * FROM transactions 
+WHERE status NOT IN ('Failed', 'Cancelled', 'Reversed');</div>
+
+                    <h4>Geographic Filtering</h4>
+                    <div class="code-block">
+-- Specific regions
+SELECT * FROM stores 
+WHERE region IN ('North', 'South', 'East', 'West');
+
+-- Multiple geographic criteria
+SELECT * FROM customers 
+WHERE country IN ('USA', 'Canada', 'Mexico')
+  AND state IN ('CA', 'NY', 'TX', 'ON', 'BC');</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 12</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write queries using IN:</p>
+                            <ol>
+                                <li>Find orders from the last 3 months using IN with month numbers</li>
+                                <li>Get products NOT IN categories that have less than 5 items</li>
+                                <li>Find employees IN departments located in specific cities</li>
+                                <li>Use row constructor IN to match city-state combinations</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 13: BETWEEN Operator -->
+                <div class="content-section" id="between">
+                    <h2>How to Use the BETWEEN Operator</h2>
+                    
+                    <p>The BETWEEN operator selects values within a given range. The values can be numbers, text, or dates. BETWEEN is inclusive, meaning it includes both the start and end values in the range.</p>
+
+                    <h3>BETWEEN Syntax</h3>
+                    <div class="code-block">
+-- Basic BETWEEN syntax
+SELECT column_names
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+
+-- NOT BETWEEN syntax
+SELECT column_names
+FROM table_name
+WHERE column_name NOT BETWEEN value1 AND value2;
+
+-- Important: BETWEEN is inclusive of both boundaries
+-- value1 <= column_name <= value2</div>
+
+                    <h3>BETWEEN with Numbers</h3>
+                    <div class="code-block">
+-- Price range
+SELECT * FROM products 
+WHERE price BETWEEN 10.00 AND 50.00;
+-- Includes products priced exactly 10.00 and 50.00
+
+-- Equivalent using comparison operators
+SELECT * FROM products 
+WHERE price >= 10.00 AND price <= 50.00;
+
+-- Integer ranges
+SELECT * FROM employees 
+WHERE employee_id BETWEEN 100 AND 200;
+
+-- NOT BETWEEN for exclusion
+SELECT * FROM products 
+WHERE price NOT BETWEEN 100 AND 1000;
+-- Gets products under 100 OR over 1000</div>
+
+                    <h3>BETWEEN with Dates</h3>
+                    <div class="code-block">
+-- Date range
+SELECT * FROM orders 
+WHERE order_date BETWEEN '2024-01-01' AND '2024-12-31';
+
+-- Current month
+SELECT * FROM orders 
+WHERE order_date BETWEEN 
+    DATE_FORMAT(CURDATE(), '%Y-%m-01') 
+    AND LAST_DAY(CURDATE());
+
+-- Last 30 days
+SELECT * FROM orders 
+WHERE order_date BETWEEN 
+    DATE_SUB(CURDATE(), INTERVAL 30 DAY) 
+    AND CURDATE();
+
+-- Datetime ranges (be careful with time components!)
+SELECT * FROM events 
+WHERE event_datetime BETWEEN 
+    '2024-01-01 00:00:00' 
+    AND '2024-01-31 23:59:59';</div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Date/DateTime Gotcha</h4>
+                        <p>When using BETWEEN with datetime columns and date values:</p>
+                        <div class="code-block">
+-- This might miss records on Dec 31 with time > 00:00:00
+SELECT * FROM orders 
+WHERE order_datetime BETWEEN '2024-01-01' AND '2024-12-31';
+
+-- Better approach for datetime columns:
+SELECT * FROM orders 
+WHERE order_datetime >= '2024-01-01' 
+  AND order_datetime < '2025-01-01';
+
+-- Or explicitly include time:
+SELECT * FROM orders 
+WHERE order_datetime BETWEEN 
+    '2024-01-01 00:00:00' 
+    AND '2024-12-31 23:59:59';</div>
+                    </div>
+
+                    <h3>BETWEEN with Strings</h3>
+                    <div class="code-block">
+-- Alphabetical range (case-insensitive in MySQL by default)
+SELECT * FROM customers 
+WHERE last_name BETWEEN 'A' AND 'M';
+-- Includes names starting with A through M
+
+-- More precise string ranges
+SELECT * FROM customers 
+WHERE last_name BETWEEN 'Anderson' AND 'Miller';
+
+-- Product codes
+SELECT * FROM products 
+WHERE product_code BETWEEN 'A100' AND 'A999';
+
+-- NOT BETWEEN for strings
+SELECT * FROM customers 
+WHERE first_name NOT BETWEEN 'A' AND 'J';
+-- Names starting with K-Z</div>
+
+                    <h3>BETWEEN with Calculated Values</h3>
+                    <div class="code-block">
+-- Using expressions with BETWEEN
+SELECT * FROM employees 
+WHERE salary * 12 BETWEEN 50000 AND 100000;
+
+-- Date calculations
+SELECT * FROM employees 
+WHERE DATEDIFF(CURDATE(), hire_date) BETWEEN 365 AND 1825;
+-- Employees with 1-5 years tenure
+
+-- Age ranges
+SELECT * FROM customers 
+WHERE YEAR(CURDATE()) - YEAR(birth_date) BETWEEN 18 AND 65;</div>
+
+                    <h3>Combining BETWEEN with Other Operators</h3>
+                    <div class="code-block">
+-- BETWEEN with AND
+SELECT * FROM products 
+WHERE price BETWEEN 50 AND 200 
+  AND category = 'Electronics';
+
+-- BETWEEN with OR
+SELECT * FROM orders 
+WHERE (order_date BETWEEN '2024-01-01' AND '2024-03-31')
+   OR (order_date BETWEEN '2024-10-01' AND '2024-12-31');
+
+-- Multiple BETWEEN conditions
+SELECT * FROM employees 
+WHERE salary BETWEEN 40000 AND 80000 
+  AND age BETWEEN 25 AND 50 
+  AND hire_date BETWEEN '2020-01-01' AND '2023-12-31';</div>
+
+                    <h3>BETWEEN in Subqueries</h3>
+                    <div class="code-block">
+-- Using BETWEEN with subquery results
+SELECT * FROM products 
+WHERE price BETWEEN 
+    (SELECT AVG(price) * 0.8 FROM products)  -- 20% below average
+    AND 
+    (SELECT AVG(price) * 1.2 FROM products); -- 20% above average
+
+-- Date range from another table
+SELECT * FROM orders 
+WHERE order_date BETWEEN 
+    (SELECT MIN(fiscal_start) FROM fiscal_periods WHERE year = 2024)
+    AND 
+    (SELECT MAX(fiscal_end) FROM fiscal_periods WHERE year = 2024);</div>
+
+                    <h3>Performance and Best Practices</h3>
+                    <div class="tip-box">
+                        <h4>💡 BETWEEN Best Practices</h4>
+                        <ul>
+                            <li>BETWEEN is inclusive - remember both boundaries are included</li>
+                            <li>For better performance, ensure columns used with BETWEEN are indexed</li>
+                            <li>Be explicit with datetime ranges to avoid confusion</li>
+                            <li>Consider timezone implications for datetime ranges</li>
+                            <li>BETWEEN is usually more readable than two comparison operators</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 13</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write queries using BETWEEN:</p>
+                            <ol>
+                                <li>Find products with prices in the middle 50% range</li>
+                                <li>Get orders from last quarter (3 months)</li>
+                                <li>Find employees with names between 'D' and 'P'</li>
+                                <li>Select transactions NOT BETWEEN business hours (9 AM - 5 PM)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 14: LIKE and REGEXP -->
+                <div class="content-section" id="pattern">
+                    <h2>How to Use LIKE and REGEXP Operators</h2>
+                    
+                    <p>Pattern matching operators allow you to search for data using wildcards and regular expressions. LIKE provides simple pattern matching, while REGEXP offers powerful regular expression capabilities.</p>
+
+                    <h3>LIKE Operator Wildcards</h3>
+                    <table class="operator-table">
+                        <tr>
+                            <th>Wildcard</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Matches</th>
+                        </tr>
+                        <tr>
+                            <td>%</td>
+                            <td>Zero or more characters</td>
+                            <td>'J%'</td>
+                            <td>John, Jane, J, James</td>
+                        </tr>
+                        <tr>
+                            <td>_</td>
+                            <td>Exactly one character</td>
+                            <td>'J_ne'</td>
+                            <td>Jane, June</td>
+                        </tr>
+                    </table>
+
+                    <h3>Basic LIKE Examples</h3>
+                    <div class="code-block">
+-- Starts with pattern
+SELECT * FROM customers WHERE first_name LIKE 'J%';
+-- John, Jane, James, Jennifer
+
+-- Ends with pattern
+SELECT * FROM customers WHERE email LIKE '%@gmail.com';
+
+-- Contains pattern
+SELECT * FROM products WHERE description LIKE '%laptop%';
+
+-- Specific position wildcards
+SELECT * FROM products WHERE product_code LIKE 'PR_D_001';
+-- PROD1001, PRXD2001, etc.
+
+-- Multiple wildcards
+SELECT * FROM customers WHERE phone LIKE '555-%-%';</div>
+
+                    <h3>NOT LIKE</h3>
+                    <div class="code-block">
+-- Exclude patterns
+SELECT * FROM customers WHERE email NOT LIKE '%@yahoo.com';
+
+-- Not starting with
+SELECT * FROM products WHERE name NOT LIKE 'Test%';
+
+-- Complex NOT LIKE
+SELECT * FROM files 
+WHERE filename NOT LIKE '%.tmp' 
+  AND filename NOT LIKE '%.bak';</div>
+
+                    <h3>LIKE with ESCAPE</h3>
+                    <div class="code-block">
+-- When you need to search for % or _ literally
+-- Use ESCAPE to define escape character
+
+-- Search for literal %
+SELECT * FROM products 
+WHERE discount_text LIKE '%50\\%%' ESCAPE '\\';
+-- Finds: "Save 50%"
+
+-- Search for literal underscore
+SELECT * FROM tables 
+WHERE table_name LIKE '%\\_temp' ESCAPE '\\';
+-- Finds: "user_temp"
+
+-- Custom escape character
+SELECT * FROM products 
+WHERE name LIKE '%!_temp%' ESCAPE '!';
+-- ! is the escape character</div>
+
+                    <h3>REGEXP/RLIKE Operator</h3>
+                    <p>REGEXP (or RLIKE) provides powerful regular expression matching:</p>
+                    
+                    <h4>REGEXP Metacharacters</h4>
+                    <table class="operator-table">
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td>^</td>
+                            <td>Beginning of string</td>
+                            <td>'^J' - starts with J</td>
+                        </tr>
+                        <tr>
+                            <td>$</td>
+                            <td>End of string</td>
+                            <td>'n$' - ends with n</td>
+                        </tr>
+                        <tr>
+                            <td>.</td>
+                            <td>Any single character</td>
+                            <td>'J.n' - Jan, Jon, Jen</td>
+                        </tr>
+                        <tr>
+                            <td>[...]</td>
+                            <td>Character class</td>
+                            <td>'[aeiou]' - any vowel</td>
+                        </tr>
+                        <tr>
+                            <td>[^...]</td>
+                            <td>Negated character class</td>
+                            <td>'[^0-9]' - not a digit</td>
+                        </tr>
+                        <tr>
+                            <td>*</td>
+                            <td>Zero or more</td>
+                            <td>'Jo*n' - Jn, Jon, Joon</td>
+                        </tr>
+                        <tr>
+                            <td>+</td>
+                            <td>One or more</td>
+                            <td>'Jo+n' - Jon, Joon</td>
+                        </tr>
+                        <tr>
+                            <td>?</td>
+                            <td>Zero or one</td>
+                            <td>'Johns?' - John, Johns</td>
+                        </tr>
+                        <tr>
+                            <td>{n}</td>
+                            <td>Exactly n times</td>
+                            <td>'[0-9]{3}' - 3 digits</td>
+                        </tr>
+                        <tr>
+                            <td>|</td>
+                            <td>Alternation (OR)</td>
+                            <td>'cat|dog' - cat or dog</td>
+                        </tr>
+                    </table>
+
+                    <h3>REGEXP Examples</h3>
+                    <div class="code-block">
+-- Starts with J or M
+SELECT * FROM customers WHERE first_name REGEXP '^[JM]';
+
+-- Email validation pattern
+SELECT * FROM customers
+WHERE email REGEXP '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+
+-- Phone number pattern (US format)
+SELECT * FROM customers
+WHERE phone REGEXP '^[0-9]{3}-[0-9]{3}-[0-9]{4}$';
+
+-- ZIP code pattern
+SELECT * FROM customers
+WHERE zip_code REGEXP '^[0-9]{5}(-[0-9]{4})?$';</div>
+
+                    <h3>Advanced REGEXP Usage</h3>
+                    <div class="code-block">
+-- Product codes (2 letters, dash, 4 digits, dash, letter)
+SELECT * FROM products
+WHERE product_code REGEXP '^[A-Z]{2}-[0-9]{4}-[A-Z]$';
+
+-- Finding words
+SELECT * FROM products
+WHERE description REGEXP '[[:<:]]laptop[[:>:]]';
+-- [[:<:]] and [[:>:]] are word boundaries
+
+-- Case-insensitive search (REGEXP is case-insensitive by default in MySQL)
+SELECT * FROM products WHERE name REGEXP '[0-9]';
+-- Finds any product with a number in the name</div>
+
+                    <div class="tip-box">
+                        <h4>💡 LIKE vs REGEXP</h4>
+                        <ul>
+                            <li><strong>LIKE:</strong> Simpler, faster, uses % and _ wildcards</li>
+                            <li><strong>REGEXP:</strong> More powerful, complex patterns, regular expressions</li>
+                            <li><strong>Performance:</strong> LIKE is generally faster for simple patterns</li>
+                            <li><strong>Use LIKE for:</strong> Simple wildcard matching</li>
+                            <li><strong>Use REGEXP for:</strong> Complex pattern validation, email/phone formats</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ REGEXP Performance Considerations</h4>
+                        <p>REGEXP operations can be slow on large datasets because they cannot effectively use indexes. When possible:</p>
+                        <ul>
+                            <li>Use indexes with LIKE for prefix matches (e.g., column LIKE 'prefix%')</li>
+                            <li>Consider full-text search for complex text searches</li>
+                            <li>Validate data format at application level when possible</li>
+                            <li>Cache REGEXP results for frequently used patterns</li>
+                        </ul>
+                    </div>
+
+                    <h3>Common REGEXP Patterns</h3>
+                    <div class="code-block">
+-- Email validation
+WHERE email REGEXP '^[^@]+@[^@]+\\.[^@]+$';
+
+-- US Phone: (123) 456-7890 or 123-456-7890
+WHERE phone REGEXP '^(\\([0-9]{3}\\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$';
+
+-- ZIP Code: 12345 or 12345-6789
+WHERE zip_code REGEXP '^[0-9]{5}(-[0-9]{4})?$';
+
+-- Credit Card (basic format)
+WHERE card_number REGEXP '^[0-9]{4}[- ]?[0-9]{4}[- ]?[0-9]{4}[- ]?[0-9]{4}$';</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 14</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write pattern matching queries:</p>
+                            <ol>
+                                <li>Find customers with gmail or yahoo email addresses</li>
+                                <li>Find products with codes starting with 2 letters, then 4 numbers</li>
+                                <li>Find phone numbers missing area codes (not 10 digits)</li>
+                                <li>Find names with exactly 5 letters</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 15: IS NULL -->
+                <div class="content-section" id="null">
+                    <h2>How to Use the IS NULL Clause</h2>
+                    
+                    <p>NULL represents a missing or unknown value in SQL. It's not zero, not an empty string, but the absence of any value. Understanding how to work with NULL values is crucial for accurate query results.</p>
+
+                    <h3>Understanding NULL</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ Important NULL Concepts</h4>
+                        <ul>
+                            <li>NULL is not equal to anything, including itself</li>
+                            <li>NULL is not zero (0) or empty string ('')</li>
+                            <li>Any arithmetic operation with NULL returns NULL</li>
+                            <li>Most functions return NULL if any argument is NULL</li>
+                            <li>NULL values are treated specially in ORDER BY and GROUP BY</li>
+                        </ul>
+                    </div>
+
+                    <h3>IS NULL and IS NOT NULL Syntax</h3>
+                    <div class="code-block">
+-- Check for NULL values
+SELECT * FROM employees WHERE commission_pct IS NULL;
+
+-- Check for non-NULL values
+SELECT * FROM employees WHERE commission_pct IS NOT NULL;
+
+-- WRONG - These won't work!
+SELECT * FROM employees WHERE commission_pct = NULL;      -- Returns nothing
+SELECT * FROM employees WHERE commission_pct != NULL;     -- Returns nothing
+SELECT * FROM employees WHERE commission_pct <> NULL;     -- Returns nothing</div>
+
+                    <h3>NULL in Different Contexts</h3>
+                    
+                    <h4>NULL in Numeric Columns</h4>
+                    <div class="code-block">
+-- Find employees without commission
+SELECT employee_id, first_name, last_name, salary, commission_pct
+FROM employees 
+WHERE commission_pct IS NULL;
+
+-- Calculate total compensation, handling NULL commission
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    commission_pct,
+    salary + (salary * COALESCE(commission_pct, 0)) AS total_compensation
+FROM employees;</div>
+
+                    <h4>NULL in String Columns</h4>
+                    <div class="code-block">
+-- Find customers without middle names
+SELECT * FROM customers WHERE middle_name IS NULL;
+
+-- Find incomplete addresses
+SELECT * FROM addresses 
+WHERE address_line2 IS NULL 
+   OR postal_code IS NULL;
+
+-- Concatenation with NULL handling
+SELECT 
+    CONCAT(first_name, ' ', 
+           IFNULL(middle_name, ''), ' ',
+           last_name) AS full_name
+FROM customers;</div>
+
+                    <h4>NULL in Date Columns</h4>
+                    <div class="code-block">
+-- Find unshipped orders
+SELECT * FROM orders WHERE ship_date IS NULL;
+
+-- Find employees still working (no termination date)
+SELECT * FROM employees WHERE termination_date IS NULL;
+
+-- Calculate days to ship, excluding unshipped
+SELECT 
+    order_id,
+    order_date,
+    ship_date,
+    DATEDIFF(ship_date, order_date) AS days_to_ship
+FROM orders
+WHERE ship_date IS NOT NULL;</div>
+
+                    <h3>NULL Functions</h3>
+                    
+                    <h4>COALESCE Function</h4>
+                    <div class="code-block">
+-- COALESCE returns first non-NULL value
+SELECT 
+    product_name,
+    COALESCE(sale_price, regular_price, 0) AS display_price
+FROM products;
+
+-- Multiple fallbacks
+SELECT 
+    COALESCE(preferred_name, first_name, username, 'Guest') AS display_name
+FROM users;</div>
+
+                    <h4>IFNULL Function (MySQL specific)</h4>
+                    <div class="code-block">
+-- IFNULL takes exactly 2 arguments
+SELECT 
+    product_name,
+    IFNULL(discount, 0) AS discount_amount
+FROM products;
+
+-- Nested IFNULL
+SELECT 
+    IFNULL(IFNULL(mobile_phone, home_phone), 'No phone') AS contact_phone
+FROM customers;</div>
+
+                    <h4>NULLIF Function</h4>
+                    <div class="code-block">
+-- NULLIF returns NULL if two values are equal
+-- Useful for treating certain values as NULL
+
+-- Treat zero as NULL
+SELECT 
+    product_name,
+    quantity,
+    price / NULLIF(quantity, 0) AS unit_price
+FROM inventory;
+
+-- Treat empty string as NULL
+SELECT 
+    customer_id,
+    NULLIF(email, '') AS email_address
+FROM customers;</div>
+
+                    <h3>NULL in Aggregate Functions</h3>
+                    <div class="code-block">
+-- Most aggregate functions ignore NULL
+SELECT 
+    COUNT(*) AS total_employees,           -- Counts all rows
+    COUNT(commission_pct) AS with_commission,  -- Counts non-NULL only
+    AVG(commission_pct) AS avg_commission,     -- Average of non-NULL values
+    SUM(commission_pct) AS total_commission    -- Sum of non-NULL values
+FROM employees;
+
+-- COUNT(*) vs COUNT(column)
+SELECT 
+    COUNT(*) AS total_rows,
+    COUNT(middle_name) AS with_middle_name,
+    COUNT(*) - COUNT(middle_name) AS without_middle_name
+FROM customers;</div>
+
+                    <h3>NULL in WHERE Clauses</h3>
+                    <div class="code-block">
+-- Combining NULL checks with other conditions
+SELECT * FROM orders 
+WHERE status = 'Pending' 
+  AND ship_date IS NULL;
+
+-- NULL with OR conditions
+SELECT * FROM products 
+WHERE discontinued_date IS NULL 
+   OR discontinued_date > CURDATE();
+
+-- Complex NULL handling
+SELECT * FROM employees 
+WHERE (commission_pct IS NULL AND department_id = 10)
+   OR (commission_pct IS NOT NULL AND commission_pct > 0.15);</div>
+
+                    <h3>NULL in ORDER BY</h3>
+                    <div class="code-block">
+-- NULL values in ORDER BY (MySQL defaults)
+-- NULLs appear first with ASC, last with DESC
+SELECT * FROM employees 
+ORDER BY commission_pct;  -- NULLs first
+
+SELECT * FROM employees 
+ORDER BY commission_pct DESC;  -- NULLs last
+
+-- Control NULL position explicitly
+SELECT * FROM employees 
+ORDER BY commission_pct IS NULL, commission_pct;  -- NULLs last
+
+SELECT * FROM employees 
+ORDER BY commission_pct IS NOT NULL, commission_pct;  -- NULLs first</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 15</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write queries handling NULL values:</p>
+                            <ol>
+                                <li>Find all orders that haven't been shipped yet</li>
+                                <li>Calculate average salary excluding NULL commissions</li>
+                                <li>Display "N/A" for NULL phone numbers</li>
+                                <li>Count how many customers have vs don't have email addresses</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 16: ORDER BY Basics -->
+                <div class="content-section" id="orderby">
+                    <h2>How to Sort by Column Name</h2>
+                    
+                    <p>The ORDER BY clause is used to sort the result set by one or more columns. By default, it sorts in ascending order, but you can specify descending order. Sorting is essential for presenting data in a meaningful sequence.</p>
+
+                    <h3>Basic ORDER BY Syntax</h3>
+                    <div class="code-block">
+-- Basic syntax
+SELECT column_list
+FROM table_name
+ORDER BY column_name [ASC|DESC];
+
+-- Multiple columns
+SELECT column_list
+FROM table_name
+ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ...;
+
+-- ASC is default and optional
+SELECT * FROM products ORDER BY price;      -- Ascending
+SELECT * FROM products ORDER BY price ASC;  -- Same as above
+SELECT * FROM products ORDER BY price DESC; -- Descending</div>
+
+                    <h3>Single Column Sorting</h3>
+                    <div class="code-block">
+-- Ascending order (smallest to largest, A to Z)
+SELECT * FROM employees 
+ORDER BY last_name;
+
+SELECT * FROM products 
+ORDER BY price;
+
+-- Descending order (largest to smallest, Z to A)
+SELECT * FROM employees 
+ORDER BY salary DESC;
+
+SELECT * FROM products 
+ORDER BY stock_quantity DESC;</div>
+
+                    <h3>Multiple Column Sorting</h3>
+                    <div class="code-block">
+-- Sort by department, then by salary within each department
+SELECT department_id, last_name, salary
+FROM employees 
+ORDER BY department_id, salary DESC;
+
+-- Sort by multiple criteria
+SELECT * FROM products 
+ORDER BY category ASC, price DESC, product_name ASC;
+
+-- Real-world example: Sort customers by location
+SELECT * FROM customers 
+ORDER BY country, state, city, last_name, first_name;</div>
+
+                    <h3>Sorting Different Data Types</h3>
+                    
+                    <h4>Numeric Sorting</h4>
+                    <div class="code-block">
+-- Integer sorting
+SELECT * FROM products ORDER BY product_id;
+
+-- Decimal sorting
+SELECT * FROM products ORDER BY price;
+
+-- Calculated values
+SELECT *, price * quantity AS total_value
+FROM inventory 
+ORDER BY total_value DESC;</div>
+
+                    <h4>String Sorting</h4>
+                    <div class="code-block">
+-- Alphabetical sorting (case-insensitive by default in MySQL)
+SELECT * FROM customers ORDER BY last_name;
+
+-- Case-sensitive sorting
+SELECT * FROM customers ORDER BY BINARY last_name;
+
+-- Sorting with special characters
+SELECT * FROM companies 
+ORDER BY company_name;  -- Special chars typically sort before letters</div>
+
+                    <h4>Date Sorting</h4>
+                    <div class="code-block">
+-- Chronological order (oldest to newest)
+SELECT * FROM orders ORDER BY order_date;
+
+-- Reverse chronological (newest to oldest)
+SELECT * FROM orders ORDER BY order_date DESC;
+
+-- Sort by date parts
+SELECT * FROM orders 
+ORDER BY YEAR(order_date) DESC, MONTH(order_date), DAY(order_date);</div>
+
+                    <h3>ORDER BY with NULL Values</h3>
+                    <div class="code-block">
+-- In MySQL, NULLs appear first with ASC
+SELECT * FROM employees 
+ORDER BY commission_pct;  -- NULLs first, then sorted values
+
+-- NULLs appear last with DESC
+SELECT * FROM employees 
+ORDER BY commission_pct DESC;  -- Sorted values, then NULLs
+
+-- Force NULLs to end regardless of ASC/DESC
+SELECT * FROM employees 
+ORDER BY commission_pct IS NULL, commission_pct;
+
+-- Force NULLs to beginning
+SELECT * FROM employees 
+ORDER BY commission_pct IS NOT NULL, commission_pct;</div>
+
+                    <h3>Combining ORDER BY with Other Clauses</h3>
+                    <div class="code-block">
+-- ORDER BY with WHERE
+SELECT * FROM products 
+WHERE category = 'Electronics'
+ORDER BY price DESC;
+
+-- ORDER BY with DISTINCT
+SELECT DISTINCT category 
+FROM products 
+ORDER BY category;
+
+-- ORDER BY with GROUP BY
+SELECT category, COUNT(*) as product_count
+FROM products 
+GROUP BY category
+ORDER BY product_count DESC;
+
+-- Complete query structure
+SELECT 
+    category,
+    AVG(price) as avg_price
+FROM products 
+WHERE stock_quantity > 0
+GROUP BY category
+HAVING avg_price > 50
+ORDER BY avg_price DESC
+LIMIT 10;</div>
+
+                    <h3>Performance Considerations</h3>
+                    <div class="tip-box">
+                        <h4>💡 ORDER BY Performance Tips</h4>
+                        <ul>
+                            <li>Sorting uses temporary tables and can be slow on large datasets</li>
+                            <li>Create indexes on frequently sorted columns</li>
+                            <li>Multi-column sorting benefits from composite indexes</li>
+                            <li>Avoid sorting on calculated columns when possible</li>
+                            <li>Use LIMIT with ORDER BY to reduce result set size</li>
+                        </ul>
+                    </div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 16</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write ORDER BY queries:</p>
+                            <ol>
+                                <li>Sort employees by department, then by hire date (newest first)</li>
+                                <li>Sort products by category (A-Z) and price (high to low)</li>
+                                <li>Sort orders by year (descending) and month (ascending)</li>
+                                <li>Sort customers with NULL emails at the end</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 17: Advanced Sorting -->
+                <div class="content-section" id="orderadvanced">
+                    <h2>How to Sort by Alias, Expression, or Column Number</h2>
+                    
+                    <p>Beyond sorting by simple column names, SQL allows sorting by column aliases, expressions, and column positions. These techniques provide flexibility in organizing your result sets.</p>
+
+                    <h3>Sorting by Column Alias</h3>
+                    <div class="code-block">
+-- Sort by alias in SELECT clause
+SELECT 
+    first_name,
+    last_name,
+    salary * 12 AS annual_salary
+FROM employees 
+ORDER BY annual_salary DESC;
+
+-- Multiple aliases
+SELECT 
+    product_name,
+    price * (1 - discount) AS sale_price,
+    stock_quantity * price AS inventory_value
+FROM products 
+ORDER BY sale_price ASC, inventory_value DESC;</div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Alias Limitations</h4>
+                        <p>While you can use aliases in ORDER BY, you typically cannot use them in WHERE clauses:</p>
+                        <div class="code-block">
+-- This works
+SELECT price * 1.1 AS adjusted_price
+FROM products 
+ORDER BY adjusted_price;
+
+-- This typically doesn't work
+SELECT price * 1.1 AS adjusted_price
+FROM products 
+WHERE adjusted_price > 100;  -- Error in most databases!</div>
+                    </div>
+
+                    <h3>Sorting by Column Number</h3>
+                    <div class="code-block">
+-- Sort by column position (1-based indexing)
+SELECT first_name, last_name, salary
+FROM employees 
+ORDER BY 3 DESC;  -- Sort by third column (salary)
+
+-- Multiple column positions
+SELECT category, product_name, price
+FROM products 
+ORDER BY 1, 3 DESC;  -- Sort by first column, then third
+
+-- Useful for complex expressions
+SELECT 
+    CONCAT(first_name, ' ', last_name),
+    department_id,
+    salary * 12
+FROM employees 
+ORDER BY 3 DESC, 1;  -- Sort by annual salary, then name</div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Column Number Disadvantages</h4>
+                        <ul>
+                            <li>Less readable - not clear what you're sorting by</li>
+                            <li>Fragile - breaks if column order changes</li>
+                            <li>Not recommended for production code</li>
+                            <li>Some modern SQL standards discourage this practice</li>
+                        </ul>
+                    </div>
+
+                    <h3>Sorting by Expressions</h3>
+                    <div class="code-block">
+-- Sort by calculation
+SELECT * FROM products 
+ORDER BY price * stock_quantity DESC;
+
+-- Sort by string manipulation
+SELECT * FROM customers 
+ORDER BY LENGTH(last_name), last_name;
+
+-- Sort by date calculation
+SELECT * FROM employees 
+ORDER BY DATEDIFF(CURDATE(), hire_date) DESC;  -- Longest tenure first
+
+-- Complex expression sorting
+SELECT * FROM orders 
+ORDER BY 
+    CASE status
+        WHEN 'Urgent' THEN 1
+        WHEN 'High' THEN 2
+        WHEN 'Normal' THEN 3
+        WHEN 'Low' THEN 4
+    END,
+    order_date;</div>
+
+                    <h3>CASE Statements in ORDER BY</h3>
+                    <div class="code-block">
+-- Custom sort order using CASE
+SELECT * FROM products 
+ORDER BY 
+    CASE category
+        WHEN 'Electronics' THEN 1
+        WHEN 'Computers' THEN 2
+        WHEN 'Software' THEN 3
+        ELSE 4
+    END;
+
+-- Conditional sorting
+SELECT * FROM employees 
+ORDER BY 
+    CASE 
+        WHEN department_id = 10 THEN salary
+        ELSE hire_date
+    END DESC;
+
+-- Dynamic sort direction
+SELECT * FROM products 
+ORDER BY 
+    CASE WHEN @sort_desc = 1 
+        THEN price * -1 
+        ELSE price 
+    END;</div>
+
+                    <h3>Sorting with Functions</h3>
+                    <div class="code-block">
+-- String functions in ORDER BY
+SELECT * FROM customers 
+ORDER BY UPPER(last_name);
+
+-- Date functions
+SELECT * FROM orders 
+ORDER BY MONTH(order_date), DAY(order_date);
+
+-- Mathematical functions
+SELECT * FROM scores 
+ORDER BY ABS(score - 100);  -- Sort by distance from 100
+
+-- Aggregate functions (with GROUP BY)
+SELECT category, AVG(price) as avg_price
+FROM products 
+GROUP BY category
+ORDER BY AVG(price) DESC;</div>
+
+                    <h3>Random Ordering</h3>
+                    <div class="code-block">
+-- Random order using RAND()
+SELECT * FROM products 
+ORDER BY RAND()
+LIMIT 10;  -- Random 10 products
+
+-- Random with seed for reproducibility
+SELECT * FROM customers 
+ORDER BY RAND(12345)  -- Same random order each time
+LIMIT 5;</div>
+
+                    <div class="tip-box">
+                        <h4>💡 Performance Warning</h4>
+                        <p>ORDER BY RAND() is very slow on large tables because it:</p>
+                        <ul>
+                            <li>Generates a random number for every row</li>
+                            <li>Sorts the entire result set</li>
+                            <li>Cannot use indexes</li>
+                        </ul>
+                        <p>For better performance with large datasets, consider alternative randomization techniques.</p>
+                    </div>
+
+                    <h3>Advanced Sorting Techniques</h3>
+                    <div class="code-block">
+-- Sort with NULL handling
+SELECT * FROM employees 
+ORDER BY 
+    CASE 
+        WHEN commission_pct IS NULL THEN 1 
+        ELSE 0 
+    END,
+    commission_pct DESC;
+
+-- Multi-level conditional sorting
+SELECT * FROM tasks 
+ORDER BY 
+    is_completed,                           -- Incomplete first
+    CASE priority                           -- Then by priority
+        WHEN 'Critical' THEN 1
+        WHEN 'High' THEN 2
+        WHEN 'Medium' THEN 3
+        WHEN 'Low' THEN 4
+    END,
+    due_date,                               -- Then by due date
+    created_date;                           -- Finally by creation date
+
+-- Locale-specific sorting
+SELECT * FROM international_customers 
+ORDER BY last_name COLLATE utf8mb4_spanish_ci;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 17</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write advanced ORDER BY queries:</p>
+                            <ol>
+                                <li>Sort by the length of product names, then alphabetically</li>
+                                <li>Use CASE to sort status: 'Active' first, 'Pending' second, 'Inactive' last</li>
+                                <li>Sort by calculated profit margin (price - cost) / cost</li>
+                                <li>Random selection of 5 customers for a survey</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 18: LIMIT Clause -->
+                <div class="content-section" id="limit">
+                    <h2>How to Use the LIMIT Clause</h2>
+                    
+                    <p>The LIMIT clause restricts the number of rows returned by a query. It's essential for pagination, getting top results, and improving query performance when you only need a subset of data.</p>
+
+                    <h3>Basic LIMIT Syntax</h3>
+                    <div class="code-block">
+-- Return first n rows
+SELECT column_list
+FROM table_name
+LIMIT n;
+
+-- Skip m rows, return next n rows (pagination)
+SELECT column_list
+FROM table_name
+LIMIT m, n;  -- Skip m, take n
+
+-- Alternative syntax (MySQL 8.0+)
+SELECT column_list
+FROM table_name
+LIMIT n OFFSET m;  -- Take n, skip m</div>
+
+                    <h3>Simple LIMIT Examples</h3>
+                    <div class="code-block">
+-- Get first 10 rows
+SELECT * FROM products LIMIT 10;
+
+-- Get top 5 most expensive products
+SELECT * FROM products 
+ORDER BY price DESC 
+LIMIT 5;
+
+-- Get 3 newest orders
+SELECT * FROM orders 
+ORDER BY order_date DESC 
+LIMIT 3;
+
+-- Single row (like TOP 1)
+SELECT * FROM employees 
+ORDER BY salary DESC 
+LIMIT 1;  -- Highest paid employee</div>
+
+                    <h3>LIMIT with OFFSET (Pagination)</h3>
+                    <div class="code-block">
+-- Skip first 10 rows, get next 10
+SELECT * FROM customers 
+ORDER BY customer_id 
+LIMIT 10, 10;  -- Skip 10, take 10
+
+-- Alternative syntax
+SELECT * FROM customers 
+ORDER BY customer_id 
+LIMIT 10 OFFSET 10;  -- Same result
+
+-- Page 1 (rows 1-10)
+SELECT * FROM products ORDER BY product_id LIMIT 10 OFFSET 0;
+
+-- Page 2 (rows 11-20)
+SELECT * FROM products ORDER BY product_id LIMIT 10 OFFSET 10;
+
+-- Page 3 (rows 21-30)
+SELECT * FROM products ORDER BY product_id LIMIT 10 OFFSET 20;
+
+-- Dynamic pagination
+SET @page = 3;
+SET @page_size = 10;
+SELECT * FROM products 
+ORDER BY product_id 
+LIMIT @page_size OFFSET (@page - 1) * @page_size;</div>
+
+                    <h3>LIMIT with ORDER BY</h3>
+                    <div class="code-block">
+-- Top N queries
+-- Top 10 best-selling products
+SELECT 
+    product_id,
+    product_name,
+    SUM(quantity) as total_sold
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY product_id
+ORDER BY total_sold DESC
+LIMIT 10;
+
+-- Bottom 5 performers
+SELECT * FROM employees 
+ORDER BY performance_score ASC 
+LIMIT 5;
+
+-- Most recent entries
+SELECT * FROM blog_posts 
+ORDER BY created_at DESC 
+LIMIT 20;</div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ LIMIT without ORDER BY</h4>
+                        <p>Using LIMIT without ORDER BY returns unpredictable results:</p>
+                        <div class="code-block">
+-- Unpredictable - could return any 5 products
+SELECT * FROM products LIMIT 5;
+
+-- Always use ORDER BY for consistent results
+SELECT * FROM products ORDER BY product_id LIMIT 5;</div>
+                    </div>
+
+                    <h3>Practical LIMIT Applications</h3>
+                    
+                    <h4>Finding Extreme Values</h4>
+                    <div class="code-block">
+-- Highest value
+SELECT * FROM products 
+ORDER BY price DESC 
+LIMIT 1;
+
+-- Lowest value
+SELECT * FROM products 
+WHERE price > 0 
+ORDER BY price ASC 
+LIMIT 1;
+
+-- Second highest (skip first)
+SELECT * FROM products 
+ORDER BY price DESC 
+LIMIT 1, 1;  -- Skip 1, take 1</div>
+
+                    <h4>Sampling Data</h4>
+                    <div class="code-block">
+-- Random sample of 100 rows
+SELECT * FROM large_table 
+ORDER BY RAND() 
+LIMIT 100;
+
+-- First/last N rows by date
+SELECT * FROM logs 
+ORDER BY log_date DESC 
+LIMIT 1000;  -- Last 1000 log entries
+
+-- Sample from each category
+(SELECT * FROM products WHERE category = 'Electronics' LIMIT 5)
+UNION ALL
+(SELECT * FROM products WHERE category = 'Books' LIMIT 5)
+UNION ALL
+(SELECT * FROM products WHERE category = 'Clothing' LIMIT 5);</div>
+
+                    <h3>LIMIT in Subqueries</h3>
+                    <div class="code-block">
+-- Find orders from top 10 customers
+SELECT * FROM orders 
+WHERE customer_id IN (
+    SELECT customer_id 
+    FROM customers 
+    ORDER BY total_purchases DESC 
+    LIMIT 10
+);  -- Note: This won't work in all MySQL versions
+
+-- Workaround using derived table
+SELECT o.* FROM orders o
+JOIN (
+    SELECT customer_id 
+    FROM customers 
+    ORDER BY total_purchases DESC 
+    LIMIT 10
+) top_customers ON o.customer_id = top_customers.customer_id;</div>
+
+                    <h3>Performance Optimization with LIMIT</h3>
+                    <div class="tip-box">
+                        <h4>💡 LIMIT Performance Tips</h4>
+                        <ul>
+                            <li>LIMIT can significantly improve query performance</li>
+                            <li>MySQL stops searching after finding LIMIT rows</li>
+                            <li>Large OFFSET values can be slow (still scans skipped rows)</li>
+                            <li>For deep pagination, consider keyset pagination instead</li>
+                            <li>Always use ORDER BY with LIMIT for predictable results</li>
+                        </ul>
+                    </div>
+
+                    <h4>Efficient Pagination for Large Datasets</h4>
+                    <div class="code-block">
+-- Inefficient for large offsets
+SELECT * FROM huge_table 
+ORDER BY id 
+LIMIT 1000000, 20;  -- Scans 1M rows!
+
+-- Better: Keyset pagination
+SELECT * FROM huge_table 
+WHERE id > 1000000  -- Last seen ID
+ORDER BY id 
+LIMIT 20;
+
+-- Best: Using index
+SELECT t.* FROM huge_table t
+JOIN (
+    SELECT id FROM huge_table 
+    ORDER BY id 
+    LIMIT 1000000, 20
+) AS ids ON t.id = ids.id;</div>
+
+                    <h3>Database-Specific Alternatives</h3>
+                    <div class="code-block">
+-- MySQL/MariaDB
+SELECT * FROM products LIMIT 10;
+
+-- PostgreSQL (also supports LIMIT)
+SELECT * FROM products LIMIT 10;
+
+-- SQL Server
+SELECT TOP 10 * FROM products;
+
+-- Oracle (12c+)
+SELECT * FROM products FETCH FIRST 10 ROWS ONLY;
+
+-- Older Oracle
+SELECT * FROM (
+    SELECT * FROM products ORDER BY product_id
+) WHERE ROWNUM <= 10;</div>
+
+                    <div class="practice-exercise">
+                        <h4>🎯 Practice Exercise 18</h4>
+                        <div class="exercise-task">
+                            <p><strong>Task:</strong> Write LIMIT queries for these scenarios:</p>
+                            <ol>
+                                <li>Get the 3rd to 7th highest paid employees</li>
+                                <li>Implement pagination showing 20 products per page</li>
+                                <li>Find the top 5 customers by order count</li>
+                                <li>Get a random sample of 10% of rows (max 1000)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 19: Best Practices -->
+                <div class="content-section" id="perspective">
+                    <h2>Best Practices and Perspective</h2>
+                    
+                    <p>After mastering the SELECT statement components, it's important to understand best practices for writing efficient, maintainable, and professional SQL queries. This perspective will help you write better queries in real-world scenarios.</p>
+
+                    <h3>Query Writing Best Practices</h3>
+                    
+                    <h4>1. Be Explicit with Column Names</h4>
+                    <div class="code-block">
+-- Bad: Using SELECT *
+SELECT * FROM customers;
+
+-- Good: Specify exact columns needed
+SELECT customer_id, first_name, last_name, email 
+FROM customers;
+
+-- Why: 
+-- - Better performance (less data transfer)
+-- - Self-documenting code
+-- - Prevents breaking changes when columns are added/removed
+-- - Clear about what data is being used</div>
+
+                    <h4>2. Use Meaningful Aliases</h4>
+                    <div class="code-block">
+-- Bad: Cryptic or no aliases
+SELECT c.fn, c.ln, o.d, SUM(oi.q * oi.p)
+FROM c JOIN o ON c.id = o.cid
+JOIN oi ON o.id = oi.oid
+GROUP BY c.fn, c.ln, o.d;
+
+-- Good: Clear, descriptive aliases
+SELECT 
+    c.first_name,
+    c.last_name,
+    o.order_date,
+    SUM(oi.quantity * oi.unit_price) AS total_amount
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+GROUP BY c.first_name, c.last_name, o.order_date;</div>
+
+                    <h4>3. Format for Readability</h4>
+                    <div class="code-block">
+-- Bad: Everything on one line
+SELECT customer_id,first_name,last_name,email,phone,city,state FROM customers WHERE state='CA' AND created_date>'2024-01-01' ORDER BY last_name,first_name;
+
+-- Good: Well-formatted and indented
+SELECT 
+    customer_id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    city,
+    state
+FROM customers 
+WHERE state = 'CA' 
+    AND created_date > '2024-01-01'
+ORDER BY last_name, first_name;</div>
+
+                    <h3>Performance Optimization</h3>
+                    
+                    <h4>Use Indexes Effectively</h4>
+                    <div class="tip-box">
+                        <h4>💡 Index Usage Guidelines</h4>
+                        <ul>
+                            <li>Create indexes on columns used in WHERE, JOIN, and ORDER BY</li>
+                            <li>Composite indexes for multi-column searches</li>
+                            <li>Avoid functions on indexed columns in WHERE</li>
+                            <li>Monitor and remove unused indexes</li>
+                            <li>Balance between query speed and insert/update performance</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+-- Bad: Function on indexed column prevents index use
+SELECT * FROM orders 
+WHERE YEAR(order_date) = 2024;
+
+-- Good: Range condition can use index
+SELECT * FROM orders 
+WHERE order_date >= '2024-01-01' 
+    AND order_date < '2025-01-01';
+
+-- Bad: Leading wildcard prevents index use
+SELECT * FROM customers WHERE last_name LIKE '%son';
+
+-- Good: Trailing wildcard can use index
+SELECT * FROM customers WHERE last_name LIKE 'John%';</div>
+
+                    <h4>Optimize WHERE Clauses</h4>
+                    <div class="code-block">
+-- Put most selective conditions first
+-- Bad: Less selective condition first
+SELECT * FROM products 
+WHERE status = 'Active'      -- Many products are active
+    AND product_id = 12345;   -- Very selective
+
+-- Good: Most selective first
+SELECT * FROM products 
+WHERE product_id = 12345      -- Very selective
+    AND status = 'Active';     -- Additional check
+
+-- Use IN instead of multiple ORs
+-- Bad:
+WHERE status = 'A' OR status = 'B' OR status = 'C'
+
+-- Good:
+WHERE status IN ('A', 'B', 'C')</div>
+
+                    <h3>Common Anti-Patterns to Avoid</h3>
+                    
+                    <table class="operator-table">
+                        <tr>
+                            <th>Anti-Pattern</th>
+                            <th>Problem</th>
+                            <th>Solution</th>
+                        </tr>
+                        <tr>
+                            <td>SELECT *</td>
+                            <td>Retrieves unnecessary data</td>
+                            <td>Specify exact columns</td>
+                        </tr>
+                        <tr>
+                            <td>No WHERE clause</td>
+                            <td>Returns entire table</td>
+                            <td>Always filter when possible</td>
+                        </tr>
+                        <tr>
+                            <td>Functions in WHERE</td>
+                            <td>Prevents index usage</td>
+                            <td>Rewrite to use indexes</td>
+                        </tr>
+                        <tr>
+                            <td>Implicit conversions</td>
+                            <td>Performance overhead</td>
+                            <td>Use correct data types</td>
+                        </tr>
+                        <tr>
+                            <td>NOT IN with NULL</td>
+                            <td>Unexpected results</td>
+                            <td>Use NOT EXISTS</td>
+                        </tr>
+                        <tr>
+                            <td>ORDER BY RAND()</td>
+                            <td>Very slow on large tables</td>
+                            <td>Use alternative methods</td>
+                        </tr>
+                    </table>
+
+                    <h3>Security Considerations</h3>
+                    <div class="warning-box">
+                        <h4>⚠️ SQL Injection Prevention</h4>
+                        <ul>
+                            <li>Never concatenate user input directly into SQL</li>
+                            <li>Use parameterized queries/prepared statements</li>
+                            <li>Validate and sanitize all input</li>
+                            <li>Apply principle of least privilege</li>
+                            <li>Escape special characters when necessary</li>
+                        </ul>
+                        <div class="code-block">
+-- NEVER DO THIS (SQL Injection vulnerable):
+query = "SELECT * FROM users WHERE username = '" + userInput + "'";
+
+-- DO THIS (Parameterized query):
+query = "SELECT * FROM users WHERE username = ?";
+// Then bind the parameter safely</div>
+                    </div>
+
+                    <h3>Documentation and Maintenance</h3>
+                    <div class="code-block">
+-- Document complex queries
+-- Purpose: Find top customers by revenue in last quarter
+-- Author: John Doe
+-- Date: 2024-01-15
+-- Note: Excludes test accounts (customer_type != 'TEST')
+SELECT 
+    c.customer_id,
+    c.company_name,
+    COUNT(DISTINCT o.order_id) AS order_count,
+    SUM(oi.quantity * oi.unit_price) AS total_revenue
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+WHERE o.order_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+    AND c.customer_type != 'TEST'
+GROUP BY c.customer_id, c.company_name
+ORDER BY total_revenue DESC
+LIMIT 10;</div>
+
+                    <h3>Query Development Workflow</h3>
+                    <ol>
+                        <li><strong>Understand Requirements:</strong> What data is needed?</li>
+                        <li><strong>Identify Tables:</strong> Which tables contain the data?</li>
+                        <li><strong>Start Simple:</strong> Begin with basic SELECT</li>
+                        <li><strong>Add Filters:</strong> Implement WHERE conditions</li>
+                        <li><strong>Test Incrementally:</strong> Verify each step</li>
+                        <li><strong>Optimize:</strong> Add indexes, refine conditions</li>
+                        <li><strong>Document:</strong> Add comments for complex logic</li>
+                        <li><strong>Review:</strong> Check for performance and correctness</li>
+                    </ol>
+
+                    <h3>Testing and Validation</h3>
+                    <div class="tip-box">
+                        <h4>💡 Query Testing Checklist</h4>
+                        <ul>
+                            <li>✓ Returns expected results?</li>
+                            <li>✓ Handles NULL values correctly?</li>
+                            <li>✓ Performance acceptable on production data volume?</li>
+                            <li>✓ Works with edge cases (empty results, single row)?</li>
+                            <li>✓ Proper indexes in place?</li>
+                            <li>✓ No syntax errors or warnings?</li>
+                            <li>✓ Documented for future maintenance?</li>
+                        </ul>
+                    </div>
+
+                    <div class="success-box">
+                        <h4>✅ SELECT Statement Mastery Achieved!</h4>
+                        <p>You've now learned:</p>
+                        <ul>
+                            <li>All SELECT clause components and syntax</li>
+                            <li>Column specifications and aliases</li>
+                            <li>Arithmetic and string operations</li>
+                            <li>Complete WHERE clause filtering</li>
+                            <li>Sorting and limiting results</li>
+                            <li>Best practices for professional SQL</li>
+                        </ul>
+                        <p><strong>Next Steps:</strong> Practice with real data, learn JOINs for multiple tables, explore aggregate functions and GROUP BY, and study window functions for advanced analytics!</p>
+                    </div>
+                </div>
+
+                <!-- Section 20: Final Quiz -->
+                <div class="content-section" id="quiz">
+                    <h2>📝 Final Quiz: Test Your SELECT Knowledge</h2>
+
+                    <p>Test your understanding of SQL SELECT statements with this comprehensive quiz. Answer all questions and submit to see your score!</p>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question" data-question="1">
+                            <h3>Question 1: Basic SELECT Syntax</h3>
+                            <p>Which of the following is the correct way to select all columns from a table called 'employees'?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 1)">
+                                A) SELECT ALL FROM employees;
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 1)" data-correct>
+                                B) SELECT * FROM employees;
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 1)">
+                                C) GET * FROM employees;
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 1)">
+                                D) RETRIEVE * FROM employees;
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="2">
+                            <h3>Question 2: WHERE Clause</h3>
+                            <p>Which operator checks if a value is NULL?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 2)">
+                                A) = NULL
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 2)" data-correct>
+                                B) IS NULL
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 2)">
+                                C) == NULL
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 2)">
+                                D) EQUALS NULL
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="3">
+                            <h3>Question 3: Pattern Matching</h3>
+                            <p>What does the '%' wildcard match in a LIKE clause?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 3)">
+                                A) Exactly one character
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 3)" data-correct>
+                                B) Zero or more characters
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 3)">
+                                C) A percentage sign
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 3)">
+                                D) Any digit
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="4">
+                            <h3>Question 4: BETWEEN Operator</h3>
+                            <p>Is the BETWEEN operator inclusive or exclusive of the boundary values?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 4)" data-correct>
+                                A) Inclusive (includes both boundary values)
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 4)">
+                                B) Exclusive (excludes both boundary values)
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 4)">
+                                C) Inclusive of lower, exclusive of upper
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 4)">
+                                D) Exclusive of lower, inclusive of upper
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="5">
+                            <h3>Question 5: ORDER BY</h3>
+                            <p>What is the default sort order for ORDER BY if ASC or DESC is not specified?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 5)" data-correct>
+                                A) ASC (Ascending)
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 5)">
+                                B) DESC (Descending)
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 5)">
+                                C) Random order
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 5)">
+                                D) It must be specified
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="6">
+                            <h3>Question 6: Column Aliases</h3>
+                            <p>Which keyword is used to create a column alias?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 6)" data-correct>
+                                A) AS
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 6)">
+                                B) ALIAS
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 6)">
+                                C) NAME
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 6)">
+                                D) RENAME
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="7">
+                            <h3>Question 7: DISTINCT Keyword</h3>
+                            <p>What does the DISTINCT keyword do?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 7)">
+                                A) Sorts the results
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 7)" data-correct>
+                                B) Removes duplicate rows
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 7)">
+                                C) Filters NULL values
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 7)">
+                                D) Limits the number of rows
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="8">
+                            <h3>Question 8: Logical Operators</h3>
+                            <p>Which logical operator returns TRUE if ANY condition is true?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 8)">
+                                A) AND
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 8)" data-correct>
+                                B) OR
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 8)">
+                                C) NOT
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 8)">
+                                D) XOR
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="9">
+                            <h3>Question 9: IN Operator</h3>
+                            <p>What is the IN operator equivalent to?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 9)">
+                                A) Multiple AND conditions
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 9)" data-correct>
+                                B) Multiple OR conditions
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 9)">
+                                C) A BETWEEN condition
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 9)">
+                                D) A LIKE pattern
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="10">
+                            <h3>Question 10: LIKE Wildcard</h3>
+                            <p>What does the underscore (_) wildcard match in a LIKE clause?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 10)" data-correct>
+                                A) Exactly one character
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 10)">
+                                B) Zero or more characters
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 10)">
+                                C) A space character
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 10)">
+                                D) Any digit
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="11">
+                            <h3>Question 11: Comparison Operators</h3>
+                            <p>Which operator means "not equal to" in SQL?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 11)">
+                                A) !=
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 11)">
+                                B) <>
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 11)">
+                                C) NOT =
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 11)" data-correct>
+                                D) Both A and B are correct
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="12">
+                            <h3>Question 12: String Concatenation</h3>
+                            <p>Which function is used to concatenate strings in MySQL?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 12)" data-correct>
+                                A) CONCAT()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 12)">
+                                B) CONCATENATE()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 12)">
+                                C) JOIN()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 12)">
+                                D) MERGE()
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="13">
+                            <h3>Question 13: Arithmetic Operators</h3>
+                            <p>What is the result of 10 / 3 in MySQL (integer division)?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 13)">
+                                A) 3
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 13)" data-correct>
+                                B) 3.3333
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 13)">
+                                C) 3.0
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 13)">
+                                D) 4
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="14">
+                            <h3>Question 14: LIMIT Clause</h3>
+                            <p>What does "LIMIT 10, 5" mean?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 14)">
+                                A) First 10 rows, then 5 rows
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 14)" data-correct>
+                                B) Skip 10 rows, return next 5 rows
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 14)">
+                                C) Rows 10 through 5
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 14)">
+                                D) 10 rows maximum, 5 minimum
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="15">
+                            <h3>Question 15: NULL Values</h3>
+                            <p>What does NULL represent in SQL?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 15)">
+                                A) Zero (0)
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 15)">
+                                B) Empty string ('')
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 15)" data-correct>
+                                C) Missing or unknown value
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 15)">
+                                D) False
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="16">
+                            <h3>Question 16: String Functions</h3>
+                            <p>Which function converts a string to uppercase?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)" data-correct>
+                                A) UPPER()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)">
+                                B) UCASE()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)">
+                                C) CAPS()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)">
+                                D) Both A and B
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="17">
+                            <h3>Question 17: Date Functions</h3>
+                            <p>Which function returns the current date and time?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 17)" data-correct>
+                                A) NOW()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 17)">
+                                B) TODAY()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 17)">
+                                C) DATETIME()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 17)">
+                                D) CURRENT()
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="18">
+                            <h3>Question 18: Aggregate Functions</h3>
+                            <p>Which function counts the number of rows?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 18)">
+                                A) TOTAL()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 18)" data-correct>
+                                B) COUNT()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 18)">
+                                C) NUMBER()
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 18)">
+                                D) ROWS()
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="19">
+                            <h3>Question 19: REGEXP Patterns</h3>
+                            <p>What does the '^' metacharacter represent in REGEXP?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 19)" data-correct>
+                                A) Beginning of string
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 19)">
+                                B) End of string
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 19)">
+                                C) Not equal to
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 19)">
+                                D) Any character
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="20">
+                            <h3>Question 20: ORDER BY Multiple Columns</h3>
+                            <p>In "ORDER BY column1 ASC, column2 DESC", how are results sorted?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 20)" data-correct>
+                                A) First by column1 ascending, then by column2 descending
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 20)">
+                                B) Both columns ascending
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 20)">
+                                C) Both columns descending
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 20)">
+                                D) Random order
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="21">
+                            <h3>Question 21: WHERE Clause Position</h3>
+                            <p>Where must the WHERE clause appear in a SELECT statement?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 21)">
+                                A) Before SELECT
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 21)" data-correct>
+                                B) After FROM
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 21)">
+                                C) After ORDER BY
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 21)">
+                                D) At the end
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="22">
+                            <h3>Question 22: COALESCE Function</h3>
+                            <p>What does the COALESCE function do?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 22)" data-correct>
+                                A) Returns the first non-NULL value
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 22)">
+                                B) Returns the last non-NULL value
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 22)">
+                                C) Removes NULL values
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 22)">
+                                D) Converts NULL to zero
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="23">
+                            <h3>Question 23: SELECT Without FROM</h3>
+                            <p>Can you execute a SELECT statement without a FROM clause in MySQL?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 23)" data-correct>
+                                A) Yes, for testing expressions and functions
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 23)">
+                                B) No, FROM is always required
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 23)">
+                                C) Only with WHERE clause
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 23)">
+                                D) Only with LIMIT clause
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="24">
+                            <h3>Question 24: AND vs OR Priority</h3>
+                            <p>Which operator has higher precedence?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 24)" data-correct>
+                                A) AND
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 24)">
+                                B) OR
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 24)">
+                                C) They are equal
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 24)">
+                                D) Depends on the query
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="25">
+                            <h3>Question 25: ROUND Function</h3>
+                            <p>What does ROUND(123.456, 1) return?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 25)">
+                                A) 123
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 25)" data-correct>
+                                B) 123.5
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 25)">
+                                C) 123.4
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 25)">
+                                D) 124
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="26">
+                            <h3>Question 26: NOT Operator</h3>
+                            <p>Which of these is NOT a valid use of the NOT operator?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 26)">
+                                A) NOT IN
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 26)">
+                                B) NOT BETWEEN
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 26)">
+                                C) NOT LIKE
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 26)" data-correct>
+                                D) NOT SELECT
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="27">
+                            <h3>Question 27: Column Selection</h3>
+                            <p>What does "SELECT *" do?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 27)" data-correct>
+                                A) Selects all columns from the table
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 27)">
+                                B) Selects all rows from the table
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 27)">
+                                C) Multiplies all values
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 27)">
+                                D) Selects distinct values
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="28">
+                            <h3>Question 28: IFNULL Function</h3>
+                            <p>How many arguments does IFNULL accept?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 28)">
+                                A) 1
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 28)" data-correct>
+                                B) 2
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 28)">
+                                C) 3
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 28)">
+                                D) Unlimited
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="29">
+                            <h3>Question 29: Performance Best Practice</h3>
+                            <p>Which is generally faster for simple pattern matching?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 29)" data-correct>
+                                A) LIKE
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 29)">
+                                B) REGEXP
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 29)">
+                                C) Both are equal
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 29)">
+                                D) Neither can use indexes
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" data-question="30">
+                            <h3>Question 30: SQL Injection Prevention</h3>
+                            <p>What is the best way to prevent SQL injection?</p>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 30)">
+                                A) Escape special characters
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 30)" data-correct>
+                                B) Use parameterized queries
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 30)">
+                                C) Use stored procedures only
+                            </div>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 30)">
+                                D) Validate input length
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
+                        </div>
+
+                        <div id="quizScore" style="display: none; margin-top: 30px; text-align: center;">
+                            <div class="success-box">
+                                <h3>Your Score: <span id="finalScore"></span>%</h3>
+                                <p id="scoreMessage"></p>
+                                <button class="submit-btn" onclick="resetQuiz()" style="margin-top: 20px;">Try Again</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip-box" style="margin-top: 30px;">
+                        <h4>🎓 Congratulations on Completing This Module!</h4>
+                        <p>You've mastered the fundamentals of SQL SELECT statements. Keep practicing with real datasets to solidify your knowledge!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let visitedSections = new Set();
+        let quizAnswers = {};
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active from all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Show selected section
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+            
+            // Mark nav item as active
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Track progress
+            visitedSections.add(sectionId);
+            updateProgress();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function updateProgress() {
+            const totalSections = 20;
+            const completed = visitedSections.size;
+            const percentage = Math.round((completed / totalSections) * 100);
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage;
+            
+            // Save progress
+            localStorage.setItem('sqlSelectProgress', JSON.stringify(Array.from(visitedSections)));
+        }
+        
+        // Quiz functions
+        function selectQuizOption(element, questionNum) {
+            const question = element.closest('.quiz-question');
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            quizAnswers[questionNum] = element.hasAttribute('data-correct');
+        }
+        
+        function submitQuiz() {
+            const totalQuestions = 30;
+            const answeredQuestions = Object.keys(quizAnswers).length;
+            
+            if (answeredQuestions < totalQuestions) {
+                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${totalQuestions} questions.`);
+                return;
+            }
+            
+            let correctAnswers = 0;
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (quizAnswers[i]) {
+                    correctAnswers++;
+                }
+                
+                const question = document.querySelector(`.quiz-question[data-question="${i}"]`);
+                const options = question.querySelectorAll('.quiz-option');
+                options.forEach(opt => {
+                    if (opt.hasAttribute('data-correct')) {
+                        opt.classList.add('correct');
+                    } else if (opt.classList.contains('selected') && !opt.hasAttribute('data-correct')) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+            }
+            
+            const score = (correctAnswers * (100/totalQuestions));
+            document.getElementById('finalScore').textContent = Math.round(score);
+            
+            const messageEl = document.getElementById('scoreMessage');
+            if (score >= 90) {
+                messageEl.textContent = "🎉 Outstanding! You're a SELECT statement expert!";
+            } else if (score >= 70) {
+                messageEl.textContent = "✅ Great job! You have a solid understanding.";
+            } else if (score >= 50) {
+                messageEl.textContent = "📚 Good effort! Review the topics you struggled with.";
+            } else {
+                messageEl.textContent = "📖 Keep learning! Review the material and try again.";
+            }
+            
+            document.getElementById('quizScore').style.display = 'block';
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetQuiz() {
+            quizAnswers = {};
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            document.getElementById('quizScore').style.display = 'none';
+        }
+        
+        // Initialize
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('sqlSelectProgress');
+            if (saved) {
+                visitedSections = new Set(JSON.parse(saved));
+                updateProgress();
+            } else {
+                visitedSections.add('intro');
+                updateProgress();
+            }
+        });
+        
+        // Save progress on exit
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('sqlSelectProgress', JSON.stringify(Array.from(visitedSections)));
+        });
+    </script>
+</body>
+</html>
