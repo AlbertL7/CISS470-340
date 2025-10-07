@@ -526,6 +526,10 @@
                         <span class="number">13</span>
                         Best Practices
                     </div>
+                    <div class="nav-item" onclick="showSection('quiz')">
+                        <span class="number">14</span>
+                        📝 Final Quiz
+                    </div>
                 </div>
             </div>
 
@@ -3244,6 +3248,7 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
 
     <script>
         let visitedSections = new Set();
+        let quizAnswers = {};
         
         function showSection(sectionId) {
             // Hide all sections
@@ -3272,12 +3277,108 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
         }
         
         function updateProgress() {
-            const totalSections = 13;
+            const totalSections = 14; // Updated to include quiz
             const completed = visitedSections.size;
             const percentage = Math.round((completed / totalSections) * 100);
             
             document.getElementById('progressBar').style.width = percentage + '%';
             document.getElementById('progressText').textContent = percentage;
+            
+            // Save progress
+            localStorage.setItem('mysqlProgress', JSON.stringify(Array.from(visitedSections)));
+        }
+        
+        // Quiz functions
+        function selectQuizOption(element, questionNum) {
+            // Remove previous selection for this question
+            const question = element.closest('.quiz-question');
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Mark selected
+            element.classList.add('selected');
+            
+            // Store answer
+            quizAnswers[questionNum] = element.hasAttribute('data-correct');
+        }
+        
+        function submitQuiz() {
+            // Check if all questions answered
+            const totalQuestions = 20;
+            const answeredQuestions = Object.keys(quizAnswers).length;
+            
+            if (answeredQuestions < totalQuestions) {
+                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${totalQuestions} questions.`);
+                return;
+            }
+            
+            // Calculate score
+            let correctAnswers = 0;
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (quizAnswers[i]) {
+                    correctAnswers++;
+                }
+                
+                // Show correct/incorrect for each question
+                const question = document.querySelector(`.quiz-question[data-question="${i}"]`);
+                const options = question.querySelectorAll('.quiz-option');
+                options.forEach(opt => {
+                    if (opt.hasAttribute('data-correct')) {
+                        opt.classList.add('correct');
+                    } else if (opt.classList.contains('selected') && !opt.hasAttribute('data-correct')) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+            }
+            
+            // Calculate and display score
+            const score = (correctAnswers * 5); // 5 points per question
+            document.getElementById('finalScore').textContent = score;
+            
+            // Set score message
+            const messageEl = document.getElementById('scoreMessage');
+            if (score >= 90) {
+                messageEl.textContent = "🎉 Outstanding! You're a MySQL Workbench expert!";
+                messageEl.style.color = '#22543d';
+            } else if (score >= 70) {
+                messageEl.textContent = "✅ Great job! You have a solid understanding of MySQL Workbench.";
+                messageEl.style.color = '#2b6cb1';
+            } else if (score >= 50) {
+                messageEl.textContent = "📚 Good effort! Review the sections you struggled with.";
+                messageEl.style.color = '#d69e2e';
+            } else {
+                messageEl.textContent = "📖 Keep learning! Review the material and try again.";
+                messageEl.style.color = '#e53e3e';
+            }
+            
+            // Show score
+            document.getElementById('quizScore').style.display = 'block';
+            
+            // Scroll to top of quiz
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+            
+            // Mark quiz as completed in progress
+            visitedSections.add('quiz-completed');
+            updateProgress();
+        }
+        
+        function resetQuiz() {
+            // Reset answers
+            quizAnswers = {};
+            
+            // Remove all selections and correct/incorrect classes
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Hide score
+            document.getElementById('quizScore').style.display = 'none';
+            
+            // Scroll to first question
+            document.querySelector('.quiz-question').scrollIntoView({ behavior: 'smooth' });
         }
         
         // Initialize progress
@@ -3289,14 +3390,16 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
             if (e.ctrlKey && e.key === 'ArrowRight') {
                 // Next section
                 const activeItem = document.querySelector('.nav-item.active');
-                const nextItem = activeItem?.nextElementSibling;
+                const nextItem = activeItem?.parentElement?.nextElementSibling?.querySelector('.nav-item') || 
+                                activeItem?.nextElementSibling;
                 if (nextItem && nextItem.classList.contains('nav-item')) {
                     nextItem.click();
                 }
             } else if (e.ctrlKey && e.key === 'ArrowLeft') {
                 // Previous section
                 const activeItem = document.querySelector('.nav-item.active');
-                const prevItem = activeItem?.previousElementSibling;
+                const prevItem = activeItem?.parentElement?.previousElementSibling?.querySelector('.nav-item:last-child') || 
+                                activeItem?.previousElementSibling;
                 if (prevItem && prevItem.classList.contains('nav-item')) {
                     prevItem.click();
                 }
@@ -3306,6 +3409,9 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
         // Auto-save progress to localStorage
         window.addEventListener('beforeunload', function() {
             localStorage.setItem('mysqlProgress', JSON.stringify(Array.from(visitedSections)));
+            if (Object.keys(quizAnswers).length > 0) {
+                localStorage.setItem('mysqlQuizAnswers', JSON.stringify(quizAnswers));
+            }
         });
         
         // Restore progress on load
@@ -3314,6 +3420,25 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
             if (saved) {
                 visitedSections = new Set(JSON.parse(saved));
                 updateProgress();
+            }
+            
+            // Restore quiz answers if any
+            const savedAnswers = localStorage.getItem('mysqlQuizAnswers');
+            if (savedAnswers) {
+                quizAnswers = JSON.parse(savedAnswers);
+                // Re-select the previously chosen options
+                Object.keys(quizAnswers).forEach(questionNum => {
+                    const question = document.querySelector(`.quiz-question[data-question="${questionNum}"]`);
+                    if (question) {
+                        const options = question.querySelectorAll('.quiz-option');
+                        options.forEach(opt => {
+                            if ((opt.hasAttribute('data-correct') && quizAnswers[questionNum]) ||
+                                (!opt.hasAttribute('data-correct') && !quizAnswers[questionNum])) {
+                                // This logic needs refinement to properly restore selections
+                            }
+                        });
+                    }
+                });
             }
         });
     </script>
