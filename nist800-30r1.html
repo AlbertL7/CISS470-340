@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIST SP 800-30r1: Risk Assessment Guide - Enhanced Interactive Module</title>
+    <style>
+        :root {
+            /* Light mode colors */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #ffffff;
+            --bg-accent: #e6f2ff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-tertiary: #718096;
+            --border-color: #cbd5e0;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        [data-theme="dark"] {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a1f2e;
+            --bg-accent: #252d3d;
+            --text-primary: #f7fafc;
+            --text-secondary: #cbd5e0;
+            --text-tertiary: #a0aec0;
+            --border-color: #2d3748;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-title {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .progress-container {
+            flex-basis: 100%;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            background: var(--bg-accent);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            background: var(--success-gradient);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+        }
+
+        /* Table of Contents Sidebar */
+        .toc-sidebar {
+            position: fixed;
+            left: 0;
+            top: 140px;
+            width: 280px;
+            height: calc(100vh - 140px);
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease, left 0.3s ease;
+            z-index: 900;
+        }
+
+        .toc-sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .toc-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .toc-item {
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+
+        .toc-item:hover {
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .toc-item.active {
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            border-left-color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            margin-top: 140px;
+            padding: 40px 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Slides */
+        .slide {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            scroll-margin-top: 160px;
+        }
+
+        .slide-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 25px 35px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slide-header:hover {
+            filter: brightness(1.1);
+        }
+
+        .slide-content {
+            padding: 40px;
+            line-height: 1.8;
+        }
+
+        .slide-content h2 {
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 32px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-content h3 {
+            color: var(--text-secondary);
+            margin: 30px 0 20px 0;
+            font-size: 24px;
+        }
+
+        /* Content Boxes */
+        .highlight-box, .concept-box, .analogy-box, .real-world-box, .example-box,
+        .warning-box, .success-box, .threat-card, .vulnerability-card, .control-card {
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 15px;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-box:hover, .concept-box:hover, .analogy-box:hover, .real-world-box:hover,
+        .example-box:hover, .warning-box:hover, .success-box:hover, .threat-card:hover,
+        .vulnerability-card:hover, .control-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left-color: #667eea;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, rgba(74, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+            border-left-color: #4facfe;
+        }
+
+        .analogy-box {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            border-left-color: #f093fb;
+        }
+
+        .real-world-box {
+            background: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+            border-left-color: #43e97b;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, rgba(250, 112, 154, 0.1) 0%, rgba(254, 225, 64, 0.1) 100%);
+            border-left-color: #fa709a;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 159, 64, 0.1) 0%, rgba(255, 206, 86, 0.1) 100%);
+            border-left-color: #ffa500;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, rgba(75, 192, 192, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+            border-left-color: #4bc0c0;
+        }
+
+        .threat-card {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(238, 90, 111, 0.1) 100%);
+            border-left-color: #ff6b6b;
+        }
+
+        .vulnerability-card {
+            background: linear-gradient(135deg, rgba(255, 179, 71, 0.1) 0%, rgba(255, 206, 86, 0.1) 100%);
+            border-left-color: #ffb347;
+        }
+
+        .control-card {
+            background: linear-gradient(135deg, rgba(102, 187, 106, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+            border-left-color: #66bb6a;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: var(--bg-accent);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid var(--border-color);
+        }
+
+        .quiz-question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 15px 20px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, rgba(67, 233, 123, 0.2) 0%, rgba(56, 249, 215, 0.2) 100%);
+            border-color: #43e97b;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 111, 0.2) 100%);
+            border-color: #ff6b6b;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Notes Panel */
+        .notes-panel {
+            position: fixed;
+            right: -400px;
+            top: 140px;
+            width: 380px;
+            height: calc(100vh - 140px);
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-lg);
+            padding: 25px;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 900;
+            overflow-y: auto;
+        }
+
+        .notes-panel.open {
+            right: 0;
+        }
+
+        .notes-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .note-editor {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .notes-list {
+            margin-top: 20px;
+        }
+
+        .note-item {
+            background: var(--bg-accent);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 3px solid #667eea;
+        }
+
+        .note-section {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-bottom: 8px;
+        }
+
+        .note-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .note-delete {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: var(--danger-gradient);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Keyboard Shortcuts Overlay */
+        .shortcuts-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .shortcuts-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .shortcuts-content {
+            background: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .shortcuts-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .shortcut-key {
+            padding: 6px 12px;
+            background: var(--bg-accent);
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        th {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: var(--bg-accent);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 10px 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Risk Matrix */
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: 100px repeat(5, 1fr);
+            gap: 5px;
+            margin: 30px auto;
+            max-width: 700px;
+        }
+
+        .matrix-cell {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .matrix-cell:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow);
+        }
+
+        .matrix-header {
+            background: var(--primary-gradient);
+            color: white;
+            font-size: 14px;
+        }
+
+        .matrix-label {
+            background: var(--accent-gradient);
+            color: white;
+            font-size: 13px;
+        }
+
+        .risk-very-low {
+            background: #c8e6c9;
+            color: #1b5e20;
+        }
+
+        .risk-low {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .risk-moderate {
+            background: #ffe0b2;
+            color: #e65100;
+        }
+
+        .risk-high {
+            background: #ffccbc;
+            color: #bf360c;
+        }
+
+        .risk-very-high {
+            background: #ffcdd2;
+            color: #b71c1c;
+        }
+
+        /* Expandable Sections */
+        .expandable {
+            background: var(--bg-accent);
+            border-radius: 15px;
+            margin: 25px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .expandable-header {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
+
+        .expandable-header:hover {
+            filter: brightness(1.1);
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 20px;
+        }
+
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .expandable-content.active {
+            max-height: 5000px;
+            padding: 25px;
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: var(--bg-accent);
+            border-radius: 15px;
+            flex-wrap: wrap;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .process-arrow {
+            font-size: 28px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Key Learning Box */
+        .key-learning {
+            background: var(--success-gradient);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 950;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .toc-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .toc-sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header-title h1 {
+                font-size: 18px;
+            }
+
+            .slide-content {
+                padding: 25px;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            .header-controls {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .notes-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .fab-container {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .fab {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <h1>🛡️ NIST SP 800-30r1: Risk Assessment</h1>
+            </div>
+            <div class="header-controls">
+                <button class="btn btn-primary" onclick="toggleTheme()" id="themeToggle">
+                    🌙 Dark Mode
+                </button>
+                <button class="btn btn-secondary" onclick="toggleTOC()">
+                    📑 TOC
+                </button>
+                <button class="btn btn-primary" onclick="toggleNotes()">
+                    📝 Notes
+                </button>
+                <button class="btn btn-secondary" onclick="showShortcuts()">
+                    ⌨️ Keys
+                </button>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table of Contents Sidebar -->
+    <div class="toc-sidebar" id="tocSidebar">
+        <div class="toc-title">📚 Table of Contents</div>
+        <div class="toc-item" data-section="slide1">Part 1: Risk Assessment Fundamentals</div>
+        <div class="toc-item" data-section="slide2">Part 2: Four-Step Process</div>
+        <div class="toc-item" data-section="slide3">Part 3: Threats & Vulnerabilities</div>
+        <div class="toc-item" data-section="slide4">Part 4: Risk Analysis</div>
+        <div class="toc-item" data-section="slide5">Part 5: Risk Response</div>
+        <div class="toc-item" data-section="slide6">Part 6: Continuous Assessment</div>
+    </div>
+
+    <!-- Notes Panel -->
+    <div class="notes-panel" id="notesPanel">
+        <div class="notes-title">📝 My Notes</div>
+        <textarea class="note-editor" id="noteEditor" placeholder="Write your notes here..."></textarea>
+        <button class="btn btn-primary" onclick="saveNote()">💾 Save Note</button>
+        <div class="notes-list" id="notesList"></div>
+    </div>
+
+    <!-- Keyboard Shortcuts Overlay -->
+    <div class="shortcuts-overlay" id="shortcutsOverlay" onclick="hideShortcuts()">
+        <div class="shortcuts-content" onclick="event.stopPropagation()">
+            <div class="shortcuts-title">⌨️ Keyboard Shortcuts</div>
+            <div class="shortcut-item">
+                <span>Toggle Dark Mode</span>
+                <span class="shortcut-key">D</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Toggle Table of Contents</span>
+                <span class="shortcut-key">T</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Toggle Notes</span>
+                <span class="shortcut-key">N</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Show Keyboard Shortcuts</span>
+                <span class="shortcut-key">?</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Next Section</span>
+                <span class="shortcut-key">→</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Previous Section</span>
+                <span class="shortcut-key">←</span>
+            </div>
+            <div class="shortcut-item">
+                <span>Scroll to Top</span>
+                <span class="shortcut-key">Home</span>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="hideShortcuts()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+
+            <!-- SLIDE 1: Risk Assessment Fundamentals -->
+            <div class="slide" id="slide1">
+                <div class="slide-header">
+                    <span>Understanding Risk Assessment Fundamentals</span>
+                    <span class="slide-number">Part 1 of 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>🎯 What is Risk Assessment and Why It's Critical</h2>
+
+                    <div class="highlight-box">
+                        <h3>The Foundation of All Security Decisions</h3>
+                        <p>Risk assessment is the process of identifying, estimating, and prioritizing risks to organizational operations, assets, individuals, other organizations, and the Nation. It's not just a compliance checkbox—it's the intelligence that drives every security decision you make.</p>
+                    </div>
+
+                    <div class="analogy-box">
+                        <h4>🏥 The Medical Diagnosis Analogy</h4>
+                        <p>Think of risk assessment like a comprehensive medical checkup for your organization:</p>
+                        <ul>
+                            <li><strong>Patient History = Asset Inventory:</strong> What systems and data do you have?</li>
+                            <li><strong>Symptoms = Vulnerabilities:</strong> What weaknesses are showing?</li>
+                            <li><strong>Potential Diseases = Threats:</strong> What could attack these weaknesses?</li>
+                            <li><strong>Test Results = Risk Analysis:</strong> How severe is the condition?</li>
+                            <li><strong>Treatment Plan = Risk Response:</strong> What medicine or surgery is needed?</li>
+                        </ul>
+                    </div>
+
+                    <h3>🔗 The Three Tiers of Risk Management</h3>
+
+                    <div class="concept-box">
+                        <h4>Risk Flows Through Your Organization</h4>
+                        <div style="margin: 20px 0;">
+                            <h5 style="color: #667eea;">📊 Tier 1: Organization Level (The Roof)</h5>
+                            <p><strong>Governance and Strategy</strong> - Risk tolerance, investment priorities, enterprise architecture</p>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <h5 style="color: #4facfe;">📈 Tier 2: Mission/Business Process Level (The Floors)</h5>
+                            <p><strong>Core Business Functions</strong> - Business line risks, common controls, information flow</p>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <h5 style="color: #43e97b;">💻 Tier 3: Information System Level (The Rooms)</h5>
+                            <p><strong>Individual Systems and Applications</strong> - System vulnerabilities, technical controls, operational risks</p>
+                        </div>
+                    </div>
+
+                    <h3>📊 The Fundamental Risk Equation</h3>
+
+                    <div class="concept-box">
+                        <div style="text-align: center; font-size: 32px; margin: 30px 0; padding: 30px; background: var(--primary-gradient); border-radius: 15px; color: white; font-weight: 800;">
+                            RISK = THREAT × VULNERABILITY × IMPACT
+                        </div>
+
+                        <div class="threat-card">
+                            <h5>🎯 THREAT</h5>
+                            <p><strong>Any circumstance or event with the potential to harm your organization</strong></p>
+                            <p>Example: Ransomware groups actively targeting hospitals = HIGH threat</p>
+                        </div>
+
+                        <div class="vulnerability-card">
+                            <h5>🔓 VULNERABILITY</h5>
+                            <p><strong>A weakness that could be exploited by a threat</strong></p>
+                            <p>Example: Unpatched Exchange servers = HIGH vulnerability</p>
+                        </div>
+
+                        <div class="control-card">
+                            <h5>💥 IMPACT</h5>
+                            <p><strong>The magnitude of harm if the threat exploits the vulnerability</strong></p>
+                            <p>Example: Hospital ransomware = potential patient deaths = VERY HIGH impact</p>
+                        </div>
+                    </div>
+
+                    <!-- Knowledge Check Quiz -->
+                    <div class="quiz-container">
+                        <div style="text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 25px; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            ✅ Knowledge Check #1
+                        </div>
+                        <div class="quiz-question">
+                            What is the correct risk equation according to NIST 800-30r1?
+                        </div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">
+                                A) Risk = Vulnerability + Impact
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 1)">
+                                B) Risk = Threat × Vulnerability × Impact
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">
+                                C) Risk = Threat - Controls
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">
+                                D) Risk = Likelihood + Impact
+                            </div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback1"></div>
+                    </div>
+
+                    <div class="key-learning">
+                        💡 Master Insight: Risk assessment is your organization's early warning system. Like smoke detectors in a building, they only work if you (1) install them properly, (2) maintain them regularly, and (3) ACT when they sound the alarm.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: The Four-Step Process -->
+            <div class="slide" id="slide2">
+                <div class="slide-header">
+                    <span>The Four-Step Risk Assessment Process</span>
+                    <span class="slide-number">Part 2 of 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>🔄 Mastering the Risk Assessment Process</h2>
+
+                    <div class="highlight-box">
+                        <h3>From Chaos to Clarity in Four Steps</h3>
+                        <p>NIST 800-30's four-step process brings order to the chaos of risk assessment. Think of it as a recipe: follow the steps in order, and you'll get consistent, reliable results every time.</p>
+                    </div>
+
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <strong>1️⃣ PREPARE</strong>
+                            <p>Set context and purpose</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>2️⃣ CONDUCT</strong>
+                            <p>Identify and analyze risks</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>3️⃣ COMMUNICATE</strong>
+                            <p>Share findings</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>4️⃣ MAINTAIN</strong>
+                            <p>Keep current</p>
+                        </div>
+                    </div>
+
+                    <h3>📋 Step 1: PREPARE for Assessment</h3>
+
+                    <div class="concept-box">
+                        <h4>Key Preparation Tasks:</h4>
+                        <ul>
+                            <li><strong>Identify Purpose:</strong> Why are you doing this assessment?</li>
+                            <li><strong>Define Scope:</strong> What systems, data, and processes are included?</li>
+                            <li><strong>Document Assumptions:</strong> What are you assuming to be true?</li>
+                            <li><strong>Identify Constraints:</strong> Budget, time, technology, political limitations</li>
+                        </ul>
+                    </div>
+
+                    <h3>🔍 Step 2: CONDUCT Assessment</h3>
+
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <strong>2.1</strong>
+                            <p>Identify Threat Sources</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>2.2</strong>
+                            <p>Identify Threat Events</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>2.3</strong>
+                            <p>Identify Vulnerabilities</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>2.4</strong>
+                            <p>Determine Likelihood</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>2.5</strong>
+                            <p>Determine Impact</p>
+                        </div>
+                    </div>
+
+                    <h3>💬 Step 3: COMMUNICATE Results</h3>
+
+                    <div class="concept-box">
+                        <h4>Tailor Your Message to Your Audience:</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Audience</th>
+                                    <th>What They Care About</th>
+                                    <th>Example Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Board/CEO</td>
+                                    <td>Business impact, liability</td>
+                                    <td>"$10M revenue at risk from ransomware"</td>
+                                </tr>
+                                <tr>
+                                    <td>CFO</td>
+                                    <td>Financial exposure, budget</td>
+                                    <td>"$500K investment prevents $5M loss"</td>
+                                </tr>
+                                <tr>
+                                    <td>IT Team</td>
+                                    <td>Technical details, fixes</td>
+                                    <td>"CVE-2024-1234 on 50 servers, patch ASAP"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>🔄 Step 4: MAINTAIN Assessment</h3>
+
+                    <div class="concept-box">
+                        <h4>Keeping Your Risk Assessment Current:</h4>
+                        <ul>
+                            <li><strong>Daily:</strong> Threat intel feeds, vulnerability scans, security alerts</li>
+                            <li><strong>Weekly:</strong> Aggregate findings, update risk register</li>
+                            <li><strong>Monthly:</strong> Risk scorecard update, trend analysis</li>
+                            <li><strong>Quarterly:</strong> Comprehensive review, strategy adjustments</li>
+                            <li><strong>Annually:</strong> Full reassessment, methodology review</li>
+                            <li><strong>Ad-hoc:</strong> Major changes, incidents, new threats</li>
+                        </ul>
+                    </div>
+
+                    <!-- Knowledge Check Quiz -->
+                    <div class="quiz-container">
+                        <div style="text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 25px; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            ✅ Knowledge Check #2
+                        </div>
+                        <div class="quiz-question">
+                            What are the four steps of the NIST 800-30r1 risk assessment process?
+                        </div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                                A) Identify, Analyze, Evaluate, Treat
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 2)">
+                                B) Prepare, Conduct, Communicate, Maintain
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                                C) Plan, Do, Check, Act
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                                D) Assess, Design, Implement, Monitor
+                            </div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback2"></div>
+                    </div>
+
+                    <div class="key-learning">
+                        💡 Process Mastery: The four-step process is a cycle, not a line. Each assessment builds on the last, creating an ever-improving understanding of your risk landscape.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: Threats and Vulnerabilities -->
+            <div class="slide" id="slide3">
+                <div class="slide-header">
+                    <span>Deep Dive: Identifying Threats and Vulnerabilities</span>
+                    <span class="slide-number">Part 3 of 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>🎯 Finding What Could Go Wrong</h2>
+
+                    <div class="highlight-box">
+                        <h3>The Art and Science of Discovery</h3>
+                        <p>Identifying threats and vulnerabilities is detective work combined with imagination. You need to think like an attacker, a forensic analyst, and Murphy's Law incarnate.</p>
+                    </div>
+
+                    <div class="analogy-box">
+                        <h4>🏰 The Castle Defense Analogy</h4>
+                        <p><strong>Threats = Enemy Forces:</strong> Armies (nation-states), bandits (criminals), traitors (insiders), weather (natural disasters)</p>
+                        <p><strong>Vulnerabilities = Weak Points:</strong> Low walls (weak passwords), unmanned towers (unmonitored systems), rusty gates (unpatched software)</p>
+                    </div>
+
+                    <h3>🎯 Threat Identification</h3>
+
+                    <div class="concept-box">
+                        <h4>Adversarial Threats (Human with Intent):</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Threat Actor</th>
+                                    <th>Motivation</th>
+                                    <th>Capability</th>
+                                    <th>Typical Targets</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Nation-State</strong></td>
+                                    <td>Espionage, sabotage</td>
+                                    <td>Very High</td>
+                                    <td>Government, defense, critical infrastructure</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cybercriminals</strong></td>
+                                    <td>Financial gain</td>
+                                    <td>Moderate to High</td>
+                                    <td>Financial, healthcare, retail</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hacktivists</strong></td>
+                                    <td>Ideological, political</td>
+                                    <td>Low to Moderate</td>
+                                    <td>Government, controversial orgs</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Insiders</strong></td>
+                                    <td>Revenge, profit</td>
+                                    <td>High (authorized access)</td>
+                                    <td>Employer's sensitive data</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>🔓 Vulnerability Assessment</h3>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <span>💻 Technical Vulnerabilities</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <h5>Types of Technical Vulnerabilities:</h5>
+                            <ul>
+                                <li><strong>Known CVEs:</strong> Check NVD, vendor bulletins (Tool: Nessus, Qualys)</li>
+                                <li><strong>Misconfigurations:</strong> Default settings, weak configs (Tool: CIS-CAT)</li>
+                                <li><strong>End-of-life software:</strong> No more patches available</li>
+                                <li><strong>Network vulnerabilities:</strong> Open ports, weak protocols, no segmentation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <span>👥 Human and Process Vulnerabilities</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <h5>The Weakest Link: People and Processes</h5>
+                            <ul>
+                                <li><strong>Phishing Susceptibility:</strong> Clicking malicious links</li>
+                                <li><strong>Password Hygiene:</strong> Weak passwords, password reuse</li>
+                                <li><strong>Social Engineering:</strong> Tailgating, pretexting</li>
+                                <li><strong>Shadow IT:</strong> Unapproved tools and services</li>
+                                <li><strong>Insider Threat:</strong> Data theft, sabotage</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Knowledge Check Quiz -->
+                    <div class="quiz-container">
+                        <div style="text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 25px; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            ✅ Knowledge Check #3
+                        </div>
+                        <div class="quiz-question">
+                            Which threat actor typically has the highest capability but may have low motivation for most targets?
+                        </div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                                A) Cybercriminals
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                                B) Hacktivists
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 3)">
+                                C) Nation-State Actors
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                                D) Insiders
+                            </div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback3"></div>
+                    </div>
+
+                    <div class="key-learning">
+                        💡 Detection Wisdom: The most dangerous vulnerabilities are often not technical—they're human and organizational. Attackers need only one vulnerability to succeed; defenders must address them all.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Risk Analysis -->
+            <div class="slide" id="slide4">
+                <div class="slide-header">
+                    <span>Risk Analysis: Calculating Likelihood and Impact</span>
+                    <span class="slide-number">Part 4 of 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>📊 From Threats to Risk Scores</h2>
+
+                    <div class="highlight-box">
+                        <h3>Making Risk Measurable and Comparable</h3>
+                        <p>Risk analysis transforms a scary list of "what-ifs" into a prioritized action plan. Without proper analysis, you might spend millions protecting against unlikely events while ignoring probable catastrophes.</p>
+                    </div>
+
+                    <h3>🎲 Determining Likelihood</h3>
+
+                    <div class="concept-box">
+                        <h4>Three Methods for Likelihood Assessment:</h4>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>📈 Quantitative Method (Data-Driven)</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <p>Using actual numbers and statistics to calculate probability</p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Probability Range</th>
+                                            <th>Likelihood Level</th>
+                                            <th>Frequency</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background: #c8e6c9;">
+                                            <td>0-10%</td>
+                                            <td>Very Low</td>
+                                            <td>Less than once per 10 years</td>
+                                        </tr>
+                                        <tr style="background: #fff9c4;">
+                                            <td>11-25%</td>
+                                            <td>Low</td>
+                                            <td>Once per 5-10 years</td>
+                                        </tr>
+                                        <tr style="background: #ffe0b2;">
+                                            <td>26-50%</td>
+                                            <td>Moderate</td>
+                                            <td>Once per 1-5 years</td>
+                                        </tr>
+                                        <tr style="background: #ffccbc;">
+                                            <td>51-75%</td>
+                                            <td>High</td>
+                                            <td>Multiple times per year</td>
+                                        </tr>
+                                        <tr style="background: #ffcdd2;">
+                                            <td>76-100%</td>
+                                            <td>Very High</td>
+                                            <td>Monthly or more frequent</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>📝 Qualitative Method (Expert Judgment)</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <p>Using experience and expert opinion to assess likelihood</p>
+                                <ul>
+                                    <li><strong>Threat Actor Capability:</strong> Do they have the skills?</li>
+                                    <li><strong>Threat Actor Intent:</strong> Do they want to target you?</li>
+                                    <li><strong>Vulnerability Exposure:</strong> How easy to exploit?</li>
+                                    <li><strong>Control Effectiveness:</strong> Will defenses stop it?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>💥 Determining Impact</h3>
+
+                    <div class="concept-box">
+                        <h4>Multi-Dimensional Impact Analysis</h4>
+
+                        <div class="risk-matrix">
+                            <div class="matrix-cell matrix-header">Impact Type</div>
+                            <div class="matrix-cell matrix-header">Very Low</div>
+                            <div class="matrix-cell matrix-header">Low</div>
+                            <div class="matrix-cell matrix-header">Moderate</div>
+                            <div class="matrix-cell matrix-header">High</div>
+                            <div class="matrix-cell matrix-header">Very High</div>
+
+                            <div class="matrix-cell matrix-label">Financial</div>
+                            <div class="matrix-cell risk-very-low">&lt;$10K</div>
+                            <div class="matrix-cell risk-low">$10-100K</div>
+                            <div class="matrix-cell risk-moderate">$100K-1M</div>
+                            <div class="matrix-cell risk-high">$1-10M</div>
+                            <div class="matrix-cell risk-very-high">&gt;$10M</div>
+
+                            <div class="matrix-cell matrix-label">Operational</div>
+                            <div class="matrix-cell risk-very-low">1 hour</div>
+                            <div class="matrix-cell risk-low">4 hours</div>
+                            <div class="matrix-cell risk-moderate">1 day</div>
+                            <div class="matrix-cell risk-high">1 week</div>
+                            <div class="matrix-cell risk-very-high">&gt;1 month</div>
+
+                            <div class="matrix-cell matrix-label">Reputation</div>
+                            <div class="matrix-cell risk-very-low">Internal</div>
+                            <div class="matrix-cell risk-low">Local news</div>
+                            <div class="matrix-cell risk-moderate">Regional</div>
+                            <div class="matrix-cell risk-high">National</div>
+                            <div class="matrix-cell risk-very-high">Global crisis</div>
+                        </div>
+
+                        <div class="warning-box">
+                            <strong>Impact Aggregation Rule:</strong> Always use the HIGHEST impact across all categories. If financial impact is LOW but life safety is HIGH, overall impact is HIGH. You can't average away death!
+                        </div>
+                    </div>
+
+                    <h3>📈 Risk Determination</h3>
+
+                    <div class="concept-box">
+                        <h4>Complete Risk Analysis Example:</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Risk Scenario</th>
+                                    <th>Likelihood</th>
+                                    <th>Impact</th>
+                                    <th>Risk Level</th>
+                                    <th>Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ransomware attack</td>
+                                    <td>High</td>
+                                    <td>Very High</td>
+                                    <td style="background:#ffcdd2;">Very High</td>
+                                    <td>1 - Immediate</td>
+                                </tr>
+                                <tr>
+                                    <td>Insider data theft</td>
+                                    <td>Moderate</td>
+                                    <td>High</td>
+                                    <td style="background:#ffccbc;">High</td>
+                                    <td>2 - Urgent</td>
+                                </tr>
+                                <tr>
+                                    <td>DDoS attack</td>
+                                    <td>High</td>
+                                    <td>Moderate</td>
+                                    <td style="background:#ffe0b2;">Moderate</td>
+                                    <td>3 - Planned</td>
+                                </tr>
+                                <tr>
+                                    <td>Physical theft</td>
+                                    <td>Low</td>
+                                    <td>Low</td>
+                                    <td style="background:#c8e6c9;">Very Low</td>
+                                    <td>4 - Monitor</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="key-learning">
+                        💡 Analysis Mastery: Risk = Likelihood × Impact, but context is everything. A "moderate" risk that could kill someone demands more attention than a "high" risk that costs money.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Risk Response -->
+            <div class="slide" id="slide5">
+                <div class="slide-header">
+                    <span>Risk Response Strategies and Effective Communication</span>
+                    <span class="slide-number">Part 5 of 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>🛡️ From Risk to Response</h2>
+
+                    <div class="highlight-box">
+                        <h3>The Four Strategic Options</h3>
+                        <p>You've identified and analyzed your risks—now what? Risk response is where assessment becomes action. Master these four strategies, and you'll optimize your security investment for maximum protection.</p>
+                    </div>
+
+                    <div class="analogy-box">
+                        <h4>🚗 The Driving Analogy</h4>
+                        <ul>
+                            <li><strong>ACCEPT:</strong> Light rain—wipers on, continue normally</li>
+                            <li><strong>AVOID:</strong> Blizzard warning—stay home</li>
+                            <li><strong>MITIGATE:</strong> Heavy rain—slow down, increase distance</li>
+                            <li><strong>TRANSFER:</strong> You're impaired—let someone else drive</li>
+                        </ul>
+                    </div>
+
+                    <h3>🎯 The Four Risk Response Strategies</h3>
+
+                    <div class="concept-box">
+                        <div class="threat-card">
+                            <h4>✅ ACCEPT: Living with Risk</h4>
+                            <p><strong>When to use:</strong> Risk below threshold, cost exceeds benefit, temporary condition, business opportunity</p>
+                            <div class="warning-box">
+                                <strong>Critical Rule:</strong> Risk acceptance must be a conscious decision, not negligence. Document WHO accepted WHAT risk WHEN and WHY.
+                            </div>
+                        </div>
+
+                        <div class="vulnerability-card">
+                            <h4>🚫 AVOID: Eliminating Risk</h4>
+                            <p><strong>Examples:</strong> Don't collect SSNs if not needed, air-gap critical systems, block USB ports, cancel risky projects</p>
+                        </div>
+
+                        <div class="control-card">
+                            <h4>🛡️ MITIGATE: Reducing Risk</h4>
+                            <p><strong>Reduce Likelihood:</strong> Patch vulnerabilities, user training, access controls, network segmentation</p>
+                            <p><strong>Reduce Impact:</strong> Backups, incident response plan, redundancy, insurance</p>
+                        </div>
+
+                        <div class="real-world-box">
+                            <h4>↔️ TRANSFER: Sharing Risk</h4>
+                            <p><strong>Methods:</strong> Cyber insurance, outsourcing, cloud services, contracts</p>
+                            <div class="warning-box">
+                                <strong>Transfer ≠ Abdication:</strong> You can transfer financial risk but not responsibility.
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>💬 Risk Communication Excellence</h3>
+
+                    <div class="concept-box">
+                        <h4>Speaking the Language of Your Audience:</h4>
+                        <ul>
+                            <li><strong>Board/CEO:</strong> Business impact, liability, reputation → "Ransomware could cost $5M and make national news"</li>
+                            <li><strong>CFO:</strong> Financial exposure, ROI → "$500K investment prevents $5M loss"</li>
+                            <li><strong>Legal:</strong> Compliance, litigation → "GDPR violation risk: €20M fine exposure"</li>
+                            <li><strong>IT Team:</strong> Technical details, remediation → "CVE-2024-1234 on 50 servers, patch ASAP"</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-learning">
+                        💡 Response Wisdom: The best risk response often combines strategies. But response without communication is worthless—a perfectly analyzed risk that never reaches decision-makers might as well not exist.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Continuous Assessment -->
+            <div class="slide" id="slide6">
+                <div class="slide-header">
+                    <span>Continuous Assessment and RMF Integration</span>
+                    <span class="slide-number">Part 6 of 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>🔄 From Periodic to Perpetual</h2>
+
+                    <div class="success-box">
+                        <h3>✅ The Evolution to Continuous Risk Management</h3>
+                        <p>Annual risk assessments are like annual physical exams—better than nothing, but you could have a heart attack between checkups. Modern threats move at digital speed; your risk assessment must too.</p>
+                    </div>
+
+                    <h3>🏗️ Integration with the Risk Management Framework (RMF)</h3>
+
+                    <div class="concept-box">
+                        <h4>Risk Assessment Throughout the RMF Lifecycle:</h4>
+                        <div class="process-flow" style="flex-wrap: wrap;">
+                            <div class="process-step" style="flex: 1 1 30%;">
+                                <strong>1️⃣ PREPARE</strong>
+                                <p>Define risk tolerance, establish methodology</p>
+                            </div>
+                            <div class="process-step" style="flex: 1 1 30%;">
+                                <strong>2️⃣ CATEGORIZE</strong>
+                                <p>Initial impact analysis, system criticality</p>
+                            </div>
+                            <div class="process-step" style="flex: 1 1 30%;">
+                                <strong>3️⃣ SELECT</strong>
+                                <p>Threat analysis, vulnerability assessment</p>
+                            </div>
+                            <div class="process-step" style="flex: 1 1 30%;">
+                                <strong>4️⃣ IMPLEMENT</strong>
+                                <p>Risk-based priorities, resource allocation</p>
+                            </div>
+                            <div class="process-step" style="flex: 1 1 30%;">
+                                <strong>5️⃣ ASSESS</strong>
+                                <p>Control effectiveness, residual risk</p>
+                            </div>
+                            <div class="process-step" style="flex: 1 1 30%;">
+                                <strong>6️⃣ AUTHORIZE</strong>
+                                <p>Risk acceptance package, POA&M</p>
+                            </div>
+                            <div class="process-step" style="flex: 1 1 100%; background: var(--success-gradient); color: white;">
+                                <strong>7️⃣ MONITOR (CONTINUOUS)</strong>
+                                <p>Ongoing assessment, change-triggered analysis, threat intel integration</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>⚡ Building Continuous Risk Assessment</h3>
+
+                    <div class="concept-box">
+                        <h4>The Continuous Assessment Maturity Model:</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Maturity Level</th>
+                                    <th>Characteristics</th>
+                                    <th>Frequency</th>
+                                    <th>Automation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: rgba(255, 107, 107, 0.2);">
+                                    <td><strong>Level 1: Ad Hoc</strong></td>
+                                    <td>Reactive, inconsistent</td>
+                                    <td>Only when required</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr style="background: rgba(255, 179, 71, 0.2);">
+                                    <td><strong>Level 2: Periodic</strong></td>
+                                    <td>Scheduled, documented</td>
+                                    <td>Annual</td>
+                                    <td>10%</td>
+                                </tr>
+                                <tr style="background: rgba(255, 206, 86, 0.2);">
+                                    <td><strong>Level 3: Regular</strong></td>
+                                    <td>Frequent, risk-based</td>
+                                    <td>Quarterly</td>
+                                    <td>30%</td>
+                                </tr>
+                                <tr style="background: rgba(102, 187, 106, 0.2);">
+                                    <td><strong>Level 4: Proactive</strong></td>
+                                    <td>Continuous monitoring</td>
+                                    <td>Weekly/Daily</td>
+                                    <td>60%</td>
+                                </tr>
+                                <tr style="background: rgba(67, 233, 123, 0.2);">
+                                    <td><strong>Level 5: Optimized</strong></td>
+                                    <td>Real-time, predictive</td>
+                                    <td>Continuous</td>
+                                    <td>90%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>🤖 Automation Opportunities</h3>
+
+                    <div class="concept-box" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="control-card">
+                            <h5>✅ Automate These:</h5>
+                            <ul>
+                                <li>Vulnerability Scanning</li>
+                                <li>Threat Intelligence</li>
+                                <li>Compliance Checks</li>
+                                <li>Risk Scoring</li>
+                                <li>Report Generation</li>
+                            </ul>
+                        </div>
+                        <div class="threat-card">
+                            <h5>👤 Keep Human:</h5>
+                            <ul>
+                                <li>Risk Acceptance</li>
+                                <li>Context Analysis</li>
+                                <li>Strategy Setting</li>
+                                <li>Incident Response</li>
+                                <li>Stakeholder Communication</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <h3>🏆 Your Risk Assessment Action Plan</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                            <div>
+                                <h4>If Starting Fresh:</h4>
+                                <ol>
+                                    <li>Download NIST 800-30r1</li>
+                                    <li>Identify one critical system</li>
+                                    <li>Run basic threat modeling</li>
+                                    <li>Do vulnerability scan</li>
+                                    <li>Calculate 5 top risks</li>
+                                    <li>Present to management</li>
+                                    <li>Get budget for tools</li>
+                                    <li>Expand scope gradually</li>
+                                </ol>
+                            </div>
+                            <div>
+                                <h4>If Maturing Program:</h4>
+                                <ol>
+                                    <li>Assess current maturity</li>
+                                    <li>Identify automation gaps</li>
+                                    <li>Integrate threat intel</li>
+                                    <li>Deploy risk platform</li>
+                                    <li>Create KRI dashboard</li>
+                                    <li>Train risk champions</li>
+                                    <li>Add predictive analytics</li>
+                                    <li>Move toward real-time</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-learning">
+                        💡 Ultimate Wisdom: Risk assessment is not a project—it's a program. Not a snapshot—it's a movie. The goal isn't to eliminate all risk (impossible) but to maintain continuous awareness and make informed decisions faster than threats evolve.
+                    </div>
+
+                    <div style="background: var(--primary-gradient); color: white; padding: 40px; border-radius: 20px; margin-top: 50px; text-align: center;">
+                        <h2>🎉 Congratulations!</h2>
+                        <p style="font-size: 22px; margin-top: 20px;">You've Mastered NIST SP 800-30r1 Risk Assessment</p>
+                        <div style="font-size: 18px; margin-top: 30px; line-height: 2;">
+                            <div>✓ Risk fundamentals and the risk equation</div>
+                            <div>✓ The four-step assessment process</div>
+                            <div>✓ Threat and vulnerability identification</div>
+                            <div>✓ Likelihood and impact analysis</div>
+                            <div>✓ Risk response strategies</div>
+                            <div>✓ Effective risk communication</div>
+                            <div>✓ Continuous assessment techniques</div>
+                            <div>✓ RMF integration</div>
+                        </div>
+                        <p style="font-size: 20px; margin-top: 30px; font-weight: 700;">Now go forth and assess wisely! 🛡️</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="scrollToTop()" title="Scroll to Top">
+            ⬆️
+        </button>
+        <button class="fab" onclick="toggleNotes()" title="Toggle Notes">
+            📝
+        </button>
+    </div>
+
+    <script>
+        // Global State
+        let sectionsViewed = new Set();
+        let currentSection = 0;
+        let notes = JSON.parse(localStorage.getItem('nist-notes') || '[]');
+        let theme = localStorage.getItem('nist-theme') || 'light';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            updateProgress();
+            loadNotes();
+            setupIntersectionObserver();
+
+            // Mark first section as viewed after 1 second
+            setTimeout(() => {
+                sectionsViewed.add(1);
+                updateProgress();
+            }, 1000);
+        });
+
+        // Theme Management
+        function initializeTheme() {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeToggle').innerHTML = '☀️ Light Mode';
+            }
+        }
+
+        function toggleTheme() {
+            theme = theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('nist-theme', theme);
+            document.getElementById('themeToggle').innerHTML = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+
+        // Progress Tracking
+        function updateProgress() {
+            const progress = (sectionsViewed.size / 6) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        // TOC Management
+        function toggleTOC() {
+            const sidebar = document.getElementById('tocSidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('hidden');
+            sidebar.classList.toggle('mobile-open');
+            if (window.innerWidth <= 1024) {
+                mainContent.classList.toggle('expanded');
+            }
+        }
+
+        // TOC Navigation
+        document.querySelectorAll('.toc-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (window.innerWidth <= 1024) {
+                        toggleTOC();
+                    }
+                }
+            });
+        });
+
+        // Intersection Observer for Active Section
+        function setupIntersectionObserver() {
+            const options = {
+                root: null,
+                rootMargin: '-20% 0px -70% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionNum = parseInt(entry.target.id.replace('slide', ''));
+                        sectionsViewed.add(sectionNum);
+                        updateProgress();
+
+                        // Update active TOC item
+                        document.querySelectorAll('.toc-item').forEach(item => {
+                            item.classList.remove('active');
+                            if (item.getAttribute('data-section') === entry.target.id) {
+                                item.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, options);
+
+            document.querySelectorAll('.slide').forEach(slide => {
+                observer.observe(slide);
+            });
+        }
+
+        // Notes Management
+        function toggleNotes() {
+            document.getElementById('notesPanel').classList.toggle('open');
+        }
+
+        function saveNote() {
+            const editor = document.getElementById('noteEditor');
+            const content = editor.value.trim();
+
+            if (!content) {
+                alert('Please write something before saving!');
+                return;
+            }
+
+            // Find which section we're currently viewing
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 'General';
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    currentSlide = `Part ${index + 1}`;
+                }
+            });
+
+            const note = {
+                id: Date.now(),
+                section: currentSlide,
+                content: content,
+                timestamp: new Date().toLocaleString()
+            };
+
+            notes.push(note);
+            localStorage.setItem('nist-notes', JSON.stringify(notes));
+            editor.value = '';
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const notesList = document.getElementById('notesList');
+            notesList.innerHTML = '';
+
+            notes.reverse().forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'note-item';
+                noteElement.innerHTML = `
+                    <div class="note-section">${note.section} - ${note.timestamp}</div>
+                    <div class="note-content">${note.content}</div>
+                    <button class="note-delete" onclick="deleteNote(${note.id})">🗑️ Delete</button>
+                `;
+                notesList.appendChild(noteElement);
+            });
+            notes.reverse();
+        }
+
+        function deleteNote(id) {
+            notes = notes.filter(note => note.id !== id);
+            localStorage.setItem('nist-notes', JSON.stringify(notes));
+            loadNotes();
+        }
+
+        // Expandable Sections
+        function toggleExpandable(element) {
+            const content = element.nextElementSibling;
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        // Quiz Functionality
+        function checkAnswer(element, isCorrect, quizNum) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById(`feedback${quizNum}`);
+
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt === element) {
+                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedback.innerHTML = '✅ Correct! Well done!';
+                feedback.style.background = 'linear-gradient(135deg, rgba(67, 233, 123, 0.2) 0%, rgba(56, 249, 215, 0.2) 100%)';
+                feedback.style.border = '2px solid #43e97b';
+            } else {
+                feedback.innerHTML = '❌ Not quite. Review the material and try to understand the correct answer.';
+                feedback.style.background = 'linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 111, 0.2) 100%)';
+                feedback.style.border = '2px solid #ff6b6b';
+            }
+            feedback.style.padding = '15px';
+            feedback.style.borderRadius = '10px';
+            feedback.classList.add('show');
+        }
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ignore if typing in textarea or input
+            if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') {
+                return;
+            }
+
+            switch(e.key.toLowerCase()) {
+                case 'd':
+                    toggleTheme();
+                    break;
+                case 't':
+                    toggleTOC();
+                    break;
+                case 'n':
+                    toggleNotes();
+                    break;
+                case '?':
+                    showShortcuts();
+                    break;
+                case 'arrowright':
+                    navigateSection(1);
+                    break;
+                case 'arrowleft':
+                    navigateSection(-1);
+                    break;
+                case 'home':
+                    scrollToTop();
+                    break;
+            }
+        });
+
+        function showShortcuts() {
+            document.getElementById('shortcutsOverlay').classList.add('show');
+        }
+
+        function hideShortcuts() {
+            document.getElementById('shortcutsOverlay').classList.remove('show');
+        }
+
+        function navigateSection(direction) {
+            const slides = document.querySelectorAll('.slide');
+            let current = 0;
+
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    current = index;
+                }
+            });
+
+            const next = current + direction;
+            if (next >= 0 && next < slides.length) {
+                slides[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
