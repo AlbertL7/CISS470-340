@@ -863,6 +863,290 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
+
+        /* Interactive Risk Calculator */
+        .risk-calculator {
+            background: var(--bg-accent);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid var(--border-color);
+        }
+
+        .calculator-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .input-group select, .input-group input {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .calculate-btn {
+            padding: 15px 30px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .risk-result {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .risk-result.show {
+            display: block;
+        }
+
+        /* Scenario Exercise */
+        .scenario-exercise {
+            background: var(--bg-accent);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 3px solid #667eea;
+        }
+
+        .scenario-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scenario-content {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .scenario-question {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 15px 0 10px 0;
+        }
+
+        .scenario-answer {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .reveal-btn {
+            padding: 10px 20px;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .reveal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .model-answer {
+            margin-top: 15px;
+            padding: 20px;
+            background: var(--success-gradient);
+            color: white;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .model-answer.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        /* Download Section */
+        .download-section {
+            background: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 5px solid #43e97b;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .download-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+        }
+
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: #43e97b;
+        }
+
+        .download-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .download-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .download-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Interactive Risk Matrix */
+        .interactive-matrix .matrix-cell.clickable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .interactive-matrix .matrix-cell.clickable:hover::after {
+            content: '👆 Click me';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* Modal for Risk Details */
+        .risk-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .risk-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-modal {
+            font-size: 32px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .calculator-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -903,6 +1187,7 @@
         <div class="toc-item" data-section="slide4">Part 4: Risk Analysis</div>
         <div class="toc-item" data-section="slide5">Part 5: Risk Response</div>
         <div class="toc-item" data-section="slide6">Part 6: Continuous Assessment</div>
+        <div class="toc-item" data-section="slide7">Part 7: Practical Resources & Case Studies</div>
     </div>
 
     <!-- Notes Panel -->
@@ -959,9 +1244,123 @@
             <div class="slide" id="slide1">
                 <div class="slide-header">
                     <span>Understanding Risk Assessment Fundamentals</span>
-                    <span class="slide-number">Part 1 of 6</span>
+                    <span class="slide-number">Part 1 of 7</span>
                 </div>
                 <div class="slide-content">
+                    <div class="highlight-box" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%); border: 3px solid #667eea;">
+                        <h2 style="text-align: center; font-size: 28px; margin-bottom: 20px;">📋 THE GENERAL ORDER: Follow This Sequence</h2>
+
+                        <div style="background: white; padding: 25px; border-radius: 10px; margin: 20px 0;">
+                            <h3 style="color: #667eea; font-size: 20px; margin-bottom: 20px;">Initial Implementation (First Time Through):</h3>
+
+                            <div style="display: grid; gap: 15px;">
+                                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 5px solid #2196F3;">
+                                    <strong style="font-size: 18px; color: #1565C0;">1. FIPS 199 + NIST 800-60</strong>
+                                    <p style="margin: 8px 0 0 0; color: #424242;">START HERE: Categorize your system (LOW, MODERATE, or HIGH)</p>
+                                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">Use 800-60 to help map your information types to impact levels</p>
+                                </div>
+
+                                <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 5px solid #FF9800;">
+                                    <strong style="font-size: 18px; color: #E65100;">2. FIPS 200</strong>
+                                    <p style="margin: 8px 0 0 0; color: #424242;">Identify the 17 security areas that MUST be addressed</p>
+                                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">This is mandatory - no exceptions</p>
+                                </div>
+
+                                <div style="background: #fce4ec; padding: 15px; border-radius: 8px; border-left: 5px solid #E91E63;">
+                                    <strong style="font-size: 18px; color: #C2185B;">3. NIST 800-30 (Initial Assessment)</strong>
+                                    <p style="margin: 8px 0 0 0; color: #424242;">Conduct your first risk assessment</p>
+                                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">Identify threats, vulnerabilities, calculate initial risk levels</p>
+                                </div>
+
+                                <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; border-left: 5px solid #9C27B0;">
+                                    <strong style="font-size: 18px; color: #6A1B9A;">4. NIST 800-53</strong>
+                                    <p style="margin: 8px 0 0 0; color: #424242;">Select security controls from the catalog</p>
+                                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">Use baseline for your impact level + add/tailor based on risk assessment</p>
+                                </div>
+
+                                <div style="background: #e0f2f1; padding: 15px; border-radius: 8px; border-left: 5px solid #00897B;">
+                                    <strong style="font-size: 18px; color: #00695C;">5. NIST 800-70</strong>
+                                    <p style="margin: 8px 0 0 0; color: #424242;">Implement security configuration baselines</p>
+                                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">Apply STIGs, SCAP content, CIS Benchmarks to systems</p>
+                                </div>
+
+                                <div style="background: #fce4ec; padding: 15px; border-radius: 8px; border-left: 5px solid #E91E63;">
+                                    <strong style="font-size: 18px; color: #C2185B;">6. NIST 800-30 (Reassessment)</strong>
+                                    <p style="margin: 8px 0 0 0; color: #424242;">Calculate residual risk after controls</p>
+                                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">Did your controls reduce the risk? Is remaining risk acceptable?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: #fff9c4; padding: 20px; border-radius: 10px; border: 2px solid #F57F17; margin-top: 20px;">
+                            <h3 style="color: #F57F17; font-size: 18px; margin-bottom: 15px;">⚠️ Critical Point: 800-30 is CONTINUOUS</h3>
+                            <p style="color: #424242; line-height: 1.8; margin: 0;">
+                                While the above shows when to use 800-30 initially, <strong>risk assessment never stops</strong>. You must:
+                            </p>
+                            <ul style="color: #424242; margin-top: 10px;">
+                                <li>Reassess when new threats emerge</li>
+                                <li>Reassess when systems change</li>
+                                <li>Reassess after incidents</li>
+                                <li>Reassess at least annually (minimum)</li>
+                                <li>Continuously monitor and update risk register</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; border: 2px solid #4CAF50; margin-top: 20px;">
+                            <h3 style="color: #2E7D32; font-size: 18px; margin-bottom: 15px;">✅ Quick Reference Cheat Sheet</h3>
+                            <table style="width: 100%; background: white; border-radius: 8px; overflow: hidden;">
+                                <thead>
+                                    <tr style="background: #4CAF50; color: white;">
+                                        <th style="padding: 12px; text-align: left;">Order</th>
+                                        <th style="padding: 12px; text-align: left;">Framework</th>
+                                        <th style="padding: 12px; text-align: left;">What You Do</th>
+                                        <th style="padding: 12px; text-align: left;">When</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1st</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">FIPS 199 + 800-60</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Categorize</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Day 1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">2nd</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">FIPS 200</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Identify required areas</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Day 1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">3rd</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">NIST 800-30</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Assess initial risks</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Week 1-2</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">4th</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">NIST 800-53</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Select controls</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Week 2-3</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">5th</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">NIST 800-70</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Implement baselines</td>
+                                        <td style="padding: 10px; border-bottom: 1px solid #ddd;">Month 1-3</td>
+                                    </tr>
+                                    <tr style="background: #fff9c4;">
+                                        <td style="padding: 10px; font-weight: bold;">Ongoing</td>
+                                        <td style="padding: 10px; font-weight: bold;">NIST 800-30</td>
+                                        <td style="padding: 10px; font-weight: bold;">Reassess & monitor</td>
+                                        <td style="padding: 10px; font-weight: bold;">Continuous + Annual</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="margin: 40px 0; border-top: 3px solid var(--border-color);"></div>
+
                     <h2>🎯 What is Risk Assessment and Why It's Critical</h2>
 
                     <div class="highlight-box">
@@ -1060,7 +1459,7 @@
             <div class="slide" id="slide2">
                 <div class="slide-header">
                     <span>The Four-Step Risk Assessment Process</span>
-                    <span class="slide-number">Part 2 of 6</span>
+                    <span class="slide-number">Part 2 of 7</span>
                 </div>
                 <div class="slide-content">
                     <h2>🔄 Mastering the Risk Assessment Process</h2>
@@ -1214,7 +1613,7 @@
             <div class="slide" id="slide3">
                 <div class="slide-header">
                     <span>Deep Dive: Identifying Threats and Vulnerabilities</span>
-                    <span class="slide-number">Part 3 of 6</span>
+                    <span class="slide-number">Part 3 of 7</span>
                 </div>
                 <div class="slide-content">
                     <h2>🎯 Finding What Could Go Wrong</h2>
@@ -1342,7 +1741,7 @@
             <div class="slide" id="slide4">
                 <div class="slide-header">
                     <span>Risk Analysis: Calculating Likelihood and Impact</span>
-                    <span class="slide-number">Part 4 of 6</span>
+                    <span class="slide-number">Part 4 of 7</span>
                 </div>
                 <div class="slide-content">
                     <h2>📊 From Threats to Risk Scores</h2>
@@ -1460,6 +1859,48 @@
                         </div>
                     </div>
 
+                    <h3>🧮 Interactive Risk Calculator</h3>
+
+                    <div class="risk-calculator">
+                        <h4 style="text-align: center; margin-bottom: 25px; color: var(--text-primary);">Calculate Your Risk Score</h4>
+                        <p style="text-align: center; margin-bottom: 20px; color: var(--text-secondary);">Select likelihood and impact to determine the overall risk level</p>
+
+                        <div class="calculator-inputs">
+                            <div class="input-group">
+                                <label for="likelihood">Likelihood</label>
+                                <select id="likelihood">
+                                    <option value="">-- Select Likelihood --</option>
+                                    <option value="1">Very Low (0-10%)</option>
+                                    <option value="2">Low (11-25%)</option>
+                                    <option value="3">Moderate (26-50%)</option>
+                                    <option value="4">High (51-75%)</option>
+                                    <option value="5">Very High (76-100%)</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="impact">Impact</label>
+                                <select id="impact">
+                                    <option value="">-- Select Impact --</option>
+                                    <option value="1">Very Low (Negligible)</option>
+                                    <option value="2">Low (Minor)</option>
+                                    <option value="3">Moderate (Limited)</option>
+                                    <option value="4">High (Serious)</option>
+                                    <option value="5">Very High (Catastrophic)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="scenario">Describe Your Scenario (Optional)</label>
+                            <input type="text" id="scenario" placeholder="e.g., Ransomware attack on unpatched servers">
+                        </div>
+
+                        <button class="calculate-btn" onclick="calculateRisk()">🎯 Calculate Risk Level</button>
+
+                        <div class="risk-result" id="riskResult"></div>
+                    </div>
+
                     <h3>📈 Risk Determination</h3>
 
                     <div class="concept-box">
@@ -1517,7 +1958,7 @@
             <div class="slide" id="slide5">
                 <div class="slide-header">
                     <span>Risk Response Strategies and Effective Communication</span>
-                    <span class="slide-number">Part 5 of 6</span>
+                    <span class="slide-number">Part 5 of 7</span>
                 </div>
                 <div class="slide-content">
                     <h2>🛡️ From Risk to Response</h2>
@@ -1580,6 +2021,147 @@
                         </ul>
                     </div>
 
+                    <h3>🎮 Practice Scenario: Test Your Skills</h3>
+
+                    <div class="scenario-exercise">
+                        <div class="scenario-title">
+                            <span>🏥 Scenario 1: Healthcare Ransomware Crisis</span>
+                        </div>
+                        <div class="scenario-content">
+                            <p><strong>Your Role:</strong> Chief Information Security Officer (CISO) at Regional Medical Center, a 300-bed hospital</p>
+
+                            <p><strong>Situation:</strong></p>
+                            <p>At 2:00 AM on a Tuesday, you receive an urgent call from the night shift IT administrator. Multiple file servers have been encrypted by ransomware. The attackers are demanding $2 million in Bitcoin within 48 hours. Initial investigation reveals:</p>
+                            <ul>
+                                <li>Patient records system is offline - no access to medical histories</li>
+                                <li>Lab results system encrypted - test results unavailable</li>
+                                <li>Emergency Department is diverting ambulances to other hospitals</li>
+                                <li>Backup tapes exist but haven't been tested in 6 months</li>
+                                <li>Entry point appears to be a phishing email opened by a billing clerk</li>
+                                <li>Ransomware has been spreading for approximately 12 hours before detection</li>
+                            </ul>
+                        </div>
+
+                        <div class="scenario-question">Question 1: Using NIST 800-30r1, identify the key vulnerabilities that led to this incident.</div>
+                        <textarea class="scenario-answer" id="answer1" placeholder="Type your answer here..."></textarea>
+                        <button class="reveal-btn" onclick="revealAnswer(1)">💡 Reveal Model Answer</button>
+                        <div class="model-answer" id="modelAnswer1">
+                            <strong>Model Answer - Key Vulnerabilities:</strong>
+                            <ul>
+                                <li><strong>Technical:</strong> Unpatched systems, insufficient email security filtering, no network segmentation between clinical and business systems</li>
+                                <li><strong>Process:</strong> Untested backups (ACC-5 threat), inadequate incident response plan, no security awareness training</li>
+                                <li><strong>Human:</strong> Low security awareness (phishing susceptibility), no MFA on critical systems</li>
+                                <li><strong>Detective:</strong> 12-hour delay in detection indicates lack of security monitoring, no EDR/SIEM alerting</li>
+                            </ul>
+                        </div>
+
+                        <div class="scenario-question">Question 2: What should be your immediate risk response strategy? Consider all four response types (Accept, Avoid, Mitigate, Transfer).</div>
+                        <textarea class="scenario-answer" id="answer2" placeholder="Type your answer here..."></textarea>
+                        <button class="reveal-btn" onclick="revealAnswer(2)">💡 Reveal Model Answer</button>
+                        <div class="model-answer" id="modelAnswer2">
+                            <strong>Model Answer - Immediate Response:</strong>
+                            <ol>
+                                <li><strong>MITIGATE (Primary):</strong>
+                                    <ul>
+                                        <li>Isolate infected systems immediately (contain spread)</li>
+                                        <li>Activate incident response team and disaster recovery plan</li>
+                                        <li>Test backup restoration on isolated network</li>
+                                        <li>Notify law enforcement (FBI) - don't pay ransom yet</li>
+                                        <li>Switch to paper-based processes for critical patient care</li>
+                                    </ul>
+                                </li>
+                                <li><strong>TRANSFER (Secondary):</strong>
+                                    <ul>
+                                        <li>Activate cyber insurance policy (if exists)</li>
+                                        <li>Engage third-party forensics and recovery specialists</li>
+                                    </ul>
+                                </li>
+                                <li><strong>AVOID (Not applicable):</strong> Can't avoid - already happened. Future: avoid collecting unnecessary data, avoid single points of failure</li>
+                                <li><strong>ACCEPT (Conditional):</strong> May need to accept temporary service degradation and manual processes during recovery</li>
+                            </ol>
+                            <p><strong>Communication Plan:</strong></p>
+                            <ul>
+                                <li>Board/CEO: "Patient safety at risk, $2M ransom demand, FBI engaged, recovery time 24-72 hours"</li>
+                                <li>Medical Staff: "Paper processes until systems restored, patient safety protocols in effect"</li>
+                                <li>Public/Media: Prepared statement about incident, patient notification per HIPAA</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="scenario-exercise">
+                        <div class="scenario-title">
+                            <span>🏦 Scenario 2: Financial Insider Threat</span>
+                        </div>
+                        <div class="scenario-content">
+                            <p><strong>Your Role:</strong> Risk Manager at a regional bank</p>
+
+                            <p><strong>Situation:</strong></p>
+                            <p>Your Data Loss Prevention (DLP) system has flagged unusual activity: A senior database administrator (DBA) with 10 years tenure has been accessing customer account databases outside normal hours and downloading large datasets to encrypted USB drives. Investigation reveals:</p>
+                            <ul>
+                                <li>DBA has accessed 50,000+ customer records in past 2 weeks</li>
+                                <li>Activity occurs after midnight, when monitoring is minimal</li>
+                                <li>DBA recently applied for a job at a competitor (discovered via LinkedIn)</li>
+                                <li>DBA has legitimate access to all databases as part of role</li>
+                                <li>No technical policy violations - access is authorized</li>
+                            </ul>
+                        </div>
+
+                        <div class="scenario-question">Question: Conduct a rapid NIST 800-30r1 risk assessment. Determine Threat Source, Threat Event, Likelihood, Impact, and recommended response.</div>
+                        <textarea class="scenario-answer" id="answer3" placeholder="Type your answer here..."></textarea>
+                        <button class="reveal-btn" onclick="revealAnswer(3)">💡 Reveal Model Answer</button>
+                        <div class="model-answer" id="modelAnswer3">
+                            <strong>Model Answer - Risk Assessment:</strong>
+                            <table style="width: 100%; margin-top: 15px;">
+                                <tr>
+                                    <td><strong>Threat Source:</strong></td>
+                                    <td>Insider (Adversarial - privileged user with authorized access)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Threat Event:</strong></td>
+                                    <td>ADV-5: Exfiltration of sensitive customer data for competitive advantage or sale</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Vulnerabilities:</strong></td>
+                                    <td>
+                                        • No User Behavior Analytics (UBA)<br>
+                                        • Overly broad DBA privileges<br>
+                                        • Weak after-hours monitoring<br>
+                                        • No data classification/tagging<br>
+                                        • USB ports enabled on critical systems
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Likelihood:</strong></td>
+                                    <td>HIGH - Privileged access + suspicious behavior + motive (new job) + capability</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Impact:</strong></td>
+                                    <td>VERY HIGH - GLBA violation, regulatory fines, customer data compromise, competitive harm</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Overall Risk:</strong></td>
+                                    <td style="background: #ffcdd2; color: #b71c1c; font-weight: bold;">VERY HIGH</td>
+                                </tr>
+                            </table>
+
+                            <p style="margin-top: 20px;"><strong>Recommended Response (Immediate):</strong></p>
+                            <ol>
+                                <li><strong>Investigate:</strong> Preserve evidence, review all access logs, determine scope of data accessed</li>
+                                <li><strong>Contain:</strong> Temporarily restrict DBA's access to read-only, disable USB ports, increase monitoring</li>
+                                <li><strong>Legal:</strong> Consult legal counsel before confronting employee (wrongful termination risk)</li>
+                                <li><strong>Interview:</strong> Conduct fact-finding interview with HR and legal present</li>
+                            </ol>
+
+                            <p><strong>Long-term Mitigation (800-53 Controls):</strong></p>
+                            <ul>
+                                <li>AC-6: Least Privilege - Implement role-based access, just-in-time privileged access</li>
+                                <li>AU-6: Audit Review - Deploy UBA/SIEM for anomaly detection</li>
+                                <li>MP-7: Media Protection - Disable removable media on critical systems</li>
+                                <li>PS-4: Personnel Termination - Automated access revocation process</li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <div class="key-learning">
                         💡 Response Wisdom: The best risk response often combines strategies. But response without communication is worthless—a perfectly analyzed risk that never reaches decision-makers might as well not exist.
                     </div>
@@ -1590,7 +2172,7 @@
             <div class="slide" id="slide6">
                 <div class="slide-header">
                     <span>Continuous Assessment and RMF Integration</span>
-                    <span class="slide-number">Part 6 of 6</span>
+                    <span class="slide-number">Part 6 of 7</span>
                 </div>
                 <div class="slide-content">
                     <h2>🔄 From Periodic to Perpetual</h2>
@@ -1744,6 +2326,1151 @@
                     <div class="key-learning">
                         💡 Ultimate Wisdom: Risk assessment is not a project—it's a program. Not a snapshot—it's a movie. The goal isn't to eliminate all risk (impossible) but to maintain continuous awareness and make informed decisions faster than threats evolve.
                     </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Practical Resources & Case Studies -->
+            <div class="slide" id="slide7">
+                <div class="slide-header">
+                    <span>Practical Resources, Templates & Real-World Case Studies</span>
+                    <span class="slide-number">Part 7 of 7</span>
+                </div>
+                <div class="slide-content">
+                    <h2>📚 From Theory to Practice</h2>
+
+                    <div class="highlight-box">
+                        <h3>Bridging the Gap</h3>
+                        <p>Understanding NIST 800-30r1 conceptually is one thing—applying it to real-world scenarios is another. This section provides practical tools, real breach case studies, and integration guidance to make you immediately effective.</p>
+                    </div>
+
+                    <h3>📋 NIST Appendix D: Threat Event Examples</h3>
+
+                    <div class="concept-box">
+                        <h4>Sample Threat Events by Category (from Appendix D)</h4>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🔴 Adversarial Threat Events</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Threat ID</th>
+                                            <th>Threat Event</th>
+                                            <th>Example Scenario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>ADV-1</strong></td>
+                                            <td>Perform reconnaissance/surveillance</td>
+                                            <td>Attacker scans network for open ports, maps infrastructure</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ADV-2</strong></td>
+                                            <td>Craft spear phishing attacks</td>
+                                            <td>Targeted email to CFO impersonating CEO requesting wire transfer</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ADV-3</strong></td>
+                                            <td>Exploit zero-day vulnerability</td>
+                                            <td>Nation-state uses unknown Windows exploit for initial access</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ADV-4</strong></td>
+                                            <td>Deploy ransomware</td>
+                                            <td>Encrypt critical databases, demand Bitcoin payment</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ADV-5</strong></td>
+                                            <td>Exfiltrate sensitive data</td>
+                                            <td>Insider copies customer PII to USB drive before resignation</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ADV-6</strong></td>
+                                            <td>Conduct DDoS attack</td>
+                                            <td>Botnet floods e-commerce site during Black Friday</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ADV-7</strong></td>
+                                            <td>Supply chain compromise</td>
+                                            <td>Malicious code injected into third-party library update</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🟡 Accidental Threat Events</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Threat ID</th>
+                                            <th>Threat Event</th>
+                                            <th>Example Scenario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>ACC-1</strong></td>
+                                            <td>User error in data entry</td>
+                                            <td>Employee enters wrong account number, transfers $100K to wrong recipient</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ACC-2</strong></td>
+                                            <td>Misconfiguration of security settings</td>
+                                            <td>Admin accidentally exposes S3 bucket to public internet</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ACC-3</strong></td>
+                                            <td>Loss or theft of equipment</td>
+                                            <td>Laptop with unencrypted patient data stolen from car</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ACC-4</strong></td>
+                                            <td>Inadvertent disclosure</td>
+                                            <td>Email with salary data sent to entire company instead of HR</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ACC-5</strong></td>
+                                            <td>Accidental deletion</td>
+                                            <td>Developer drops production database thinking it's test environment</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🟠 Structural Threat Events</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Threat ID</th>
+                                            <th>Threat Event</th>
+                                            <th>Example Scenario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>STR-1</strong></td>
+                                            <td>Hardware component failure</td>
+                                            <td>RAID controller fails, corrupting database</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>STR-2</strong></td>
+                                            <td>Software defect/bug</td>
+                                            <td>Memory leak causes application crash every 48 hours</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>STR-3</strong></td>
+                                            <td>Resource depletion</td>
+                                            <td>Disk fills up with logs, causing system outage</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>STR-4</strong></td>
+                                            <td>Malicious code in COTS product</td>
+                                            <td>Backdoor discovered in network equipment firmware</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🟢 Environmental Threat Events</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Threat ID</th>
+                                            <th>Threat Event</th>
+                                            <th>Example Scenario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>ENV-1</strong></td>
+                                            <td>Fire</td>
+                                            <td>Electrical fire in data center destroys servers</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ENV-2</strong></td>
+                                            <td>Flood/water damage</td>
+                                            <td>Burst pipe floods server room over weekend</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ENV-3</strong></td>
+                                            <td>Power failure</td>
+                                            <td>Extended power outage exceeds UPS and generator capacity</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ENV-4</strong></td>
+                                            <td>Natural disaster</td>
+                                            <td>Hurricane damages primary data center</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ENV-5</strong></td>
+                                            <td>Telecommunications failure</td>
+                                            <td>Fiber optic cable cut, internet connectivity lost</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>📥 Downloadable Resources</h3>
+
+                    <div class="download-section">
+                        <h4 style="text-align: center; margin-bottom: 15px;">Take These Tools With You</h4>
+                        <p style="text-align: center; color: var(--text-secondary);">Click any card to download practical resources you can use immediately</p>
+
+                        <div class="download-grid">
+                            <div class="download-card" onclick="downloadNotes()">
+                                <div class="download-icon">📝</div>
+                                <div class="download-title">Your Notes</div>
+                                <div class="download-desc">Export all your saved notes as JSON</div>
+                            </div>
+
+                            <div class="download-card" onclick="downloadRiskRegister()">
+                                <div class="download-icon">📊</div>
+                                <div class="download-title">Risk Register Template</div>
+                                <div class="download-desc">CSV template ready for Excel/Google Sheets</div>
+                            </div>
+
+                            <div class="download-card" onclick="downloadChecklist()">
+                                <div class="download-icon">✅</div>
+                                <div class="download-title">Assessment Checklist</div>
+                                <div class="download-desc">Step-by-step preparation checklist</div>
+                            </div>
+
+                            <div class="download-card" onclick="downloadCheatsheet()">
+                                <div class="download-icon">🎯</div>
+                                <div class="download-title">Quick Reference Guide</div>
+                                <div class="download-desc">One-page NIST 800-30r1 cheatsheet</div>
+                            </div>
+
+                            <div class="download-card" onclick="downloadThreatTaxonomy()">
+                                <div class="download-icon">🔴</div>
+                                <div class="download-title">Threat Taxonomy</div>
+                                <div class="download-desc">Complete Appendix D threat events</div>
+                            </div>
+
+                            <div class="download-card" onclick="downloadRiskMatrix()">
+                                <div class="download-icon">📈</div>
+                                <div class="download-title">Risk Matrix Template</div>
+                                <div class="download-desc">Editable 5x5 risk matrix</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>📝 Risk Assessment Templates & Checklists</h3>
+
+                    <div class="concept-box">
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>📄 Template 1: Risk Assessment Planning Checklist</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <h5>Phase 1: Preparation</h5>
+                                <ul>
+                                    <li>☐ Define assessment purpose and objectives</li>
+                                    <li>☐ Identify scope (Tier 1, 2, or 3)</li>
+                                    <li>☐ Specify systems, data, and processes in scope</li>
+                                    <li>☐ Identify out-of-scope items and justification</li>
+                                    <li>☐ Assemble assessment team and assign roles</li>
+                                    <li>☐ Identify stakeholders and schedule interviews</li>
+                                    <li>☐ Select assessment methodology (qualitative/quantitative)</li>
+                                    <li>☐ Define risk scales and acceptance criteria</li>
+                                    <li>☐ Document assumptions and constraints</li>
+                                    <li>☐ Identify threat intelligence sources</li>
+                                    <li>☐ Gather system documentation (diagrams, configs, policies)</li>
+                                    <li>☐ Schedule vulnerability scans and penetration tests</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>📄 Template 2: Risk Register</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Risk ID</th>
+                                            <th>Threat Source</th>
+                                            <th>Threat Event</th>
+                                            <th>Vulnerability</th>
+                                            <th>Likelihood</th>
+                                            <th>Impact</th>
+                                            <th>Risk Level</th>
+                                            <th>Response</th>
+                                            <th>Owner</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>R-001</td>
+                                            <td>Cybercriminals</td>
+                                            <td>Ransomware attack</td>
+                                            <td>Unpatched servers</td>
+                                            <td>High</td>
+                                            <td>Very High</td>
+                                            <td style="background:#ffcdd2;">Very High</td>
+                                            <td>Mitigate</td>
+                                            <td>IT Director</td>
+                                            <td>Open</td>
+                                        </tr>
+                                        <tr>
+                                            <td>R-002</td>
+                                            <td>Insider</td>
+                                            <td>Data exfiltration</td>
+                                            <td>No DLP solution</td>
+                                            <td>Moderate</td>
+                                            <td>High</td>
+                                            <td style="background:#ffccbc;">High</td>
+                                            <td>Mitigate</td>
+                                            <td>CISO</td>
+                                            <td>In Progress</td>
+                                        </tr>
+                                        <tr>
+                                            <td>R-003</td>
+                                            <td>Employee</td>
+                                            <td>Phishing attack</td>
+                                            <td>Low security awareness</td>
+                                            <td>High</td>
+                                            <td>Moderate</td>
+                                            <td style="background:#ffe0b2;">Moderate</td>
+                                            <td>Mitigate</td>
+                                            <td>HR Manager</td>
+                                            <td>Planned</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style="margin-top: 15px;"><strong>Download:</strong> Use this as a starting template for your organization's risk register</p>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>📄 Template 3: Risk Assessment Report Outline</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <ol>
+                                    <li><strong>Executive Summary</strong>
+                                        <ul>
+                                            <li>Assessment scope and purpose</li>
+                                            <li>Top 5 risks identified</li>
+                                            <li>Key recommendations</li>
+                                            <li>Resource requirements</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Methodology</strong>
+                                        <ul>
+                                            <li>Assessment approach and framework</li>
+                                            <li>Risk scales used</li>
+                                            <li>Data sources and tools</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Threat Landscape</strong>
+                                        <ul>
+                                            <li>Applicable threat sources</li>
+                                            <li>Current threat intelligence</li>
+                                            <li>Industry-specific threats</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Vulnerability Assessment</strong>
+                                        <ul>
+                                            <li>Technical vulnerabilities identified</li>
+                                            <li>Process/procedural gaps</li>
+                                            <li>Human factors</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Risk Analysis Results</strong>
+                                        <ul>
+                                            <li>Detailed risk scenarios</li>
+                                            <li>Risk matrix/heat map</li>
+                                            <li>Risk register</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Risk Response Plan</strong>
+                                        <ul>
+                                            <li>Recommended controls by risk</li>
+                                            <li>Implementation timeline</li>
+                                            <li>Cost-benefit analysis</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Appendices</strong>
+                                        <ul>
+                                            <li>Detailed findings</li>
+                                            <li>Supporting evidence</li>
+                                            <li>References</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>🔍 Real-World Breach Case Studies</h3>
+
+                    <div class="real-world-box">
+                        <h4>Learning from Major Security Incidents</h4>
+                        <p>Let's analyze three major breaches through the NIST 800-30r1 lens to understand what went wrong and how proper risk assessment could have prevented them.</p>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <span>🎯 Case Study 1: Target Corporation (2013)</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="warning-box">
+                                <h5>The Breach:</h5>
+                                <ul>
+                                    <li><strong>Date:</strong> November-December 2013</li>
+                                    <li><strong>Impact:</strong> 40 million credit/debit card numbers stolen, 70 million customer records compromised</li>
+                                    <li><strong>Cost:</strong> $292 million total (settlements, remediation, lost business)</li>
+                                </ul>
+                            </div>
+
+                            <h5>NIST 800-30r1 Analysis:</h5>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Risk Component</th>
+                                        <th>What Happened</th>
+                                        <th>NIST Classification</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Threat Source</strong></td>
+                                        <td>Organized cybercriminal group</td>
+                                        <td>Adversarial - High capability, financial motivation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Threat Event</strong></td>
+                                        <td>Supply chain compromise → lateral movement → data exfiltration</td>
+                                        <td>ADV-7 (Supply chain) + ADV-5 (Exfiltration)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vulnerabilities</strong></td>
+                                        <td>
+                                            1. Weak HVAC vendor security<br>
+                                            2. No network segmentation<br>
+                                            3. Ignored security alerts
+                                        </td>
+                                        <td>
+                                            Technical + Procedural gaps<br>
+                                            Third-party risk not assessed
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Likelihood</strong></td>
+                                        <td>HIGH - Retail is prime target for payment card theft</td>
+                                        <td>Should have been rated High in risk assessment</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Impact</strong></td>
+                                        <td>VERY HIGH - Financial, reputational, regulatory</td>
+                                        <td>Correctly would rate as Very High</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Overall Risk</strong></td>
+                                        <td>VERY HIGH (High × Very High)</td>
+                                        <td>Required immediate mitigation</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="success-box">
+                                <h5>💡 Lessons for Risk Assessment:</h5>
+                                <ul>
+                                    <li>✓ <strong>Tier 2 Risk:</strong> Third-party/supply chain risk MUST be in your assessment</li>
+                                    <li>✓ <strong>Network Segmentation:</strong> PCI-DSS environments require isolation - technical control gap</li>
+                                    <li>✓ <strong>Monitor Step 4:</strong> Having detection tools means nothing if alerts are ignored</li>
+                                    <li>✓ <strong>Risk Response:</strong> Security tools deployed but not operationalized = residual risk still High</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <span>🎯 Case Study 2: Equifax (2017)</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="warning-box">
+                                <h5>The Breach:</h5>
+                                <ul>
+                                    <li><strong>Date:</strong> May-July 2017 (discovered September)</li>
+                                    <li><strong>Impact:</strong> 147 million Americans' personal data exposed (SSNs, DOB, addresses, driver's licenses)</li>
+                                    <li><strong>Cost:</strong> $1.4 billion+ (settlements, remediation, criminal charges)</li>
+                                </ul>
+                            </div>
+
+                            <h5>NIST 800-30r1 Analysis:</h5>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Risk Component</th>
+                                        <th>What Happened</th>
+                                        <th>NIST Classification</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Threat Source</strong></td>
+                                        <td>Sophisticated attackers (suspected nation-state)</td>
+                                        <td>Adversarial - Very High capability, espionage motivation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Threat Event</strong></td>
+                                        <td>Exploit known Apache Struts vulnerability (CVE-2017-5638)</td>
+                                        <td>ADV-3 (Exploit known vulnerability)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vulnerabilities</strong></td>
+                                        <td>
+                                            1. Unpatched Apache Struts (patch available 2 months)<br>
+                                            2. Expired SSL certificate (detection failure)<br>
+                                            3. No database encryption at rest
+                                        </td>
+                                        <td>
+                                            Technical vulnerability - CRITICAL<br>
+                                            Process failure - patch management<br>
+                                            Compensating controls missing
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Likelihood</strong></td>
+                                        <td>VERY HIGH - Credit bureau is crown jewel target + known exploited CVE in wild</td>
+                                        <td>Active exploitation already occurring globally</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Impact</strong></td>
+                                        <td>VERY HIGH - PII of nearly half US population</td>
+                                        <td>Harm to individuals + nation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Overall Risk</strong></td>
+                                        <td>VERY HIGH (Very High × Very High)</td>
+                                        <td>Required IMMEDIATE emergency patching</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="success-box">
+                                <h5>💡 Lessons for Risk Assessment:</h5>
+                                <ul>
+                                    <li>✓ <strong>Vulnerability Management:</strong> Known CVEs with active exploitation = automatic Very High likelihood</li>
+                                    <li>✓ <strong>Asset Criticality:</strong> Systems with crown jewel data deserve Tier 3 detailed assessment</li>
+                                    <li>✓ <strong>Compensating Controls:</strong> If patching delayed, need compensating controls (WAF, network isolation, IDS)</li>
+                                    <li>✓ <strong>Impact Assessment:</strong> Data sensitivity drives impact rating - encryption reduces impact even if breached</li>
+                                    <li>✓ <strong>Continuous Monitoring:</strong> SSL cert expiration should have triggered automated alert</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <span>🎯 Case Study 3: SolarWinds (2020)</span>
+                            <span class="expand-icon">▶</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="warning-box">
+                                <h5>The Breach:</h5>
+                                <ul>
+                                    <li><strong>Date:</strong> September 2019 - December 2020</li>
+                                    <li><strong>Impact:</strong> ~18,000 organizations downloaded trojanized updates, including US government agencies and Fortune 500 companies</li>
+                                    <li><strong>Cost:</strong> Incalculable - classified as matter of national security</li>
+                                </ul>
+                            </div>
+
+                            <h5>NIST 800-30r1 Analysis:</h5>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Risk Component</th>
+                                        <th>What Happened</th>
+                                        <th>NIST Classification</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Threat Source</strong></td>
+                                        <td>Nation-state APT (attributed to Russia)</td>
+                                        <td>Adversarial - Very High capability, espionage/sabotage motivation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Threat Event</strong></td>
+                                        <td>Supply chain compromise via trojanized software update</td>
+                                        <td>ADV-7 (Supply chain) + STR-4 (Malicious code in COTS)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vulnerabilities</strong></td>
+                                        <td>
+                                            1. SolarWinds build environment compromise<br>
+                                            2. Weak password ("solarwinds123")<br>
+                                            3. No code signing verification<br>
+                                            4. Customers trusted updates implicitly
+                                        </td>
+                                        <td>
+                                            Tier 2 (Mission/Business Process) - Critical dependency<br>
+                                            Tier 3 (System) - Build pipeline security gap<br>
+                                            Structural - Trust model vulnerability
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Likelihood</strong></td>
+                                        <td>MODERATE-HIGH - APTs target software supply chain, but highly sophisticated attack</td>
+                                        <td>Vendor risk assessment should identify critical software vendors</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Impact</strong></td>
+                                        <td>VERY HIGH - National security implications, persistent access to classified networks</td>
+                                        <td>Harm to nation (Tier 1 impact)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Overall Risk</strong></td>
+                                        <td>VERY HIGH to CRITICAL</td>
+                                        <td>Software supply chain is single point of failure</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="success-box">
+                                <h5>💡 Lessons for Risk Assessment:</h5>
+                                <ul>
+                                    <li>✓ <strong>Tier 2 Assessment:</strong> Critical software vendors are part of your mission/business process - assess them!</li>
+                                    <li>✓ <strong>Trust but Verify:</strong> Software updates from trusted vendors still need verification (code signing, hash verification)</li>
+                                    <li>✓ <strong>Zero Trust Architecture:</strong> Even "trusted" software should run with least privilege</li>
+                                    <li>✓ <strong>Threat Modeling:</strong> APTs specifically target trust relationships and supply chains</li>
+                                    <li>✓ <strong>Detection Engineering:</strong> Behavioral monitoring would detect unusual network connections from monitoring software</li>
+                                    <li>✓ <strong>Vendor Risk Assessment:</strong> Your vendors' security posture is YOUR risk</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>🔗 Complete NIST/FIPS Standards Integration Map</h3>
+
+                    <div class="highlight-box">
+                        <h4>Understanding the Federal Cybersecurity Framework Ecosystem</h4>
+                        <p>NIST 800-30r1 doesn't exist in isolation—it's one piece of a tightly integrated federal cybersecurity framework. Think of it like a building: FIPS standards are the foundation and legal requirements, while NIST Special Publications are the detailed blueprints and construction guides.</p>
+                    </div>
+
+                    <div class="concept-box">
+                        <h4>📐 The Complete Standards Hierarchy</h4>
+
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 15px; color: white; margin: 20px 0;">
+                            <div style="text-align: center; font-size: 20px; font-weight: 700; margin-bottom: 15px;">
+                                🏛️ FISMA (Federal Information Security Modernization Act)
+                            </div>
+                            <p style="text-align: center; font-size: 14px; opacity: 0.9;">
+                                The law that mandates all federal agencies protect their information systems
+                            </p>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+                            <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; border-left: 5px solid #2196F3;">
+                                <h5 style="color: #1565C0; margin-bottom: 10px;">📜 FIPS Standards (Mandatory)</h5>
+                                <p style="font-size: 14px; color: #424242; margin-bottom: 10px;"><strong>Federal Information Processing Standards</strong></p>
+                                <ul style="font-size: 14px; color: #424242;">
+                                    <li><strong>FIPS 199:</strong> Categorize systems</li>
+                                    <li><strong>FIPS 200:</strong> Minimum security controls</li>
+                                    <li><strong>FIPS 140-3:</strong> Crypto module validation</li>
+                                </ul>
+                                <p style="margin-top: 10px; font-size: 13px; font-style: italic; color: #555;">Legally binding for federal agencies</p>
+                            </div>
+
+                            <div style="background: #f3e5f5; padding: 20px; border-radius: 10px; border-left: 5px solid #9C27B0;">
+                                <h5 style="color: #6A1B9A; margin-bottom: 10px;">📚 NIST SP 800 Series (Guidance)</h5>
+                                <p style="font-size: 14px; color: #424242; margin-bottom: 10px;"><strong>Special Publications</strong></p>
+                                <ul style="font-size: 14px; color: #424242;">
+                                    <li><strong>800-60:</strong> Map info types to categories</li>
+                                    <li><strong>800-30:</strong> Risk assessment</li>
+                                    <li><strong>800-53:</strong> Security control catalog</li>
+                                    <li><strong>800-70:</strong> Security baselines</li>
+                                    <li><strong>800-37:</strong> RMF process</li>
+                                </ul>
+                                <p style="margin-top: 10px; font-size: 13px; font-style: italic; color: #555;">Detailed implementation guidance</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <h4>🔄 The Complete Security Framework Flow</h4>
+
+                        <div class="process-flow" style="flex-direction: column; align-items: stretch;">
+                            <div class="process-step" style="background: linear-gradient(135deg, #42A5F5 0%, #1976D2 100%); color: white;">
+                                <strong>FIPS 199</strong>
+                                <p style="margin-top: 10px;">Categorize your system risk</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Output: LOW, MODERATE, or HIGH</p>
+                            </div>
+
+                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
+
+                            <div class="process-step" style="background: linear-gradient(135deg, #FFA726 0%, #F57C00 100%); color: white;">
+                                <strong>FIPS 200</strong>
+                                <p style="margin-top: 10px;">Apply minimum security requirements</p>
+                                <p style="margin-top: 5px; font-weight: 600;">17 security areas that MUST be addressed</p>
+                            </div>
+
+                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
+
+                            <div class="process-step" style="background: linear-gradient(135deg, #AB47BC 0%, #7B1FA2 100%); color: white;">
+                                <strong>NIST SP 800-53</strong>
+                                <p style="margin-top: 10px;">Select specific controls</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Choose from catalog based on impact level</p>
+                            </div>
+
+                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
+
+                            <div class="process-step" style="background: linear-gradient(135deg, #EC407A 0%, #C2185B 100%); color: white; border: 3px solid #fff;">
+                                <strong>NIST SP 800-30</strong>
+                                <p style="margin-top: 10px;">Conduct risk assessment</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Identify threats, vulnerabilities, and risk levels</p>
+                            </div>
+
+                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
+
+                            <div class="process-step" style="background: linear-gradient(135deg, #66BB6A 0%, #388E3C 100%); color: white;">
+                                <strong>NIST SP 800-60</strong>
+                                <p style="margin-top: 10px;">Map information types</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Detailed guidance for categorization</p>
+                            </div>
+
+                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
+
+                            <div class="process-step" style="background: linear-gradient(135deg, #26C6DA 0%, #0097A7 100%); color: white;">
+                                <strong>NIST SP 800-70</strong>
+                                <p style="margin-top: 10px;">Apply security configuration checklists</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Implement using SCAP, STIGs, CIS Benchmarks</p>
+                            </div>
+                        </div>
+
+                        <div class="warning-box" style="margin-top: 30px;">
+                            <h5>📌 Key Point: Where Does 800-30 Fit?</h5>
+                            <p>NIST 800-30 risk assessment happens <strong>continuously throughout the process</strong>:</p>
+                            <ul>
+                                <li><strong>After FIPS 199:</strong> Initial risk assessment to understand baseline threats</li>
+                                <li><strong>During 800-53 selection:</strong> Risk assessment informs which controls to add/tailor</li>
+                                <li><strong>After 800-70 implementation:</strong> Reassess to calculate residual risk</li>
+                                <li><strong>Ongoing:</strong> Continuous monitoring and periodic reassessment</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="concept-box">
+                        <h4>📋 Detailed Standard-by-Standard Integration (Click to Expand)</h4>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🔵 FIPS 199: Standards for Security Categorization</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <h5>What It Does:</h5>
+                                <p>FIPS 199 establishes security categories for information and information systems. It defines impact levels (Low, Moderate, High) based on three security objectives:</p>
+                                <ul>
+                                    <li><strong>Confidentiality:</strong> Preventing unauthorized disclosure</li>
+                                    <li><strong>Integrity:</strong> Preventing unauthorized modification</li>
+                                    <li><strong>Availability:</strong> Ensuring timely and reliable access</li>
+                                </ul>
+
+                                <h5>Security Category Format:</h5>
+                                <div style="background: var(--bg-accent); padding: 15px; border-radius: 10px; font-family: monospace; margin: 15px 0;">
+                                    SC [System] = {(confidentiality, impact), (integrity, impact), (availability, impact)}
+                                </div>
+
+                                <h5>Example Categorization:</h5>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>System</th>
+                                            <th>Confidentiality</th>
+                                            <th>Integrity</th>
+                                            <th>Availability</th>
+                                            <th>Overall</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Public Website</td>
+                                            <td>Low</td>
+                                            <td>Low</td>
+                                            <td>Low</td>
+                                            <td><span style="background: #c8e6c9; padding: 5px 10px; border-radius: 5px;">LOW</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>HR System with PII</td>
+                                            <td>Moderate</td>
+                                            <td>Moderate</td>
+                                            <td>Low</td>
+                                            <td><span style="background: #ffe0b2; padding: 5px 10px; border-radius: 5px;">MODERATE</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Financial Trading</td>
+                                            <td>High</td>
+                                            <td>High</td>
+                                            <td>High</td>
+                                            <td><span style="background: #ffcdd2; padding: 5px 10px; border-radius: 5px;">HIGH</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>How NIST 800-30r1 Uses FIPS 199:</h5>
+                                <div class="success-box">
+                                    <ul>
+                                        <li>✓ <strong>Impact Assessment:</strong> FIPS 199 impact levels directly inform the "Impact" rating in 800-30r1 risk calculations</li>
+                                        <li>✓ <strong>Scope Definition:</strong> System categorization determines which threats are most relevant</li>
+                                        <li>✓ <strong>Risk Prioritization:</strong> HIGH-category systems receive more rigorous risk assessment</li>
+                                        <li>✓ <strong>Example:</strong> System categorized as HIGH confidentiality in FIPS 199 → Data breach threat automatically receives HIGH impact rating in 800-30r1</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🟢 NIST 800-60: Guide for Mapping Information Types</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <h5>What It Does:</h5>
+                                <p>NIST 800-60 provides detailed guidance on mapping information types to security categories. Contains comprehensive taxonomy of federal information types and recommended impact levels.</p>
+
+                                <h5>Information Type Examples from 800-60:</h5>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Information Type</th>
+                                            <th>Confidentiality</th>
+                                            <th>Integrity</th>
+                                            <th>Availability</th>
+                                            <th>Rationale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Social Security Numbers</td>
+                                            <td>High</td>
+                                            <td>High</td>
+                                            <td>Low</td>
+                                            <td>Identity theft risk</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Emergency Services</td>
+                                            <td>Low</td>
+                                            <td>High</td>
+                                            <td>High</td>
+                                            <td>Life safety critical</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Classified Intelligence</td>
+                                            <td>High</td>
+                                            <td>High</td>
+                                            <td>Moderate</td>
+                                            <td>National security</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>How NIST 800-30r1 Uses NIST 800-60:</h5>
+                                <div class="success-box">
+                                    <ul>
+                                        <li>✓ <strong>Asset Identification:</strong> 800-60 helps identify what information assets need risk assessment</li>
+                                        <li>✓ <strong>Baseline Impact:</strong> Recommended impact levels serve as starting point for 800-30r1 risk analysis</li>
+                                        <li>✓ <strong>Threat Relevance:</strong> Information type determines applicable threats (healthcare = HIPAA, finance = PCI-DSS)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🟠 FIPS 200: Minimum Security Requirements</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <h5>What It Does:</h5>
+                                <p>FIPS 200 specifies minimum security requirements for federal information systems. Identifies 17 security-related areas that must be addressed.</p>
+
+                                <h5>The 17 Security Families:</h5>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">AC - Access Control</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">AT - Awareness & Training</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">AU - Audit & Accountability</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">CA - Assessment & Authorization</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">CM - Configuration Mgmt</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">CP - Contingency Planning</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">IA - Identification & Auth</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">IR - Incident Response</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">MA - Maintenance</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">MP - Media Protection</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">PE - Physical Protection</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">PL - Planning</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">PS - Personnel Security</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px; font-weight: 700; border: 2px solid #667eea;">RA - Risk Assessment ⭐</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">SA - System Acquisition</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">SC - System Protection</div>
+                                    <div style="background: var(--bg-accent); padding: 12px; border-radius: 8px;">SI - System Integrity</div>
+                                </div>
+
+                                <h5>How NIST 800-30r1 Uses FIPS 200:</h5>
+                                <div class="success-box">
+                                    <ul>
+                                        <li>✓ <strong>Vulnerability Checklist:</strong> 17 families serve as checklist for identifying vulnerability categories</li>
+                                        <li>✓ <strong>Control Gaps:</strong> Missing controls in any family = potential vulnerability to assess</li>
+                                        <li>✓ <strong>Direct Mandate:</strong> FIPS 200 RA family explicitly requires risk assessment → 800-30r1 is the implementation guide</li>
+                                    </ul>
+                                </div>
+
+                                <div class="warning-box">
+                                    <p><strong>FIPS 200 RA (Risk Assessment) Requirement:</strong></p>
+                                    <p>"Organizations must periodically assess the risk to organizational operations, assets, individuals, other organizations, and the Nation..."</p>
+                                    <p style="margin-top: 15px;"><strong>→ NIST 800-30r1 is HOW you meet this FIPS 200 requirement!</strong></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🟣 NIST 800-53: Security and Privacy Controls</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <h5>What It Does:</h5>
+                                <p>Comprehensive catalog of security controls organized into the same 17 families from FIPS 200. Includes control baselines for Low, Moderate, and High impact systems.</p>
+
+                                <h5>Control Baselines by FIPS 199 Category:</h5>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Impact Level</th>
+                                            <th>Baseline</th>
+                                            <th># Controls</th>
+                                            <th>Examples</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>LOW</td>
+                                            <td>Low Baseline</td>
+                                            <td>~125</td>
+                                            <td>Basic access control, logging</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MODERATE</td>
+                                            <td>Moderate Baseline</td>
+                                            <td>~250</td>
+                                            <td>MFA, encryption, SIEM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>HIGH</td>
+                                            <td>High Baseline</td>
+                                            <td>~350+</td>
+                                            <td>Advanced monitoring, insider threat program</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>How NIST 800-30r1 Uses NIST 800-53:</h5>
+                                <div class="success-box">
+                                    <ul>
+                                        <li>✓ <strong>Control Selection:</strong> Risk assessment results justify adding controls beyond baseline</li>
+                                        <li>✓ <strong>Control Effectiveness:</strong> 800-30r1 evaluates if controls reduce likelihood or impact</li>
+                                        <li>✓ <strong>Residual Risk:</strong> After implementing 800-53 controls, reassess to calculate remaining risk</li>
+                                    </ul>
+                                </div>
+
+                                <h5>The Feedback Loop:</h5>
+                                <div class="example-box">
+                                    <strong>1.</strong> 800-30r1 assessment identifies "No backup solution" = HIGH risk<br>
+                                    <strong>2.</strong> Select 800-53 control CP-9 (System Backup)<br>
+                                    <strong>3.</strong> Implement daily backups with offsite storage<br>
+                                    <strong>4.</strong> Reassess with 800-30r1 → Likelihood: High → Low<br>
+                                    <strong>5.</strong> Residual risk: MODERATE → Accept or add more controls
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                                <span>🔵 NIST 800-70: Security Configuration Checklists</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <h5>What It Does:</h5>
+                                <p>Provides guidance on using security configuration checklists (baselines) to implement controls. References repositories like SCAP, STIGs, and CIS Benchmarks.</p>
+
+                                <h5>Configuration Standard Examples:</h5>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Technology</th>
+                                            <th>Checklist Source</th>
+                                            <th>Key Settings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Windows Server</td>
+                                            <td>DISA STIG / CIS</td>
+                                            <td>Disable SMBv1, enable firewall</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Red Hat Linux</td>
+                                            <td>DISA STIG / OpenSCAP</td>
+                                            <td>SELinux enforcing, SSH hardening</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cisco Router</td>
+                                            <td>Cisco Hardening Guide</td>
+                                            <td>Strong passwords, disable telnet</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>How NIST 800-30r1 Uses NIST 800-70:</h5>
+                                <div class="success-box">
+                                    <ul>
+                                        <li>✓ <strong>Vulnerability ID:</strong> Deviation from 800-70 baselines = vulnerability</li>
+                                        <li>✓ <strong>Likelihood Reduction:</strong> Implementing baselines reduces exploitation likelihood</li>
+                                        <li>✓ <strong>Automated Assessment:</strong> SCAP scans provide vulnerability data for risk assessments</li>
+                                    </ul>
+                                </div>
+
+                                <h5>Practical Example:</h5>
+                                <div class="example-box">
+                                    <strong>Scenario:</strong> SCAP scan reveals 50 servers don't meet STIG baseline<br><br>
+                                    <strong>800-30r1 Assessment:</strong>
+                                    <ul>
+                                        <li>Vulnerability: Weak server configuration</li>
+                                        <li>Threat: Remote exploitation (ADV-3)</li>
+                                        <li>Likelihood: HIGH (easy targets)</li>
+                                        <li>Impact: HIGH (business systems)</li>
+                                        <li>Risk: VERY HIGH</li>
+                                    </ul>
+                                    <strong>Mitigation:</strong> Apply 800-70 STIG baselines → Reassess → Risk: LOW
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>🌐 Additional NIST Standards Integration</h3>
+
+                    <div class="concept-box">
+                        <h4>Beyond the Core: Other Key NIST Standards</h4>
+                        <p>Here's how 800-30r1 integrates with the broader NIST ecosystem:</p>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>NIST Standard</th>
+                                    <th>Purpose</th>
+                                    <th>Relationship to 800-30r1</th>
+                                    <th>When to Use Together</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>NIST SP 800-39</strong><br><em>Managing Information Security Risk</em></td>
+                                    <td>Overall risk management strategy at organizational level (Tier 1)</td>
+                                    <td>800-39 is the <strong>strategy</strong>, 800-30r1 is the <strong>tactical execution</strong> of risk assessment within that strategy</td>
+                                    <td>Use 800-39 to establish governance and risk tolerance, then 800-30r1 to conduct actual assessments</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NIST SP 800-37 Rev. 2</strong><br><em>Risk Management Framework</em></td>
+                                    <td>7-step process for managing security/privacy risk (Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor)</td>
+                                    <td>800-30r1 risk assessment is <strong>embedded throughout</strong> the RMF lifecycle - especially in Prepare, Select, Assess, Authorize, and Monitor steps</td>
+                                    <td>Use 800-37 for system authorization process, conduct 800-30r1 assessments at each RMF step</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NIST SP 800-53 Rev. 5</strong><br><em>Security and Privacy Controls</em></td>
+                                    <td>Catalog of security controls to protect systems and data</td>
+                                    <td>800-30r1 identifies risks → 800-53 provides <strong>controls to mitigate</strong> those risks. Assessment results drive control selection.</td>
+                                    <td>After identifying risks with 800-30r1, select appropriate 800-53 controls as mitigation (RA family especially relevant)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NIST SP 800-53A Rev. 5</strong><br><em>Assessing Security Controls</em></td>
+                                    <td>How to test if controls are working effectively</td>
+                                    <td>800-30r1 determines <strong>initial risk</strong>, 800-53A tests controls, then reassess with 800-30r1 to calculate <strong>residual risk</strong></td>
+                                    <td>Continuous assessment cycle: assess risk → implement controls → test controls → reassess risk</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NIST CSF 2.0</strong><br><em>Cybersecurity Framework</em></td>
+                                    <td>Framework for managing cybersecurity risk (Identify, Protect, Detect, Respond, Recover, Govern)</td>
+                                    <td>CSF is <strong>business-friendly</strong> framework, 800-30r1 provides <strong>technical depth</strong> for the "Identify" function</td>
+                                    <td>Use CSF for board/executive communication, 800-30r1 for detailed technical risk assessment</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>🎯 Practical Integration Workflow</h4>
+                        <ol>
+                            <li><strong>Start with 800-39:</strong> Establish organizational risk tolerance and governance</li>
+                            <li><strong>Use 800-37 RMF:</strong> Follow the 7-step process for your system</li>
+                            <li><strong>Apply 800-30r1:</strong> Conduct detailed risk assessments at each RMF step</li>
+                            <li><strong>Select from 800-53:</strong> Choose controls based on risk assessment results</li>
+                            <li><strong>Test with 800-53A:</strong> Verify controls are working</li>
+                            <li><strong>Reassess with 800-30r1:</strong> Calculate residual risk after controls</li>
+                            <li><strong>Report via CSF:</strong> Communicate to executives using CSF language</li>
+                        </ol>
+                    </div>
+
+                    <div class="success-box">
+                        <h4>📚 Quick Reference: NIST Document Hierarchy</h4>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="background: #667eea; color: white; padding: 15px; border-radius: 10px; margin: 10px 0;">
+                                <strong>FIPS 199 & FIPS 200</strong> - Mandatory federal standards
+                            </div>
+                            <div style="background: #4facfe; color: white; padding: 15px; border-radius: 10px; margin: 10px 0;">
+                                <strong>NIST SP 800-39</strong> - Enterprise risk management strategy (Tier 1)
+                            </div>
+                            <div style="background: #43e97b; color: white; padding: 15px; border-radius: 10px; margin: 10px 0;">
+                                <strong>NIST SP 800-37</strong> - Risk Management Framework process
+                            </div>
+                            <div style="background: #f093fb; color: white; padding: 15px; border-radius: 10px; margin: 10px 0; display: flex; justify-content: space-around; flex-wrap: wrap;">
+                                <span style="flex: 1; min-width: 150px;">800-30 Risk Assessment</span>
+                                <span style="flex: 1; min-width: 150px;">800-53 Controls</span>
+                                <span style="flex: 1; min-width: 150px;">800-53A Testing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-learning">
+                        💡 Practitioner Insight: Theory without practice is philosophy—practice without theory is chaos. Use these templates, learn from real breaches, and understand how NIST standards interconnect. That's how you become a risk assessment expert, not just a student.
+                    </div>
 
                     <div style="background: var(--primary-gradient); color: white; padding: 40px; border-radius: 20px; margin-top: 50px; text-align: center;">
                         <h2>🎉 Congratulations!</h2>
@@ -1757,6 +3484,10 @@
                             <div>✓ Effective risk communication</div>
                             <div>✓ Continuous assessment techniques</div>
                             <div>✓ RMF integration</div>
+                            <div>✓ Appendix D threat event taxonomy</div>
+                            <div>✓ Practical templates and checklists</div>
+                            <div>✓ Real-world breach case studies</div>
+                            <div>✓ NIST standards ecosystem integration</div>
                         </div>
                         <p style="font-size: 20px; margin-top: 30px; font-weight: 700;">Now go forth and assess wisely! 🛡️</p>
                     </div>
@@ -1774,6 +3505,17 @@
         <button class="fab" onclick="toggleNotes()" title="Toggle Notes">
             📝
         </button>
+    </div>
+
+    <!-- Risk Details Modal -->
+    <div class="risk-modal" id="riskModal" onclick="closeRiskModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Risk Details</div>
+                <div class="close-modal" onclick="closeRiskModal()">×</div>
+            </div>
+            <div id="modalBody"></div>
+        </div>
     </div>
 
     <script>
@@ -1814,7 +3556,7 @@
 
         // Progress Tracking
         function updateProgress() {
-            const progress = (sectionsViewed.size / 6) * 100;
+            const progress = (sectionsViewed.size / 7) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
@@ -2027,6 +3769,476 @@
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // ===== INTERACTIVE ELEMENTS =====
+
+        // Risk Calculator
+        function calculateRisk() {
+            const likelihood = parseInt(document.getElementById('likelihood').value);
+            const impact = parseInt(document.getElementById('impact').value);
+            const scenario = document.getElementById('scenario').value;
+            const resultDiv = document.getElementById('riskResult');
+
+            if (!likelihood || !impact) {
+                alert('Please select both Likelihood and Impact levels');
+                return;
+            }
+
+            // Risk calculation: take the higher of (likelihood + impact) / 2 or max(likelihood, impact)
+            const riskScore = Math.max(likelihood, impact);
+
+            let riskLevel, riskColor, riskAction;
+
+            if (riskScore === 5) {
+                riskLevel = 'VERY HIGH';
+                riskColor = '#ffcdd2';
+                riskAction = 'IMMEDIATE ACTION REQUIRED - Escalate to senior leadership, allocate emergency resources';
+            } else if (riskScore === 4) {
+                riskLevel = 'HIGH';
+                riskColor = '#ffccbc';
+                riskAction = 'URGENT - Develop mitigation plan within 30 days, assign owner, track closely';
+            } else if (riskScore === 3) {
+                riskLevel = 'MODERATE';
+                riskColor = '#ffe0b2';
+                riskAction = 'PLANNED - Include in next quarterly planning cycle, allocate budget';
+            } else if (riskScore === 2) {
+                riskLevel = 'LOW';
+                riskColor = '#fff9c4';
+                riskAction = 'MONITOR - Track trends, consider risk acceptance with documentation';
+            } else {
+                riskLevel = 'VERY LOW';
+                riskColor = '#c8e6c9';
+                riskAction = 'ACCEPT - Document risk acceptance, periodic review';
+            }
+
+            const likelihoodText = ['', 'Very Low', 'Low', 'Moderate', 'High', 'Very High'][likelihood];
+            const impactText = ['', 'Very Low', 'Low', 'Moderate', 'High', 'Very High'][impact];
+
+            resultDiv.style.background = riskColor;
+            resultDiv.style.color = riskScore >= 3 ? '#b71c1c' : '#1b5e20';
+            resultDiv.innerHTML = `
+                <div style="font-size: 32px; margin-bottom: 15px;">🎯 Risk Level: ${riskLevel}</div>
+                ${scenario ? `<div style="font-size: 18px; margin-bottom: 15px; opacity: 0.9;">Scenario: ${scenario}</div>` : ''}
+                <div style="font-size: 16px; margin-bottom: 10px;">Likelihood: ${likelihoodText} | Impact: ${impactText}</div>
+                <div style="font-size: 16px; font-weight: normal; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.3); border-radius: 10px;">
+                    <strong>Recommended Action:</strong><br>${riskAction}
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // Scenario Exercise - Reveal Answer
+        function revealAnswer(answerNum) {
+            const modelAnswer = document.getElementById(`modelAnswer${answerNum}`);
+            modelAnswer.classList.toggle('show');
+        }
+
+        // Download Functions
+        function downloadNotes() {
+            if (notes.length === 0) {
+                alert('You have no notes to download. Create some notes using the Notes panel first!');
+                return;
+            }
+
+            const blob = new Blob([JSON.stringify(notes, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nist-800-30-notes-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadRiskRegister() {
+            const csv = `Risk ID,Threat Source,Threat Event,Vulnerability,Likelihood,Impact,Risk Level,Response Strategy,Owner,Status,Due Date,Notes
+R-001,Cybercriminals,Ransomware attack,Unpatched servers,High,Very High,Very High,Mitigate,IT Director,Open,2025-11-01,Emergency patching required
+R-002,Insider,Data exfiltration,No DLP solution,Moderate,High,High,Mitigate,CISO,In Progress,2025-11-15,DLP procurement underway
+R-003,Employee,Phishing attack,Low security awareness,High,Moderate,Moderate,Mitigate,HR Manager,Planned,2025-12-01,Security awareness training
+R-004,Nation-State,APT intrusion,No EDR solution,Low,Very High,High,Mitigate,CISO,Open,2025-11-30,EDR evaluation needed
+R-005,Accidental,Data deletion,No backup testing,Moderate,High,High,Mitigate,IT Manager,Open,2025-11-10,Quarterly backup tests
+R-006,[Your Risk],[Threat Event],[Vulnerability],[Level],[Level],[Level],[Strategy],[Name],[Status],[Date],[Notes]`;
+
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'risk-register-template.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadChecklist() {
+            const content = `NIST SP 800-30r1 Risk Assessment Checklist
+Generated: ${new Date().toLocaleString()}
+
+PHASE 1: PREPARATION
+☐ Define assessment purpose and objectives
+☐ Identify scope (Tier 1, 2, or 3)
+☐ Specify systems, data, and processes in scope
+☐ Identify out-of-scope items and justification
+☐ Assemble assessment team and assign roles
+☐ Identify stakeholders and schedule interviews
+☐ Select assessment methodology (qualitative/quantitative)
+☐ Define risk scales and acceptance criteria
+☐ Document assumptions and constraints
+☐ Identify threat intelligence sources
+☐ Gather system documentation (diagrams, configs, policies)
+☐ Schedule vulnerability scans and penetration tests
+
+PHASE 2: CONDUCT ASSESSMENT
+Task 2-1: Identify Threat Sources
+☐ Adversarial threats (hackers, insiders, nation-states)
+☐ Accidental threats (user errors, accidents)
+☐ Structural threats (hardware/software failures)
+☐ Environmental threats (natural disasters, infrastructure)
+
+Task 2-2: Identify Threat Events
+☐ Map threat sources to specific threat events (Appendix D)
+☐ Document threat event descriptions
+☐ Assess relevance to organization
+
+Task 2-3: Identify Vulnerabilities
+☐ Review vulnerability scan results
+☐ Conduct penetration testing
+☐ Review security control assessments
+☐ Interview system owners and administrators
+☐ Identify predisposing conditions
+
+Task 2-4: Determine Likelihood
+☐ Assess threat source capability
+☐ Assess threat source intent
+☐ Assess vulnerability severity
+☐ Assess control effectiveness
+☐ Assign likelihood rating (Very Low to Very High)
+
+Task 2-5: Determine Impact
+☐ Harm to operations
+☐ Harm to assets
+☐ Harm to individuals
+☐ Harm to other organizations
+☐ Harm to the Nation
+☐ Assign impact rating (Very Low to Very High)
+
+Task 2-6: Determine Risk
+☐ Combine likelihood and impact
+☐ Assign overall risk rating
+☐ Populate risk register
+☐ Prioritize risks
+
+PHASE 3: COMMUNICATE RESULTS
+☐ Prepare executive summary
+☐ Create risk heat map / matrix
+☐ Develop recommendations
+☐ Tailor message to each audience
+☐ Brief senior leadership
+☐ Distribute risk assessment report
+☐ Document decisions and risk acceptance
+
+PHASE 4: MAINTAIN ASSESSMENT
+☐ Establish ongoing monitoring process
+☐ Define reassessment triggers
+☐ Schedule periodic updates
+☐ Track risk mitigation progress
+☐ Update risk register
+☐ Maintain threat intelligence feeds
+☐ Conduct annual comprehensive reassessment
+
+Risk Assessment Complete: ☐
+Authorizing Official Approval: ☐
+Date: _______________`;
+
+            const blob = new Blob([content], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'nist-800-30-assessment-checklist.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadCheatsheet() {
+            const content = `NIST SP 800-30r1 QUICK REFERENCE GUIDE
+===========================================
+
+RISK EQUATION: Risk = Threat × Vulnerability × Impact
+
+FOUR-STEP PROCESS:
+1. PREPARE    → Context, scope, methodology
+2. CONDUCT    → Identify threats/vulnerabilities, assess likelihood/impact
+3. COMMUNICATE → Tailor message to audience, provide recommendations
+4. MAINTAIN   → Ongoing monitoring, periodic updates
+
+THREE TIERS:
+• Tier 1: Organization (governance, strategy)
+• Tier 2: Mission/Business Process (enterprise architecture)
+• Tier 3: Information System (technical controls)
+
+THREAT CATEGORIES:
+• Adversarial: Hackers, insiders, nation-states, criminals
+• Accidental: User errors, equipment loss, misconfigurations
+• Structural: Hardware failures, software bugs, design flaws
+• Environmental: Natural disasters, power failures, infrastructure
+
+LIKELIHOOD SCALE:
+Very High (76-100%) → Very likely to occur
+High (51-75%)      → Likely to occur
+Moderate (26-50%)  → May occur
+Low (11-25%)       → Unlikely to occur
+Very Low (0-10%)   → Very unlikely to occur
+
+IMPACT SCALE:
+Very High → Catastrophic adverse effect
+High      → Serious adverse effect
+Moderate  → Limited adverse effect
+Low       → Minor adverse effect
+Very Low  → Negligible adverse effect
+
+RISK RESPONSE OPTIONS:
+ACCEPT   → Live with the risk (document decision)
+AVOID    → Eliminate the risk (discontinue activity)
+MITIGATE → Reduce likelihood or impact (implement controls)
+TRANSFER → Share risk (insurance, outsourcing, contracts)
+
+INTEGRATION WITH OTHER NIST STANDARDS:
+800-39  → Risk management strategy (Tier 1)
+800-37  → Risk Management Framework (RMF)
+800-53  → Security controls catalog
+800-53A → Control assessment procedures
+CSF 2.0 → Cybersecurity Framework (business-friendly)
+
+KEY APPENDICES:
+Appendix D → Threat event taxonomy
+Appendix E → Vulnerability assessment
+Appendix F → Likelihood determination
+Appendix G → Impact assessment
+Appendix H → Risk assessment report template
+
+BEST PRACTICES:
+✓ Conduct at all three tiers
+✓ Update at least annually
+✓ Use consistent methodology
+✓ Document assumptions
+✓ Involve stakeholders
+✓ Align with risk tolerance
+✓ Integrate into decision-making
+✓ Maintain traceability
+
+Official Publication: https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final`;
+
+            const blob = new Blob([content], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'nist-800-30-quick-reference.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadThreatTaxonomy() {
+            const csv = `Threat Category,Threat ID,Threat Event,Example Scenario
+Adversarial,ADV-1,Perform reconnaissance/surveillance,Attacker scans network for open ports and maps infrastructure
+Adversarial,ADV-2,Craft spear phishing attacks,Targeted email to CFO impersonating CEO requesting wire transfer
+Adversarial,ADV-3,Exploit zero-day vulnerability,Nation-state uses unknown Windows exploit for initial access
+Adversarial,ADV-4,Deploy ransomware,Encrypt critical databases and demand Bitcoin payment
+Adversarial,ADV-5,Exfiltrate sensitive data,Insider copies customer PII to USB drive before resignation
+Adversarial,ADV-6,Conduct DDoS attack,Botnet floods e-commerce site during Black Friday
+Adversarial,ADV-7,Supply chain compromise,Malicious code injected into third-party library update
+Accidental,ACC-1,User error in data entry,Employee enters wrong account number and transfers $100K to wrong recipient
+Accidental,ACC-2,Misconfiguration of security settings,Admin accidentally exposes S3 bucket to public internet
+Accidental,ACC-3,Loss or theft of equipment,Laptop with unencrypted patient data stolen from car
+Accidental,ACC-4,Inadvertent disclosure,Email with salary data sent to entire company instead of HR
+Accidental,ACC-5,Accidental deletion,Developer drops production database thinking it's test environment
+Structural,STR-1,Hardware component failure,RAID controller fails and corrupts database
+Structural,STR-2,Software defect/bug,Memory leak causes application crash every 48 hours
+Structural,STR-3,Resource depletion,Disk fills up with logs and causes system outage
+Structural,STR-4,Malicious code in COTS product,Backdoor discovered in network equipment firmware
+Environmental,ENV-1,Fire,Electrical fire in data center destroys servers
+Environmental,ENV-2,Flood/water damage,Burst pipe floods server room over weekend
+Environmental,ENV-3,Power failure,Extended power outage exceeds UPS and generator capacity
+Environmental,ENV-4,Natural disaster,Hurricane damages primary data center
+Environmental,ENV-5,Telecommunications failure,Fiber optic cable cut and internet connectivity lost`;
+
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'nist-800-30-threat-taxonomy.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadRiskMatrix() {
+            const content = `NIST 800-30r1 Risk Matrix Template
+====================================
+
+Likelihood/Impact Matrix:
+
+                Very Low    Low        Moderate   High       Very High
+Very High       Low        Moderate   High       Very High  Very High
+High            Low        Moderate   Moderate   High       Very High
+Moderate        Very Low   Low        Moderate   Moderate   High
+Low             Very Low   Low        Low        Moderate   Moderate
+Very Low        Very Low   Very Low   Low        Low        Moderate
+
+RISK LEVEL DEFINITIONS:
+
+Very High Risk:
+- Immediate action required
+- Escalate to senior leadership
+- Allocate emergency resources
+- Track daily until mitigated
+
+High Risk:
+- Urgent attention needed
+- Develop mitigation plan within 30 days
+- Assign dedicated owner
+- Executive visibility required
+
+Moderate Risk:
+- Address in next planning cycle
+- Allocate budget and resources
+- Regular monitoring required
+- Management awareness needed
+
+Low Risk:
+- Monitor trends over time
+- Consider risk acceptance
+- Periodic review (quarterly/annual)
+- Document decision
+
+Very Low Risk:
+- Accept with documentation
+- Annual review sufficient
+- No immediate action needed
+- Maintain awareness
+
+EXAMPLE RISK SCENARIOS:
+
+Risk 1: Ransomware Attack
+- Likelihood: High (active threats targeting industry)
+- Impact: Very High (business disruption, data loss)
+- Risk Level: VERY HIGH
+- Response: Immediate patching, offline backups, EDR deployment
+
+Risk 2: Insider Data Theft
+- Likelihood: Moderate (privileged users exist)
+- Impact: High (data breach, regulatory fines)
+- Risk Level: HIGH
+- Response: DLP solution, access monitoring, least privilege
+
+Risk 3: Phishing Attack
+- Likelihood: High (common attack vector)
+- Impact: Moderate (credential compromise, limited scope)
+- Risk Level: MODERATE
+- Response: Email filtering, security awareness training
+
+Risk 4: Physical Theft
+- Likelihood: Low (secured facility)
+- Impact: Low (device encryption, remote wipe)
+- Risk Level: VERY LOW
+- Response: Accept with physical security controls
+
+Use this template to create your own risk matrix for your organization!`;
+
+            const blob = new Blob([content], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'nist-800-30-risk-matrix-template.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Risk Modal Functions
+        function openRiskModal(likelihood, impact) {
+            const modal = document.getElementById('riskModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            const riskExamples = {
+                '5-5': {
+                    title: 'Very High Likelihood × Very High Impact',
+                    level: 'VERY HIGH',
+                    color: '#ffcdd2',
+                    examples: [
+                        'Ransomware attack on healthcare with no backups',
+                        'Unpatched critical vulnerability actively exploited in wild',
+                        'Insider with admin access planning data theft'
+                    ],
+                    action: 'DROP EVERYTHING - This is a crisis requiring immediate executive intervention and emergency resources.'
+                },
+                '4-5': {
+                    title: 'High Likelihood × Very High Impact',
+                    level: 'VERY HIGH',
+                    color: '#ffcdd2',
+                    examples: [
+                        'Phishing campaign targeting executives with access to funds',
+                        'DDoS threat against e-commerce site during peak season',
+                        'Supply chain attack on critical software vendor'
+                    ],
+                    action: 'URGENT - Requires immediate senior leadership attention and rapid response plan.'
+                },
+                '3-4': {
+                    title: 'Moderate Likelihood × High Impact',
+                    level: 'MODERATE',
+                    color: '#ffe0b2',
+                    examples: [
+                        'SQL injection vulnerability in customer-facing application',
+                        'Weak password policy on systems with sensitive data',
+                        'Inadequate vendor security controls'
+                    ],
+                    action: 'PLANNED - Include in next quarterly security roadmap with dedicated resources.'
+                },
+                '2-2': {
+                    title: 'Low Likelihood × Low Impact',
+                    level: 'VERY LOW',
+                    color: '#c8e6c9',
+                    examples: [
+                        'Physical theft of encrypted laptop from secured office',
+                        'Minor website defacement with no data access',
+                        'Spam email reaching employee inbox'
+                    ],
+                    action: 'ACCEPT - Document risk acceptance decision and maintain basic controls.'
+                }
+            };
+
+            const key = `${likelihood}-${impact}`;
+            const riskInfo = riskExamples[key] || {
+                title: 'Risk Scenario',
+                level: 'MODERATE',
+                color: '#ffe0b2',
+                examples: ['Click different matrix cells to see specific risk scenarios'],
+                action: 'Assess based on specific threat, vulnerability, and impact context.'
+            };
+
+            modalTitle.textContent = riskInfo.title;
+            modalBody.innerHTML = `
+                <div style="text-align: center; padding: 20px; background: ${riskInfo.color}; border-radius: 10px; margin-bottom: 20px;">
+                    <div style="font-size: 28px; font-weight: 700; color: #1a202c;">Risk Level: ${riskInfo.level}</div>
+                </div>
+                <h4 style="margin-top: 20px;">Example Scenarios:</h4>
+                <ul>
+                    ${riskInfo.examples.map(ex => `<li style="margin: 10px 0;">${ex}</li>`).join('')}
+                </ul>
+                <div style="margin-top: 25px; padding: 20px; background: var(--bg-accent); border-radius: 10px; border-left: 4px solid #667eea;">
+                    <strong>Recommended Action:</strong><br><br>
+                    ${riskInfo.action}
+                </div>
+            `;
+
+            modal.classList.add('show');
+        }
+
+        function closeRiskModal() {
+            document.getElementById('riskModal').classList.remove('show');
+        }
+
+        // Add keyboard shortcut for closing modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeRiskModal();
+            }
+        });
     </script>
 </body>
 </html>
