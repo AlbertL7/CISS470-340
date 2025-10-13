@@ -1,1 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 7: Identifying, Analyzing & Evaluating Cyber Risks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #991b1b;
+            --secondary: #059669;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --gradient: linear-gradient(135deg, #dc2626 0%, #fbbf24 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-light);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+        }
+
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--surface-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .threat-card {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--danger);
+            transition: all 0.3s ease;
+        }
+
+        .threat-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .phase-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .phase-card {
+            background: linear-gradient(135deg, var(--surface-light), var(--surface));
+            padding: 1.5rem;
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .phase-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .phase-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .diagram-container {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .threat-types {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .threat-type {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+            margin: 0.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .threat-type:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .threat-type .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .malicious { border-top: 4px solid #ef4444; }
+        .deceptive { border-top: 4px solid #f59e0b; }
+        .inadvertent { border-top: 4px solid #3b82f6; }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            color: white;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight {
+            background: yellow;
+            color: black;
+            padding: 2px 4px;
+            border-radius: 3px;
+            animation: pulse 1s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .reading-time {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            color: var(--accent);
+            cursor: help;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--surface-light);
+            color: var(--text);
+            text-align: center;
+            border-radius: 8px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(251, 191, 36, 0.1));
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--danger);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: rgba(5, 150, 105, 0.1);
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>🔍 Chapter 7: Identifying, Analyzing, and Evaluating Cyber Risks</h1>
+                <div class="reading-time">⏱️ Estimated reading time: 20 minutes</div>
+            </div>
+            <input type="text" class="search-box" placeholder="🔍 Search chapter..." id="searchBox">
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-title">Navigation</div>
+            <div class="nav-item active" data-section="intro">📖 Introduction</div>
+            <div class="nav-item" data-section="landscape">🌐 Risk Landscape</div>
+            <div class="nav-item" data-section="people">👥 The People Factor</div>
+            <div class="nav-item" data-section="approach">📊 Structured Approach</div>
+            <div class="nav-item" data-section="culture">🏢 Security Culture</div>
+            <div class="nav-item" data-section="compliance">⚖️ Compliance</div>
+            <div class="nav-item" data-section="maturity">📈 Maturing Security</div>
+            <div class="nav-item" data-section="prioritizing">🎯 Prioritizing Protection</div>
+            <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
+        </nav>
+
+        <main class="content">
+            <div class="intro-box">
+                <h2 style="color: white; border: none;">Welcome to Chapter 7</h2>
+                <p>Master the art of cyber risk assessment through the ISF's comprehensive methodology. Learn how to identify threats, analyze vulnerabilities, and evaluate risks to build a robust security posture.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Phases of Risk Assessment</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Types of Insider Threats</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4%</div>
+                        <div class="stat-label">EU GDPR Max Penalty</div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section" id="intro">
+                <h2>📖 Introduction: Nathan's Warning to CEO Tom</h2>
+                <p><strong>By Steve Durbin, Managing Director, Information Security Forum Ltd.</strong></p>
+                
+                <div class="quote-box">
+                    <p>"To say that cybersecurity presents complex challenges is an understatement. The scope of risk to sensitive information has grown exponentially during the twenty-first century. Those risks not only involve technical factors, but human, cultural, and legal factors, as well as economics. Of course, the profession of cybersecurity has struggled to grow in tandem with these challenges. But nobody has the resources to ensure complete data security. Figuring out where security investments are justified requires a sophisticated understanding of the risk landscape."</p>
+                    <p style="text-align: right; margin-top: 1rem;">— Nathan, Chief Risk Officer</p>
+                </div>
+                
+                <p>This chapter explores how organizations can develop that sophisticated understanding through structured risk assessment methodologies, cultural awareness, and strategic prioritization of security investments.</p>
+            </section>
+
+            <section class="section" id="landscape">
+                <h2>🌐 The Landscape of Risk</h2>
+                
+                <p>Hardly a day goes by when the evening news does not include a report about a major institution reluctantly announcing that its files have been hacked. The stories tend to follow a familiar pattern:</p>
+                
+                <div style="display: flex; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap;">
+                    <div class="threat-card" style="flex: 1; min-width: 250px;">
+                        <strong>😔 Official Regret</strong>
+                        <p>Expressions of deep regret and apology</p>
+                    </div>
+                    <div class="threat-card" style="flex: 1; min-width: 250px;">
+                        <strong>🛡️ Reassurance</strong>
+                        <p>Attempts to reassure customers and stakeholders</p>
+                    </div>
+                    <div class="threat-card" style="flex: 1; min-width: 250px;">
+                        <strong>🤝 Pledges</strong>
+                        <p>Promises to prevent future occurrences</p>
+                    </div>
+                </div>
+
+                <h3>The New Normal</h3>
+                <p>Attacks on institutional and corporate databases have become the new normal. A generation of workers comfortable with information sharing has also grown accustomed to its negative consequences. The capabilities of cybercriminals continue advancing at an alarming pace.</p>
+                
+                <div class="warning-box">
+                    <strong>⚠️ The Cost of Complacency:</strong> Losses associated with major data attacks run into the millions and are increasingly seen as just another cost of doing business.
+                </div>
+                
+                <h3>A Welcome Development</h3>
+                <p>There is a growing understanding of these consequences. A movement in the leadership ranks of both business and government agencies to manage cyber risks more effectively and improve resilience has followed. Until fairly recently, most senior managers and board members regarded cybersecurity as essentially a technical problem for their IT departments—not as an existential issue requiring greater investment and engagement throughout the organization.</p>
+                
+                <h3>Technology Vulnerabilities</h3>
+                <p>Technology flaws create opportunities for attackers to infiltrate an organization's technical infrastructure:</p>
+                <ul style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li style="margin: 0.5rem 0;">🔧 Design flaws in system architecture</li>
+                    <li style="margin: 0.5rem 0;">🔐 Weak or broken encryption</li>
+                    <li style="margin: 0.5rem 0;">📝 Insufficient event logging</li>
+                    <li style="margin: 0.5rem 0;">💻 Software malfunction and bugs</li>
+                </ul>
+                
+                <p style="font-size: 1.1rem; color: var(--accent); margin-top: 1.5rem;">
+                    💡 <strong>Key Insight:</strong> Understanding and realistically assessing the vulnerabilities of an organization's system components is essential. But it is people, far more than technology, that present the greatest risks.
+                </p>
+            </section>
+
+            <section class="section" id="people">
+                <h2>👥 The People Factor</h2>
+                
+                <p>Most high-profile attacks originate outside of victimized organizations—often from halfway around the world. But the network openings that allow cyber attackers to burrow in, infect databases, and potentially take down an organization's file servers, overwhelmingly originate with trusted insiders.</p>
+                
+                <h3>Three Categories of Insider Threats</h3>
+                <div class="threat-types">
+                    <div class="threat-type malicious">
+                        <div class="icon">😈</div>
+                        <h4>Malicious</h4>
+                        <p>Driven by intent to enrich themselves through sale of sensitive data or retaliate for perceived slights</p>
+                    </div>
+                    <div class="threat-type deceptive">
+                        <div class="icon">🎭</div>
+                        <h4>Deceptive</h4>
+                        <p>Social engineering used to trick employees into divulging proprietary codes, passwords, or information</p>
+                    </div>
+                    <div class="threat-type inadvertent">
+                        <div class="icon">😰</div>
+                        <h4>Inadvertent</h4>
+                        <p>Accidental behavior by insiders without any intention of harming their employer (most common)</p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <strong>📊 ISF Survey Finding:</strong> According to a survey of Information Security Forum members, the vast majority of network openings were created innocently through accidental or inadvertent behavior by insiders without any intention of harming their employer. In many cases, vulnerability was the ironic result of a trusted employee doing something seemingly ordinary like taking files home to work on in their spare time.
+                </div>
+
+                <h3>Mobile Device Risks</h3>
+                <p>That risk is exacerbated by personal mobile devices. Welcome or not, they have become inexorably tied into corporate information systems. Their use frequently reflects their owners' relaxed consumer habits.</p>
+                
+                <div class="warning-box">
+                    <strong>⚠️ The Cost Differential:</strong>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li><strong>Individual Impact:</strong> Limited to personal embarrassment</li>
+                        <li><strong>Corporate Impact:</strong> Can be huge - marketing plans, product roadmaps, pricing strategies, personnel records, customer data, confidential correspondence</li>
+                    </ul>
+                </div>
+
+                <h3>EU GDPR Impact</h3>
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                    <h4 style="color: white;">🇪🇺 General Data Protection Regulation (GDPR)</h4>
+                    <p>For anyone operating using personal information relating to European citizens, the stakes have been significantly raised:</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Penalties up to <strong>4% of global turnover</strong></li>
+                        <li>Comes into force in <strong>2018</strong></li>
+                        <li>Adds complexity and potential cost to critical information asset management</li>
+                        <li>Applies regardless of organization location</li>
+                    </ul>
+                </div>
+
+                <p>As a result, there is now a much clearer recognition of both the immediate and longer-term costs associated with cyber attacks. Identifying an organization's vulnerabilities is key to developing effective responses.</p>
+            </section>
+
+            <section class="section" id="approach">
+                <h2>📊 A Structured Approach to Assessing and Managing Risk</h2>
+                
+                <p>There are different tools and software available in the market to help risk managers assess their information vulnerabilities. <strong>Symantec, Trend Micro, NetIQ, ISF</strong>, and others are reputable firms with applications and techniques focused on different aspects of risk management.</p>
+                
+                <div class="success-box">
+                    <strong>💡 Key Principle:</strong> A robust information risk assessment methodology should not simply be a piece of software but a comprehensive procedure to identify, analyze, evaluate, and manage a variety of information risks throughout organizations in a structured manner, then generate risk profiles in terms meaningful to the organization's business.
+                </div>
+
+                <h3>The ISF IRAM2 Methodology</h3>
+                <p>The Information Security Forum's second-generation Information Risk Assessment Methodology (IRAM2) identifies six distinct phases of risk management:</p>
+                
+                <div class="phase-container">
+                    <div class="phase-card">
+                        <div class="phase-number">1</div>
+                        <h4 style="margin-top: 1rem;">Integrated View</h4>
+                        <p>Generate an integrated view of information risk, ranging from business processes through to technology</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">2</div>
+                        <h4 style="margin-top: 1rem;">Business Impact</h4>
+                        <p>Realistically assess worst-case scenarios—the potential business impact if information assets become compromised</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">3</div>
+                        <h4 style="margin-top: 1rem;">Threat Mapping</h4>
+                        <p>Map different types of threats, both malicious and accidental, that could potentially affect the business</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">4</div>
+                        <h4 style="margin-top: 1rem;">Vulnerability Assessment</h4>
+                        <p>Assess vulnerabilities to different threat events and the strength of any controls already in place</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">5</div>
+                        <h4 style="margin-top: 1rem;">Risk Evaluation</h4>
+                        <p>Evaluate the organization's risk appetite and likelihood of a successful threat in light of previous findings</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">6</div>
+                        <h4 style="margin-top: 1rem;">Practical Approaches</h4>
+                        <p>Develop practical approaches to addressing the information risks which have been identified</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 2rem;">In essence, it provides companies with a highly structured and practical method for assessing risks to guide critical business decisions. By taking a comprehensive view of risk exposure and focusing attention on the most significant ones, organizations may <strong>predict and prevent attacks instead of simply reacting to them after they occur</strong>.</p>
+            </section>
+
+            <section class="section" id="culture">
+                <h2>🏢 Security Culture</h2>
+                
+                <p>Accurately assessing the attributes of cyber threat and an organization's resilience to them involves examining multiple factors:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">💪</div>
+                        <div class="stat-label">Organization Capability</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🎯</div>
+                        <div class="stat-label">Commitment</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🎓</div>
+                        <div class="stat-label">People Competence</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🔑</div>
+                        <div class="stat-label">User Privilege Patterns</div>
+                    </div>
+                </div>
+
+                <h3>Cultural Considerations</h3>
+                <p>One of the most significant factors is the organization's culture, which often mirrors the society where it is located. For multinational organizations, this means taking into account:</p>
+                <ul style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li style="margin: 0.5rem 0;">🌍 Different cultural views on protecting data</li>
+                    <li style="margin: 0.5rem 0;">📱 Responses to directives about safeguarding digital devices</li>
+                    <li style="margin: 0.5rem 0;">💼 Attitudes toward commingling corporate and personal business on devices</li>
+                </ul>
+
+                <h3>Study Findings</h3>
+                <div class="threat-card">
+                    <h4>Cisco Study (decade ago)</h4>
+                    <p>Found risky behavior and rampant disregard for organization security policies occurred at alarming rates among employees in all parts of the world, though some were worse than others.</p>
+                </div>
+                
+                <div class="success-box">
+                    <h4>PwC Survey 2016 - Encouraging News</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>65% of organizations collaborate to improve cybersecurity</li>
+                        <li>69% use cloud-based cybersecurity services</li>
+                        <li>Many follow risk-based cybersecurity frameworks, most frequently ISO 27001</li>
+                    </ul>
+                </div>
+
+                <h3>Generational Differences</h3>
+                <div class="warning-box">
+                    <strong>👨‍💼 Generation Y Perspective:</strong>
+                    <p>As a whole, do not feel requirements for securing sensitive information apply to them as much as to senior colleagues. The prevailing view: it's the organization's job to make information secure—not the individual's.</p>
+                </div>
+
+                <h3>Executive Awareness Gaps</h3>
+                <div class="threat-card">
+                    <h4>Nasdaq Survey Findings</h4>
+                    <p>Highlights alarming gaps between awareness and accountability at the highest levels:</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Too many board members and executives unable to understand security briefings</li>
+                        <li>Unwilling to accept responsibility for data breaches</li>
+                        <li>The more senior someone is, the less aware they tend to be of data security needs</li>
+                        <li>Some senior executives think they're immune from security threats</li>
+                    </ul>
+                </div>
+
+                <h3>Educational Origins</h3>
+                <p>Most of today's employees have gone through educational institutions where they are encouraged to share information. Universities provide ready access to information sources across the country. But while we encourage people to share information, we don't teach security considerations around information use.</p>
+                
+                <p style="background: var(--surface-light); padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                    <strong>Result:</strong> When students become employees, they are thrust into a completely different, and far less forgiving, information security environment.
+                </p>
+            </section>
+
+            <section class="section" id="compliance">
+                <h2>⚖️ Regulatory Compliance</h2>
+                
+                <p>In highly regulated environments, like financial services, there are numerous statutory requirements organizations need to comply with. This has tended to drive institutional behavior—they're compliant because they have to be.</p>
+                
+                <div class="warning-box">
+                    <strong>⚠️ The Compliance Trap:</strong> If you are going to avoid innovative attacks, compliance will not necessarily help. A compliance-driven strategy might satisfy the authorities, but it will do little to discourage a creative hacker.
+                </div>
+
+                <h3>Compliance as a Starting Point</h3>
+                <p>There are banks and other organizations that see compliance only as a starting point. That is because:</p>
+                
+                <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(251, 191, 36, 0.1)); padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                    <ul style="list-style: none;">
+                        <li style="margin: 0.5rem 0;">📅 <strong>Regulations are outdated:</strong> By the time a regulation goes into effect, it is usually out of date</li>
+                        <li style="margin: 0.5rem 0;">⏮️ <strong>Backward-looking:</strong> Compliance regulations prevent past acts from repeating</li>
+                        <li style="margin: 0.5rem 0;">🎖️ <strong>Fighting old wars:</strong> Like preparing today to win a previous war</li>
+                    </ul>
+                </div>
+
+                <h3>Why Cyber is Different</h3>
+                <p>Cyber is different than other types of risk:</p>
+                <ul style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li style="margin: 0.5rem 0;">⚡ <strong>Exceptionally fast moving</strong> - Unlike conventional risks</li>
+                    <li style="margin: 0.5rem 0;">🆕 <strong>Unprecedented attacks</strong> - Many have never been seen before</li>
+                    <li style="margin: 0.5rem 0;">🎯 <strong>Innovative threats</strong> - Constantly evolving attack vectors</li>
+                </ul>
+                
+                <div class="success-box">
+                    <strong>✅ The Balancing Act:</strong>
+                    <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>You really do have to be compliant</li>
+                        <li>You have to do everything reasonable to protect mission-critical information</li>
+                    </ol>
+                </div>
+
+                <h3>The Perimeter Problem</h3>
+                <p>In the past, organizations tried to protect:</p>
+                <div style="display: flex; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap;">
+                    <div class="threat-card" style="flex: 1;">
+                        <strong>📱 Devices</strong>
+                    </div>
+                    <div class="threat-card" style="flex: 1;">
+                        <strong>🌐 Networks</strong>
+                    </div>
+                    <div class="threat-card" style="flex: 1;">
+                        <strong>🏰 Perimeter</strong>
+                    </div>
+                </div>
+                
+                <p>Unfortunately, there are plenty of holes in those perimeters. Hackers can enter through:</p>
+                <ul style="margin-left: 2rem;">
+                    <li>Third parties</li>
+                    <li>Faulty devices</li>
+                    <li>Human error</li>
+                    <li>Outside contractors</li>
+                    <li>Insiders (willful or innocent)</li>
+                </ul>
+                
+                <p style="margin-top: 1rem;">A number of <span class="tooltip">intrusion-penetration test methodologies<span class="tooltiptext">Systematic approaches to testing network security by simulating attacks</span></span> are commercially available to help identify holes at different points in the network.</p>
+            </section>
+
+            <section class="section" id="maturity">
+                <h2>📈 Maturing Security</h2>
+                
+                <p>As recently as 10 years ago, cybersecurity was primarily a function of IT departments. Organizations treated data protection as a technology matter—one best left to techies. Risk managers focused on traditional insurance coverages. Product line managers rarely felt any connection to the cybersecurity function.</p>
+                
+                <div class="success-box">
+                    <strong>🔄 That is all starting to change.</strong>
+                </div>
+
+                <h3>Levels of Cybersecurity Maturity</h3>
+                <div class="phase-container">
+                    <div class="phase-card" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                        <h4 style="color: white;">Low Maturity</h4>
+                        <p style="color: white;">Security viewed as part of IT, focused on technology issues</p>
+                    </div>
+                    <div class="phase-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <h4 style="color: white;">Medium Maturity</h4>
+                        <p style="color: white;">Coming up the maturity curve, still IT-centric</p>
+                    </div>
+                    <div class="phase-card" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <h4 style="color: white;">High Maturity</h4>
+                        <p style="color: white;">Moved into broader risk function, holistic business issue</p>
+                    </div>
+                </div>
+
+                <h3>The Ideal World vs Reality</h3>
+                <div style="display: flex; gap: 2rem; margin: 2rem 0; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="success-box">
+                            <h4>💚 Ideal World</h4>
+                            <p>No barriers separating data security from core business functions. Security viewed as business enabling.</p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="warning-box">
+                            <h4>🔴 Reality</h4>
+                            <p>Security departments not consulted. Viewed as the "No" guys who prevent things from happening.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Post-Attack Transformation</h3>
+                <p>Once an organization has been attacked, it is likely to get the religion of security rather quickly because a hack is typically more than a transient business disruption—it impacts:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🏷️</div>
+                        <div class="stat-label">Brand</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">⭐</div>
+                        <div class="stat-label">Reputation</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">⚙️</div>
+                        <div class="stat-label">Operations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">💰</div>
+                        <div class="stat-label">Cleanup Costs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🔍</div>
+                        <div class="stat-label">Forensics</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">📋</div>
+                        <div class="stat-label">Investigations</div>
+                    </div>
+                </div>
+                
+                <p>In organizations that have been attacked, as well as their competitors, there typically follows a sharp uptick in their focus on data security.</p>
+            </section>
+
+            <section class="section" id="prioritizing">
+                <h2>🎯 Prioritizing Protection</h2>
+                
+                <h3>The Evolution of Security Focus</h3>
+                <div style="background: var(--surface-light); padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                    <p><strong>Years ago:</strong> Securing information was synonymous with safeguarding computers.</p>
+                    <p><strong>Today:</strong> The explosion of devices, users, and interconnection channels makes it essential to shift from device focus to information focus.</p>
+                </div>
+
+                <h3>The New Paradigm</h3>
+                <p>With so many devices and users touching the data, protecting them all is impossible. Instead, organizations need to focus on what is important from a business standpoint:</p>
+                
+                <div class="phase-container">
+                    <div class="phase-card" style="border-left: 4px solid var(--accent);">
+                        <h4>🛡️ Protecting Mission-Critical Information</h4>
+                        <p>Regardless of who might want to access it</p>
+                    </div>
+                    <div class="phase-card" style="border-left: 4px solid var(--accent);">
+                        <h4>📱 Device Agnostic</h4>
+                        <p>Irrespective of the devices they might be using</p>
+                    </div>
+                    <div class="phase-card" style="border-left: 4px solid var(--accent);">
+                        <h4>🌍 Location Independent</h4>
+                        <p>No matter where they might be coming from</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 1.5rem;">This represents a sea change from earlier device-centric safeguards. Today, the approach to security begins and ends with the organization's data.</p>
+
+                <h3>Key Questions for Data Protection</h3>
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; border-radius: 10px; margin: 1.5rem 0;">
+                    <h4 style="color: white; margin-bottom: 1rem;">Essential Questions to Ask:</h4>
+                    <ul style="list-style: none;">
+                        <li style="margin: 0.5rem 0;">❓ How do I protect my data?</li>
+                        <li style="margin: 0.5rem 0;">❓ Which data is truly mission critical?</li>
+                        <li style="margin: 0.5rem 0;">❓ Who really needs to access it?</li>
+                        <li style="margin: 0.5rem 0;">❓ What are my organization's crown jewels?</li>
+                        <li style="margin: 0.5rem 0;">❓ How do I need to protect them?</li>
+                        <li style="margin: 0.5rem 0;">❓ What behaviors am I trying to protect against?</li>
+                        <li style="margin: 0.5rem 0;">❓ Who actually needs this information, and when?</li>
+                    </ul>
+                </div>
+
+                <h3>The Moving Parts of Security</h3>
+                <p>Safeguarding an organization's mission-critical information is a process involving numerous moving parts—all subject to change over time:</p>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin: 2rem 0;">
+                    <div class="stat-card">
+                        <strong>Technology</strong>
+                    </div>
+                    <div class="stat-card">
+                        <strong>Leadership</strong>
+                    </div>
+                    <div class="stat-card">
+                        <strong>Culture</strong>
+                    </div>
+                    <div class="stat-card">
+                        <strong>Policy</strong>
+                    </div>
+                    <div class="stat-card">
+                        <strong>Environment</strong>
+                    </div>
+                </div>
+                
+                <p>Adversaries who want to attack those assets are constantly on the lookout for any opportunities those changes create.</p>
+                
+                <div class="success-box">
+                    <strong>📊 Essential Actions:</strong> Regularly and systematically assess your organization's technological defenses, potential business impact scenarios, matrix of threats, and the resilience of current configuration to potential attacks. All are essential to developing a pragmatic plan to resist and, if worse comes to worst, to recover from an assault on your most critical data.
+                </div>
+            </section>
+
+            <section class="section" id="conclusion">
+                <h2>🎓 Conclusion</h2>
+                
+                <p>The following cyber risk management statement represents those organization capabilities CEO and board expect to be demonstrated in terms of identifying, analyzing, and evaluating (i.e., assessing) cyber risks:</p>
+                
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+                    <h3 style="color: white; margin-bottom: 1.5rem;">📋 IDENTIFYING, ANALYZING, AND EVALUATING CYBER RISKS</h3>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 8px;">
+                        <p style="margin-bottom: 1rem;">The organization realistically assesses the vulnerabilities of its digital system components not just for technology flaws (such as in design, encryption, event logging or software malfunction) but for human factors. Trusted insiders present the highest risk (motivated either by malice or more commonly by accident) as well as third-party contractors, vendors, or temporary workers (essentially privileged users).</p>
+                        
+                        <p style="margin-bottom: 1rem;">The organization commits to a robust and structured approach to assessing and managing risk and an information risk assessment methodology. This involves a six-part approach to:</p>
+                        <ol style="margin-left: 1.5rem;">
+                            <li>(1) generating an integrated view of information risk;</li>
+                            <li>(2) realistically assessing worst case;</li>
+                            <li>(3) mapping different types of threats, both malicious and accidental;</li>
+                            <li>(4) assessing vulnerabilities to different threat events and the strength of any controls already in place;</li>
+                            <li>(5) evaluating risk appetite and likelihood of a successful threat; and</li>
+                            <li>(6) developing practical approaches to addressing the information risks that have been identified.</li>
+                        </ol>
+                        
+                        <p style="margin-top: 1rem; margin-bottom: 1rem;">Other factors examined include organization capability, security culture, commitment, people competence, user privilege patterns, technology, leadership, policy, and environment. There is a balance between regulatory compliance and doing everything reasonable to protect mission-critical information.</p>
+                        
+                        <p>Cybersecurity maturity avoids barriers separating data security from the organization's core business functions and does not rely on device-centric safeguards. The focus begins and ends with the organization's data: how it is protected, which data is truly mission critical, what behaviors need to be protected against, and who really needs to access it and when.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--surface-light); border-radius: 10px;">
+                    <h3 style="color: var(--accent); font-size: 1.5rem;">🎯 The Bottom Line</h3>
+                    <p style="font-size: 1.2rem; margin-top: 1rem;">Focus on protecting mission-critical information, not just devices. Build a structured approach to risk assessment that considers both technical and human factors.</p>
+                    
+                    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--primary);">👥</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">People are the biggest risk</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--secondary);">📊</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Use structured methodology</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent);">💎</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Protect crown jewels</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(5, 150, 105, 0.1); border-left: 4px solid var(--secondary); border-radius: 5px;">
+                    <h4>About the Information Security Forum (ISF)</h4>
+                    <p>Founded in 1989, the ISF is an independent, not-for-profit organization whose members include many of the world's Fortune 500 and Forbes 2000 organizations. It is dedicated to investigating, clarifying and resolving key issues in information security and risk management.</p>
+                    
+                    <h4 style="margin-top: 1rem;">About Steve Durbin</h4>
+                    <p>Steve Durbin is Managing Director of the ISF. His main areas of focus include strategy, information technology, cybersecurity and the emerging security threat landscape. He is a frequent speaker and commentator on technology and security issues. Previously at Ernst & Young and Gartner.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                const section = document.getElementById(this.dataset.section);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        let searchTimeout;
+        
+        searchBox.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchTerm = this.value.toLowerCase();
+                removeHighlights();
+                
+                if (searchTerm.length > 2) {
+                    highlightText(searchTerm);
+                }
+            }, 300);
+        });
+
+        function removeHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), el);
+                parent.normalize();
+            });
+        }
+
+        function highlightText(searchTerm) {
+            const sections = document.querySelectorAll('.section');
+            let firstMatch = null;
+            
+            sections.forEach(section => {
+                const walker = document.createTreeWalker(
+                    section,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                let node;
+                while (node = walker.nextNode()) {
+                    const text = node.nodeValue;
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    
+                    if (regex.test(text)) {
+                        const span = document.createElement('span');
+                        span.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+                        node.parentNode.replaceChild(span, node);
+                        
+                        if (!firstMatch) {
+                            firstMatch = span.querySelector('.highlight');
+                        }
+                    }
+                }
+            });
+            
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Scroll spy for active navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    current = section.id;
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Add hover effects to threat type cards
+        document.querySelectorAll('.threat-type').forEach(card => {
+            card.addEventListener('click', function() {
+                const description = this.querySelector('p');
+                if (description.style.display === 'none' || !description.style.display) {
+                    description.style.display = 'block';
+                } else {
+                    description.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
