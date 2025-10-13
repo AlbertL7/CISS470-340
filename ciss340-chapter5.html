@@ -1,1 +1,1277 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5: Insert, Update, and Delete Data - MySQL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00758f;
+            --primary-dark: #005566;
+            --secondary: #f29111;
+            --background: #0a0e27;
+            --surface: #1a1e3a;
+            --surface-light: #2a2e4a;
+            --text: #e8eaf0;
+            --text-muted: #a0a4b8;
+            --accent: #4db8ff;
+            --success: #52c41a;
+            --warning: #faad14;
+            --danger: #f5222d;
+            --gradient: linear-gradient(135deg, #00758f 0%, #52c41a 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 2.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--success);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 300px;
+            position: sticky;
+            top: 140px;
+            height: fit-content;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-light);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 117, 143, 0.4);
+        }
+
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--success);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--surface-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        h4 {
+            color: var(--primary);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: #e6edf3;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .keyword {
+            color: #ff7b72;
+            font-weight: bold;
+        }
+
+        .table-name {
+            color: #79c0ff;
+        }
+
+        .column {
+            color: #7ee787;
+        }
+
+        .string {
+            color: #ffa657;
+        }
+
+        .comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .number {
+            color: #79c0ff;
+        }
+
+        .analogy-box {
+            background: linear-gradient(135deg, rgba(82, 196, 26, 0.1), rgba(242, 145, 17, 0.1));
+            border-left: 4px solid var(--success);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .analogy-box h4 {
+            color: var(--success);
+            margin-top: 0;
+        }
+
+        .concept-card {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .visual-demo {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .table-demo {
+            background: #0d1117;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 600px;
+        }
+
+        .table-demo h5 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .table-row {
+            display: flex;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--surface-light);
+            font-size: 0.85rem;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .row-field {
+            flex: 1;
+            text-align: left;
+            padding: 0 0.5rem;
+        }
+
+        .tip-box {
+            background: rgba(77, 184, 255, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box::before {
+            content: "💡 TIP: ";
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .warning-box {
+            background: rgba(250, 173, 20, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ WARNING: ";
+            color: var(--warning);
+            font-weight: bold;
+        }
+
+        .danger-box {
+            background: rgba(245, 34, 45, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .danger-box::before {
+            content: "🚨 DANGER: ";
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        .result-table {
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .result-table th {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .result-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .result-table tr:hover {
+            background: rgba(77, 184, 255, 0.05);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--surface-light);
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tab.active {
+            color: var(--success);
+            border-bottom: 2px solid var(--success);
+            margin-bottom: -2px;
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .highlight {
+            background: rgba(82, 196, 26, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .operation-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: var(--surface-light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 0 0.5rem;
+        }
+
+        .success-indicator {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .error-indicator {
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <h1>✏️ Chapter 5: How to Insert, Update, and Delete Data</h1>
+            <p class="subtitle">Master MySQL's Data Manipulation Language (DML) statements</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-title">Chapter Contents</div>
+            <div class="nav-item active" data-section="intro">📚 Introduction</div>
+            <div class="nav-item" data-section="test-tables">🔧 Creating Test Tables</div>
+            <div class="nav-item" data-section="insert-basics">➕ INSERT Basics</div>
+            <div class="nav-item" data-section="insert-advanced">🚀 Advanced INSERT</div>
+            <div class="nav-item" data-section="update">✏️ UPDATE Statements</div>
+            <div class="nav-item" data-section="delete">🗑️ DELETE Statements</div>
+            <div class="nav-item" data-section="best-practices">⚡ Best Practices</div>
+            <div class="nav-item" data-section="summary">✅ Summary</div>
+        </nav>
+
+        <main class="content">
+            <section class="section" id="intro">
+                <h2>📚 Introduction: The Power to Modify Data</h2>
+                
+                <p>In the previous chapters, you learned how to retrieve data using SELECT statements. Now it's time to learn how to modify that data. This chapter covers the three fundamental DML operations that, along with SELECT, form the complete CRUD operations (Create, Read, Update, Delete) that every database developer uses daily.</p>
+
+                <div class="analogy-box">
+                    <h4>📝 Real-World Analogy: The Digital Notebook</h4>
+                    <p>Think of a database table like a digital notebook:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li><strong>INSERT</strong> is like adding new pages with content</li>
+                        <li><strong>UPDATE</strong> is like erasing and rewriting parts of existing pages</li>
+                        <li><strong>DELETE</strong> is like tearing out entire pages</li>
+                        <li><strong>SELECT</strong> (from previous chapters) is like reading the pages</li>
+                    </ul>
+                    <p>Just like with a real notebook, you need to be careful - once you modify or remove something, the original is gone!</p>
+                </div>
+
+                <h3>The DML Statements</h3>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <span class="operation-icon">➕</span>
+                        <div>INSERT</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">
+                        <span class="operation-icon">✏️</span>
+                        <div>UPDATE</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">
+                        <span class="operation-icon">🗑️</span>
+                        <div>DELETE</div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    By default, MySQL automatically commits changes immediately after each INSERT, UPDATE, or DELETE statement. This means changes are permanent! Always test your statements on development data first.
+                </div>
+
+                <h3>Why These Operations Matter</h3>
+                <div class="concept-card">
+                    <h4>Real-World Applications</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li>🛒 <strong>E-commerce:</strong> Adding new products, updating prices, removing discontinued items</li>
+                        <li>👥 <strong>Social Media:</strong> Creating posts, editing profiles, deleting comments</li>
+                        <li>🏦 <strong>Banking:</strong> Recording transactions, updating balances, removing closed accounts</li>
+                        <li>📊 <strong>Analytics:</strong> Logging events, correcting data, purging old records</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="test-tables">
+                <h2>🔧 How to Create Test Tables</h2>
+                
+                <p>Before modifying real data, it's crucial to practice on test tables. This section shows you how to create safe environments for learning.</p>
+
+                <h3>Creating Tables for This Book</h3>
+                <p>First, let's create a simple test database and tables to practice with:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Create a test database</span>
+<span class="keyword">CREATE DATABASE IF NOT EXISTS</span> <span class="table-name">test_db</span>;
+<span class="keyword">USE</span> <span class="table-name">test_db</span>;
+
+<span class="comment">-- Create a sample customers table</span>
+<span class="keyword">CREATE TABLE</span> <span class="table-name">customers</span> (
+    <span class="column">customer_id</span> <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    <span class="column">first_name</span> <span class="keyword">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT NULL</span>,
+    <span class="column">last_name</span> <span class="keyword">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT NULL</span>,
+    <span class="column">email</span> <span class="keyword">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">UNIQUE</span>,
+    <span class="column">phone</span> <span class="keyword">VARCHAR</span>(<span class="number">20</span>),
+    <span class="column">registration_date</span> <span class="keyword">DATE DEFAULT</span> (<span class="keyword">CURRENT_DATE</span>),
+    <span class="column">credit_limit</span> <span class="keyword">DECIMAL</span>(<span class="number">10,2</span>) <span class="keyword">DEFAULT</span> <span class="number">1000.00</span>
+);</pre>
+                </div>
+
+                <h3>Creating a Copy of a Table</h3>
+                <p>One of the safest ways to practice DML statements is to create copies of existing tables. Here are three methods:</p>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab(event, 'copy-structure')">Structure Only</button>
+                    <button class="tab" onclick="showTab(event, 'copy-with-data')">Structure + Data</button>
+                    <button class="tab" onclick="showTab(event, 'copy-selective')">Selective Copy</button>
+                </div>
+
+                <div id="copy-structure" class="tab-content active">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Method 1: Copy only the structure (no data)</span>
+<span class="keyword">CREATE TABLE</span> <span class="table-name">customers_backup</span> 
+<span class="keyword">LIKE</span> <span class="table-name">customers</span>;
+
+<span class="comment">-- This creates an exact copy of the table structure</span>
+<span class="comment">-- including indexes, but without any rows</span></pre>
+                    </div>
+                </div>
+
+                <div id="copy-with-data" class="tab-content">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Method 2: Copy structure and all data</span>
+<span class="keyword">CREATE TABLE</span> <span class="table-name">customers_copy</span> <span class="keyword">AS</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">customers</span>;
+
+<span class="comment">-- Note: This doesn't copy indexes or auto_increment properties</span>
+<span class="comment">-- You'll need to add those manually if needed</span></pre>
+                    </div>
+                </div>
+
+                <div id="copy-selective" class="tab-content">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Method 3: Copy with selective data</span>
+<span class="keyword">CREATE TABLE</span> <span class="table-name">vip_customers</span> <span class="keyword">AS</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">customer_id</span>,
+    <span class="column">first_name</span>,
+    <span class="column">last_name</span>,
+    <span class="column">email</span>,
+    <span class="column">credit_limit</span>
+<span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">credit_limit</span> > <span class="number">5000</span>;</pre>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    Always work on copies of tables when learning or testing. Use names like _test, _backup, or _copy to clearly identify them.
+                </div>
+
+                <h3>Verifying Your Test Tables</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Check if your tables were created successfully</span>
+<span class="keyword">SHOW TABLES</span>;
+
+<span class="comment">-- Verify the structure</span>
+<span class="keyword">DESCRIBE</span> <span class="table-name">customers_backup</span>;
+
+<span class="comment">-- Check if data was copied (if applicable)</span>
+<span class="keyword">SELECT COUNT</span>(*) <span class="keyword">FROM</span> <span class="table-name">customers_copy</span>;</pre>
+                </div>
+            </section>
+
+            <section class="section" id="insert-basics">
+                <h2>➕ How to Insert New Rows</h2>
+                
+                <p>The INSERT statement adds new rows to a table. It's like adding new records to your database filing system.</p>
+
+                <h3>Inserting a Single Row</h3>
+                <p>The most basic INSERT adds one row at a time:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Method 1: Specify all columns and values</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">customers</span> 
+(<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>, <span class="column">phone</span>, <span class="column">registration_date</span>, <span class="column">credit_limit</span>)
+<span class="keyword">VALUES</span> 
+(<span class="string">'John'</span>, <span class="string">'Doe'</span>, <span class="string">'john.doe@email.com'</span>, <span class="string">'555-0101'</span>, <span class="string">'2024-01-15'</span>, <span class="number">2500.00</span>);
+
+<span class="comment">-- Method 2: If providing values for ALL columns in order</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">customers</span>
+<span class="keyword">VALUES</span> 
+(<span class="keyword">NULL</span>, <span class="string">'Jane'</span>, <span class="string">'Smith'</span>, <span class="string">'jane.smith@email.com'</span>, <span class="string">'555-0102'</span>, <span class="string">'2024-01-15'</span>, <span class="number">3000.00</span>);
+<span class="comment">-- NULL for auto-increment customer_id</span></pre>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🎯 Analogy: The Form Submission</h4>
+                    <p>INSERT is like filling out a form: you specify which fields you're filling (column names) and what you're writing in each field (values). If a field has a default value, it's like a pre-filled form field - you can leave it blank and it uses the default.</p>
+                </div>
+
+                <h3>Inserting Multiple Rows</h3>
+                <p>You can insert multiple rows in a single statement for better performance:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Insert multiple customers at once</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">customers</span> 
+(<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>, <span class="column">phone</span>)
+<span class="keyword">VALUES</span> 
+    (<span class="string">'Alice'</span>, <span class="string">'Johnson'</span>, <span class="string">'alice.j@email.com'</span>, <span class="string">'555-0201'</span>),
+    (<span class="string">'Bob'</span>, <span class="string">'Williams'</span>, <span class="string">'bob.w@email.com'</span>, <span class="string">'555-0202'</span>),
+    (<span class="string">'Carol'</span>, <span class="string">'Brown'</span>, <span class="string">'carol.b@email.com'</span>, <span class="string">'555-0203'</span>),
+    (<span class="string">'David'</span>, <span class="string">'Davis'</span>, <span class="string">'david.d@email.com'</span>, <span class="keyword">NULL</span>);
+<span class="comment">-- Notice: We omitted registration_date and credit_limit (will use defaults)</span></pre>
+                </div>
+
+                <div class="tip-box">
+                    Inserting multiple rows in one statement is much faster than multiple single-row inserts, especially for large datasets. MySQL only needs to parse the query once and can optimize the insertion.
+                </div>
+
+                <h3>Viewing Your Insertions</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Check what was inserted</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">customers</span> 
+<span class="keyword">ORDER BY</span> <span class="column">customer_id</span> <span class="keyword">DESC</span> 
+<span class="keyword">LIMIT</span> <span class="number">5</span>;
+
+<span class="comment">-- Verify the auto-generated IDs</span>
+<span class="keyword">SELECT</span> <span class="keyword">LAST_INSERT_ID</span>();  <span class="comment">-- Returns the last auto-generated ID</span></pre>
+                </div>
+            </section>
+
+            <section class="section" id="insert-advanced">
+                <h2>🚀 Advanced INSERT Techniques</h2>
+                
+                <h3>Working with Default Values and NULLs</h3>
+                <p>Understanding how to use defaults and NULL values is crucial for efficient data insertion:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Using DEFAULT keyword explicitly</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">customers</span> 
+(<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>, <span class="column">registration_date</span>, <span class="column">credit_limit</span>)
+<span class="keyword">VALUES</span> 
+(<span class="string">'Emily'</span>, <span class="string">'Wilson'</span>, <span class="string">'emily.w@email.com'</span>, <span class="keyword">DEFAULT</span>, <span class="keyword">DEFAULT</span>);
+
+<span class="comment">-- Mixing NULL and DEFAULT values</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">customers</span> 
+(<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>, <span class="column">phone</span>, <span class="column">credit_limit</span>)
+<span class="keyword">VALUES</span> 
+(<span class="string">'Frank'</span>, <span class="string">'Miller'</span>, <span class="string">'frank.m@email.com'</span>, <span class="keyword">NULL</span>, <span class="keyword">DEFAULT</span>);
+<span class="comment">-- NULL means "no value", DEFAULT uses the column's default value</span></pre>
+                </div>
+
+                <div class="concept-card">
+                    <h4>NULL vs DEFAULT vs Empty String</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li><strong>NULL:</strong> Represents the absence of any value (unknown or not applicable)</li>
+                        <li><strong>DEFAULT:</strong> Uses the column's predefined default value</li>
+                        <li><strong>Empty String (''):</strong> An actual value - a string with zero characters</li>
+                        <li><strong>Omitting the column:</strong> Also uses the default value if one exists</li>
+                    </ul>
+                </div>
+
+                <h3>Using Subqueries in INSERT Statements</h3>
+                <p>You can use SELECT statements to provide values for INSERT, allowing you to copy and transform data:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Insert data from another table</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">vip_customers</span> 
+(<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>, <span class="column">credit_limit</span>)
+<span class="keyword">SELECT</span> 
+    <span class="column">first_name</span>, 
+    <span class="column">last_name</span>, 
+    <span class="column">email</span>,
+    <span class="column">credit_limit</span> * <span class="number">1.5</span> <span class="keyword">AS</span> <span class="column">new_limit</span>
+<span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">credit_limit</span> > <span class="number">3000</span>
+    <span class="keyword">AND</span> <span class="column">registration_date</span> < <span class="string">'2024-01-01'</span>;
+
+<span class="comment">-- Insert summary data into a stats table</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">monthly_stats</span> 
+(<span class="column">month</span>, <span class="column">year</span>, <span class="column">new_customers</span>, <span class="column">avg_credit</span>)
+<span class="keyword">SELECT</span> 
+    <span class="keyword">MONTH</span>(<span class="column">registration_date</span>) <span class="keyword">AS</span> <span class="column">month</span>,
+    <span class="keyword">YEAR</span>(<span class="column">registration_date</span>) <span class="keyword">AS</span> <span class="column">year</span>,
+    <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">new_customers</span>,
+    <span class="keyword">AVG</span>(<span class="column">credit_limit</span>) <span class="keyword">AS</span> <span class="column">avg_credit</span>
+<span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">GROUP BY</span> <span class="keyword">YEAR</span>(<span class="column">registration_date</span>), <span class="keyword">MONTH</span>(<span class="column">registration_date</span>);</pre>
+                </div>
+
+                <h3>INSERT with Duplicate Key Handling</h3>
+                <p>MySQL provides ways to handle conflicts when inserting data that might violate unique constraints:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Option 1: INSERT IGNORE - Skip if duplicate</span>
+<span class="keyword">INSERT IGNORE INTO</span> <span class="table-name">customers</span> 
+(<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>)
+<span class="keyword">VALUES</span> 
+(<span class="string">'John'</span>, <span class="string">'Doe'</span>, <span class="string">'john.doe@email.com'</span>);
+<span class="comment">-- If email already exists, this row is skipped silently</span>
+
+<span class="comment">-- Option 2: ON DUPLICATE KEY UPDATE - Update if exists</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">customers</span> 
+(<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>, <span class="column">credit_limit</span>)
+<span class="keyword">VALUES</span> 
+(<span class="string">'John'</span>, <span class="string">'Doe'</span>, <span class="string">'john.doe@email.com'</span>, <span class="number">5000</span>)
+<span class="keyword">ON DUPLICATE KEY UPDATE</span>
+    <span class="column">credit_limit</span> = <span class="column">credit_limit</span> + <span class="number">500</span>,
+    <span class="column">last_name</span> = <span class="keyword">VALUES</span>(<span class="column">last_name</span>);
+<span class="comment">-- If email exists, increase credit limit and update last name</span>
+
+<span class="comment">-- Option 3: REPLACE - Delete old and insert new</span>
+<span class="keyword">REPLACE INTO</span> <span class="table-name">customers</span> 
+(<span class="column">customer_id</span>, <span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>)
+<span class="keyword">VALUES</span> 
+(<span class="number">1</span>, <span class="string">'John'</span>, <span class="string">'Doe Updated'</span>, <span class="string">'john.new@email.com'</span>);
+<span class="comment">-- Deletes the old row with customer_id=1 and inserts this new one</span></pre>
+                </div>
+
+                <div class="warning-box">
+                    REPLACE is destructive - it actually deletes the old row and inserts a new one. This can trigger DELETE and INSERT triggers and reset auto-increment values. Use with caution!
+                </div>
+            </section>
+
+            <section class="section" id="update">
+                <h2>✏️ How to Update Existing Rows</h2>
+                
+                <p>The UPDATE statement modifies existing data in your tables. It's one of the most powerful yet potentially dangerous operations if not used carefully.</p>
+
+                <div class="analogy-box">
+                    <h4>✏️ Analogy: The Editor's Pen</h4>
+                    <p>UPDATE is like being an editor with a red pen. You can change specific words (columns) in specific sentences (rows) of your document (table). But unlike a word processor, there's no built-in undo button - once you save (commit), the changes are permanent!</p>
+                </div>
+
+                <h3>Basic UPDATE Syntax</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Update a single column for specific rows</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span>
+<span class="keyword">SET</span> <span class="column">credit_limit</span> = <span class="number">5000</span>
+<span class="keyword">WHERE</span> <span class="column">customer_id</span> = <span class="number">1</span>;
+
+<span class="comment">-- Update multiple columns</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span>
+<span class="keyword">SET</span> 
+    <span class="column">credit_limit</span> = <span class="column">credit_limit</span> * <span class="number">1.1</span>,  <span class="comment">-- 10% increase</span>
+    <span class="column">phone</span> = <span class="string">'555-9999'</span>
+<span class="keyword">WHERE</span> <span class="column">last_name</span> = <span class="string">'Doe'</span>
+    <span class="keyword">AND</span> <span class="column">registration_date</span> < <span class="string">'2024-01-01'</span>;</pre>
+                </div>
+
+                <div class="danger-box">
+                    ALWAYS use a WHERE clause unless you intend to update ALL rows! Forgetting WHERE updates every row in your table!
+                </div>
+
+                <h3>Safe Update Practices</h3>
+                <div class="concept-card">
+                    <h4>The SELECT-First Rule</h4>
+                    <p>Before running any UPDATE, first run a SELECT with the same WHERE clause to see what will be affected:</p>
+                    <div class="code-block">
+                        <pre><span class="comment">-- Step 1: Check what will be updated</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">credit_limit</span> < <span class="number">2000</span>
+    <span class="keyword">AND</span> <span class="column">registration_date</span> > <span class="string">'2023-01-01'</span>;
+
+<span class="comment">-- Step 2: If results look correct, run the update</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span>
+<span class="keyword">SET</span> <span class="column">credit_limit</span> = <span class="column">credit_limit</span> * <span class="number">1.25</span>
+<span class="keyword">WHERE</span> <span class="column">credit_limit</span> < <span class="number">2000</span>
+    <span class="keyword">AND</span> <span class="column">registration_date</span> > <span class="string">'2023-01-01'</span>;</pre>
+                    </div>
+                </div>
+
+                <h3>UPDATE with Calculations and Functions</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Using calculations in SET clause</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span>
+<span class="keyword">SET</span> 
+    <span class="column">credit_limit</span> = <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="column">credit_limit</span> < <span class="number">1000</span> <span class="keyword">THEN</span> <span class="column">credit_limit</span> * <span class="number">1.5</span>
+        <span class="keyword">WHEN</span> <span class="column">credit_limit</span> < <span class="number">5000</span> <span class="keyword">THEN</span> <span class="column">credit_limit</span> * <span class="number">1.2</span>
+        <span class="keyword">ELSE</span> <span class="column">credit_limit</span> * <span class="number">1.1</span>
+    <span class="keyword">END</span>;
+
+<span class="comment">-- Using string functions</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span>
+<span class="keyword">SET</span> 
+    <span class="column">email</span> = <span class="keyword">LOWER</span>(<span class="column">email</span>),
+    <span class="column">last_name</span> = <span class="keyword">UPPER</span>(<span class="keyword">SUBSTRING</span>(<span class="column">last_name</span>, <span class="number">1</span>, <span class="number">1</span>)) 
+                  + <span class="keyword">LOWER</span>(<span class="keyword">SUBSTRING</span>(<span class="column">last_name</span>, <span class="number">2</span>))
+<span class="keyword">WHERE</span> <span class="column">customer_id</span> > <span class="number">100</span>;</pre>
+                </div>
+
+                <h3>UPDATE with Subqueries</h3>
+                <p>You can use subqueries to update based on data from other tables or complex calculations:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Update based on data from another table</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span> <span class="table-name">c</span>
+<span class="keyword">SET</span> <span class="column">credit_limit</span> = (
+    <span class="keyword">SELECT</span> <span class="keyword">AVG</span>(<span class="column">total_amount</span>) * <span class="number">10</span>
+    <span class="keyword">FROM</span> <span class="table-name">orders</span> <span class="table-name">o</span>
+    <span class="keyword">WHERE</span> <span class="table-name">o</span>.<span class="column">customer_id</span> = <span class="table-name">c</span>.<span class="column">customer_id</span>
+        <span class="keyword">AND</span> <span class="table-name">o</span>.<span class="column">order_date</span> > <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">6</span> <span class="keyword">MONTH</span>)
+)
+<span class="keyword">WHERE EXISTS</span> (
+    <span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">FROM</span> <span class="table-name">orders</span> <span class="table-name">o</span>
+    <span class="keyword">WHERE</span> <span class="table-name">o</span>.<span class="column">customer_id</span> = <span class="table-name">c</span>.<span class="column">customer_id</span>
+);
+
+<span class="comment">-- Update using JOIN syntax (MySQL specific)</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span> <span class="table-name">c</span>
+<span class="keyword">INNER JOIN</span> (
+    <span class="keyword">SELECT</span> <span class="column">customer_id</span>, <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">order_count</span>
+    <span class="keyword">FROM</span> <span class="table-name">orders</span>
+    <span class="keyword">GROUP BY</span> <span class="column">customer_id</span>
+) <span class="table-name">order_stats</span>
+<span class="keyword">ON</span> <span class="table-name">c</span>.<span class="column">customer_id</span> = <span class="table-name">order_stats</span>.<span class="column">customer_id</span>
+<span class="keyword">SET</span> <span class="table-name">c</span>.<span class="column">credit_limit</span> = <span class="table-name">c</span>.<span class="column">credit_limit</span> + (<span class="table-name">order_stats</span>.<span class="column">order_count</span> * <span class="number">100</span>);</pre>
+                </div>
+
+                <h3>Tracking UPDATE Results</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Check how many rows were affected</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span>
+<span class="keyword">SET</span> <span class="column">phone</span> = <span class="string">'NOT PROVIDED'</span>
+<span class="keyword">WHERE</span> <span class="column">phone</span> <span class="keyword">IS NULL</span>;
+
+<span class="comment">-- MySQL will return: "X rows affected"</span>
+<span class="comment">-- You can also use ROW_COUNT() function</span>
+<span class="keyword">SELECT</span> <span class="keyword">ROW_COUNT</span>() <span class="keyword">AS</span> <span class="column">rows_updated</span>;</pre>
+                </div>
+            </section>
+
+            <section class="section" id="delete">
+                <h2>🗑️ How to Delete Existing Rows</h2>
+                
+                <p>The DELETE statement removes rows from a table. It's the most destructive DML operation and should be used with extreme caution.</p>
+
+                <div class="analogy-box">
+                    <h4>🗑️ Analogy: The Shredder</h4>
+                    <p>DELETE is like putting documents through a shredder. Once they're gone, they're gone forever (unless you have backups). Unlike moving files to a recycle bin, there's no easy way to recover deleted database rows. Always double-check what you're about to shred!</p>
+                </div>
+
+                <h3>Basic DELETE Syntax</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Delete specific rows</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">customer_id</span> = <span class="number">5</span>;
+
+<span class="comment">-- Delete multiple rows based on condition</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">registration_date</span> < <span class="string">'2020-01-01'</span>
+    <span class="keyword">AND</span> <span class="column">credit_limit</span> = <span class="number">0</span>;
+
+<span class="comment">-- Delete with LIMIT (useful for batch processing)</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">email</span> <span class="keyword">IS NULL</span>
+<span class="keyword">ORDER BY</span> <span class="column">customer_id</span>
+<span class="keyword">LIMIT</span> <span class="number">10</span>;</pre>
+                </div>
+
+                <div class="danger-box">
+                    DELETE without WHERE removes ALL rows! The table structure remains, but all data is gone. Use TRUNCATE TABLE for better performance when deleting all rows intentionally.
+                </div>
+
+                <h3>Safe DELETE Practices</h3>
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab(event, 'delete-select')">SELECT First</button>
+                    <button class="tab" onclick="showTab(event, 'delete-backup')">Backup First</button>
+                    <button class="tab" onclick="showTab(event, 'delete-soft')">Soft Delete</button>
+                </div>
+
+                <div id="delete-select" class="tab-content active">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Always SELECT first to verify what will be deleted</span>
+<span class="comment">-- Step 1: Check what will be deleted</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">last_login</span> < <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);
+
+<span class="comment">-- Step 2: Count the rows</span>
+<span class="keyword">SELECT COUNT</span>(*) <span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">last_login</span> < <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);
+
+<span class="comment">-- Step 3: If correct, delete</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">last_login</span> < <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);</pre>
+                    </div>
+                </div>
+
+                <div id="delete-backup" class="tab-content">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Create a backup before deleting</span>
+<span class="keyword">CREATE TABLE</span> <span class="table-name">customers_deleted_backup</span> <span class="keyword">AS</span>
+<span class="keyword">SELECT</span> *, <span class="keyword">NOW</span>() <span class="keyword">AS</span> <span class="column">deleted_at</span>
+<span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">status</span> = <span class="string">'inactive'</span>;
+
+<span class="comment">-- Now safe to delete</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">status</span> = <span class="string">'inactive'</span>;</pre>
+                    </div>
+                </div>
+
+                <div id="delete-soft" class="tab-content">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Instead of DELETE, use a "soft delete" approach</span>
+<span class="comment">-- Add a deleted flag column to your table</span>
+<span class="keyword">ALTER TABLE</span> <span class="table-name">customers</span>
+<span class="keyword">ADD COLUMN</span> <span class="column">is_deleted</span> <span class="keyword">BOOLEAN DEFAULT</span> <span class="keyword">FALSE</span>,
+<span class="keyword">ADD COLUMN</span> <span class="column">deleted_at</span> <span class="keyword">DATETIME DEFAULT NULL</span>;
+
+<span class="comment">-- "Delete" by marking as deleted</span>
+<span class="keyword">UPDATE</span> <span class="table-name">customers</span>
+<span class="keyword">SET</span> 
+    <span class="column">is_deleted</span> = <span class="keyword">TRUE</span>,
+    <span class="column">deleted_at</span> = <span class="keyword">NOW</span>()
+<span class="keyword">WHERE</span> <span class="column">customer_id</span> = <span class="number">10</span>;
+
+<span class="comment">-- Filter out "deleted" records in queries</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">is_deleted</span> = <span class="keyword">FALSE</span>;</pre>
+                    </div>
+                </div>
+
+                <h3>DELETE with Subqueries</h3>
+                <p>You can use subqueries to delete based on complex conditions:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Delete customers with no orders</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">customer_id</span> <span class="keyword">NOT IN</span> (
+    <span class="keyword">SELECT DISTINCT</span> <span class="column">customer_id</span> 
+    <span class="keyword">FROM</span> <span class="table-name">orders</span>
+);
+
+<span class="comment">-- Alternative using NOT EXISTS (often faster)</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span> <span class="table-name">c</span>
+<span class="keyword">WHERE NOT EXISTS</span> (
+    <span class="keyword">SELECT</span> <span class="number">1</span> 
+    <span class="keyword">FROM</span> <span class="table-name">orders</span> <span class="table-name">o</span>
+    <span class="keyword">WHERE</span> <span class="table-name">o</span>.<span class="column">customer_id</span> = <span class="table-name">c</span>.<span class="column">customer_id</span>
+);
+
+<span class="comment">-- Delete using JOIN (MySQL specific)</span>
+<span class="keyword">DELETE</span> <span class="table-name">c</span> 
+<span class="keyword">FROM</span> <span class="table-name">customers</span> <span class="table-name">c</span>
+<span class="keyword">LEFT JOIN</span> <span class="table-name">orders</span> <span class="table-name">o</span> 
+    <span class="keyword">ON</span> <span class="table-name">c</span>.<span class="column">customer_id</span> = <span class="table-name">o</span>.<span class="column">customer_id</span>
+<span class="keyword">WHERE</span> <span class="table-name">o</span>.<span class="column">customer_id</span> <span class="keyword">IS NULL</span>;</pre>
+                </div>
+
+                <h3>TRUNCATE vs DELETE</h3>
+                <div class="concept-card">
+                    <h4>When to use each:</h4>
+                    <table class="result-table">
+                        <tr>
+                            <th>Feature</th>
+                            <th>DELETE</th>
+                            <th>TRUNCATE</th>
+                        </tr>
+                        <tr>
+                            <td>Can use WHERE clause</td>
+                            <td class="success-indicator">✓ Yes</td>
+                            <td class="error-indicator">✗ No</td>
+                        </tr>
+                        <tr>
+                            <td>Speed for all rows</td>
+                            <td>Slower</td>
+                            <td class="success-indicator">Much faster</td>
+                        </tr>
+                        <tr>
+                            <td>Triggers fired</td>
+                            <td class="success-indicator">Yes</td>
+                            <td class="error-indicator">No</td>
+                        </tr>
+                        <tr>
+                            <td>Can rollback</td>
+                            <td class="success-indicator">Yes (in transaction)</td>
+                            <td class="error-indicator">No</td>
+                        </tr>
+                        <tr>
+                            <td>Resets AUTO_INCREMENT</td>
+                            <td class="error-indicator">No</td>
+                            <td class="success-indicator">Yes</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Remove all rows with DELETE (slow, logged)</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">large_table</span>;
+
+<span class="comment">-- Remove all rows with TRUNCATE (fast, not logged)</span>
+<span class="keyword">TRUNCATE TABLE</span> <span class="table-name">large_table</span>;</pre>
+                </div>
+            </section>
+
+            <section class="section" id="best-practices">
+                <h2>⚡ Best Practices and Safety Tips</h2>
+                
+                <h3>Transaction Safety</h3>
+                <p>Use transactions to group related changes and enable rollback if something goes wrong:</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Start a transaction</span>
+<span class="keyword">START TRANSACTION</span>;
+
+<span class="comment">-- Perform your operations</span>
+<span class="keyword">UPDATE</span> <span class="table-name">accounts</span> 
+<span class="keyword">SET</span> <span class="column">balance</span> = <span class="column">balance</span> - <span class="number">100</span>
+<span class="keyword">WHERE</span> <span class="column">account_id</span> = <span class="number">1</span>;
+
+<span class="keyword">UPDATE</span> <span class="table-name">accounts</span> 
+<span class="keyword">SET</span> <span class="column">balance</span> = <span class="column">balance</span> + <span class="number">100</span>
+<span class="keyword">WHERE</span> <span class="column">account_id</span> = <span class="number">2</span>;
+
+<span class="comment">-- Check if everything looks good</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">accounts</span> 
+<span class="keyword">WHERE</span> <span class="column">account_id</span> <span class="keyword">IN</span> (<span class="number">1</span>, <span class="number">2</span>);
+
+<span class="comment">-- If good, commit; if not, rollback</span>
+<span class="keyword">COMMIT</span>;    <span class="comment">-- Makes changes permanent</span>
+<span class="comment">-- OR</span>
+<span class="keyword">ROLLBACK</span>;  <span class="comment">-- Undoes all changes since START TRANSACTION</span></pre>
+                </div>
+
+                <h3>Performance Optimization</h3>
+                <div class="concept-card">
+                    <h4>Tips for Faster DML Operations:</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li>📍 <strong>Batch Operations:</strong> Insert/update/delete multiple rows in one statement</li>
+                        <li>📍 <strong>Use Indexes:</strong> Ensure WHERE clause columns are indexed</li>
+                        <li>📍 <strong>Disable Keys:</strong> For bulk inserts, temporarily disable indexes</li>
+                        <li>📍 <strong>Use LOAD DATA:</strong> For importing large datasets from files</li>
+                        <li>📍 <strong>Limit Scope:</strong> Use LIMIT for large updates/deletes</li>
+                    </ul>
+                </div>
+
+                <h3>The DML Safety Checklist</h3>
+                <div class="warning-box">
+                    Before running any DML statement in production:
+                    <ol style="margin-left: 2rem;">
+                        <li>✓ Test on a development database first</li>
+                        <li>✓ Run SELECT with same WHERE clause</li>
+                        <li>✓ Create a backup or use transactions</li>
+                        <li>✓ Double-check the WHERE clause</li>
+                        <li>✓ Consider the impact on related tables</li>
+                        <li>✓ Check for triggers that might fire</li>
+                        <li>✓ Verify you're connected to the right database</li>
+                        <li>✓ Have a rollback plan ready</li>
+                    </ol>
+                </div>
+
+                <h3>Common Mistakes to Avoid</h3>
+                <div class="danger-box">
+                    <ul style="margin-left: 1rem;">
+                        <li>❌ Forgetting WHERE clause in UPDATE/DELETE</li>
+                        <li>❌ Not testing complex conditions first</li>
+                        <li>❌ Ignoring foreign key constraints</li>
+                        <li>❌ Not checking affected row count</li>
+                        <li>❌ Running DML during peak hours</li>
+                        <li>❌ Not considering trigger side effects</li>
+                        <li>❌ Assuming NULL behaves like other values</li>
+                        <li>❌ Not backing up before bulk operations</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="summary">
+                <h2>✅ Summary and Key Takeaways</h2>
+                
+                <h3>The Four Essential SQL Statements</h3>
+                <div class="visual-demo">
+                    <table class="result-table" style="max-width: 800px; margin: 0 auto;">
+                        <tr>
+                            <th>Statement</th>
+                            <th>Purpose</th>
+                            <th>Risk Level</th>
+                            <th>Can Undo?</th>
+                        </tr>
+                        <tr>
+                            <td>SELECT</td>
+                            <td>Read data</td>
+                            <td class="success-indicator">Safe</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr>
+                            <td>INSERT</td>
+                            <td>Add new rows</td>
+                            <td style="color: var(--warning);">Medium</td>
+                            <td>DELETE the rows</td>
+                        </tr>
+                        <tr>
+                            <td>UPDATE</td>
+                            <td>Modify existing rows</td>
+                            <td class="error-indicator">High</td>
+                            <td>Only with backup</td>
+                        </tr>
+                        <tr>
+                            <td>DELETE</td>
+                            <td>Remove rows</td>
+                            <td class="error-indicator">Very High</td>
+                            <td>Only with backup</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>Key Concepts to Remember</h3>
+                <div class="concept-card">
+                    <h4>INSERT Statement</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li>Can insert single or multiple rows</li>
+                        <li>Use DEFAULT keyword or omit columns for default values</li>
+                        <li>NULL means "no value", different from empty string</li>
+                        <li>Can use subqueries for complex inserts</li>
+                        <li>Handle duplicates with IGNORE, ON DUPLICATE KEY, or REPLACE</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h4>UPDATE Statement</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li>ALWAYS use WHERE unless updating all rows</li>
+                        <li>Test with SELECT first</li>
+                        <li>Can use calculations and functions in SET</li>
+                        <li>Can update based on other tables using subqueries</li>
+                        <li>Check ROW_COUNT() to verify changes</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h4>DELETE Statement</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li>Most destructive operation - use with extreme caution</li>
+                        <li>Consider soft deletes for important data</li>
+                        <li>TRUNCATE is faster for removing all rows</li>
+                        <li>Can use subqueries for complex conditions</li>
+                        <li>Always backup before bulk deletes</li>
+                    </ul>
+                </div>
+
+                <h3>Auto-Commit Reminder</h3>
+                <div class="tip-box">
+                    Remember: MySQL auto-commits by default. Each DML statement is immediately permanent unless you explicitly use transactions. To work more safely:
+                    <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                        <li>Use <code>START TRANSACTION</code> for grouped changes</li>
+                        <li>Consider <code>SET autocommit = 0</code> for session safety</li>
+                        <li>Learn about transaction isolation levels (Chapter 14)</li>
+                    </ul>
+                </div>
+
+                <h3>Your DML Journey</h3>
+                <div class="analogy-box">
+                    <h4>🎯 From Reader to Writer</h4>
+                    <p>You've now graduated from just reading the database (SELECT) to being able to write to it (INSERT, UPDATE, DELETE). With this power comes responsibility. Like a novelist who can now not only read stories but also write and edit them, you have the tools to shape your data. Use them wisely, test thoroughly, and always keep backups of your important work!</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--surface-light); border-radius: 10px;">
+                    <h3 style="color: var(--success);">🎉 Congratulations!</h3>
+                    <p style="font-size: 1.1rem; margin-top: 1rem;">You now know the four fundamental SQL statements that professional developers use every day. Practice these operations on test data until they become second nature, but always maintain a healthy respect for their power - especially UPDATE and DELETE!</p>
+                    
+                    <div style="margin-top: 2rem;">
+                        <strong>Next Steps:</strong>
+                        <ul style="list-style: none; margin-top: 0.5rem;">
+                            <li>📝 Practice on test databases</li>
+                            <li>🔄 Learn about transactions in detail</li>
+                            <li>🔐 Study constraints and triggers</li>
+                            <li>⚡ Explore bulk data operations</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                const section = document.getElementById(this.dataset.section);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Tab functionality
+        function showTab(evt, tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Scroll spy for active navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    current = section.id;
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
