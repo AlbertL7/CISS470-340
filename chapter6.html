@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6: Cybersecurity Standards & Frameworks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #f59e0b;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-light);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--surface-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .framework-card {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .framework-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .framework-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .framework-title {
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .framework-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .framework-details.expanded {
+            max-height: 1000px;
+        }
+
+        .detail-item {
+            display: flex;
+            margin: 0.5rem 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            min-width: 120px;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            color: white;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight {
+            background: yellow;
+            color: black;
+            padding: 2px 4px;
+            border-radius: 3px;
+            animation: pulse 1s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .expand-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .framework-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            color: var(--accent);
+            cursor: help;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--surface-light);
+            color: var(--text);
+            text-align: center;
+            border-radius: 8px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .reading-time {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>📚 Chapter 6: Standards and Frameworks for Cybersecurity</h1>
+                <div class="reading-time">⏱️ Estimated reading time: 25 minutes</div>
+            </div>
+            <input type="text" class="search-box" placeholder="🔍 Search chapter..." id="searchBox">
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-title">Navigation</div>
+            <div class="nav-item active" data-section="intro">📖 Introduction</div>
+            <div class="nav-item" data-section="context">🎯 Context & Overview</div>
+            <div class="nav-item" data-section="frameworks">🏗️ Common Frameworks</div>
+            <div class="nav-item" data-section="selection">✅ Selecting Frameworks</div>
+            <div class="nav-item" data-section="constraints">⚠️ Constraints</div>
+            <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
+        </nav>
+
+        <main class="content">
+            <div class="intro-box">
+                <h2 style="color: white; border: none;">Welcome to Chapter 6</h2>
+                <p>Dive into the comprehensive world of cybersecurity standards and frameworks. Learn how organizations can structure their security programs using globally recognized best practices. Follow CEO Tom as he scrambles to prepare for his board presentation on cybersecurity.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">9+</div>
+                        <div class="stat-label">Major Frameworks Covered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">13+</div>
+                        <div class="stat-label">Framework Types</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1500+</div>
+                        <div class="stat-label">Pages of Standards</div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section" id="intro">
+                <h2>📖 Introduction: Tom's Challenge</h2>
+                <p><strong>By Stefan A. Deutscher (BCG Berlin) and William Yin (BCG Hong Kong)</strong></p>
+                
+                <div style="background: var(--surface-light); padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                    <p style="font-style: italic; font-size: 1.1rem;">As Tom scrambled to put together his board presentation, he had three very practical concerns:</p>
+                </div>
+                
+                <ol style="margin-left: 2rem; color: var(--text); background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.05)); padding: 2rem; border-radius: 10px;">
+                    <li style="margin: 1rem 0;">
+                        <strong>First:</strong> How to get up to speed quickly, and avoid reinventing the wheel—or just parts of a wheel?
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        <strong>Second:</strong> How to make sure nothing essential was overlooked, so that the wheel (reused or new) kept on turning in the right direction and at the right speed?
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        <strong>Third:</strong> How to communicate such an elusive topic at the right level of detail, or aggregation, to his target audience—in this case, his supervisory board?
+                    </li>
+                </ol>
+                
+                <p style="margin-top: 1.5rem; font-size: 1.1rem;">This chapter will guide you through the landscape of cybersecurity standards and frameworks, helping you navigate the same challenges Tom faces as he prepares for his critical board presentation.</p>
+                
+                <div style="display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+                    <div class="framework-card" style="flex: 1; min-width: 200px; text-align: center;">
+                        <div style="font-size: 2rem;">🚀</div>
+                        <strong>Speed</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Get up to speed quickly with existing frameworks</p>
+                    </div>
+                    <div class="framework-card" style="flex: 1; min-width: 200px; text-align: center;">
+                        <div style="font-size: 2rem;">✅</div>
+                        <strong>Completeness</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Ensure nothing essential is overlooked</p>
+                    </div>
+                    <div class="framework-card" style="flex: 1; min-width: 200px; text-align: center;">
+                        <div style="font-size: 2rem;">💬</div>
+                        <strong>Communication</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Present at the right level for your audience</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="context">
+                <h2>🎯 Putting Standards and Frameworks in Context</h2>
+                
+                <p>There are a multitude of cybersecurity standards in existence today developed by various bodies addressing specific needs. The list continues to grow, but it's important to identify those that bring the most value to your organization. Aligning to the "right" standards helps facilitate sharing and transparency on the most recent cyber attacks within the industry and beyond.</p>
+
+                <h3>Diversity as a Blessing and Curse</h3>
+                <p>According to Merriam-Webster's Dictionary, a framework is "the basic structure of something." That underlying something can be fairly diverse—for instance, ideas, concepts, guidelines, rules, check lists, requirements, facts, or physical parts. And, in this context, diversity may be a blessing and a curse.</p>
+                
+                <p>There are a large number of cybersecurity and IT risk management frameworks issued by technology vendors, professional services firms, public institutions, nonprofit organizations, and public-private partnerships—all providing a different focus:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                    <div class="framework-card" style="border-left-color: #3b82f6;">
+                        <strong>📍 Geographic Scope</strong>
+                        <p>Local, regional, and global frameworks</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #10b981;">
+                        <strong>🏢 Industry Specificity</strong>
+                        <p>Generic and industry-specific frameworks</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #f59e0b;">
+                        <strong>🎯 Strategic Approach</strong>
+                        <p>Value-focused and threat-focused frameworks</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #ef4444;">
+                        <strong>⚙️ Technical Depth</strong>
+                        <p>Very technical frameworks for technical aspects of cybersecurity</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #8b5cf6;">
+                        <strong>🏛️ Governance</strong>
+                        <p>Governance and organizational frameworks</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #ec4899;">
+                        <strong>✅ Assurance Types</strong>
+                        <p>Product assurance, process assurance, and environment assurance frameworks</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #14b8a6;">
+                        <strong>📋 Compliance Focus</strong>
+                        <p>Compliance-focused frameworks for regulatory interactions</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #f97316;">
+                        <strong>📈 Maturity Assessment</strong>
+                        <p>High-level maturity frameworks showing where you stand</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #6366f1;">
+                        <strong>💡 Best Practices</strong>
+                        <p>Collections of best practices to cover the basics or more</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #84cc16;">
+                        <strong>🔧 Controls Focused</strong>
+                        <p>Built around inputs/ingredients for auditors</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #a855f7;">
+                        <strong>🚀 Capability Focused</strong>
+                        <p>Aiming at outcomes, powerful but harder to assess</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #0ea5e9;">
+                        <strong>🔄 Information Sharing</strong>
+                        <p>Focused on exchange and collaboration of cyber information</p>
+                    </div>
+                    <div class="framework-card" style="border-left-color: #dc2626;">
+                        <strong>🌐 Specialized vs Holistic</strong>
+                        <p>From specialized cybersecurity to holistic security covering IT, physical, people security, and cyber-physical systems</p>
+                    </div>
+                </div>
+
+                <p>Obviously, all of these types of frameworks have their merits. Frameworks are a tool chest to structure thinking about, and acting on, security in a given context, and a given set of objectives.</p>
+
+                <h3>No "Best" Cybersecurity Standard</h3>
+                <p>Standards, as "a level of quality, achievement, etc., that is considered acceptable or desirable [...] established by authority, custom, or general consent as a model or example" (Merriam-Webster's), can augment frameworks. Standards formalize and serve as guiderails for cybersecurity. There is a similar breadth of standards as there is for frameworks.</p>
+                
+                <p>This variety exists for a reason. As new technologies and delivery mechanisms develop, it will continue to accommodate change and expand to address fields such as 
+                    <span class="tooltip">digital<span class="tooltiptext">The integration of digital technology into all areas of business</span></span>, 
+                    <span class="tooltip">Internet of Things<span class="tooltiptext">Network of physical devices embedded with sensors and connectivity</span></span>, 
+                    <span class="tooltip">Big Data<span class="tooltiptext">Large, complex data sets requiring advanced processing capabilities</span></span>, 
+                    or simply the cloud. So there is no "best" cybersecurity standard or framework. But there are already many good tools for the job at hand—and less appropriate ones.</p>
+
+                <h3>First Steps for CEO Tom</h3>
+                <p>So where was CEO Tom to start? Before selecting a cybersecurity framework or standard, a first but important step is to clarify the organization's objectives or purpose regarding risks and issues to address or mitigate against.</p>
+                
+                <p>The objectives may range from very operational tasks (e.g., configuration of employee computers) to daily governance issues (e.g., design of information security policy) and board-level responsibilities (e.g., ensuring executive team provides risk oversight). Other purposes may include:</p>
+                
+                <ul style="margin-left: 2rem; color: var(--text); background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li style="margin: 0.75rem 0;">📚 <strong>Establish common language and taxonomy</strong> - Allowing technical people, organization people, and risk managers to start communicating around cybersecurity</li>
+                    <li style="margin: 0.75rem 0;">🔍 <strong>Provide transparency</strong> - Assessing current state against a yardstick accepted by and understandable to the target audience (from technical experts to board members, customers to regulators)</li>
+                    <li style="margin: 0.75rem 0;">📋 <strong>Provide guidelines for action</strong> - Against known gaps, threats, or identified areas for development</li>
+                    <li style="margin: 0.75rem 0;">✅ <strong>Ensure and demonstrate compliance</strong> - With relevant regulation or laws, enable competition on security, or establish security beyond compliance</li>
+                    <li style="margin: 0.75rem 0;">⚖️ <strong>Normalize cyber-related risk</strong> - Allowing it to be treated and included in enterprise risk management like any other organizational risk</li>
+                </ul>
+
+                <h3>Organization Context Considerations</h3>
+                <p>The organization context can vary significantly:</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🏛️</div>
+                        <div class="stat-label">Regulated vs Non-regulated</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🌍</div>
+                        <div class="stat-label">Global vs Regional Scale</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">📊</div>
+                        <div class="stat-label">Business-as-usual vs Exceptional Situations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🚨</div>
+                        <div class="stat-label">Normal Operations vs Emergency Response</div>
+                    </div>
+                </div>
+                
+                <p>The organization may be in "business-as-usual" state or face exceptional situations (e.g., launching a new digital product, executing a merger or carve-out, bidding for a large deal). It may even be facing an emergency (such as learning that its own security or that of an essential supply chain partner has been breached).</p>
+            </section>
+
+            <section class="section" id="frameworks">
+                <h2>🏗️ Commonly Used Frameworks and Standards</h2>
+                <p style="margin-bottom: 2rem;">The following frameworks and standards are considered to outline globally accepted best practices.</p>
+                
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">ISO/IEC 27000 Family</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>This framework series, sometimes referred to as ISO 27k, covers a very broad series of topics. The framework is often considered the information security equivalent of ISO 9000 and provides certification options.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>International Organization for Standardization (ISO) and International Electrotechnical Commission (IEC), Geneva, Switzerland</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>Over 1,500 pages across the family; ISO 27001 is 23 pages (2013)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>Global, international standard</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>All types of organizations and industries</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information security, risk, and IT functions</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Key Components:</strong></p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>ISO 27000: General vocabulary</li>
+                            <li>ISO 27001: Requirements for information security management program</li>
+                            <li>ISO 27002: Code of practice for information security management</li>
+                            <li>ISO 27005: Information security risk management</li>
+                            <li>ISO 27033: Network security guidance</li>
+                            <li>ISO 27034: Application security</li>
+                            <li>ISO 27799: Information security management in healthcare</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Tom's Starting Point:</strong> ISO 27001 would be the best point to start—especially if certification is a goal.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">COBIT 5 for Information Security</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>COBIT is a comprehensive IT governance risk management framework especially suited for organizations accustomed to external auditing. It comprises process descriptions, implementation guidelines, and extensive descriptions of goals, controls, related metrics, and RACI suggestions.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>ISACA (Information Systems Audit and Control Association), United States</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>COBIT 5 and Information Security lens each ~220 pages (2012)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>Global quasi-standard</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>All, especially financial services and highly regulated industries</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>All stakeholders, especially information security, risk, and IT functions</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Key Security Processes:</strong></p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>EDM #03: Ensure Risk Optimization</li>
+                            <li>APO #013: Manage Security</li>
+                            <li>DSS #05: Manage Security Services</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Special Note:</strong> Very often used by firms to achieve compliance with Sarbanes-Oxley rules.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">NIST Computer/Cybersecurity Frameworks</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>NIST uses three Special Publications (SP) subseries to publish guidelines, recommendations and reference materials. Also created a Cyber Security Framework for Critical Infrastructure.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>U.S. National Institute of Standards and Technology (NIST)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>Several thousand pages across repository</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>U.S. national standard, used globally</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>Often mandated in U.S. government context, applicable to all</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information security, risk, IT functions, managers, auditors</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Key Publications:</strong></p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li><strong>SP800 Series:</strong> Computer Security (current center of gravity)</li>
+                            <li>SP800-171: Protection of controlled unclassified information</li>
+                            <li>SP800-125B: Secure Virtual Network Configuration</li>
+                            <li>SP800-82r2: Guide to Industrial Control Systems (ICS) security</li>
+                            <li>SP800-100: Information Security Handbook for managers (180 pages, 2007)</li>
+                            <li>SP800-53r4: Security and Privacy Controls (460 pages, 2015)</li>
+                            <li><strong>SP500 Series:</strong> Computer Systems Technology</li>
+                            <li><strong>SP1800 Series:</strong> NIST Cyber Security Practice Guide (since 2015)</li>
+                            <li><strong>Cybersecurity Framework:</strong> Critical Infrastructure (40 pages, 2014)</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Tom's Starting Point:</strong> SP800-53r4 for auditable plans.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">ISF Standard of Good Practice for Information Security</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>The most comprehensive information security standard in the world, providing more coverage than ISO. It covers security governance, security requirements, controls, monitoring/improvement and addresses risk from people, processes, and technology.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>Information Security Forum (ISF), United Kingdom</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>About 300 pages (2011 version), last updated 2014</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>Global quasi-standard with member chapters worldwide</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>Large organizations from public and private sector</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information security, risk, IT audit functions, organization and IT managers</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Key Features:</strong> Broader and more prescriptive than ISO. Enables compliance with ISO27001/2, COBIT 5, SANS Top 20, UK Cyber Essentials Scheme, and NIST Cyber Security Framework. Accompanied by tools and benchmark offerings for ISF members.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">SANS Top 20 Critical Security Controls</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>The CIS Critical Security Controls form deliberately not a complete framework, but a widely adopted list of the top 20 specific and actionable cyber defense controls, based on NIST framework and regularly updated industry intelligence.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>SANS Institute (Escal Institute of Advanced Technologies, Inc.)/Center for Internet Security, USA</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>94 pages, last updated 2016</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>Global quasi-standard</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>All</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information security, risk, and IT functions</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Coverage Areas:</strong> Inventory of devices and software, malware defense, secure configuration, wireless access control, incident response and management, penetration testing.</p>
+                        <p style="margin-top: 1rem;"><strong>Created By:</strong> NSA Red and Blue teams, US Department of Energy nuclear energy labs, law enforcement organizations, and top forensics and incident response organizations—to answer "what do we need to do to stop known attacks."</p>
+                        <p style="margin-top: 1rem;"><strong>For Tom:</strong> An excellent first step towards his supervisory board meeting, allowing him to structure and communicate his intent.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">IT-CMF:ISM (IT Capability Maturity Framework)</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>Developed by practitioners and academics from a large consortium, aiming to become the gold standard for management of IT value and IT-enabled innovation. Designed around 35 IT capabilities rather than processes or specific controls.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>Innovation Value Institute (IVI), Ireland</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>Ten pages plus extensive accompanying materials, last updated 2014</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>Global, capability framework</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>Any</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information Security and IT management functions</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Unique Approach:</strong> Provides maturity assessment methodology, benchmarks, practices, outcomes, and metrics (POMs). Information security is treated as one of 35 IT capabilities. Moves beyond controls to an organization value-focused approach.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">PCI-DSS (Payment Card Industry Data Security Standard)</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>De facto standard for protection of credit card account data, widely adopted in financial services and retail. Addresses six objectives through 12 actionable key requirements.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>Payment Card Industry (PCI) Security Standards Council, USA</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Version:</span>
+                            <span>3.2, about 140 pages, last updated 2016</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>Global industry standard</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>Financial services, retail, card data processing industries</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information security and IT functions</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Six Core Objectives:</strong> From "Build and Maintain a Secure Network and Systems" to "Maintain an Information Security Policy"</p>
+                        <p style="margin-top: 1rem;"><strong>Compliance Note:</strong> Mandated by law in some countries. Most credit and payment card issuers require merchants and service providers to comply. If Tom's company processes card data, someone in the organization likely knows this standard.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">World Economic Forum Cyber Risk Framework (WEF-CRF)</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>Provides a holistic high-level approach to addressing and calculating risk posed by cyber attacks. Looks at value at risk, potential attacker profiles, and organizational maturity.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>The World Economic Forum, Geneva, Switzerland</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>Twenty pages plus supporting reports, last updated 2015</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>Global framework</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>Any</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information security, risk, and IT functions</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Unique Features:</strong> "Cyber value-at-risk" framework that unifies all dimensions of cyber threats. Encourages organizations to create robust cyber risk models. Helps increase confidence regarding decisions to invest, distribute, offload and/or retain cyber risks.</p>
+                        <p style="margin-top: 1rem;"><strong>Board Focus:</strong> WEF is developing Cyber Resilience Guidelines for Boards to normalize cyber risk from a supervisory board perspective.</p>
+                    </div>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-header" onclick="toggleFramework(this)">
+                        <div class="framework-title">ENISA (European Union Agency for Network and Information Security)</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="framework-details">
+                        <p>Currently focusing on critical infrastructure protection and national cybersecurity strategies of member states, while paying attention to SME cybersecurity needs.</p>
+                        <div class="detail-item">
+                            <span class="detail-label">Issuer:</span>
+                            <span>European Union Agency for Network and Information Security, Greece</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Extent:</span>
+                            <span>Several specific publications available</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Region/Type:</span>
+                            <span>European Union</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Industry:</span>
+                            <span>Government agencies, national critical infrastructure, SMEs</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Primary Audience:</span>
+                            <span>Information security, risk, and IT functions</span>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Key Publications:</strong></p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>"Evaluation Framework on National Cyber Security Strategies" (12/2014)</li>
+                            <li>"Information Security and Privacy Standards for SMEs" (12/2015)</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Mission:</strong> "Securing Europe's Information Society" - Contributing to network and information security culture for citizens, consumers, enterprises and public sector organizations.</p>
+                        <p style="margin-top: 1rem;"><strong>Note:</strong> ENISA advocates use of existing frameworks rather than creating new ones.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="selection">
+                <h2>✅ Tailoring Your Framework Choice</h2>
+                <p>Since there are many frameworks and standards available, and they typically are largely compatible at the core but differentiated at the fringes, organizations often benefit from an informed combination of several frameworks to best match their particular need and tailored to their objectives, context, and risk profile.</p>
+                
+                <p style="background: var(--surface-light); padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                    <strong>⚠️ Exception:</strong> If one framework is required by regulation or particular key customers, that becomes your baseline. For multinationals operating in several jurisdictions, using more than one framework, or complying with more than one standard, may not even be a choice but a must.
+                </p>
+
+                <h3>Decision Factors for Framework Selection</h3>
+                <div style="background: var(--surface-light); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
+                    <ul style="list-style: none;">
+                        <li style="margin: 0.75rem 0;">✓ <strong>Regulatory Requirements:</strong> What's mandated in your jurisdiction?</li>
+                        <li style="margin: 0.75rem 0;">✓ <strong>Customer Expectations:</strong> What do your key customers require?</li>
+                        <li style="margin: 0.75rem 0;">✓ <strong>Industry Standards:</strong> What's common in your sector?</li>
+                        <li style="margin: 0.75rem 0;">✓ <strong>Organizational Maturity:</strong> Where are you in your security journey?</li>
+                        <li style="margin: 0.75rem 0;">✓ <strong>Resources Available:</strong> What can you sustainably implement with skilled internal resources?</li>
+                        <li style="margin: 0.75rem 0;">✓ <strong>Business Strategy:</strong> Compliance vs. security beyond compliance? Partnering vs. competing on security?</li>
+                        <li style="margin: 0.75rem 0;">✓ <strong>Geographic Scope:</strong> Single country or multinational operations?</li>
+                        <li style="margin: 0.75rem 0;">✓ <strong>Economic Feasibility:</strong> What's economically sustainable for your organization?</li>
+                    </ul>
+                </div>
+
+                <h3>Tom's Recommended Approach</h3>
+                <p>So out of the plethora of cybersecurity frameworks and standards, which ones should Tom consider at a minimum? Given the tight deadline for his board presentation, Tom would probably be well advised to:</p>
+                
+                <ol style="margin-left: 2rem; color: var(--text); background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(16, 185, 129, 0.1)); padding: 2rem; border-radius: 10px;">
+                    <li style="margin: 1rem 0;">
+                        <strong>First Step:</strong> Run an IT-CMF:ISM assessment or any other enterprise-wide focused cybersecurity health check
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        <strong>Quick Wins:</strong> Explore the SANS Top 20 for immediate actionable controls and structure to communicate his intent
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        <strong>Strategic Selection:</strong> Take a step back for a more informed pick among the other, more comprehensive frameworks
+                    </li>
+                    <li style="margin: 1rem 0;">
+                        <strong>Board Preparation:</strong> With more time, familiarize himself with the upcoming Cyber Resilience Guidelines for Boards the World Economic Forum is currently developing—because this may well be what the board members who requested his presentation will use to gauge his preparedness
+                    </li>
+                </ol>
+
+                <h3>Implementation Approach</h3>
+                <p>Real security comes from a structured approach:</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                    <div class="framework-card" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;">
+                        <strong>1. Strategy Decision</strong>
+                        <p>Decide together within the organization on appropriate security strategy and overall objectives</p>
+                    </div>
+                    <div class="framework-card" style="background: linear-gradient(135deg, var(--secondary), #059669); color: white;">
+                        <strong>2. Framework Adoption</strong>
+                        <p>Adopt and adapt framework to situation, enrich with practices, augment with relevant elements</p>
+                    </div>
+                    <div class="framework-card" style="background: linear-gradient(135deg, var(--accent), #d97706); color: white;">
+                        <strong>3. Risk Assessment</strong>
+                        <p>Run comprehensive risk assessment to identify gaps and priorities</p>
+                    </div>
+                    <div class="framework-card" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white;">
+                        <strong>4. Roadmap Creation</strong>
+                        <p>Build roadmap for implementation of cybersecurity/cyber risk management system</p>
+                    </div>
+                    <div class="framework-card" style="background: linear-gradient(135deg, #ec4899, #db2777); color: white;">
+                        <strong>5. Capability Building</strong>
+                        <p>Establish required capabilities to keep system functioning, monitored, and up to date</p>
+                    </div>
+                    <div class="framework-card" style="background: linear-gradient(135deg, #14b8a6, #0d9488); color: white;">
+                        <strong>6. Quick Fixes</strong>
+                        <p>Prioritize and close obvious or previously identified gaps quickly</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="constraints">
+                <h2>⚠️ Constraints on Standards and Frameworks</h2>
+                <p>These are but a selection of the most important frameworks and standards. Although there are more and different ones—created for different purposes, industries, audiences, or specific regions—it is key to remember that all of these can have their merit if employed as a tool for the right purpose.</p>
+
+                <p>Likewise, it is important to keep in mind that risk methods and frameworks may be affected by some constraints and fundamental limitations.</p>
+                
+                <div class="framework-card" style="border-left-color: #ef4444;">
+                    <h3>Key Limitations (per UK CESG/GCHQ)</h3>
+                    <p>These limitations are nicely summarized in an article by the UK Communications Electronics Security Group (CESG), the information security arm of the GCHQ:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                        <li style="margin: 0.5rem 0;"><strong>Limits in a "reductionist approach"</strong> - Breaking down complex systems may miss emergent properties</li>
+                        <li style="margin: 0.5rem 0;"><strong>Lack of variety</strong> - Limited perspectives in framework design</li>
+                        <li style="margin: 0.5rem 0;"><strong>Limits of a "fixed-state" approach</strong> - Static frameworks in dynamic environments</li>
+                        <li style="margin: 0.5rem 0;"><strong>Lack of feedback and control</strong> - Missing continuous improvement mechanisms</li>
+                        <li style="margin: 0.5rem 0;"><strong>Danger of losing risk signals in "security noise"</strong> - Important risks may be overlooked</li>
+                        <li style="margin: 0.5rem 0;"><strong>Assumed determinability</strong> - Assuming predictable outcomes in complex systems</li>
+                    </ul>
+                </div>
+
+                <h3>Good Practice Consistently Applied</h3>
+                <div style="background: linear-gradient(135deg, var(--accent), #d97706); color: white; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0; text-align: center;">
+                    <p style="font-size: 1.3rem; font-weight: bold; margin: 0;">
+                        💡 Key Principle
+                    </p>
+                    <p style="font-size: 1.1rem; margin-top: 0.5rem;">
+                        Good practice, consistently applied still beats sporadic pockets of best practice.
+                    </p>
+                </div>
+                
+                <p>But in the end, real security comes from first deciding together within the organization on the appropriate security strategy and its overall objectives:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">⚖️</div>
+                        <div class="stat-label">Compliance vs Security Beyond Compliance</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🤝</div>
+                        <div class="stat-label">Partnering vs Competing on Security</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">📊</div>
+                        <div class="stat-label">Risk Acceptance vs Risk Mitigation</div>
+                    </div>
+                </div>
+
+                <h3>Implementation Considerations</h3>
+                <p>Regardless of the particular framework selected, the consistent pursuit of cybersecurity comes at a cost and will need:</p>
+                
+                <ul style="background: var(--surface-light); padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                    <li style="margin: 0.75rem 0;">💰 <strong>Financial Resources</strong> - Budget allocation for tools, training, and implementation</li>
+                    <li style="margin: 0.75rem 0;">👥 <strong>Skilled Internal Resources</strong> - Dedicated security professionals and trained staff</li>
+                    <li style="margin: 0.75rem 0;">📋 <strong>Assigned Roles</strong> - Clear ownership and accountability structures</li>
+                    <li style="margin: 0.75rem 0;">📄 <strong>Documented Responsibilities</strong> - Not just documented but also accepted responsibilities</li>
+                    <li style="margin: 0.75rem 0;">🔍 <strong>External Support</strong> - Support from outside assessors and consultants</li>
+                    <li style="margin: 0.75rem 0;">🔄 <strong>Continuous Improvement</strong> - Regular reviews and updates</li>
+                </ul>
+
+                <p style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-left: 4px solid #ef4444; border-radius: 5px;">
+                    <strong>⚠️ Important:</strong> These requirements should be taken into account when selecting a framework to ensure that its application will be economically feasible and sustainable for the organization.
+                </p>
+
+                <h3>The Path Forward</h3>
+                <p>Usually, any framework needs to be adapted somewhat to the situation at hand and enriched with practices as needed, or augmented with relevant elements from other frameworks. Indeed, many companies follow such an approach.</p>
+                
+                <p>A next step would be to:</p>
+                <ol style="margin-left: 2rem;">
+                    <li style="margin: 0.5rem 0;">Run a risk assessment</li>
+                    <li style="margin: 0.5rem 0;">Build a roadmap for implementation of a cybersecurity/cyber risk management system</li>
+                    <li style="margin: 0.5rem 0;">Establish the required capabilities to keep all of this functioning, monitored, and up to date</li>
+                </ol>
+                
+                <p style="margin-top: 1.5rem;">Obviously, it is prudent to prioritize and close obvious or already previously identified gaps quickly, rather than waiting for the end of a more comprehensive cybersecurity transformation project.</p>
+            </section>
+
+            <section class="section" id="conclusion">
+                <h2>🎓 Conclusion</h2>
+                
+                <h3>Tom's Final Recommendation</h3>
+                <p>Given the time at hand, Tom, our hypothetical CEO, would probably be well advised to:</p>
+                <ol style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li style="margin: 0.75rem 0;">First run an IT-CMF:ISM assessment or any other enterprise-wide focused cybersecurity health check</li>
+                    <li style="margin: 0.75rem 0;">Explore the SANS Top 20</li>
+                    <li style="margin: 0.75rem 0;">Then take a step back for a more informed pick among the other, more comprehensive frameworks</li>
+                    <li style="margin: 0.75rem 0;">With a bit more time, familiarize himself with the upcoming Cyber Resilience Guidelines for Boards the World Economic Forum is currently developing—because this may well be what the board members who requested his presentation will use to gauge his preparedness</li>
+                </ol>
+
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+                    <h3 style="color: white; margin-bottom: 1.5rem;">📋 Standards and Frameworks - Organization Capability Statement</h3>
+                    
+                    <p style="font-size: 1.1rem; line-height: 1.8;">The following cyber risk management statement represents those organization capabilities CEO and board expect to be demonstrated in terms of cyber risk standards and frameworks:</p>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <p style="margin-bottom: 1rem;">The appropriate mix of global key standards and frameworks for cybersecurity are in evidence, monitored, reviewed and tailored to the organization context. These include voluntary codes such as the ISO/IEC 27000 series, COBIT 5, NIST, ISF, SANS Top 20 controls, IT-CMF, WEF, and ENISA.</p>
+                        
+                        <p style="margin-bottom: 1rem;">These can be tailored singly, or in combination and with local regulatory codes that may apply to the organization. They provide the organization with effective cyber risk management guidance and benchmarking.</p>
+                        
+                        <p style="margin-bottom: 1rem;">Management understands that consistently applied good practice beats sporadic pockets of "best" practice.</p>
+                        
+                        <p style="margin-bottom: 1rem;">There is a road map for implementation of the cyber risk management system and to establish the required capabilities to keep it functioning, monitored, and up to date.</p>
+                        
+                        <p>Cyber-related risks are treated and included in enterprise risk management (ERM) like any other risk to an organization and are aligned with the umbrella ISO 31000:2009, Risk management—Principles and guidelines standard.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--surface-light); border-radius: 10px;">
+                    <h3 style="color: var(--accent); font-size: 1.5rem;">🎯 The Bottom Line</h3>
+                    <p style="font-size: 1.2rem; margin-top: 1rem;">Consistently applied good practice beats sporadic pockets of "best" practice.</p>
+                    
+                    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--primary);">📚</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Choose wisely</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--secondary);">🔄</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Apply consistently</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent);">📈</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Improve continuously</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--secondary); border-radius: 5px;">
+                    <p style="font-style: italic;">
+                        <strong>Authors:</strong> Stefan A. Deutscher, Principal, Boston Consulting Group (BCG), Berlin Germany and William Yin, Senior Partner and Managing Director, Boston Consulting Group (BCG), Hong Kong
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                const section = document.getElementById(this.dataset.section);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Framework card expansion
+        function toggleFramework(element) {
+            const card = element.parentElement;
+            const details = card.querySelector('.framework-details');
+            
+            card.classList.toggle('expanded');
+            details.classList.toggle('expanded');
+        }
+
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        let searchTimeout;
+        
+        searchBox.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchTerm = this.value.toLowerCase();
+                removeHighlights();
+                
+                if (searchTerm.length > 2) {
+                    highlightText(searchTerm);
+                }
+            }, 300);
+        });
+
+        function removeHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), el);
+                parent.normalize();
+            });
+        }
+
+        function highlightText(searchTerm) {
+            const sections = document.querySelectorAll('.section');
+            let firstMatch = null;
+            
+            sections.forEach(section => {
+                const walker = document.createTreeWalker(
+                    section,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                let node;
+                while (node = walker.nextNode()) {
+                    const text = node.nodeValue;
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    
+                    if (regex.test(text)) {
+                        const span = document.createElement('span');
+                        span.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+                        node.parentNode.replaceChild(span, node);
+                        
+                        if (!firstMatch) {
+                            firstMatch = span.querySelector('.highlight');
+                        }
+                    }
+                }
+            });
+            
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Scroll spy for active navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    current = section.id;
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
