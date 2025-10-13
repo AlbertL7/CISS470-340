@@ -1,1 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 8: Treating Cyber Risks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary: #00338d;
+            --primary-dark: #002159;
+            --secondary: #10b981;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #00bcd4;
+            --warning: #f59e0b;
+            --gradient: linear-gradient(135deg, #00338d 0%, #00bcd4 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-light);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 51, 141, 0.4);
+        }
+
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--surface-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 51, 141, 0.3);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .treatment-card {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .treatment-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .aspect-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .aspect-card {
+            background: linear-gradient(135deg, var(--surface-light), var(--surface));
+            padding: 1.5rem;
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--accent);
+        }
+
+        .aspect-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .aspect-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .framework-diagram {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .lines-of-defense {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+
+        .defense-line {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .defense-line:nth-child(1) { border-top: 5px solid #10b981; }
+        .defense-line:nth-child(2) { border-top: 5px solid #f59e0b; }
+        .defense-line:nth-child(3) { border-top: 5px solid #ef4444; }
+
+        .defense-line:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            color: white;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight {
+            background: yellow;
+            color: black;
+            padding: 2px 4px;
+            border-radius: 3px;
+            animation: pulse 1s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .reading-time {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, rgba(0, 51, 141, 0.1), rgba(0, 188, 212, 0.1));
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--warning);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            color: var(--accent);
+            cursor: help;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--surface-light);
+            color: var(--text);
+            text-align: center;
+            border-radius: 8px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .treatment-options {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .treatment-options ol {
+            margin-left: 1.5rem;
+        }
+
+        .treatment-options li {
+            margin: 0.75rem 0;
+            color: var(--text);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>💊 Chapter 8: Treating Cyber Risks</h1>
+                <div class="reading-time">⏱️ Estimated reading time: 22 minutes</div>
+            </div>
+            <input type="text" class="search-box" placeholder="🔍 Search chapter..." id="searchBox">
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-title">Navigation</div>
+            <div class="nav-item active" data-section="intro">📖 Introduction</div>
+            <div class="nav-item" data-section="nuance">🎯 Proper Nuance</div>
+            <div class="nav-item" data-section="profile">📊 Risk Profile</div>
+            <div class="nav-item" data-section="treatment">💊 Treatment</div>
+            <div class="nav-item" data-section="alignment">🔄 Alignment</div>
+            <div class="nav-item" data-section="practice">⚙️ Practicing Treatment</div>
+            <div class="nav-item" data-section="business">💼 Business as Usual</div>
+            <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
+        </nav>
+
+        <main class="content">
+            <div class="intro-box">
+                <h2 style="color: white; border: none;">Welcome to Chapter 8</h2>
+                <p>Learn how to treat cyber risks effectively through KPMG's integrated approach. Discover how to align cybersecurity with enterprise risk management and make it "business as usual" rather than a specialized concern.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Risk Profile Aspects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Treatment Options</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Security is an Illusion</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Lines of Defense</div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section" id="intro">
+                <h2>📖 Introduction: Tom's Challenge to Nathan</h2>
+                <p><strong>By John Hermans (KPMG Cyber Lead Partner EMEA) and Ton Diemont (KPMG Senior Manager)</strong></p>
+                
+                <div class="quote-box">
+                    <p>"So give me the right guidelines for how to treat cyber risk and bring cybersecurity back to basics."</p>
+                    <p style="text-align: right; margin-top: 1rem;">— CEO Tom to Chief Risk Officer Nathan</p>
+                </div>
+                
+                <p>Cybersecurity has been in the spotlight for the past few years. Due to the number and seriousness of cyber incidents, the media's focus on such incidents, and the importance of tackling cyber issues in the extensive digitization of most organizations, this area requires the attention of directors and managers everywhere.</p>
+
+                <div class="warning-box">
+                    <strong>⚠️ Key Challenge:</strong> But it needs to be tackled in the appropriate way and with the required subtlety, as a component of integral risk management.
+                </div>
+
+                <p>The fact that cybersecurity is important to every organization needs no further explanation. On an almost daily basis, various incidents demonstrate how great the risks are and that individual hackers and professionally organized cybercriminals are extremely active.</p>
+
+                <h3>The Complexity Problem</h3>
+                <p>To many, however, this is not a simple task because the world of cybersecurity seems elusive due to:</p>
+                <ul style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li style="margin: 0.5rem 0;">🔧 Its specialist character</li>
+                    <li style="margin: 0.5rem 0;">💬 Technical jargon used</li>
+                    <li style="margin: 0.5rem 0;">🎯 Difficulty distinguishing primary from secondary issues</li>
+                    <li style="margin: 0.5rem 0;">📰 Media coverage contributing to culture of fear</li>
+                </ul>
+
+                <p>Almost no distinction is made between imposters on eBay, hackers who crash websites, and organized criminal gangs using systematic strategies to steal company secrets (crown jewels). Such distinctions are extremely important because not all organizations are equally attractive to different types of cybercriminals.</p>
+
+                <div class="success-box">
+                    <strong>✅ The Solution:</strong> It is truly essential that heads of organizations themselves actively lead the crusade for cybersecurity. Within the complexity, leaders need to consider relevant issues soundly and, at the very least, pose the right questions.
+                </div>
+            </section>
+
+            <section class="section" id="nuance">
+                <h2>🎯 Treating Cybersecurity Risk with Proper Nuance</h2>
+                
+                <p>The seriousness of cybersecurity risks means that cybersecurity does require boardroom attention—but in the appropriate context. Organizations need to avoid panicked responses that have not been thought through.</p>
+
+                <h3>The Media Problem</h3>
+                <p>The media regularly paint a dramatic picture of cybersecurity as if numerous organizations are helpless victims of cybercriminals. Moreover, all types of crime are lumped together, causing anxiety among organizations that is not based on facts.</p>
+                
+                <div class="treatment-card">
+                    <h4>📊 Different Profiles for Different Organizations</h4>
+                    <p>Small and medium-sized enterprises (SMEs) have a completely different profile than multinationals, and an SME need have few worries about many of the incidents reported in the media.</p>
+                </div>
+
+                <h3>The Truth is More Nuanced</h3>
+                <div class="success-box">
+                    <p><strong>The reality:</strong></p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>✅ Risks are certainly controllable</li>
+                        <li>✅ Cybercriminals are not invincible geniuses</li>
+                        <li>✅ Government and enterprises have significant knowledge to fight cybercrime</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Important Reality Check:</strong> We need to realize that 100% security is an illusion and that the pursuit of total security will lead not only to frustration but also possibly to a false sense of security.
+                </div>
+
+                <h3>Business as Usual Approach</h3>
+                <p>We ought to start considering cybersecurity as "business as usual," as a theme that deserves attention in much the same way as the risk of fire or fraud. These are themes tackled by management in a structural way, from a risk-management perspective, with defenses and responses not founded on building a completely watertight system.</p>
+
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0;">
+                    <h4 style="color: white;">🔄 The New Perspective</h4>
+                    <p>Many organizations need to examine cybersecurity differently. They should not take decisions based on fear of what's happening outside, but reason from:</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Their own strengths</li>
+                        <li>Awareness of risks run by their own organization</li>
+                        <li>Accordance with the organization's risk profile</li>
+                        <li>Their specific nature</li>
+                    </ul>
+                </div>
+
+                <p>The starting point of the exploration of an organization's cyber risk is the determination of that organization's <strong>risk profile and risk appetite</strong>.</p>
+
+                <h3>Key Questions for Risk Profile</h3>
+                <ul style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li style="margin: 0.5rem 0;">🎯 "How interesting is the organization to potential cyber criminals?"</li>
+                    <li style="margin: 0.5rem 0;">🔗 "How dependent is the organization on the services of other organizations?"</li>
+                    <li style="margin: 0.5rem 0;">⚖️ "How much risk is the organization willing to accept?"</li>
+                </ul>
+            </section>
+
+            <section class="section" id="profile">
+                <h2>📊 Determining the Cyber Risk Profile</h2>
+                
+                <p>In order to determine an organization's cyber risk profile, we need to use a model that covers the following five aspects:</p>
+                
+                <div class="aspect-container">
+                    <div class="aspect-card">
+                        <div class="aspect-number">1</div>
+                        <h4 style="margin-top: 1.5rem;">Context & Environment</h4>
+                        <p>What is the organization's internal and external context? In which markets is it active? How dependent on digitization? How linked to other organizations that could form additional risk?</p>
+                    </div>
+                    <div class="aspect-card">
+                        <div class="aspect-number">2</div>
+                        <h4 style="margin-top: 1.5rem;">Targets</h4>
+                        <p>What could be relevant intended targets within the organization, and also within the chain in which the organization is active?</p>
+                    </div>
+                    <div class="aspect-card">
+                        <div class="aspect-number">3</div>
+                        <h4 style="margin-top: 1.5rem;">Threat Actors</h4>
+                        <p>To which group of cybercriminals, and why, is the organization an attractive target? Which resources could the attacker deploy?</p>
+                    </div>
+                    <div class="aspect-card">
+                        <div class="aspect-number">4</div>
+                        <h4 style="margin-top: 1.5rem;">Vulnerabilities & Resilience</h4>
+                        <p>Which vulnerabilities could cybercriminals exploit? Not only technical but also human actions. What is the level of resilience? How fast can the organization recover?</p>
+                    </div>
+                    <div class="aspect-card">
+                        <div class="aspect-number">5</div>
+                        <h4 style="margin-top: 1.5rem;">Regulatory Requirements</h4>
+                        <p>What are the regulatory and legislative requirements with regard to cybersecurity that pertain to the organization?</p>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>💡 Key Outcome:</strong> Based on analysis of these five aspects, an organization can determine its risk profile, the amount of risk it's willing to accept (risk appetite), and implement the appropriate set of cybersecurity measures.
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Remember:</strong> It will never be possible to achieve 100% security, so there is no point in pursuing such an aim!
+                </div>
+            </section>
+
+            <section class="section" id="treatment">
+                <h2>💊 Treating Cyber Risk</h2>
+                
+                <p>Cyber risk management programs must consider an organization's risk appetite. Specific cyber risks can and must be treated by applying necessary measures and reacting effectively when subjected to cyber attack.</p>
+
+                <h3>Key Considerations for Treatment</h3>
+
+                <div class="treatment-card">
+                    <h4>👑 Focus on Your Crown Jewels</h4>
+                    <p>In view of the fact that it is impossible to protect everything, cybersecurity requires special attention regarding the protection of the organization's most valued information. It is therefore vital that an organization specify its crown jewels that need to be protected.</p>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>👥 Humans Remain the Weakest Link</h4>
+                    <p>It is essential to have technical systems to protect, identify intruders, and respond to attacks, but human beings are actually the weakest link in many organizations. However, humans may also be the best asset in the organization's defense, if they are properly informed and trained.</p>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>🔍 Complementing Preventative with Detective Measures</h4>
+                    <p>Whereas organizations once primarily relied on preventative measures to avoid cybersecurity incidents, attention is increasingly being paid to detection of attacks, to enable immediate and appropriate response. We see growing use of technical monitoring facilities to detect and analyze alien traffic.</p>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>🚀 Focus on Organization's Capability to Respond</h4>
+                    <p>We believe it is unfortunately only a question of time before an organization becomes a victim of a cyber incident. Instead of being helpless, an organization can prepare for serious attacks. It's vital to include processing of cyber incidents in crisis plans, including formulation of communication protocols during incidents.</p>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>🤝 Cooperation Is Essential</h4>
+                    <p>Besides being able to respond to incidents, it's crucial for organizations to remain up to date and informed of emerging threats, and learn from other organizations. Various organizations exist to help:</p>
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li>National level (National Cyber Security Centre)</li>
+                        <li>Sector level (International Sharing and Analysis Centers - ISACs)</li>
+                        <li>Informal cooperative associations (CISO groups within industries)</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;"><strong>Remember:</strong> An incident at another organization is also a potential threat to one's own organization.</p>
+                </div>
+            </section>
+
+            <section class="section" id="alignment">
+                <h2>🔄 Alignment of Cyber Risk Treatment</h2>
+                
+                <p>Technology alone is not the answer to cybersecurity issues. The answer lies in an integrated approach to cyber risk treatment, focusing on both softer elements (governance, culture, behavior) and harder ones (technology).</p>
+
+                <h3>Integrated Approach Components</h3>
+                <div class="aspect-container">
+                    <div class="aspect-card" style="border-top-color: #10b981;">
+                        <h4>🎯 Leadership and Governance</h4>
+                        <p>Organization leaders need to demonstrate, in word and deed, that they regard themselves as owners of cybersecurity, showing they intend to manage associated risks adequately.</p>
+                    </div>
+                    <div class="aspect-card" style="border-top-color: #f59e0b;">
+                        <h4>👥 Human Behavior</h4>
+                        <p>Cybersecurity involves not only appropriate technical measures but also creation of a culture where people are alert to and aware of ways they can contribute to security.</p>
+                    </div>
+                    <div class="aspect-card" style="border-top-color: #ef4444;">
+                        <h4>📊 Information Risk Management</h4>
+                        <p>An adequate approach to all-embracing and effective risk management regarding information provision, also in relation to partner organizations.</p>
+                    </div>
+                    <div class="aspect-card" style="border-top-color: #8b5cf6;">
+                        <h4>🔄 Business Continuity & Crisis Management</h4>
+                        <p>Good preparation for possible incidents and ability to minimize their impact. Involves crisis and stakeholder management.</p>
+                    </div>
+                    <div class="aspect-card" style="border-top-color: #06b6d4;">
+                        <h4>⚙️ Operations and Technology</h4>
+                        <p>Implementation of checks and control measures to identify cybersecurity risks and minimize impact of incidents.</p>
+                    </div>
+                    <div class="aspect-card" style="border-top-color: #ec4899;">
+                        <h4>⚖️ Legislation</h4>
+                        <p>Complying with legislation regarding information protection.</p>
+                    </div>
+                </div>
+
+                <h3>Benefits of Holistic Model</h3>
+                <div class="success-box">
+                    <ul>
+                        <li>✅ Minimization of risk and consequences of cyber attacks</li>
+                        <li>✅ Better decisions in cybersecurity field</li>
+                        <li>✅ Clear lines of communication on cybersecurity</li>
+                        <li>✅ Contribution to better reputation</li>
+                        <li>✅ Enhancement of knowledge and competences</li>
+                        <li>✅ Benchmarking against peers</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="practice">
+                <h2>⚙️ Practicing Cyber Risk Treatment</h2>
+                
+                <p>To continuously manage and mitigate cyber risks, organizations need to address these risks in a flexible and ongoing manner. This requires a central and overarching perspective on risks requiring treatment and management attention.</p>
+
+                <div class="warning-box">
+                    <strong>🔄 Dynamic Environment:</strong> An emerging threat landscape, change in organization activities, and shift to new technologies all indicate the cyber risk landscape is changing. Current cybersecurity methodologies haven't captured this dynamically in practice.
+                </div>
+
+                <p>For an organization to provide a real-time and accurate view of the current risk environment would be the next step in cyber risk management maturity.</p>
+
+                <div class="framework-diagram">
+                    <h3>Overarching Perspective Components</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem;">🎯</div>
+                            <div class="stat-label">Central View</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem;">🔄</div>
+                            <div class="stat-label">Flexible Response</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem;">⚡</div>
+                            <div class="stat-label">Real-time Accuracy</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="font-size: 1.5rem;">📈</div>
+                            <div class="stat-label">Continuous Management</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="business">
+                <h2>💼 Business as Usual Approaches</h2>
+                
+                <h3>1. Integration into Enterprise Risk Management</h3>
+                <div class="treatment-card">
+                    <p>Cyber risk management should be linked to/integrated in the enterprise risk management (ERM) of an organization. Despite the topic and specific expertise, the approach must be fully aligned to existing risk management processes.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Benefits:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Supports consistent risk language and classification</li>
+                        <li>Better and more quickly understood by stakeholders</li>
+                        <li>Enables top-down approach where IRM and ERM are aligned</li>
+                        <li>Shows added value by providing insight into opportunities and risks</li>
+                    </ul>
+                </div>
+
+                <h3>2. Three Lines of Defense Model</h3>
+                <div class="lines-of-defense">
+                    <div class="defense-line">
+                        <h4>First Line</h4>
+                        <p><strong>Primary Business</strong></p>
+                        <p>Cybersecurity risk should be a primary business responsibility, not solely IT. Should be part of annual performance objectives of senior management.</p>
+                    </div>
+                    <div class="defense-line">
+                        <h4>Second Line</h4>
+                        <p><strong>Support Functions</strong></p>
+                        <p>Multidisciplinary team of risk managers, security officers, compliance, legal, and HR representatives providing balanced views.</p>
+                    </div>
+                    <div class="defense-line">
+                        <h4>Third Line</h4>
+                        <p><strong>Independent Audit</strong></p>
+                        <p>Audit as the independent observer creating full transparent views and supporting appropriate steering and decisions.</p>
+                    </div>
+                </div>
+
+                <h3>3. Managing with Predefined Risk Appetite</h3>
+                <div class="treatment-card">
+                    <p>Many organizations have a "Pavlovian response" to immediately start drafting controls when risks are identified, without asking what level of risk is acceptable. These decisions are often made by cyber risk professionals without consulting business representatives.</p>
+                    
+                    <div class="warning-box" style="margin-top: 1rem;">
+                        <strong>⚠️ Key Point:</strong> The starting point of managing cyber risks is defining the organization's risk appetite—an exercise to be performed by business representatives, not cybersecurity specialists.
+                    </div>
+                    
+                    <p style="margin-top: 1rem;">Follows ISO 31000:2009, Risk Management—Principles and Guidelines. Organizations increasingly formalize risk appetite statements containing both quantitative and qualitative components.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Note on Quantification:</strong> The qualitative components are most applicable for cyber risk because quantifying cyber risk impact is still based on empiric and rough estimations, not proven quantitative methodology. We lack historical, actuarial data despite efforts by organizations like the World Economic Forum.</p>
+                </div>
+
+                <h3>4. Using Embedded Risk Management Processes</h3>
+                <div class="treatment-card">
+                    <p>When cyber is assessed as relevant, it can be assessed and treated by senior management and experienced specialists. The cyber risk assessment process (identify, analyze, evaluate) should be identical to that used for ERM.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>ALE Methodology:</strong> Annualized Loss Expectancy can assist in defining cyber risk appetite by expressing all losses as expected annual loss, providing consistent approach and evaluation.</p>
+                    
+                    <div class="success-box" style="margin-top: 1rem;">
+                        <p><strong>Question:</strong> Does setting risk appetite differ between small and large organizations?</p>
+                        <p><strong>Answer:</strong> No, basically not. Most likely the thresholds for analyzing and evaluating risks differ, as larger organizations potentially have larger financial buffers and higher appetite for risk.</p>
+                    </div>
+                </div>
+
+                <h3>5. Treatment Options Aligned with ISO 31000</h3>
+                <div class="treatment-options">
+                    <p>Traditional risk treatment techniques only treat risk as "threats" (negative consequences). Modern treatment also addresses opportunities (positive consequences). Appropriate combined treatment options are not mutually exclusive and should be aligned with ISO 31000:2009:</p>
+                    
+                    <ol>
+                        <li><strong>Avoiding</strong> the activity that gives rise to the risk</li>
+                        <li><strong>Taking or increasing</strong> the risk in order to pursue an opportunity</li>
+                        <li><strong>Removing</strong> the risk source</li>
+                        <li><strong>Changing</strong> the likelihood</li>
+                        <li><strong>Changing</strong> the consequences</li>
+                        <li><strong>Sharing</strong> the risk with other parties (e.g., risk financing, contracts)</li>
+                        <li><strong>Retaining</strong> the risk by informed decision</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <strong>💰 Cost-Benefit Balance:</strong> Prioritized risk treatment options should be aligned with existing organization objectives and strategies so there's only a need to spend money once. If certain investments must be postponed, the organization should follow a formal temporary risk assessment and well-balanced acceptance process.
+                </div>
+
+                <h3>Impact Criteria Beyond Financial</h3>
+                <p>A key element in supporting unification is ensuring that next to financial impact criteria, the non-financial impact criteria are also formalized:</p>
+                <ul style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li>Regulatory impacts</li>
+                    <li>Customer impacts</li>
+                    <li>Legal consequences</li>
+                    <li>Compliance issues</li>
+                    <li>Operational disruption</li>
+                    <li>Staff impacts</li>
+                    <li>Reputational damage</li>
+                </ul>
+                <p style="margin-top: 1rem;">These should preferably be linked to financial criteria, meaning severe non-financial cyber occurrence is treated equally as risk with high financial impact.</p>
+            </section>
+
+            <section class="section" id="conclusion">
+                <h2>🎓 Conclusion</h2>
+                
+                <p>The following cyber risk management statement represents those organization capabilities CEO and board expect to be demonstrated in terms of treating cyber risks:</p>
+                
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+                    <h3 style="color: white; margin-bottom: 1.5rem;">📋 TREATING CYBER RISKS - Organization Capability Statement</h3>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 8px;">
+                        <p style="margin-bottom: 1rem;">The organization's risk treatment capabilities align with its risk profile, risk appetite and context. Risk treatment methodology is not reinvented for cyber risks but is a subset of the ERM system. Risk treatment covers all cyber risk sources, likelihoods, and impacts.</p>
+                        
+                        <p style="margin-bottom: 1rem;">Risk sources include supply chain, cloud, mobile devices, and social media. Impacts are either noninsurable in nature, or insurable in part or whole, and may take various forms (such as fines, reputational damage, loss of customers, loss of employees, and stock devaluation).</p>
+                        
+                        <p style="margin-bottom: 1rem;">Impact management preparations are required for insurable risks, crisis management, forensics investigation, customer notification, and business interruption. Cyber risk treatment is prioritized, reiterative, and cyclical. Risk owners complete risk and control action plans that balance threat with opportunity to organization objectives and consider cost-benefit.</p>
+                        
+                        <p>Appropriate combined treatment options are not mutually exclusive, are appropriate to the case in hand, and are aligned with ISO 31000:2009, Risk Management—Principles and Guidelines by: (1) avoiding the activity that gives rise to the risk; (2) taking or increasing the risk in order to pursue an opportunity; (3) removing the risk source; (4) changing the likelihood; (5) changing the consequences; (6) sharing the risk with other parties (e.g., risk financing, contracts); and (7) retaining the risk by informed decision.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--surface-light); border-radius: 10px;">
+                    <h3 style="color: var(--accent); font-size: 1.5rem;">🎯 The Bottom Line</h3>
+                    <p style="font-size: 1.2rem; margin-top: 1rem;">Cyber risk management should be "business as usual" - integrated into enterprise risk management, not treated as a specialized IT concern.</p>
+                    
+                    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--primary);">👑</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Protect crown jewels</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--secondary);">🤝</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Cooperate & share</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent);">💼</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Make it business as usual</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 188, 212, 0.1); border-left: 4px solid var(--accent); border-radius: 5px;">
+                    <h4>About KPMG</h4>
+                    <p>KPMG operates as a global network of independent member firms offering audit, tax and advisory services. Member firms can be found in 155 countries, collectively employing more than 162,000 people. KPMG contributes to effective functioning of international capital markets and supports reforms that strengthen markets' credibility.</p>
+                    
+                    <h4 style="margin-top: 1rem;">About John Hermans</h4>
+                    <p>John is a partner at KPMG Advisory NV–Cyber Lead Partner Europe, Middle East, and Africa. He is responsible for KPMG's cybersecurity services in the Netherlands and within the EMA region. John is a recognized, frequent speaker on cyber strategies and cyber risk management.</p>
+                    
+                    <h4 style="margin-top: 1rem;">About Ton Diemont</h4>
+                    <p>Ton is a senior manager at KPMG Advisory NV and a former head of IT risk within operational risk management office as CISO of an international bank. He has more than 21 years of information and operational risk management experience within the financial industry.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                const section = document.getElementById(this.dataset.section);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        let searchTimeout;
+        
+        searchBox.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchTerm = this.value.toLowerCase();
+                removeHighlights();
+                
+                if (searchTerm.length > 2) {
+                    highlightText(searchTerm);
+                }
+            }, 300);
+        });
+
+        function removeHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), el);
+                parent.normalize();
+            });
+        }
+
+        function highlightText(searchTerm) {
+            const sections = document.querySelectorAll('.section');
+            let firstMatch = null;
+            
+            sections.forEach(section => {
+                const walker = document.createTreeWalker(
+                    section,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                let node;
+                while (node = walker.nextNode()) {
+                    const text = node.nodeValue;
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    
+                    if (regex.test(text)) {
+                        const span = document.createElement('span');
+                        span.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+                        node.parentNode.replaceChild(span, node);
+                        
+                        if (!firstMatch) {
+                            firstMatch = span.querySelector('.highlight');
+                        }
+                    }
+                }
+            });
+            
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Scroll spy for active navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    current = section.id;
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
