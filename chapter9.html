@@ -1,1 +1,1195 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 9: Treating Cyber Risks Using Process Capabilities</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0070ba;
+            --primary-dark: #004c8c;
+            --secondary: #00a651;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #ff6b35;
+            --warning: #ffc107;
+            --gradient: linear-gradient(135deg, #0070ba 0%, #00a651 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 280px;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-light);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 112, 186, 0.4);
+        }
+
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--surface-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 112, 186, 0.3);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .domain-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .domain-card {
+            background: linear-gradient(135deg, var(--surface-light), var(--surface));
+            padding: 1.5rem;
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .domain-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .domain-card.edm { border-top: 5px solid #ff6b35; }
+        .domain-card.apo { border-top: 5px solid #00a651; }
+        .domain-card.bai { border-top: 5px solid #0070ba; }
+        .domain-card.dss { border-top: 5px solid #ffc107; }
+        .domain-card.mea { border-top: 5px solid #e91e63; }
+
+        .domain-abbr {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .process-card {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--secondary);
+            transition: all 0.3s ease;
+        }
+
+        .process-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .risk-table {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .risk-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .risk-table th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .risk-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--surface);
+        }
+
+        .risk-table tr:hover {
+            background: var(--surface);
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            color: white;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight {
+            background: yellow;
+            color: black;
+            padding: 2px 4px;
+            border-radius: 3px;
+            animation: pulse 1s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .reading-time {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, rgba(0, 112, 186, 0.1), rgba(0, 166, 81, 0.1));
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid var(--warning);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: rgba(0, 166, 81, 0.1);
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .lifecycle-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--surface-light);
+            border-radius: 10px;
+        }
+
+        .lifecycle-step {
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .lifecycle-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .lifecycle-step:last-child::after {
+            display: none;
+        }
+
+        .lifecycle-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            color: var(--accent);
+            cursor: help;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--surface-light);
+            color: var(--text);
+            text-align: center;
+            border-radius: 8px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .expandable-content.expanded {
+            max-height: 2000px;
+        }
+
+        .expand-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .expand-button:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .lifecycle-step::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>⚙️ Chapter 9: Treating Cyber Risks Using Process Capabilities</h1>
+                <div class="reading-time">⏱️ Estimated reading time: 25 minutes</div>
+            </div>
+            <input type="text" class="search-box" placeholder="🔍 Search chapter..." id="searchBox">
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-title">Navigation</div>
+            <div class="nav-item active" data-section="intro">📖 Introduction</div>
+            <div class="nav-item" data-section="glue">🔗 Process as Glue</div>
+            <div class="nav-item" data-section="tribal">👥 Tribal Knowledge</div>
+            <div class="nav-item" data-section="cobit">📊 COBIT 5 Framework</div>
+            <div class="nav-item" data-section="domains">🎯 Five Domains</div>
+            <div class="nav-item" data-section="lifecycle">🔄 Process Lifecycle</div>
+            <div class="nav-item" data-section="risktable">📋 Risk & Capabilities</div>
+            <div class="nav-item" data-section="benefits">✅ CEO Benefits</div>
+            <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
+        </nav>
+
+        <main class="content">
+            <div class="intro-box">
+                <h2 style="color: white; border: none;">Welcome to Chapter 9</h2>
+                <p>Discover how ISACA's COBIT 5 framework provides the essential processes that bind cybersecurity together. Learn why documented processes are critical and how they enable effective cyber risk management across your entire organization.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">COBIT Domains</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">37</div>
+                        <div class="stat-label">Process Capabilities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">40+</div>
+                        <div class="stat-label">Risk Scenarios</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">140K</div>
+                        <div class="stat-label">ISACA Professionals</div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section" id="intro">
+                <h2>📖 Introduction: The Center of the Diagram</h2>
+                <p><strong>By Todd Fitzgerald, Global Director of Information Security at Grant Thornton International and ISACA Member</strong></p>
+                
+                <div class="quote-box">
+                    <p>Tom stared at the center of the diagram he had penciled. His chief risk officer, Nathan, looked across to their chief of information security, Maria, and invited her to explain the word "process" at the center.</p>
+                    
+                    <p style="margin-top: 1rem;">Maria obliged, "Process is located at the center of our business model for information security. We understand that cyber risk is an enterprise-wide risk requiring organization-wide solutions. I'll define these processes for you to clarify how they collectively add clear value to our organization. Interrelationships between process and the people, technology, and other enterprise functions determine the effectiveness and efficiency of our cyber risk management system."</p>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div style="display: inline-block; background: var(--surface-light); padding: 2rem; border-radius: 10px;">
+                        <h3 style="color: var(--accent);">The Business Model</h3>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; margin-top: 1rem;">
+                            <div>👥 People</div>
+                            <div>➜</div>
+                            <div style="background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 10px; font-weight: bold;">PROCESS</div>
+                            <div>➜</div>
+                            <div>💻 Technology</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="glue">
+                <h2>🔗 Cybersecurity Processes Are the Glue That Binds</h2>
+                
+                <p>Maintaining effective cybersecurity processes is too critical to an organization to leave to chance, yet many organizations continue to rely on undocumented processes, tribal knowledge, and paying security professionals to manage routine operational security controls.</p>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Critical Truth:</strong> Cybersecurity processes form the critical piece between those performing the security function and the technology.
+                </div>
+
+                <h3>The Process Trinity</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                    <div class="process-card">
+                        <h4>🎯 Objectives</h4>
+                        <p>Processes are developed to meet specific objectives through creation of multiple outputs</p>
+                    </div>
+                    <div class="process-card">
+                        <h4>📋 Practices</h4>
+                        <p>Include documented practices and activities that ensure consistency</p>
+                    </div>
+                    <div class="process-card">
+                        <h4>📊 Outputs</h4>
+                        <p>Generate consistent, quality outputs regardless of who performs them</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="tribal">
+                <h2>👥 Undocumented Processes = Tribal Knowledge Dependency</h2>
+                
+                <p>Some organizations operate with processes that are either ill-defined or undocumented, resulting in inconsistent activities and different outputs of differing quality, depending on the individual performing the process.</p>
+
+                <h3>The Vulnerability Management Example</h3>
+                <div class="process-card">
+                    <h4>Scenario: Two Employees, Two Approaches</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+                        <div style="background: var(--surface); padding: 1rem; border-radius: 8px;">
+                            <strong>Employee A:</strong>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Uses Tool A</li>
+                                <li>Scans monthly</li>
+                                <li>Patches critical vulnerabilities in 7 days</li>
+                            </ul>
+                        </div>
+                        <div style="background: var(--surface); padding: 1rem; border-radius: 8px;">
+                            <strong>Employee B:</strong>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Uses Tool B</li>
+                                <li>Different schedule</li>
+                                <li>Fixes all vulnerabilities in 60 days</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--warning);"><strong>Result:</strong> Different outcomes, increased risk, inability to articulate organization's risk posture</p>
+                </div>
+
+                <h3>Problems with Undocumented Processes</h3>
+                <div class="warning-box">
+                    <ol style="margin-left: 1.5rem;">
+                        <li><strong>Assumption trap:</strong> Everyone assumes others are doing the same thing</li>
+                        <li><strong>No improvement:</strong> Processes cannot be universally improved</li>
+                        <li><strong>Time waste:</strong> Constant re-communication of processes</li>
+                        <li><strong>Knowledge gap:</strong> Junior members can't learn from senior best practices</li>
+                        <li><strong>Reinvention:</strong> The wheel is reinvented again and again</li>
+                        <li><strong>Accountability void:</strong> Uncertainty about who owns and is accountable</li>
+                    </ol>
+                </div>
+
+                <h3>Why Particular Attention to Cybersecurity Processes?</h3>
+                <div class="success-box">
+                    <strong>💡 Simple Answer:</strong> Even the slightest failure in one of these processes can cause issues with confidential disclosure, availability, or data integrity of the systems in place to support the mission.
+                </div>
+
+                <h3>No Intrinsic Motivation to Document</h3>
+                <p>Information technology professionals generally dislike creating documentation because it takes time away from:</p>
+                <ul style="margin-left: 2rem; background: var(--surface-light); padding: 1.5rem; border-radius: 10px;">
+                    <li>🚀 Exploring new technology</li>
+                    <li>💻 Creating new applications and databases</li>
+                    <li>🔧 Resolving system or end-user issues</li>
+                </ul>
+                
+                <p style="margin-top: 1rem;">Without clear direction and governance to ensure process development is an organizational priority, these processes are unlikely to be created.</p>
+
+                <h3>Move Routine Actions to Operations</h3>
+                <div class="process-card">
+                    <p>Information security personnel are more expensive resources relative to computer operations areas. These resources should be leveraged to:</p>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>Design</strong> the most appropriate processes</li>
+                        <li><strong>Move</strong> processes to production operation ASAP</li>
+                        <li><strong>Execute</strong> via less expensive resources (SOC, MSSP)</li>
+                        <li><strong>Focus</strong> on exception reports and further analysis</li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--accent);">This frees cybersecurity professionals to focus on high-value efforts versus routine operational work.</p>
+                </div>
+            </section>
+
+            <section class="section" id="cobit">
+                <h2>📊 Leveraging ISACA COBIT 5 Processes</h2>
+                
+                <p>COBIT 5 processes describe an organized set of practices and activities to achieve certain objectives and produce outputs in support of achieving cybersecurity objectives aligned to enterprise objectives.</p>
+
+                <div class="success-box">
+                    <strong>📚 Key Resources:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>ISACA COBIT 5 Implementation (2012)</li>
+                        <li>COBIT 5 for Information Security Professional Guide (2012)</li>
+                        <li>Common business scenarios with corresponding risks and capabilities</li>
+                    </ul>
+                </div>
+
+                <h3>Components of Cybersecurity Processes</h3>
+                <div class="lifecycle-flow">
+                    <div class="lifecycle-step">
+                        <div class="lifecycle-icon">📝</div>
+                        <strong>Define</strong>
+                    </div>
+                    <div class="lifecycle-step">
+                        <div class="lifecycle-icon">🔨</div>
+                        <strong>Create</strong>
+                    </div>
+                    <div class="lifecycle-step">
+                        <div class="lifecycle-icon">📊</div>
+                        <strong>Monitor</strong>
+                    </div>
+                    <div class="lifecycle-step">
+                        <div class="lifecycle-icon">🔄</div>
+                        <strong>Update</strong>
+                    </div>
+                    <div class="lifecycle-step">
+                        <div class="lifecycle-icon">🗑️</div>
+                        <strong>Retire</strong>
+                    </div>
+                </div>
+
+                <p>Each cybersecurity process has a lifecycle. New technologies may negate the need for a process or significantly alter it.</p>
+
+                <h3>Process Components Include:</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">📋</div>
+                        <div class="stat-label">Process Description</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">👥</div>
+                        <div class="stat-label">Stakeholder Identification</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🎯</div>
+                        <div class="stat-label">Goals & Lifecycle</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">✅</div>
+                        <div class="stat-label">Good Practices</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">📊</div>
+                        <div class="stat-label">Metrics</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 1.5rem;">🔄</div>
+                        <div class="stat-label">Inputs/Outputs</div>
+                    </div>
+                </div>
+
+                <h3>Cybersecurity Practices and Activities</h3>
+                <div class="process-card">
+                    <h4>Example: Manage Endpoint Security Practice</h4>
+                    <p><strong>Purpose:</strong> Ensure endpoints (laptop, desktop, server, mobile devices) are secured at a level equal to or greater than defined security requirements.</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Inputs:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Information security architecture</li>
+                        <li>Service-level agreements</li>
+                        <li>Physical inventory audits</li>
+                        <li>Reports of security violations</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>Activities:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Configure endpoints securely</li>
+                        <li>Categorize endpoint types and control needs</li>
+                        <li>Identify potential entry points</li>
+                        <li>Analyze target attractiveness</li>
+                        <li>Implement network monitoring</li>
+                        <li>Dispose of endpoints securely</li>
+                        <li>Examine attack history</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="domains">
+                <h2>🎯 The Five COBIT 5 Domains</h2>
+                
+                <p>Different types of cybersecurity processes work together across five domains:</p>
+
+                <div class="domain-container">
+                    <div class="domain-card edm" onclick="toggleDomain('edm')">
+                        <div class="domain-abbr">EDM</div>
+                        <h4>Evaluate, Direct, and Monitor</h4>
+                        <div class="expandable-content" id="edm-content">
+                            <p style="margin-top: 1rem;">Provides governance for cybersecurity, ensuring appropriate direction and monitoring mechanisms.</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Governance framework maintenance</li>
+                                <li>Benefits delivery</li>
+                                <li>Risk optimization</li>
+                                <li>Resource optimization</li>
+                                <li>Stakeholder transparency</li>
+                            </ul>
+                            <p style="margin-top: 1rem;"><strong>Example:</strong> Addressing obsolete IT technology through EDM04 - Resource Management Direction and/or Oversight</p>
+                        </div>
+                    </div>
+
+                    <div class="domain-card apo" onclick="toggleDomain('apo')">
+                        <div class="domain-abbr">APO</div>
+                        <h4>Align, Plan, and Organize</h4>
+                        <div class="expandable-content" id="apo-content">
+                            <p style="margin-top: 1rem;">Contains cybersecurity management processes to embed cybersecurity within IT management framework.</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Align cybersecurity strategy</li>
+                                <li>Define architectural components</li>
+                                <li>Manage cybersecurity portfolio</li>
+                                <li>Set budget and provision for breaches</li>
+                                <li>Manage training process</li>
+                                <li>Obtain vendor SLAs</li>
+                                <li>Identify risks and treatment plans</li>
+                                <li>Manage innovation with new technologies</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="domain-card bai" onclick="toggleDomain('bai')">
+                        <div class="domain-abbr">BAI</div>
+                        <h4>Build, Acquire, and Implement</h4>
+                        <div class="expandable-content" id="bai-content">
+                            <p style="margin-top: 1rem;">Defines process capabilities to assist in executing the cybersecurity program.</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Define cybersecurity requirements</li>
+                                <li>Select cybersecurity solutions</li>
+                                <li>Embed cybersecurity in change management</li>
+                                <li>Manage normal and emergency changes</li>
+                                <li>Manage collective knowledge</li>
+                                <li>Manage requirements risk</li>
+                            </ul>
+                            <p style="margin-top: 1rem;">Project management practices ensure solutions meet business requirements timely and within budget.</p>
+                        </div>
+                    </div>
+
+                    <div class="domain-card dss" onclick="toggleDomain('dss')">
+                        <div class="domain-abbr">DSS</div>
+                        <h4>Deliver, Service, and Support</h4>
+                        <div class="expandable-content" id="dss-content">
+                            <p style="margin-top: 1rem;">Provides operational support and "keeps the cybersecurity lights on."</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Operations management</li>
+                                <li>Incident identification and management</li>
+                                <li>Ticketing system management</li>
+                                <li>Root cause analysis</li>
+                                <li>Crisis management</li>
+                                <li>Business continuity planning</li>
+                                <li>Disaster recovery</li>
+                            </ul>
+                            <p style="margin-top: 1rem;"><strong>Key Control:</strong> Restoration of data from backups is critical for ransomware recovery.</p>
+                        </div>
+                    </div>
+
+                    <div class="domain-card mea" onclick="toggleDomain('mea')">
+                        <div class="domain-abbr">MEA</div>
+                        <h4>Monitor, Evaluate, and Assess</h4>
+                        <div class="expandable-content" id="mea-content">
+                            <p style="margin-top: 1rem;">Provides cybersecurity monitoring, self-assessments, and compliance reporting.</p>
+                            <ul style="margin-top: 0.5rem;">
+                                <li>Cybersecurity monitoring</li>
+                                <li>Self-assessments</li>
+                                <li>Compliance reporting</li>
+                                <li>Periodic reviews</li>
+                                <li>Corrective action tracking</li>
+                                <li>Performance reporting</li>
+                                <li>Internal control mechanisms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="expand-button" onclick="expandAllDomains()">Expand All Domains</button>
+            </section>
+
+            <section class="section" id="lifecycle">
+                <h2>🔄 COBIT 5 Domains Support Complete Cybersecurity Lifecycle</h2>
+                
+                <p>Each COBIT 5 domain contributes to maturing the cybersecurity program processes by contributing either governance or management practices to address planning, building, or ongoing operation.</p>
+
+                <div class="success-box">
+                    <strong>💡 Key Value:</strong> Processes are enablers that provide the who, what, when, and where actions needed. Holistically, this reduces the risk that actions necessary to protect confidentiality, integrity, and availability are missed.
+                </div>
+
+                <h3>Why Use COBIT 5 Process Enabler Approach?</h3>
+                
+                <div class="process-card">
+                    <h4>Comparison with Other Approaches</h4>
+                    
+                    <div style="margin-top: 1rem;">
+                        <strong>NIST SP 800-53:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Very prescriptive guidelines for federal systems</li>
+                            <li>Can be overwhelming for many organizations</li>
+                            <li>Best used to complement and develop organization-specific activities</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <strong>CIS Top 20 Critical Controls:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Technical-based controls (inventories, configurations, vulnerabilities)</li>
+                            <li>Prioritized by control importance</li>
+                            <li>Less focus on business objectives and process development</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <strong>ISO/IEC 27001 & ISF Standards:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Can supplement COBIT 5 processes</li>
+                            <li>Mapped to COBIT 5 Framework in appendices</li>
+                            <li>Provide additional depth in specific areas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚡ COBIT 5 Advantage:</strong> Provides overarching governance and management assurance that adequate cybersecurity coverage exists from governance and planning through ongoing operation and measurement.
+                </div>
+            </section>
+
+            <section class="section" id="risktable">
+                <h2>📋 Risk Sources and COBIT 5 Process Capabilities</h2>
+                
+                <p>The table below shows common business scenarios alongside their corresponding risks and the COBIT 5 process capabilities that can mitigate them:</p>
+
+                <div class="risk-table">
+                    <p style="margin-bottom: 1rem; color: var(--text-muted);">📌 <em>Note: This is a sample of the comprehensive table. The full table contains 40+ risk scenarios across three major categories.</em></p>
+                    
+                    <h3>Sample Risk Categories</h3>
+                    
+                    <h4 style="color: var(--accent); margin-top: 1.5rem;">1. Benefit/Value Enablement Risk</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Risk Source</th>
+                                <th>Threats</th>
+                                <th>COBIT 5 Process Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>IT Program Selection</strong></td>
+                                <td>Incorrect programs selected, misaligned with strategy, duplication, incompatibility</td>
+                                <td>APO02 - Alignment with frameworks<br>APO03 - Architecture integration<br>APO04 - Innovation promotion<br>APO05 - Target investments<br>BAI01 - Feasibility studies</td>
+                            </tr>
+                            <tr>
+                                <td><strong>New Technologies</strong></td>
+                                <td>Failure to adopt/exploit new tech, trends not identified, inability to realize outcomes</td>
+                                <td>EDM04 - Measure effectiveness<br>APO02 - Define target state<br>APO03 - Align with trends<br>APO04 - Scan environment<br>BAI02 - Create solutions<br>BAI03 - Integrate security</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IT Investment Decision Making</strong></td>
+                                <td>Business managers not involved in important IT investment decisions</td>
+                                <td>EDM02 - Value management<br>APO02 - Business involvement<br>APO03 - Architecture fit<br>APO05 - Risk appetite allocation<br>APO06 - Budget development</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 style="color: var(--accent); margin-top: 1.5rem;">2. Program/Project Delivery Risk</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Risk Source</th>
+                                <th>Threats</th>
+                                <th>COBIT 5 Process Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Architectural Agility</strong></td>
+                                <td>Complex and inflexible IT architecture obstructing evolution</td>
+                                <td>APO01 - Define expectations<br>EDM04 - Resource optimization<br>APO02 - Responsive planning<br>APO03 - Maintain architecture<br>BAI02/03 - Agile development</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Software Implementation</strong></td>
+                                <td>Operational glitches, users not prepared for new applications</td>
+                                <td>APO11 - Monitor quality<br>BAI01 - Project management<br>BAI02 - Requirements<br>BAI03 - Development<br>BAI05 - Change management<br>BAI06-08 - Testing & training</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 style="color: var(--accent); margin-top: 1.5rem;">3. Service Delivery/IT Operations Risk</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Risk Source</th>
+                                <th>Threats</th>
+                                <th>COBIT 5 Process Capabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Malware</strong></td>
+                                <td>Intrusion on critical servers, regular infection of laptops</td>
+                                <td>APO01 - Software use policies<br>DSS05 - Malware detection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Logical Attacks</strong></td>
+                                <td>Virus, unauthorized access, DoS, website defacing, espionage</td>
+                                <td>APO01 - Protection policies<br>BAI03 - Security requirements<br>DSS05 - Access controls & monitoring</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Data Integrity</strong></td>
+                                <td>Intentional modification, database corruption</td>
+                                <td>APO03 - Information architecture<br>BAI03 - Development standards<br>BAI06 - Change management<br>DSS01 - Data storage<br>DSS05 - Access controls</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Acts of Nature</strong></td>
+                                <td>Earthquake, tsunami, storms, wildfires</td>
+                                <td>DSS01 - Environmental protection<br>DSS04 - Manage continuity<br>DSS05 - Physical security</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="margin-top: 2rem; padding: 1rem; background: var(--surface-light); border-radius: 10px;">
+                    <strong>📚 Full Table:</strong> The complete table in the chapter contains over 40 risk scenarios with detailed COBIT 5 process mappings, covering everything from IT expertise gaps to industrial action, from infrastructure theft to regulatory compliance.
+                </p>
+            </section>
+
+            <section class="section" id="benefits">
+                <h2>✅ What Does CEO Tom Get Out of Process Enablers?</h2>
+                
+                <p>Using COBIT 5 process enablers provides a holistic set of cybersecurity processes to manage the cyber risk management system. Once Tom has implemented these processes:</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <div class="success-box">
+                        <h4>📋 Clear Accountability</h4>
+                        <p>It will be clear who is accountable and responsible for each governance and management practice, and who needs to be informed or consulted (<span class="tooltip">RACI<span class="tooltiptext">Responsible, Accountable, Consulted, Informed - a matrix for defining roles</span></span> charts).</p>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>🎯 Defined Practices</h4>
+                        <p>Clear definition of cybersecurity governance and management practices necessary to achieve each process that makes up the cybersecurity program.</p>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>✅ Good Practice Activities</h4>
+                        <p>Assurance that detailed activities are defined and based on good practices, leveraging technical definitions from other standards.</p>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>🛡️ Risk Mitigation</h4>
+                        <p>Comfort that processes are in place to ensure risks inherent in implementing technology have associated processes to mitigate them.</p>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>💎 Value Creation</h4>
+                        <p>Resources spent on executing processes add value by creating cybersecurity-specific outputs used as inputs to follow-on processes.</p>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>📊 Integrated Program</h4>
+                        <p>An integrated program covering multiple processes supporting the organization, people, and technology with metrics to measure effectiveness and efficiency.</p>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+                    <h3 style="color: white;">🚀 The Ultimate Outcome</h3>
+                    <p>Continual review of processes aids in making clear decisions on cybersecurity priorities and those processes that need additional investment, or those that can be discontinued or moved to lower cost support.</p>
+                    <p style="margin-top: 1rem;">Tom will have an integrated program that holistically supports business objectives with clear metrics for measuring program effectiveness and efficiency.</p>
+                </div>
+            </section>
+
+            <section class="section" id="conclusion">
+                <h2>🎓 Conclusion</h2>
+                
+                <p>The following cyber risk management statement represents those organization capabilities CEO and board expect to be demonstrated in terms of treating cyber risk using process capabilities:</p>
+                
+                <div style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+                    <h3 style="color: white; margin-bottom: 1.5rem;">📋 TREATING CYBER RISKS USING PROCESS CAPABILITIES</h3>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 8px;">
+                        <p>Cybersecurity process capabilities provide the governance and management practices necessary to effectively and efficiently align the cybersecurity program with the business enterprise objectives.</p>
+                        
+                        <p style="margin-top: 1rem;">Detailed activities are developed to support the cybersecurity practices to provide:</p>
+                        <ul style="margin: 1rem 0 1rem 1.5rem;">
+                            <li><strong>Governance</strong> (evaluate, direct, and monitor)</li>
+                            <li><strong>Manage</strong> (align, plan, and organize the work)</li>
+                            <li><strong>Create solutions</strong> (build, acquire, and implement)</li>
+                            <li><strong>Sustain</strong> (deliver, service, and support)</li>
+                            <li><strong>Improve</strong> (monitor, evaluate, and assess)</li>
+                        </ul>
+                        
+                        <p>These processes form a cybersecurity lifecycle with defined inputs and outputs based on generally accepted good practices that, taken together holistically, can serve to reduce the organizational cybersecurity risk.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--surface-light); border-radius: 10px;">
+                    <h3 style="color: var(--accent); font-size: 1.5rem;">🎯 The Bottom Line</h3>
+                    <p style="font-size: 1.2rem; margin-top: 1rem;">Processes are the glue that binds cybersecurity together - without documented processes, organizations rely on tribal knowledge and face inconsistent protection.</p>
+                    
+                    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--primary);">📋</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Document processes</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--secondary);">🔄</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Continuous improvement</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent);">⚙️</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">Operational efficiency</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 166, 81, 0.1); border-left: 4px solid var(--secondary); border-radius: 5px;">
+                    <h4>About ISACA</h4>
+                    <p>As an independent, nonprofit, global association, ISACA engages in the development, adoption and use of globally accepted, industry-leading knowledge and practices for information systems. Incorporated in 1969, ISACA today serves 140,000 professionals in 180 countries. The COBIT framework and the CISA, CISM, CGEIT, and CRISC certifications are ISACA brands respected and used by professionals worldwide.</p>
+                    
+                    <h4 style="margin-top: 1rem;">About Todd Fitzgerald</h4>
+                    <p>Todd is the global director of information security for Grant Thornton International, Ltd., providing strategic information security leadership for Grant Thornton member firms, supporting 42,000 employees in 140 countries. Todd is the 2016 Chicago CISO of the Year, 2013 Top 50 Information Security Executive, 2013-2016 Ponemon Institute Distinguished Fellow, and author of three books on information security governance and CISO leadership.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                const section = document.getElementById(this.dataset.section);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Toggle domain content
+        function toggleDomain(domainId) {
+            const content = document.getElementById(domainId + '-content');
+            content.classList.toggle('expanded');
+        }
+
+        // Expand all domains
+        function expandAllDomains() {
+            const domains = ['edm', 'apo', 'bai', 'dss', 'mea'];
+            domains.forEach(domain => {
+                const content = document.getElementById(domain + '-content');
+                if (!content.classList.contains('expanded')) {
+                    content.classList.add('expanded');
+                }
+            });
+        }
+
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        let searchTimeout;
+        
+        searchBox.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchTerm = this.value.toLowerCase();
+                removeHighlights();
+                
+                if (searchTerm.length > 2) {
+                    highlightText(searchTerm);
+                }
+            }, 300);
+        });
+
+        function removeHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), el);
+                parent.normalize();
+            });
+        }
+
+        function highlightText(searchTerm) {
+            const sections = document.querySelectorAll('.section');
+            let firstMatch = null;
+            
+            sections.forEach(section => {
+                const walker = document.createTreeWalker(
+                    section,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                let node;
+                while (node = walker.nextNode()) {
+                    const text = node.nodeValue;
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    
+                    if (regex.test(text)) {
+                        const span = document.createElement('span');
+                        span.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+                        node.parentNode.replaceChild(span, node);
+                        
+                        if (!firstMatch) {
+                            firstMatch = span.querySelector('.highlight');
+                        }
+                    }
+                }
+            });
+            
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Scroll spy for active navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    current = section.id;
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
