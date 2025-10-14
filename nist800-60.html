@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIST SP 800-60: Information Type Mapping Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a5490;
+            --secondary: #4a90e2;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .flow-chart {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        tr:hover {
+            background: #e3f2fd;
+            transition: background 0.3s ease;
+        }
+        
+        .alert {
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            color: #856404;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid var(--secondary);
+            color: #0c5460;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border-left: 4px solid var(--accent);
+            color: #721c24;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .category-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .category-box h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .impact-level {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 0.25rem;
+        }
+        
+        .impact-low {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .impact-moderate {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .impact-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .interactive-calculator {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .calculator-input {
+            margin: 1rem 0;
+        }
+        
+        .calculator-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .calculator-input select {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: white;
+            color: #333;
+        }
+        
+        .result-box {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+        
+        .tab:hover {
+            color: var(--primary);
+            background: rgba(26, 84, 144, 0.05);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            font-weight: 600;
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+        
+        .checklist li:hover::before {
+            content: '☑';
+            color: var(--success);
+        }
+        
+        .example-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .example-box h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .download-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .practice-scenario {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .scenario-header {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .flow-step::after {
+                display: none;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>📊 NIST SP 800-60: Information Type Mapping</h1>
+            <p class="subtitle">Guide for Mapping Types of Information and Information Systems to Security Categories</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- General Order Section -->
+        <section class="section">
+            <h2><span class="emoji">📋</span>THE GENERAL ORDER: Follow This Sequence</h2>
+            
+            <div class="alert alert-warning">
+                <span class="emoji">⚠️</span>
+                <strong>Critical Point:</strong> NIST 800-60 is the FIRST technical step after understanding FIPS 199. It provides the detailed mapping tables and guidance to categorize your information types accurately.
+            </div>
+
+            <div class="flow-chart">
+                <div class="flow-step">
+                    <strong>Step 1</strong><br>
+                    Identify Information Types<br>
+                    <small>What data do you process?</small>
+                </div>
+                <div class="flow-step">
+                    <strong>Step 2</strong><br>
+                    Map to 800-60 Tables<br>
+                    <small>Find your info type category</small>
+                </div>
+                <div class="flow-step">
+                    <strong>Step 3</strong><br>
+                    Determine CIA Impact<br>
+                    <small>Low, Moderate, or High</small>
+                </div>
+                <div class="flow-step">
+                    <strong>Step 4</strong><br>
+                    Calculate System Category<br>
+                    <small>High Water Mark rule</small>
+                </div>
+            </div>
+
+            <h3>Quick Reference Order</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Framework</th>
+                        <th>What You Do</th>
+                        <th>Output</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1st</td>
+                        <td>FIPS 199</td>
+                        <td>Understand categorization concepts</td>
+                        <td>CIA definitions</td>
+                    </tr>
+                    <tr>
+                        <td>2nd</td>
+                        <td><strong>NIST 800-60</strong></td>
+                        <td><strong>Map your information types</strong></td>
+                        <td><strong>Impact levels per type</strong></td>
+                    </tr>
+                    <tr>
+                        <td>3rd</td>
+                        <td>System Categorization</td>
+                        <td>Apply high water mark</td>
+                        <td>System category (L/M/H)</td>
+                    </tr>
+                    <tr>
+                        <td>4th</td>
+                        <td>NIST 800-53</td>
+                        <td>Select security controls</td>
+                        <td>Control baselines</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- FIPS 199 Foundation Section -->
+        <section class="section">
+            <h2><span class="emoji">🏛️</span>FIPS 199: The Foundation You Must Understand First</h2>
+            
+            <div class="alert alert-danger">
+                <span class="emoji">🚨</span>
+                <strong>MANDATORY:</strong> FIPS 199 is a Federal Information Processing Standard - it's LAW for federal agencies. NIST 800-60 shows you HOW to implement it.
+            </div>
+
+            <h3>FIPS 199 Security Objectives (The CIA Triad)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Security Objective</th>
+                        <th>Definition</th>
+                        <th>Question to Ask</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>🔐 Confidentiality</strong></td>
+                        <td>Preserving authorized restrictions on information access and disclosure</td>
+                        <td>"What happens if unauthorized people see this?"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>✅ Integrity</strong></td>
+                        <td>Guarding against improper information modification or destruction</td>
+                        <td>"What happens if this data is changed or deleted?"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>⚡ Availability</strong></td>
+                        <td>Ensuring timely and reliable access to information</td>
+                        <td>"What happens if we can't access this when needed?"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>The FIPS 199 Formula</h3>
+            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+                <p style="font-size: 1.5rem; font-weight: bold;">
+                    Security Category (SC) = {(confidentiality, impact), (integrity, impact), (availability, impact)}
+                </p>
+                <p style="margin-top: 1rem;">Where impact is LOW, MODERATE, or HIGH</p>
+            </div>
+
+            <h3>Potential Impact Definitions (FIPS 199)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Impact Level</th>
+                        <th>FIPS 199 Definition</th>
+                        <th>Real-World Translation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td>Limited adverse effect on organizational operations, assets, or individuals</td>
+                        <td>Inconvenience, minor financial loss, minor damage to reputation</td>
+                    </tr>
+                    <tr>
+                        <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                        <td>Serious adverse effect on organizational operations, assets, or individuals</td>
+                        <td>Significant degradation in mission, significant financial loss, significant harm to individuals</td>
+                    </tr>
+                    <tr>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td>Severe or catastrophic adverse effect on organizational operations, assets, or individuals</td>
+                        <td>Mission failure, major financial loss, loss of life, severe harm to individuals</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- What is 800-60 Section -->
+        <section class="section">
+            <h2><span class="emoji">🎯</span>What is Information Type Mapping?</h2>
+            
+            <div class="alert alert-info">
+                <span class="emoji">💡</span>
+                <strong>The Bridge Between Data and Security:</strong> NIST 800-60 is your translation guide between what information you handle and how much security it needs. It's like a medical reference book that tells you how serious each symptom is.
+            </div>
+
+            <h3>Why NIST 800-60 Exists</h3>
+            <div class="card">
+                <h4>The Problem It Solves:</h4>
+                <ul>
+                    <li><strong>Without 800-60:</strong> "We have customer data" → ??? → "How much security?"</li>
+                    <li><strong>With 800-60:</strong> "We have customer data" → "Maps to Personal Identity Information type" → "Recommended: Moderate/Moderate/Low" → "Apply moderate security baseline"</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>Result:</strong> Consistent, defensible security categorization across all federal agencies!</p>
+            </div>
+
+            <h3>The Two-Volume Structure</h3>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>📘 Volume I: The Guide</h4>
+                    <p>The methodology and process for mapping information types to security categories. This is your "how-to" manual.</p>
+                    <ul>
+                        <li>Mapping methodology</li>
+                        <li>Impact determination guidelines</li>
+                        <li>System categorization process</li>
+                        <li>Special factors and adjustments</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>📗 Volume II: The Appendices</h4>
+                    <p>The comprehensive catalog of information types with recommended impact levels. This is your reference encyclopedia.</p>
+                    <ul>
+                        <li>Mission-based information types</li>
+                        <li>Management and support types</li>
+                        <li>Recommended baselines</li>
+                        <li>Rationale for each rating</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>The Restaurant Menu Analogy</h3>
+            <div class="example-box">
+                <h4>🍽️ Think of it like a restaurant's approach to food safety:</h4>
+                <ul>
+                    <li><strong>Raw Chicken (High Impact):</strong> Like classified data - mishandling causes severe harm</li>
+                    <li><strong>Dairy Products (Moderate Impact):</strong> Like PII - needs careful handling, refrigeration</li>
+                    <li><strong>Dry Goods (Low Impact):</strong> Like public information - basic storage is sufficient</li>
+                </ul>
+                <p>NIST 800-60 is your "food safety guide" that tells you exactly how to handle each type of ingredient (information)!</p>
+            </div>
+        </section>
+
+        <!-- CIA Triad Deep Dive -->
+        <section class="section">
+            <h2><span class="emoji">🔐</span>Understanding CIA Impact Levels</h2>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab(event, 'confidentiality')">Confidentiality</button>
+                <button class="tab" onclick="switchTab(event, 'integrity')">Integrity</button>
+                <button class="tab" onclick="switchTab(event, 'availability')">Availability</button>
+            </div>
+
+            <div id="confidentiality" class="tab-content active">
+                <h3>🔒 Confidentiality Impact Levels</h3>
+                <p><strong>Definition:</strong> Preserving authorized restrictions on information access and disclosure</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Definition</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                            <td>Unauthorized disclosure would have <strong>limited</strong> adverse effect</td>
+                            <td>
+                                • Public website content<br>
+                                • Published reports<br>
+                                • General correspondence<br>
+                                • Employee directory
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                            <td>Unauthorized disclosure would have <strong>serious</strong> adverse effect</td>
+                            <td>
+                                • Personal identifiable information (PII)<br>
+                                • Financial records<br>
+                                • Proprietary information<br>
+                                • Law enforcement sensitive
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                            <td>Unauthorized disclosure would have <strong>severe or catastrophic</strong> adverse effect</td>
+                            <td>
+                                • Classified information<br>
+                                • Trade secrets<br>
+                                • Intelligence data<br>
+                                • Critical infrastructure details
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="integrity" class="tab-content">
+                <h3>✅ Integrity Impact Levels</h3>
+                <p><strong>Definition:</strong> Guarding against improper information modification or destruction</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Definition</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                            <td>Unauthorized modification would have <strong>limited</strong> adverse effect</td>
+                            <td>
+                                • Public announcements<br>
+                                • Draft documents<br>
+                                • Informational websites<br>
+                                • Non-critical logs
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                            <td>Unauthorized modification would have <strong>serious</strong> adverse effect</td>
+                            <td>
+                                • Financial transactions<br>
+                                • Medical records<br>
+                                • Legal documents<br>
+                                • Audit trails
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                            <td>Unauthorized modification would have <strong>severe or catastrophic</strong> adverse effect</td>
+                            <td>
+                                • Election systems<br>
+                                • Safety control systems<br>
+                                • Criminal justice records<br>
+                                • Financial market data
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="availability" class="tab-content">
+                <h3>⚡ Availability Impact Levels</h3>
+                <p><strong>Definition:</strong> Ensuring timely and reliable access to information</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Definition</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                            <td>Disruption would have <strong>limited</strong> adverse effect</td>
+                            <td>
+                                • Administrative systems<br>
+                                • Historical archives<br>
+                                • Training materials<br>
+                                • Public information sites
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                            <td>Disruption would have <strong>serious</strong> adverse effect</td>
+                            <td>
+                                • Email systems<br>
+                                • Business applications<br>
+                                • Customer service systems<br>
+                                • Financial reporting
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                            <td>Disruption would have <strong>severe or catastrophic</strong> adverse effect</td>
+                            <td>
+                                • Emergency services (911)<br>
+                                • Hospital life support<br>
+                                • Power grid control<br>
+                                • Air traffic control
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FIPS 200 Integration Section -->
+        <section class="section">
+            <h2><span class="emoji">🔒</span>FIPS 200: The 17 Security Control Families</h2>
+            
+            <div class="alert alert-warning">
+                <span class="emoji">⚠️</span>
+                <strong>Why This Matters:</strong> After you categorize with 800-60 (Low/Moderate/High), FIPS 200 mandates that you address ALL 17 security control families. Your category determines HOW MUCH of each family you implement.
+            </div>
+
+            <h3>The Security Control Families</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4 style="color: var(--primary);">AC - Access Control</h4>
+                    <p>Who can access your information?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>User accounts and authentication</li>
+                        <li>Role-based access</li>
+                        <li>Least privilege principle</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">AT - Awareness & Training</h4>
+                    <p>Do users know security basics?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Security awareness training</li>
+                        <li>Role-based training</li>
+                        <li>Insider threat awareness</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">AU - Audit & Accountability</h4>
+                    <p>Can you track what happened?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Logging and monitoring</li>
+                        <li>Log retention</li>
+                        <li>Audit trail protection</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">CA - Assessment & Authorization</h4>
+                    <p>Is your security working?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Security control assessments</li>
+                        <li>System authorization (ATO)</li>
+                        <li>Continuous monitoring</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">CM - Configuration Management</h4>
+                    <p>Are systems configured securely?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Baseline configurations</li>
+                        <li>Change control</li>
+                        <li>Security settings</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">CP - Contingency Planning</h4>
+                    <p>Can you recover from disasters?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Backup and recovery</li>
+                        <li>Business continuity</li>
+                        <li>Disaster recovery plan</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">IA - Identification & Authentication</h4>
+                    <p>Can you verify user identity?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Multi-factor authentication</li>
+                        <li>Password policies</li>
+                        <li>Device authentication</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">IR - Incident Response</h4>
+                    <p>Can you handle security incidents?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Incident response plan</li>
+                        <li>Incident handling team</li>
+                        <li>Forensics capability</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">MA - Maintenance</h4>
+                    <p>Is maintenance done securely?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Controlled maintenance</li>
+                        <li>Remote maintenance</li>
+                        <li>Maintenance tools</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">MP - Media Protection</h4>
+                    <p>How do you protect storage media?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Media handling</li>
+                        <li>Media sanitization</li>
+                        <li>Encryption at rest</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">PE - Physical & Environmental</h4>
+                    <p>Is physical access controlled?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Physical access controls</li>
+                        <li>Environmental controls</li>
+                        <li>Visitor management</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">PL - Planning</h4>
+                    <p>Do you have security plans?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>System security plan</li>
+                        <li>Rules of behavior</li>
+                        <li>Security architecture</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">PS - Personnel Security</h4>
+                    <p>Can you trust your people?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Background checks</li>
+                        <li>Position categorization</li>
+                        <li>Termination procedures</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">RA - Risk Assessment</h4>
+                    <p>Do you understand your risks?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Risk assessments (800-30)</li>
+                        <li>Vulnerability scanning</li>
+                        <li>Threat intelligence</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">SA - System & Services Acquisition</h4>
+                    <p>Do you buy/build securely?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Security requirements</li>
+                        <li>Supply chain risk</li>
+                        <li>Developer security</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">SC - System & Communications Protection</h4>
+                    <p>Are communications secure?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Encryption in transit</li>
+                        <li>Network segmentation</li>
+                        <li>Boundary protection</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4 style="color: var(--primary);">SI - System & Information Integrity</h4>
+                    <p>Is your data accurate and secure?</p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Malware protection</li>
+                        <li>Security updates</li>
+                        <li>Information integrity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>How Your 800-60 Category Affects FIPS 200 Implementation</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Your System Category</th>
+                        <th>FIPS 200 Requirement</th>
+                        <th>Example Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td>Minimum security controls for all 17 families</td>
+                        <td>• Basic passwords<br>• Annual training<br>• Basic logging</td>
+                    </tr>
+                    <tr>
+                        <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                        <td>Enhanced controls for all 17 families</td>
+                        <td>• Multi-factor auth<br>• Role-based training<br>• SIEM monitoring</td>
+                    </tr>
+                    <tr>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td>Maximum controls for all 17 families</td>
+                        <td>• Biometric auth<br>• Continuous training<br>• Real-time monitoring with SOC</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Information Type Categories -->
+        <section class="section">
+            <h2><span class="emoji">📚</span>Information Type Categories</h2>
+            
+            <div class="alert alert-info">
+                <span class="emoji">📖</span>
+                <strong>Volume II Reference:</strong> These are the major categories from NIST 800-60 Volume II. Each contains dozens of specific information types with recommended impact levels.
+            </div>
+
+            <div class="grid">
+                <div class="category-box">
+                    <h4>🏛️ Services Delivery</h4>
+                    <p>Direct services to citizens</p>
+                    <ul style="text-align: left; list-style: none; margin-top: 1rem;">
+                        <li>• Defense and Security</li>
+                        <li>• Healthcare</li>
+                        <li>• Transportation</li>
+                        <li>• Education</li>
+                    </ul>
+                </div>
+
+                <div class="category-box">
+                    <h4>📋 Mode of Delivery</h4>
+                    <p>How services are provided</p>
+                    <ul style="text-align: left; list-style: none; margin-top: 1rem;">
+                        <li>• Knowledge Creation</li>
+                        <li>• Public Goods</li>
+                        <li>• Federal Financial</li>
+                        <li>• Credit and Insurance</li>
+                    </ul>
+                </div>
+
+                <div class="category-box">
+                    <h4>⚖️ Government Resources</h4>
+                    <p>Administrative functions</p>
+                    <ul style="text-align: left; list-style: none; margin-top: 1rem;">
+                        <li>• Administrative Management</li>
+                        <li>• Human Resources</li>
+                        <li>• Financial Management</li>
+                        <li>• Information Management</li>
+                    </ul>
+                </div>
+
+                <div class="category-box">
+                    <h4>🔧 Support Functions</h4>
+                    <p>Infrastructure and operations</p>
+                    <ul style="text-align: left; list-style: none; margin-top: 1rem;">
+                        <li>• Supply Chain</li>
+                        <li>• IT Infrastructure</li>
+                        <li>• Security Management</li>
+                        <li>• Planning and Budgeting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mapping Process -->
+        <section class="section">
+            <h2><span class="emoji">🗺️</span>The Information Type Mapping Process</h2>
+            
+            <h3>Step 1: Identify Your Information Types</h3>
+            <div class="card">
+                <h4>📝 Information Inventory Techniques</h4>
+                <ul class="checklist">
+                    <li>Review system documentation and data flow diagrams</li>
+                    <li>Interview data owners and system administrators</li>
+                    <li>Analyze database schemas and file structures</li>
+                    <li>Examine business processes and workflows</li>
+                    <li>Review regulatory compliance requirements</li>
+                    <li>Conduct data discovery scans</li>
+                </ul>
+            </div>
+
+            <h3>Step 2: Map to NIST 800-60 Categories</h3>
+            <div class="example-box">
+                <h4>Example: Healthcare Organization Mapping</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Your Information</th>
+                            <th>800-60 Type</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Patient medical records</td>
+                            <td>Health Care Delivery</td>
+                            <td>Services Delivery</td>
+                        </tr>
+                        <tr>
+                            <td>Employee payroll data</td>
+                            <td>Compensation Management</td>
+                            <td>Human Resources</td>
+                        </tr>
+                        <tr>
+                            <td>Insurance claims</td>
+                            <td>Health Insurance</td>
+                            <td>Mode of Delivery</td>
+                        </tr>
+                        <tr>
+                            <td>Network logs</td>
+                            <td>System and Network Monitoring</td>
+                            <td>IT Infrastructure</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Step 3: Determine Provisional Impact Levels</h3>
+            <div class="card">
+                <h4>🎯 Using the 800-60 Tables</h4>
+                <p>For each information type, NIST 800-60 Volume II provides:</p>
+                <ul>
+                    <li><strong>Recommended Confidentiality Impact:</strong> Based on typical sensitivity</li>
+                    <li><strong>Recommended Integrity Impact:</strong> Based on modification consequences</li>
+                    <li><strong>Recommended Availability Impact:</strong> Based on disruption tolerance</li>
+                    <li><strong>Rationale:</strong> Explanation for the recommendations</li>
+                    <li><strong>Special Factors:</strong> Considerations that might change the impact</li>
+                </ul>
+            </div>
+
+            <h3>Step 4: Adjust for Special Factors</h3>
+            <div class="alert alert-warning">
+                <span class="emoji">⚠️</span>
+                <strong>Critical:</strong> The 800-60 recommendations are starting points! You must consider your specific context.
+            </div>
+
+            <h4>Detailed Special Factors Analysis</h4>
+            
+            <div class="card">
+                <h4>📊 Factor 1: Aggregation</h4>
+                <p><strong>Definition:</strong> When large volumes of low-impact data combine to create higher impact</p>
+                <div class="example-box">
+                    <h4>Example: Customer Records</h4>
+                    <ul>
+                        <li>1 customer record leaked = embarrassing (LOW)</li>
+                        <li>100 records leaked = reportable breach (MODERATE)</li>
+                        <li>1 million records leaked = class action lawsuit, regulatory fines (HIGH)</li>
+                    </ul>
+                    <p><strong>Rule of Thumb:</strong> If breach affects >5,000 individuals → Consider MODERATE minimum<br>
+                    If breach affects >100,000 individuals → Consider HIGH</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>🏥 Factor 2: Life Safety</h4>
+                <p><strong>Definition:</strong> Information that could impact human life or safety if compromised</p>
+                <div class="example-box">
+                    <h4>Examples That Trigger HIGH:</h4>
+                    <ul>
+                        <li>Emergency response systems (911 dispatch)</li>
+                        <li>Medical device configurations</li>
+                        <li>Industrial control systems (SCADA)</li>
+                        <li>Transportation safety systems</li>
+                        <li>Witness protection information</li>
+                    </ul>
+                    <p><strong>Rule:</strong> If integrity or availability loss could cause injury/death → Automatic HIGH</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>💰 Factor 3: Financial Impact</h4>
+                <p><strong>Definition:</strong> Direct financial loss or liability from compromise</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Financial Impact</th>
+                            <th>Typical Adjustment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>&lt; $10,000</td>
+                            <td>No adjustment needed</td>
+                        </tr>
+                        <tr>
+                            <td>$10,000 - $100,000</td>
+                            <td>Consider MODERATE minimum</td>
+                        </tr>
+                        <tr>
+                            <td>$100,000 - $1 million</td>
+                            <td>MODERATE required</td>
+                        </tr>
+                        <tr>
+                            <td>&gt; $1 million</td>
+                            <td>HIGH strongly recommended</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h4>🔐 Factor 4: Privacy Information</h4>
+                <p><strong>Definition:</strong> Information protected by privacy laws and regulations</p>
+                <div class="example-box">
+                    <h4>Regulatory Minimums:</h4>
+                    <ul>
+                        <li><strong>Privacy Act Data:</strong> MODERATE minimum for Confidentiality</li>
+                        <li><strong>HIPAA PHI:</strong> MODERATE minimum, often HIGH</li>
+                        <li><strong>Student Records (FERPA):</strong> MODERATE typical</li>
+                        <li><strong>Financial (GLBA):</strong> MODERATE minimum</li>
+                        <li><strong>Children's Data (COPPA):</strong> HIGH recommended</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>🏢 Factor 5: Mission Criticality</h4>
+                <p><strong>Definition:</strong> How essential the information is to organizational mission</p>
+                <div class="example-box">
+                    <h4>Questions to Ask:</h4>
+                    <ul>
+                        <li>Can the organization function without this for 1 hour? (If no → HIGH Availability)</li>
+                        <li>Would corruption cause mission failure? (If yes → HIGH Integrity)</li>
+                        <li>Is this our "secret sauce"? (If yes → HIGH Confidentiality)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>⏰ Factor 6: Time Sensitivity</h4>
+                <p><strong>Definition:</strong> How the value/impact changes over time</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Information Age</th>
+                            <th>Impact Adjustment</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Real-time critical</td>
+                            <td>HIGH Availability</td>
+                            <td>Stock trading data</td>
+                        </tr>
+                        <tr>
+                            <td>Daily relevance</td>
+                            <td>MODERATE Availability</td>
+                            <td>Daily reports</td>
+                        </tr>
+                        <tr>
+                            <td>Historical/Archive</td>
+                            <td>LOW Availability</td>
+                            <td>5-year old records</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Special Factor</th>
+                        <th>Consideration</th>
+                        <th>Potential Adjustment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Aggregation</td>
+                        <td>Large volumes increase impact</td>
+                        <td>Low → Moderate or High</td>
+                    </tr>
+                    <tr>
+                        <td>Life Safety</td>
+                        <td>Could affect human life</td>
+                        <td>Any → High</td>
+                    </tr>
+                    <tr>
+                        <td>Financial Impact</td>
+                        <td>Major financial consequences</td>
+                        <td>Moderate → High</td>
+                    </tr>
+                    <tr>
+                        <td>Privacy Act Data</td>
+                        <td>Contains Privacy Act information</td>
+                        <td>Low → Moderate (minimum)</td>
+                    </tr>
+                    <tr>
+                        <td>Trade Secrets</td>
+                        <td>Competitive advantage at risk</td>
+                        <td>Moderate → High</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- System Categorization -->
+        <section class="section">
+            <h2><span class="emoji">🏗️</span>System Categorization: The High Water Mark</h2>
+            
+            <div class="alert alert-danger">
+                <span class="emoji">🚨</span>
+                <strong>The Golden Rule:</strong> Your system security category = the HIGHEST impact level across ALL information types and ALL security objectives (CIA)
+            </div>
+
+            <h3>The High Water Mark Formula</h3>
+            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <p style="text-align: center; font-size: 1.25rem; font-weight: bold;">
+                    SC<sub>system</sub> = {(confidentiality, impact), (integrity, impact), (availability, impact)}
+                </p>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Where impact = MAX(all information type impacts for that objective)
+                </p>
+            </div>
+
+            <h3>Example: Multi-Type System Categorization</h3>
+            <div class="example-box">
+                <h4>Hospital Information System</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Information Type</th>
+                            <th>Confidentiality</th>
+                            <th>Integrity</th>
+                            <th>Availability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Patient Medical Records</td>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Emergency Response</td>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td>Administrative Data</td>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                        </tr>
+                        <tr style="background: #e3f2fd; font-weight: bold;">
+                            <td>SYSTEM CATEGORY</td>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 1rem; font-weight: bold; text-align: center; font-size: 1.25rem;">
+                    Final System Categorization: <span class="impact-level impact-high">HIGH</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- Interactive Calculator -->
+        <section class="section">
+            <div class="interactive-calculator">
+                <h2 style="color: white;">🧮 Interactive System Categorization Calculator</h2>
+                <p>Add information types and see how they affect your system categorization</p>
+                
+                <div id="info-types">
+                    <div class="calculator-input">
+                        <label>Information Type 1:</label>
+                        <input type="text" id="type1-name" placeholder="e.g., Customer PII" style="width: 100%; padding: 0.75rem; border-radius: 6px; border: none; margin-bottom: 0.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
+                            <select id="type1-c" onchange="calculateCategory()">
+                                <option value="">Confidentiality</option>
+                                <option value="low">Low</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="high">High</option>
+                            </select>
+                            <select id="type1-i" onchange="calculateCategory()">
+                                <option value="">Integrity</option>
+                                <option value="low">Low</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="high">High</option>
+                            </select>
+                            <select id="type1-a" onchange="calculateCategory()">
+                                <option value="">Availability</option>
+                                <option value="low">Low</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="addInfoType()" style="background: white; color: #764ba2; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; font-weight: bold; margin-top: 1rem; cursor: pointer;">+ Add Another Information Type</button>
+                
+                <div id="calculation-result" class="result-box">
+                    <h3>System Categorization Result</h3>
+                    <div id="result-details"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Information Types Reference -->
+        <section class="section">
+            <h2><span class="emoji">📖</span>Common Information Types Quick Reference</h2>
+            
+            <div class="alert alert-info">
+                <span class="emoji">💡</span>
+                These are the most frequently encountered information types with NIST 800-60 recommended baselines
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Information Type</th>
+                        <th>Typical C</th>
+                        <th>Typical I</th>
+                        <th>Typical A</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Personal Identity Information (PII)</strong></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td>Privacy Act applies; may be HIGH if aggregated</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Financial Transactions</strong></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td>Integrity critical for fraud prevention</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Healthcare Records</strong></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td>HIPAA compliance; patient safety</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Emergency Services</strong></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td>Life safety critical</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Public Website Content</strong></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td>Already public; reputational impact only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Law Enforcement</strong></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td>Officer/witness safety; case integrity</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Intellectual Property</strong></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td>Competitive advantage; trade secrets</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Audit Logs</strong></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td><span class="impact-level impact-high">HIGH</span></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td>Critical for forensics and compliance</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Practice Scenarios -->
+        <section class="section">
+            <div class="practice-scenario">
+                <div class="scenario-header">🎮 Practice Scenario: University Student Information System</div>
+                
+                <h3 style="color: white;">Your Role: Information Security Officer at State University</h3>
+                <p><strong>Situation:</strong> You're categorizing a new integrated student information system that will replace multiple legacy systems. The system will handle:</p>
+                
+                <ul style="background: rgba(255,255,255,0.95); color: #333; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <li>Student academic records (transcripts, grades, degree audits)</li>
+                    <li>Financial aid information (FAFSA data, loan details, SSNs)</li>
+                    <li>Student health records (immunizations, mental health counseling notes)</li>
+                    <li>Campus safety alerts and emergency notifications</li>
+                    <li>Course registration and scheduling</li>
+                    <li>Alumni donation records</li>
+                </ul>
+
+                <details style="background: rgba(255,255,255,0.95); color: #333; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <summary style="cursor: pointer; font-weight: bold;">📊 Solution: Information Type Analysis</summary>
+                    
+                    <table style="margin-top: 1rem;">
+                        <thead>
+                            <tr>
+                                <th>Information Type</th>
+                                <th>800-60 Mapping</th>
+                                <th>C</th>
+                                <th>I</th>
+                                <th>A</th>
+                                <th>Rationale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Academic Records</td>
+                                <td>Education Records</td>
+                                <td>MOD</td>
+                                <td>HIGH</td>
+                                <td>LOW</td>
+                                <td>FERPA protected; transcript integrity critical</td>
+                            </tr>
+                            <tr>
+                                <td>Financial Aid/SSNs</td>
+                                <td>Financial Assistance</td>
+                                <td>HIGH</td>
+                                <td>HIGH</td>
+                                <td>MOD</td>
+                                <td>Identity theft risk; financial fraud potential</td>
+                            </tr>
+                            <tr>
+                                <td>Health Records</td>
+                                <td>Health Care</td>
+                                <td>HIGH</td>
+                                <td>HIGH</td>
+                                <td>MOD</td>
+                                <td>HIPAA; sensitive mental health data</td>
+                            </tr>
+                            <tr>
+                                <td>Emergency Alerts</td>
+                                <td>Emergency Response</td>
+                                <td>LOW</td>
+                                <td>HIGH</td>
+                                <td>HIGH</td>
+                                <td>Life safety; Clery Act compliance</td>
+                            </tr>
+                            <tr>
+                                <td>Registration</td>
+                                <td>Administrative</td>
+                                <td>LOW</td>
+                                <td>MOD</td>
+                                <td>MOD</td>
+                                <td>Academic operations disruption</td>
+                            </tr>
+                            <tr>
+                                <td>Donation Records</td>
+                                <td>Revenue Collection</td>
+                                <td>MOD</td>
+                                <td>MOD</td>
+                                <td>LOW</td>
+                                <td>Donor privacy; financial data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4 style="margin-top: 1rem;">System Categorization:</h4>
+                    <p><strong>Confidentiality:</strong> HIGH (Financial Aid SSNs, Health Records)<br>
+                    <strong>Integrity:</strong> HIGH (Multiple types)<br>
+                    <strong>Availability:</strong> HIGH (Emergency Alerts)</p>
+                    
+                    <p style="font-size: 1.25rem; font-weight: bold; text-align: center; margin-top: 1rem;">
+                        Final System Category: <span style="background: #f8d7da; color: #721c24; padding: 0.5rem 1rem; border-radius: 20px;">HIGH</span>
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Real-World Examples Section -->
+        <section class="section">
+            <h2><span class="emoji">💼</span>Real-World Categorization Examples</h2>
+            
+            <div class="alert alert-info">
+                <span class="emoji">📚</span>
+                <strong>Learning from Practice:</strong> These examples show how different organizations apply NIST 800-60 to their specific contexts.
+            </div>
+
+            <h3>Example 1: Federal Tax System</h3>
+            <div class="card">
+                <h4>System Description:</h4>
+                <p>IRS tax processing system handling returns, refunds, and taxpayer data</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Information Type</th>
+                            <th>800-60 Mapping</th>
+                            <th>C</th>
+                            <th>I</th>
+                            <th>A</th>
+                            <th>Justification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tax Returns (SSNs, Income)</td>
+                            <td>Revenue Collection</td>
+                            <td>HIGH</td>
+                            <td>HIGH</td>
+                            <td>MOD</td>
+                            <td>Mass identity theft risk; fraudulent refunds</td>
+                        </tr>
+                        <tr>
+                            <td>Audit Selection Algorithm</td>
+                            <td>Compliance and Enforcement</td>
+                            <td>HIGH</td>
+                            <td>HIGH</td>
+                            <td>LOW</td>
+                            <td>Gaming the system; fairness concerns</td>
+                        </tr>
+                        <tr>
+                            <td>Public Tax Forms</td>
+                            <td>Public Affairs</td>
+                            <td>LOW</td>
+                            <td>MOD</td>
+                            <td>LOW</td>
+                            <td>Already public; integrity matters for accuracy</td>
+                        </tr>
+                        <tr style="background: #e3f2fd; font-weight: bold;">
+                            <td colspan="2">System Categorization</td>
+                            <td>HIGH</td>
+                            <td>HIGH</td>
+                            <td>MOD</td>
+                            <td>SC = {(C,H), (I,H), (A,M)} = HIGH</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Example 2: State DMV System</h3>
+            <div class="card">
+                <h4>System Description:</h4>
+                <p>Driver's license issuance and vehicle registration system</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Information Type</th>
+                            <th>800-60 Mapping</th>
+                            <th>C</th>
+                            <th>I</th>
+                            <th>A</th>
+                            <th>Justification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>REAL ID Data</td>
+                            <td>Identity Management</td>
+                            <td>HIGH</td>
+                            <td>HIGH</td>
+                            <td>MOD</td>
+                            <td>Federal REAL ID Act requirements</td>
+                        </tr>
+                        <tr>
+                            <td>Driving Records</td>
+                            <td>Law Enforcement</td>
+                            <td>MOD</td>
+                            <td>HIGH</td>
+                            <td>MOD</td>
+                            <td>Court admissible; insurance rates</td>
+                        </tr>
+                        <tr>
+                            <td>Vehicle Registrations</td>
+                            <td>Asset Management</td>
+                            <td>LOW</td>
+                            <td>MOD</td>
+                            <td>LOW</td>
+                            <td>Semi-public information</td>
+                        </tr>
+                        <tr style="background: #e3f2fd; font-weight: bold;">
+                            <td colspan="2">System Categorization</td>
+                            <td>HIGH</td>
+                            <td>HIGH</td>
+                            <td>MOD</td>
+                            <td>SC = {(C,H), (I,H), (A,M)} = HIGH</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Example 3: Public Library System</h3>
+            <div class="card">
+                <h4>System Description:</h4>
+                <p>Library catalog, patron records, and circulation system</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Information Type</th>
+                            <th>800-60 Mapping</th>
+                            <th>C</th>
+                            <th>I</th>
+                            <th>A</th>
+                            <th>Justification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Patron Records</td>
+                            <td>Customer Services</td>
+                            <td>MOD</td>
+                            <td>LOW</td>
+                            <td>LOW</td>
+                            <td>Privacy concerns; First Amendment</td>
+                        </tr>
+                        <tr>
+                            <td>Book Catalog</td>
+                            <td>Information Management</td>
+                            <td>LOW</td>
+                            <td>LOW</td>
+                            <td>LOW</td>
+                            <td>Public information</td>
+                        </tr>
+                        <tr>
+                            <td>Circulation History</td>
+                            <td>Administrative</td>
+                            <td>MOD</td>
+                            <td>LOW</td>
+                            <td>LOW</td>
+                            <td>Reading habits are sensitive</td>
+                        </tr>
+                        <tr style="background: #e3f2fd; font-weight: bold;">
+                            <td colspan="2">System Categorization</td>
+                            <td>MOD</td>
+                            <td>LOW</td>
+                            <td>LOW</td>
+                            <td>SC = {(C,M), (I,L), (A,L)} = MODERATE</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Complete NIST Integration Map -->
+        <section class="section">
+            <h2><span class="emoji">🗺️</span>Complete NIST Standards Integration Map</h2>
+            
+            <div class="alert alert-danger">
+                <span class="emoji">🚨</span>
+                <strong>Critical Understanding:</strong> NIST 800-60 doesn't work alone - it's part of an integrated system of standards that work together to secure federal information systems.
+            </div>
+
+            <h3>The Complete Security Standards Flow</h3>
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; color: white;">
+                <h4 style="color: white; border: none;">📊 The Journey from Data to Security</h4>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                        <strong>1️⃣ FIPS 199:</strong> Learn the categorization concepts (CIA + Low/Mod/High)
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px;">
+                        <strong>2️⃣ NIST 800-60:</strong> Map your information types to impact levels
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                        <strong>3️⃣ FIPS 200:</strong> Understand the 17 mandatory security areas
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px;">
+                        <strong>4️⃣ NIST 800-53:</strong> Select controls based on your category
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                        <strong>5️⃣ NIST 800-70:</strong> Apply security configuration baselines (STIGs, CIS Benchmarks, SCAP)
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px;">
+                        <strong>6️⃣ NIST 800-30:</strong> Assess risks and adjust controls
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                        <strong>7️⃣ NIST 800-53A:</strong> Test control effectiveness
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px;">
+                        <strong>8️⃣ NIST 800-37:</strong> Get system authorized (ATO)
+                    </div>
+                </div>
+            </div>
+
+            <h3>How Each Standard Uses 800-60</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Standard</th>
+                        <th>Purpose</th>
+                        <th>How It Uses 800-60</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>FIPS 199</strong></td>
+                        <td>Defines categorization</td>
+                        <td>800-60 implements FIPS 199 concepts</td>
+                        <td>FIPS 199 says "categorize"; 800-60 shows how</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FIPS 200</strong></td>
+                        <td>Minimum security requirements</td>
+                        <td>800-60 category determines requirement level</td>
+                        <td>HIGH system = strictest FIPS 200 requirements</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NIST 800-53</strong></td>
+                        <td>Security control catalog</td>
+                        <td>800-60 category selects baseline</td>
+                        <td>MODERATE = 250+ controls required</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NIST 800-30</strong></td>
+                        <td>Risk assessment</td>
+                        <td>800-60 impacts feed risk calculations</td>
+                        <td>HIGH confidentiality = HIGH impact in risk</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NIST 800-37</strong></td>
+                        <td>RMF process</td>
+                        <td>800-60 is Step 2 (Categorize)</td>
+                        <td>Can't proceed without categorization</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NIST 800-70</strong></td>
+                        <td>Security configuration checklists</td>
+                        <td>800-60 category determines baseline stringency</td>
+                        <td>HIGH = DISA STIG Cat I, CIS Level 1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NIST 800-53A</strong></td>
+                        <td>Control assessment</td>
+                        <td>Test rigor based on 800-60 category</td>
+                        <td>HIGH systems get more thorough testing</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>NIST 800-70: Security Configuration Baselines</h3>
+            <div class="card">
+                <h4>🔧 What is NIST 800-70?</h4>
+                <p>NIST 800-70 provides guidance on implementing security configuration baselines through standardized checklists. It bridges the gap between selecting controls (800-53) and actually configuring your systems securely.</p>
+                
+                <table style="margin-top: 1rem;">
+                    <thead>
+                        <tr>
+                            <th>System Category</th>
+                            <th>Baseline Stringency</th>
+                            <th>Example Requirements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="impact-level impact-low">LOW</span></td>
+                            <td>Basic security settings</td>
+                            <td>• CIS Level 1 Benchmarks<br>
+                                • DISA STIG CAT III findings<br>
+                                • Basic Windows/Linux hardening</td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-moderate">MODERATE</span></td>
+                            <td>Enhanced configurations</td>
+                            <td>• CIS Level 1 + select Level 2<br>
+                                • DISA STIG CAT II & III<br>
+                                • SCAP validated settings</td>
+                        </tr>
+                        <tr>
+                            <td><span class="impact-level impact-high">HIGH</span></td>
+                            <td>Maximum security hardening</td>
+                            <td>• Full CIS Level 2 Benchmarks<br>
+                                • DISA STIG CAT I, II, III<br>
+                                • NSA hardening guides<br>
+                                • Custom restrictive baselines</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="alert alert-info" style="margin-top: 1rem;">
+                    <span class="emoji">💡</span>
+                    <strong>Key Point:</strong> Your 800-60 categorization directly determines which security configuration baseline you must implement. A HIGH system can't use LOW security settings!
+                </div>
+            </div>
+
+            <h3>The Domino Effect of Categorization</h3>
+            <div class="example-box">
+                <h4>🎯 Example: How a HIGH Category Cascades Through All Standards</h4>
+                <ol>
+                    <li><strong>800-60:</strong> Healthcare records = HIGH integrity (patient safety)</li>
+                    <li><strong>FIPS 200:</strong> Must implement all 17 families at maximum level</li>
+                    <li><strong>800-53:</strong> Must implement ~350+ security controls</li>
+                    <li><strong>800-70:</strong> Must apply most restrictive security baselines (DISA STIGs Level I)</li>
+                    <li><strong>800-30:</strong> Risk assessments quarterly (not annually)</li>
+                    <li><strong>800-53A:</strong> Continuous monitoring required (not periodic)</li>
+                    <li><strong>800-37:</strong> ATO valid for only 1 year (not 3 years)</li>
+                </ol>
+                <p style="margin-top: 1rem;"><strong>Result:</strong> One categorization decision affects EVERYTHING!</p>
+            </div>
+        </section>
+
+        <!-- Integration with RMF -->
+        <section class="section">
+            <h2><span class="emoji">🔗</span>Integration with the Risk Management Framework</h2>
+            
+            <h3>Where 800-60 Fits in the RMF</h3>
+            
+            <div style="background: linear-gradient(to right, #667eea, #764ba2); padding: 2rem; border-radius: 12px; color: white; margin: 1.5rem 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div style="text-align: center; flex: 1; min-width: 100px; padding: 0.5rem;">
+                        <div style="font-size: 2rem;">1️⃣</div>
+                        <strong>PREPARE</strong><br>
+                        <small>Establish context</small>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px; padding: 0.5rem; background: rgba(255,255,255,0.2); border-radius: 8px;">
+                        <div style="font-size: 2rem;">2️⃣</div>
+                        <strong>CATEGORIZE</strong><br>
+                        <small style="color: yellow;">← 800-60 HERE!</small>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px; padding: 0.5rem;">
+                        <div style="font-size: 2rem;">3️⃣</div>
+                        <strong>SELECT</strong><br>
+                        <small>Choose controls</small>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px; padding: 0.5rem;">
+                        <div style="font-size: 2rem;">4️⃣</div>
+                        <strong>IMPLEMENT</strong><br>
+                        <small>Deploy controls</small>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px; padding: 0.5rem;">
+                        <div style="font-size: 2rem;">5️⃣</div>
+                        <strong>ASSESS</strong><br>
+                        <small>Test controls</small>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px; padding: 0.5rem;">
+                        <div style="font-size: 2rem;">6️⃣</div>
+                        <strong>AUTHORIZE</strong><br>
+                        <small>Accept risk</small>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 100px; padding: 0.5rem;">
+                        <div style="font-size: 2rem;">7️⃣</div>
+                        <strong>MONITOR</strong><br>
+                        <small>Continuous</small>
+                    </div>
+                </div>
+            </div>
+
+            <h3>The Categorization Impact Chain</h3>
+            <div class="flow-chart" style="flex-direction: column; align-items: stretch;">
+                <div class="card">
+                    <h4>Step 1: 800-60 Information Type Mapping</h4>
+                    <p>Identify all information types and their provisional impacts</p>
+                </div>
+                <div style="text-align: center; font-size: 2rem; color: var(--primary);">↓</div>
+                <div class="card">
+                    <h4>Step 2: FIPS 199 System Categorization</h4>
+                    <p>Apply high water mark to determine system category</p>
+                </div>
+                <div style="text-align: center; font-size: 2rem; color: var(--primary);">↓</div>
+                <div class="card">
+                    <h4>Step 3: 800-53 Control Selection</h4>
+                    <p>Select baseline controls (Low/Moderate/High)</p>
+                </div>
+                <div style="text-align: center; font-size: 2rem; color: var(--primary);">↓</div>
+                <div class="card">
+                    <h4>Step 4: 800-30 Risk Assessment</h4>
+                    <p>Assess risks and tailor controls accordingly</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Pitfalls -->
+        <section class="section">
+            <h2><span class="emoji">⚠️</span>Common Pitfalls and How to Avoid Them</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4 style="color: var(--accent);">❌ Pitfall: Under-categorization</h4>
+                    <p><strong>Problem:</strong> Rating everything as LOW to avoid security requirements</p>
+                    <p><strong>Solution:</strong> Remember that a breach will cost far more than prevention. Be honest about impacts.</p>
+                </div>
+                
+                <div class="card">
+                    <h4 style="color: var(--accent);">❌ Pitfall: Over-categorization</h4>
+                    <p><strong>Problem:</strong> Rating everything as HIGH "just to be safe"</p>
+                    <p><strong>Solution:</strong> This wastes resources. Use 800-60 guidance and document your rationale.</p>
+                </div>
+                
+                <div class="card">
+                    <h4 style="color: var(--accent);">❌ Pitfall: Ignoring Aggregation</h4>
+                    <p><strong>Problem:</strong> Not considering that large volumes increase impact</p>
+                    <p><strong>Solution:</strong> 1 record = LOW, but 1 million records might = HIGH</p>
+                </div>
+                
+                <div class="card">
+                    <h4 style="color: var(--accent);">❌ Pitfall: Missing Information Types</h4>
+                    <p><strong>Problem:</strong> Incomplete inventory leads to gaps</p>
+                    <p><strong>Solution:</strong> Use data discovery tools and interview all stakeholders</p>
+                </div>
+                
+                <div class="card">
+                    <h4 style="color: var(--accent);">❌ Pitfall: Static Categorization</h4>
+                    <p><strong>Problem:</strong> Not updating when system changes</p>
+                    <p><strong>Solution:</strong> Review categorization annually and after major changes</p>
+                </div>
+                
+                <div class="card">
+                    <h4 style="color: var(--accent);">❌ Pitfall: Availability Blind Spot</h4>
+                    <p><strong>Problem:</strong> Focus only on C and I, ignore A</p>
+                    <p><strong>Solution:</strong> Consider business continuity and life safety impacts</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation and Reporting -->
+        <section class="section">
+            <h2><span class="emoji">📝</span>Documenting Your Categorization Decisions</h2>
+            
+            <div class="alert alert-warning">
+                <span class="emoji">⚠️</span>
+                <strong>Audit Requirement:</strong> You MUST document all categorization decisions and rationales. This is not optional - auditors will ask for this!
+            </div>
+
+            <h3>Required Documentation Elements</h3>
+            <div class="card">
+                <h4>System Categorization Document Template</h4>
+                <ol>
+                    <li><strong>Executive Summary</strong>
+                        <ul>
+                            <li>System name and identifier</li>
+                            <li>Final categorization (e.g., MODERATE)</li>
+                            <li>Date of categorization</li>
+                            <li>Approving official</li>
+                        </ul>
+                    </li>
+                    <li><strong>System Description</strong>
+                        <ul>
+                            <li>System purpose and mission</li>
+                            <li>System boundaries</li>
+                            <li>User population</li>
+                            <li>Interconnections</li>
+                        </ul>
+                    </li>
+                    <li><strong>Information Type Identification</strong>
+                        <ul>
+                            <li>Complete inventory of information types</li>
+                            <li>Data sources and flows</li>
+                            <li>Volume/aggregation considerations</li>
+                        </ul>
+                    </li>
+                    <li><strong>Impact Analysis</strong>
+                        <ul>
+                            <li>800-60 mapping for each type</li>
+                            <li>Provisional impact levels</li>
+                            <li>Special factors applied</li>
+                            <li>Adjusted impact levels</li>
+                        </ul>
+                    </li>
+                    <li><strong>System Categorization Calculation</strong>
+                        <ul>
+                            <li>High water mark application</li>
+                            <li>Final SC formula</li>
+                            <li>Overall categorization</li>
+                        </ul>
+                    </li>
+                    <li><strong>Approvals and Reviews</strong>
+                        <ul>
+                            <li>Information owner approval</li>
+                            <li>System owner approval</li>
+                            <li>Authorizing official approval</li>
+                            <li>Review schedule</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <h3>Sample Categorization Statements</h3>
+            <div class="example-box">
+                <h4>📄 How to Write the Official Categorization Statement</h4>
+                
+                <p><strong>Format:</strong></p>
+                <code style="display: block; padding: 1rem; background: #2c3e50; color: white; border-radius: 4px; margin: 1rem 0;">
+SC [system name] = {(confidentiality, impact), (integrity, impact), (availability, impact)}
+                </code>
+                
+                <p><strong>Examples:</strong></p>
+                <ul>
+                    <li><code>SC HR-System = {(C,MOD), (I,MOD), (A,LOW)}</code> → MODERATE</li>
+                    <li><code>SC Financial-DB = {(C,HIGH), (I,HIGH), (A,MOD)}</code> → HIGH</li>
+                    <li><code>SC Public-Website = {(C,LOW), (I,LOW), (A,LOW)}</code> → LOW</li>
+                </ul>
+            </div>
+
+            <h3>Justification Templates</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Impact Adjustment</th>
+                        <th>Template Justification</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Raising due to aggregation</td>
+                        <td>"While individual records are [original level], the system contains [number] records. Compromise of the entire dataset would result in [specific harm], warranting [new level] impact."</td>
+                    </tr>
+                    <tr>
+                        <td>Raising due to life safety</td>
+                        <td>"Although 800-60 suggests [original level], this information directly affects [specific safety system]. Loss of [C/I/A] could result in [specific harm to persons], requiring HIGH impact."</td>
+                    </tr>
+                    <tr>
+                        <td>Regulatory requirement</td>
+                        <td>"[Regulation name] requires [specific protection]. To meet compliance requirements, [CIA dimension] must be rated at least [level]."</td>
+                    </tr>
+                    <tr>
+                        <td>Mission criticality</td>
+                        <td>"This system supports [mission function]. Analysis shows the organization cannot perform [critical function] without this system for more than [time period], requiring [level] availability."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Downloadable Resources -->
+        <section class="section">
+            <h2><span class="emoji">📥</span>Downloadable Resources and Templates</h2>
+            
+            <div class="grid">
+                <div class="download-card" onclick="alert('In a real implementation, this would download an Excel template')">
+                    <h4>📊 Information Type Mapping Worksheet</h4>
+                    <p>Excel template with 800-60 categories and impact guidance</p>
+                    <small>Click to download</small>
+                </div>
+                
+                <div class="download-card" onclick="alert('In a real implementation, this would download a Word template')">
+                    <h4>📄 System Categorization Document Template</h4>
+                    <p>Complete template for documenting your categorization decisions</p>
+                    <small>Click to download</small>
+                </div>
+                
+                <div class="download-card" onclick="alert('In a real implementation, this would download a checklist')">
+                    <h4>✅ Categorization Review Checklist</h4>
+                    <p>Step-by-step checklist to ensure complete categorization</p>
+                    <small>Click to download</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comprehensive Checklist -->
+        <section class="section">
+            <h2><span class="emoji">✅</span>Complete 800-60 Implementation Checklist</h2>
+            
+            <div class="alert alert-success">
+                <span class="emoji">📋</span>
+                <strong>Use this checklist to ensure you've completed all steps in the categorization process</strong>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h4>Phase 1: Preparation ☐</h4>
+                    <ul class="checklist">
+                        <li>Download NIST 800-60 Vol I & II</li>
+                        <li>Review FIPS 199 definitions</li>
+                        <li>Understand FIPS 200 requirements</li>
+                        <li>Identify system boundaries</li>
+                        <li>Identify stakeholders</li>
+                        <li>Schedule categorization meeting</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Phase 2: Information Inventory ☐</h4>
+                    <ul class="checklist">
+                        <li>List all information types</li>
+                        <li>Document data sources</li>
+                        <li>Map data flows</li>
+                        <li>Identify data volume/aggregation</li>
+                        <li>Note retention requirements</li>
+                        <li>Identify regulatory requirements</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Phase 3: Initial Mapping ☐</h4>
+                    <ul class="checklist">
+                        <li>Map to 800-60 Vol II categories</li>
+                        <li>Identify provisional C-I-A ratings</li>
+                        <li>Document 800-60 rationale</li>
+                        <li>Note any gaps or uncertainties</li>
+                        <li>Review with data owners</li>
+                        <li>Get initial consensus</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Phase 4: Special Factors ☐</h4>
+                    <ul class="checklist">
+                        <li>Assess aggregation effects</li>
+                        <li>Evaluate life safety impacts</li>
+                        <li>Calculate financial impacts</li>
+                        <li>Review privacy requirements</li>
+                        <li>Consider mission criticality</li>
+                        <li>Apply time sensitivity factors</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Phase 5: Final Categorization ☐</h4>
+                    <ul class="checklist">
+                        <li>Adjust impacts based on factors</li>
+                        <li>Apply high water mark rule</li>
+                        <li>Calculate final SC formula</li>
+                        <li>Document all adjustments</li>
+                        <li>Prepare justification memo</li>
+                        <li>Create categorization statement</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Phase 6: Approval & Next Steps ☐</h4>
+                    <ul class="checklist">
+                        <li>Get system owner approval</li>
+                        <li>Get data owner sign-offs</li>
+                        <li>Obtain AO concurrence</li>
+                        <li>Select 800-53 controls baseline</li>
+                        <li>Begin risk assessment (800-30)</li>
+                        <li>Schedule annual review</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Reference Guide -->
+        <section class="section">
+            <h2><span class="emoji">🎯</span>Your 800-60 Action Plan</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>If Starting Fresh:</h4>
+                    <ol>
+                        <li>Download NIST 800-60 Volumes I & II</li>
+                        <li>Create information inventory</li>
+                        <li>Map to 800-60 categories</li>
+                        <li>Determine provisional impacts</li>
+                        <li>Apply special factors</li>
+                        <li>Calculate system category</li>
+                        <li>Document everything</li>
+                        <li>Get stakeholder approval</li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <h4>If Reviewing Existing:</h4>
+                    <ol>
+                        <li>Verify information inventory complete</li>
+                        <li>Check for new information types</li>
+                        <li>Review special factors changes</li>
+                        <li>Validate impact ratings</li>
+                        <li>Recalculate if needed</li>
+                        <li>Update documentation</li>
+                        <li>Communicate changes</li>
+                        <li>Adjust controls if needed</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Takeaways -->
+        <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white; border-bottom: 3px solid white;"><span class="emoji">🎓</span>Key Takeaways: Master NIST 800-60</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: white;">🎯 Remember the Purpose</h4>
+                    <p>800-60 bridges the gap between "we have data" and "we need this much security"</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: white;">📊 High Water Mark Rules</h4>
+                    <p>Your system = highest impact across ALL information types and ALL CIA dimensions</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: white;">⚖️ Balance is Key</h4>
+                    <p>Not too low (risk), not too high (cost). Use 800-60 guidance + your context</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: white;">📝 Document Everything</h4>
+                    <p>Auditors will ask WHY. Your categorization rationale is as important as the result</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: white;">🔄 It's Not Static</h4>
+                    <p>Review annually and when systems change. New data = new categorization</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: white;">🔗 It's Connected</h4>
+                    <p>Your category drives everything: controls, testing, monitoring, authorization</p>
+                </div>
+            </div>
+
+            <h3 style="color: white; text-align: center; margin-top: 2rem;">The NIST 800-60 Success Formula</h3>
+            <p style="text-align: center; font-size: 1.25rem; background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                <strong>Identify Information</strong> → <strong>Map to 800-60</strong> → <strong>Apply Special Factors</strong> → <strong>Calculate High Water Mark</strong> → <strong>Document Decisions</strong> → <strong>Get Approval</strong> → <strong>Drive Security Program</strong>
+            </p>
+        </section>
+
+        <!-- Closing -->
+        <section class="section" style="background: var(--gradient); color: white;">
+            <h2 style="color: white; border-bottom: 3px solid white;">🎉 Congratulations!</h2>
+            <p style="font-size: 1.2rem; text-align: center;">
+                You now understand NIST SP 800-60 and how to map information types to security categories!
+            </p>
+            <p style="text-align: center; margin-top: 2rem;">
+                <strong>Remember:</strong> Proper categorization is the foundation of all your security decisions. 
+                Get it right, and everything else follows. Get it wrong, and you're building on sand.
+            </p>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+                <h3 style="color: white; text-align: center;">Your Next Steps:</h3>
+                <ol style="max-width: 600px; margin: 0 auto;">
+                    <li>Download NIST 800-60 Volumes I and II</li>
+                    <li>Inventory your information types</li>
+                    <li>Map them to 800-60 categories</li>
+                    <li>Apply special factors</li>
+                    <li>Calculate your system category</li>
+                    <li>Select your 800-53 baseline</li>
+                    <li>Move to risk assessment (800-30)</li>
+                </ol>
+            </div>
+            
+            <p style="text-align: center; margin-top: 2rem; font-size: 2rem;">
+                🛡️ Now go forth and categorize wisely! 🛡️
+            </p>
+        </section>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(event, tabName) {
+            // Remove active class from all tabs and contents
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and content
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Interactive calculator functionality
+        let infoTypeCount = 1;
+
+        function addInfoType() {
+            infoTypeCount++;
+            const container = document.getElementById('info-types');
+            const newType = document.createElement('div');
+            newType.className = 'calculator-input';
+            newType.innerHTML = `
+                <label>Information Type ${infoTypeCount}:</label>
+                <input type="text" id="type${infoTypeCount}-name" placeholder="Enter information type" style="width: 100%; padding: 0.75rem; border-radius: 6px; border: none; margin-bottom: 0.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
+                    <select id="type${infoTypeCount}-c" onchange="calculateCategory()">
+                        <option value="">Confidentiality</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="high">High</option>
+                    </select>
+                    <select id="type${infoTypeCount}-i" onchange="calculateCategory()">
+                        <option value="">Integrity</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="high">High</option>
+                    </select>
+                    <select id="type${infoTypeCount}-a" onchange="calculateCategory()">
+                        <option value="">Availability</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+            `;
+            container.appendChild(newType);
+        }
+
+        function calculateCategory() {
+            const impactLevels = { '': 0, 'low': 1, 'moderate': 2, 'high': 3 };
+            const impactNames = ['Not Set', 'Low', 'Moderate', 'High'];
+            
+            let maxC = 0, maxI = 0, maxA = 0;
+            let details = '<h4>Information Types:</h4><ul>';
+            
+            for (let i = 1; i <= infoTypeCount; i++) {
+                const name = document.getElementById(`type${i}-name`)?.value || `Type ${i}`;
+                const c = document.getElementById(`type${i}-c`)?.value || '';
+                const i_val = document.getElementById(`type${i}-i`)?.value || '';
+                const a = document.getElementById(`type${i}-a`)?.value || '';
+                
+                if (c || i_val || a) {
+                    maxC = Math.max(maxC, impactLevels[c]);
+                    maxI = Math.max(maxI, impactLevels[i_val]);
+                    maxA = Math.max(maxA, impactLevels[a]);
+                    
+                    details += `<li><strong>${name}:</strong> C=${c || 'not set'}, I=${i_val || 'not set'}, A=${a || 'not set'}</li>`;
+                }
+            }
+            
+            details += '</ul>';
+            
+            if (maxC > 0 || maxI > 0 || maxA > 0) {
+                const overallMax = Math.max(maxC, maxI, maxA);
+                const categoryColors = ['', 'impact-low', 'impact-moderate', 'impact-high'];
+                
+                details += `
+                    <h4>System Impact Levels (High Water Mark):</h4>
+                    <p>Confidentiality: <span class="impact-level ${categoryColors[maxC]}">${impactNames[maxC]}</span></p>
+                    <p>Integrity: <span class="impact-level ${categoryColors[maxI]}">${impactNames[maxI]}</span></p>
+                    <p>Availability: <span class="impact-level ${categoryColors[maxA]}">${impactNames[maxA]}</span></p>
+                    <h3 style="text-align: center; margin-top: 1rem;">Overall System Category: 
+                        <span class="impact-level ${categoryColors[overallMax]}" style="font-size: 1.5rem;">${impactNames[overallMax]}</span>
+                    </h3>
+                `;
+                
+                document.getElementById('result-details').innerHTML = details;
+                document.getElementById('calculation-result').classList.add('show');
+            }
+        }
+
+        // Smooth scroll animation for internal links
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            
+            const observerOptions = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
