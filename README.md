@@ -1,2 +1,2 @@
 # CISS470
-Policy and Risk Management
+Policy, Risk Management, and Databases
