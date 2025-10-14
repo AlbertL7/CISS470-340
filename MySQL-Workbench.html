@@ -1,0 +1,2708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL Workbench ERD Design Lab - Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066cc;
+            --secondary: #ff6b35;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --purple: #6f42c1;
+            --table-blue: #4285f4;
+            --table-green: #34a853;
+            --table-orange: #fbbc04;
+            --table-purple: #673ab7;
+            --table-yellow: #ffd700;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s;
+        }
+
+        .header .meta-info {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .header .meta-info span {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: var(--dark);
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-tab {
+            padding: 15px 25px;
+            color: white;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+            position: relative;
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .checklist-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .checklist-summary {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checklist-summary h3 {
+            margin-bottom: 15px;
+        }
+
+        .checklist-summary ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist-summary li {
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .checklist-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            flex-grow: 1;
+        }
+
+        .checklist-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .table-container {
+            margin: 30px 0;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .table-header:hover {
+            background: linear-gradient(135deg, var(--info) 0%, var(--primary) 100%);
+        }
+
+        .table-header h3 {
+            margin: 0;
+        }
+
+        .table-header .toggle-icon {
+            transition: transform 0.3s;
+        }
+
+        .table-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .table-content {
+            padding: 20px;
+            background: #f8f9fa;
+            max-height: 600px;
+            overflow: auto;
+            transition: max-height 0.3s ease;
+        }
+
+        .table-content.collapsed {
+            max-height: 0;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #dee2e6;
+        }
+
+        th {
+            background: var(--dark);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        tr:nth-child(even) {
+            background: white;
+        }
+
+        tr:hover {
+            background: #e3f2fd;
+            transition: background 0.3s;
+        }
+
+        td.check {
+            text-align: center;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .badge-primary { background: var(--primary); color: white; }
+        .badge-success { background: var(--success); color: white; }
+        .badge-info { background: var(--info); color: white; }
+        .badge-warning { background: var(--warning); color: #333; }
+        .badge-danger { background: var(--danger); color: white; }
+        .badge-purple { background: var(--purple); color: white; }
+
+        .relationship-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+
+        .relationship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: var(--primary);
+        }
+
+        .relationship-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .relationship-card .relationship-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 5px solid var(--info);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .important-box {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c2c7 100%);
+            border-left: 5px solid var(--danger);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 30px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success) 0%, var(--info) 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .color-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+
+        .submission-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .submission-list h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .submission-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .submission-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .legend-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 10px 0;
+        }
+
+        .legend-card h4 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ MySQL Workbench ERD Design Lab</h1>
+            <div class="subtitle">Complete Online Store Database Design</div>
+            <div class="meta-info">
+                <span>📝 Type: Participation/Lab</span>
+                <span>🔧 Tools: MySQL Workbench</span>
+                <span>📊 12 Tables</span>
+                <span>🔗 18 Relationships</span>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+            <button class="nav-tab" onclick="showSection('checklist')">Checklist</button>
+            <button class="nav-tab" onclick="showSection('setup')">Part 1: Setup</button>
+            <button class="nav-tab" onclick="showSection('tables')">Part 2: Tables</button>
+            <button class="nav-tab" onclick="showSection('relationships')">Part 3: Relationships</button>
+            <button class="nav-tab" onclick="showSection('formatting')">Part 4: Formatting</button>
+            <button class="nav-tab" onclick="showSection('finalize')">Part 5: Finalize</button>
+            <button class="nav-tab" onclick="showSection('resources')">Resources</button>
+        </div>
+
+        <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <h2>📚 Lab Overview</h2>
+                
+                <div class="info-box">
+                    <h3>What We're Building: ONLINE STORE DATABASE STRUCTURE</h3>
+                    <p><strong>12 Tables Total:</strong></p>
+                    <ul>
+                        <li>Customer Management: Customers, Addresses</li>
+                        <li>Product Management: Products, Categories, Suppliers</li>
+                        <li>Order Processing: Orders, Order_Items</li>
+                        <li>Employee Management: Employees</li>
+                        <li>Customer Interactions: Reviews, Shopping_Cart, Wishlists</li>
+                        <li>Inventory: Inventory_Transactions</li>
+                    </ul>
+                    <p><strong>18 Relationships Total:</strong></p>
+                    <ul>
+                        <li>16 standard foreign key relationships</li>
+                        <li>2 self-referencing relationships (Categories and Employees)</li>
+                    </ul>
+                    <p><strong>Junction Tables (for Many-to-Many):</strong></p>
+                    <ul>
+                        <li>Order_Items (connects Orders ↔ Products)</li>
+                        <li>Shopping_Cart (connects Customers ↔ Products)</li>
+                        <li>Wishlists (connects Customers ↔ Products)</li>
+                    </ul>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overall-progress">0%</div>
+                </div>
+
+                <h3>🎨 Color Coding Scheme</h3>
+                <div class="color-legend">
+                    <div class="color-item">
+                        <div class="color-box" style="background: #4285f4;"></div>
+                        <span>Blue: Customers, Addresses, Shopping_Cart, Wishlists</span>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-box" style="background: #34a853;"></div>
+                        <span>Green: Products, Categories, Suppliers</span>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-box" style="background: #fbbc04;"></div>
+                        <span>Orange: Orders, Order_Items</span>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-box" style="background: #673ab7;"></div>
+                        <span>Purple: Employees</span>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-box" style="background: #ffd700;"></div>
+                        <span>Yellow: Reviews, Inventory_Transactions</span>
+                    </div>
+                </div>
+
+                <div class="important-box">
+                    <h3>⚠️ Important Note About Foreign Keys</h3>
+                    <p><strong>When Creating Tables (Part 2):</strong></p>
+                    <p>We are NOT setting foreign keys yet! We're only creating the columns that will become foreign keys. For example:</p>
+                    <ul>
+                        <li>The customer_id column in Orders table is just a regular INT column for now</li>
+                        <li>The category_id column in Products table is just a regular INT column for now</li>
+                        <li>These columns will automatically become foreign keys when we draw relationships in Part 3</li>
+                    </ul>
+                    <p><strong>When Drawing Relationships (Part 3):</strong></p>
+                    <p>Foreign keys are created AUTOMATICALLY when you connect tables with the relationship tools:</p>
+                    <ul>
+                        <li>When you connect Customers → Orders, MySQL Workbench automatically makes Orders.customer_id a foreign key</li>
+                        <li>The tool adds the FK constraint, creates the index, and sets up the reference</li>
+                        <li>You'll see "FK" appear next to the column name after the relationship is created</li>
+                    </ul>
+                </div>
+
+                <div class="submission-list">
+                    <h3>📦 Submission Requirements</h3>
+                    <ul>
+                        <li><strong>OnlineStore_ERD_LastName.mwb</strong> - The MySQL Workbench model file</li>
+                        <li><strong>Screenshot of information_schema</strong> and Query</li>
+                        <li><strong>Screenshot of ERD</strong> from MySQL Workbench</li>
+                        <li><strong>Exported PDF</strong> from MySQL-DataDictionary-Plugin</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Checklist Section -->
+            <section id="checklist" class="section">
+                <h2>✅ Complete Relationship Checklist</h2>
+                
+                <div class="checklist-container">
+                    <div class="checklist-summary">
+                        <h3>✓ CHECKLIST - You should have created:</h3>
+                        <ul>
+                            <li>3 relationships FROM Customers <span>□</span></li>
+                            <li>5 relationships FROM Products <span>□</span></li>
+                            <li>2 relationships FROM Orders <span>□</span></li>
+                            <li>1 relationship FROM Categories <span>□</span></li>
+                            <li>1 relationship FROM Suppliers <span>□</span></li>
+                            <li>1 relationship FROM Employees <span>□</span></li>
+                            <li>1 relationship FROM Addresses <span>□</span></li>
+                            <li>2 relationships FROM Customers (to junction tables) <span>□</span></li>
+                            <li>2 self-referencing relationships <span>□</span></li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>TOTAL: 18 relationships</strong></p>
+                    </div>
+                    
+                    <h3>Detailed Relationship Checklist:</h3>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel1" onchange="updateProgress()">
+                        <label for="rel1">Relationship 1: Customers → Addresses</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel2" onchange="updateProgress()">
+                        <label for="rel2">Relationship 2: Customers → Orders</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel3" onchange="updateProgress()">
+                        <label for="rel3">Relationship 3: Customers → Reviews</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel4" onchange="updateProgress()">
+                        <label for="rel4">Relationship 4: Categories → Products</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel5" onchange="updateProgress()">
+                        <label for="rel5">Relationship 5: Suppliers → Products</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel6" onchange="updateProgress()">
+                        <label for="rel6">Relationship 6: Employees → Orders</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel7" onchange="updateProgress()">
+                        <label for="rel7">Relationship 7: Addresses → Orders (shipping)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel8" onchange="updateProgress()">
+                        <label for="rel8">Relationship 8: Orders → Order_Items</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel9" onchange="updateProgress()">
+                        <label for="rel9">Relationship 9: Products → Order_Items</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel10" onchange="updateProgress()">
+                        <label for="rel10">Relationship 10: Products → Reviews</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel11" onchange="updateProgress()">
+                        <label for="rel11">Relationship 11: Products → Inventory_Transactions</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel12" onchange="updateProgress()">
+                        <label for="rel12">Relationship 12: Orders → Inventory_Transactions</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel13" onchange="updateProgress()">
+                        <label for="rel13">Relationship 13: Customers → Shopping_Cart</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel14" onchange="updateProgress()">
+                        <label for="rel14">Relationship 14: Products → Shopping_Cart</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel15" onchange="updateProgress()">
+                        <label for="rel15">Relationship 15: Customers → Wishlists</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel16" onchange="updateProgress()">
+                        <label for="rel16">Relationship 16: Products → Wishlists</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel17" onchange="updateProgress()">
+                        <label for="rel17">Relationship 17: Categories Self-Reference</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="rel18" onchange="updateProgress()">
+                        <label for="rel18">Relationship 18: Employees Self-Reference</label>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="checklist-progress">0%</div>
+                </div>
+            </section>
+
+            <!-- Setup Section -->
+            <section id="setup" class="section">
+                <h2>🚀 Part 1: Starting a New ERD Model</h2>
+                
+                <div class="info-box">
+                    <h3>Step 1: Open MySQL Workbench</h3>
+                    <ol>
+                        <li>Launch MySQL Workbench</li>
+                        <li>From the home screen, click <strong>File → New Model</strong> (or press Ctrl+N)</li>
+                        <li>A new model tab will open</li>
+                    </ol>
+                </div>
+
+                <div class="info-box">
+                    <h3>Step 2: Set Up the Schema</h3>
+                    <ol>
+                        <li>In the Model Overview, double-click <strong>Add Diagram</strong></li>
+                        <li>This opens the EER Diagram canvas where we'll design our database</li>
+                        <li>At the top, rename "mydb" to <strong>"OnlineStoreDB"</strong> by double-clicking it</li>
+                    </ol>
+                </div>
+
+                <div class="important-box">
+                    <strong>⚠️ IMPORTANT:</strong> In Part 2, we're only creating tables and columns. We are NOT setting up foreign keys yet - those will be created automatically when we draw relationships in Part 3.
+                </div>
+            </section>
+
+            <!-- Tables Section -->
+            <section id="tables" class="section">
+                <h2>📋 Part 2: Creating Tables in the ERD</h2>
+                
+                <div class="important-box">
+                    <strong>⚠️ IMPORTANT:</strong> In this part, we're only creating tables and columns. We are NOT setting up foreign keys yet - those will be created automatically when we draw relationships in Part 3.
+                </div>
+
+                <div class="info-box">
+                    <p>We'll create 12 tables. For each table, follow these steps:</p>
+                    <ol>
+                        <li>Click the Table tool in the left toolbar (looks like a grid)</li>
+                        <li>Click anywhere on the canvas to place the table</li>
+                        <li>Double-click the table to edit it</li>
+                        <li>Add columns as specified below (just create the columns, don't worry about foreign keys)</li>
+                    </ol>
+                    <p><strong>Legend:</strong> PK=Primary Key, NN=Not Null, UQ=Unique, AI=Auto Increment</p>
+                </div>
+
+                <!-- Table 1: Customers -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('customers-table')">
+                        <h3>Table 1: Customers</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="customers-table">
+                        <p><strong>Table Name:</strong> Customers</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>first_name</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>last_name</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>phone</td>
+                                <td>VARCHAR(20)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>date_registered</td>
+                                <td>DATE</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>loyalty_points</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 2: Addresses -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('addresses-table')">
+                        <h3>Table 2: Addresses</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="addresses-table">
+                        <p><strong>Table Name:</strong> Addresses</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>address_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>address_type</td>
+                                <td>ENUM('Billing','Shipping','Both')</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>'Both'</td>
+                            </tr>
+                            <tr>
+                                <td>street_address</td>
+                                <td>VARCHAR(255)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>city</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>state_province</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>postal_code</td>
+                                <td>VARCHAR(20)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>country</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>is_default</td>
+                                <td>BOOLEAN</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>FALSE</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 3: Categories -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('categories-table')">
+                        <h3>Table 3: Categories</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="categories-table">
+                        <p><strong>Table Name:</strong> Categories</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>category_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>category_name</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>description</td>
+                                <td>TEXT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>parent_category_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 4: Suppliers -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('suppliers-table')">
+                        <h3>Table 4: Suppliers</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="suppliers-table">
+                        <p><strong>Table Name:</strong> Suppliers</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>supplier_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>company_name</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>contact_name</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>contact_email</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>phone</td>
+                                <td>VARCHAR(20)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>address</td>
+                                <td>VARCHAR(255)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>city</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>country</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>rating</td>
+                                <td>DECIMAL(2,1)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 5: Products -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('products-table')">
+                        <h3>Table 5: Products</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="products-table">
+                        <p><strong>Table Name:</strong> Products</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>product_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>product_name</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>description</td>
+                                <td>TEXT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>category_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>supplier_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>unit_price</td>
+                                <td>DECIMAL(10,2)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>units_in_stock</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>units_on_order</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>reorder_level</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>discontinued</td>
+                                <td>BOOLEAN</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>FALSE</td>
+                            </tr>
+                            <tr>
+                                <td>weight_kg</td>
+                                <td>DECIMAL(8,3)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>date_added</td>
+                                <td>DATE</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 6: Employees -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('employees-table')">
+                        <h3>Table 6: Employees</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="employees-table">
+                        <p><strong>Table Name:</strong> Employees</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>employee_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>first_name</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>last_name</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td>VARCHAR(100)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>phone</td>
+                                <td>VARCHAR(20)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>hire_date</td>
+                                <td>DATE</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>job_title</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>department</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>manager_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>salary</td>
+                                <td>DECIMAL(10,2)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 7: Orders -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('orders-table')">
+                        <h3>Table 7: Orders</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="orders-table">
+                        <p><strong>Table Name:</strong> Orders</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>order_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>employee_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>order_date</td>
+                                <td>DATETIME</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td>CURRENT_TIMESTAMP</td>
+                            </tr>
+                            <tr>
+                                <td>required_date</td>
+                                <td>DATE</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>shipped_date</td>
+                                <td>DATETIME</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>ship_address_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>order_status</td>
+                                <td>ENUM('Pending','Processing','Shipped','Delivered','Cancelled')</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>'Pending'</td>
+                            </tr>
+                            <tr>
+                                <td>payment_method</td>
+                                <td>VARCHAR(50)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>total_amount</td>
+                                <td>DECIMAL(10,2)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>notes</td>
+                                <td>TEXT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 8: Order_Items -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('order-items-table')">
+                        <h3>Table 8: Order_Items (Junction Table)</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="order-items-table">
+                        <p><strong>Table Name:</strong> Order_Items</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>order_item_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>order_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>product_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>quantity</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>unit_price</td>
+                                <td>DECIMAL(10,2)</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>discount_percent</td>
+                                <td>DECIMAL(4,2)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>line_total</td>
+                                <td>DECIMAL(10,2)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 9: Reviews -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('reviews-table')">
+                        <h3>Table 9: Reviews</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="reviews-table">
+                        <p><strong>Table Name:</strong> Reviews</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>review_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>product_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>rating</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>review_text</td>
+                                <td>TEXT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>review_date</td>
+                                <td>DATETIME</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>CURRENT_TIMESTAMP</td>
+                            </tr>
+                            <tr>
+                                <td>is_verified_purchase</td>
+                                <td>BOOLEAN</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>FALSE</td>
+                            </tr>
+                            <tr>
+                                <td>helpful_count</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 10: Shopping_Cart -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('shopping-cart-table')">
+                        <h3>Table 10: Shopping_Cart (Junction Table)</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="shopping-cart-table">
+                        <p><strong>Table Name:</strong> Shopping_Cart</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>cart_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>product_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>quantity</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>added_date</td>
+                                <td>DATETIME</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>CURRENT_TIMESTAMP</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 11: Wishlists -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('wishlists-table')">
+                        <h3>Table 11: Wishlists (Junction Table)</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="wishlists-table">
+                        <p><strong>Table Name:</strong> Wishlists</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>wishlist_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>product_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>added_date</td>
+                                <td>DATE</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>priority</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>5</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Table 12: Inventory_Transactions -->
+                <div class="table-container">
+                    <div class="table-header" onclick="toggleTable('inventory-table')">
+                        <h3>Table 12: Inventory_Transactions</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="table-content" id="inventory-table">
+                        <p><strong>Table Name:</strong> Inventory_Transactions</p>
+                        <table>
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Datatype</th>
+                                <th>PK</th>
+                                <th>NN</th>
+                                <th>UQ</th>
+                                <th>AI</th>
+                                <th>Default</th>
+                            </tr>
+                            <tr>
+                                <td>transaction_id</td>
+                                <td>INT</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>product_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>transaction_type</td>
+                                <td>ENUM('Purchase','Sale','Adjustment','Return')</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>quantity</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td class="check">✓</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>transaction_date</td>
+                                <td>DATETIME</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>CURRENT_TIMESTAMP</td>
+                            </tr>
+                            <tr>
+                                <td>reference_order_id</td>
+                                <td>INT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>notes</td>
+                                <td>TEXT</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Relationships Section -->
+            <section id="relationships" class="section">
+                <h2>🔗 Part 3: Creating Relationships</h2>
+                
+                <div class="info-box">
+                    <p>Now we'll connect the tables. We'll create 18 relationships total.</p>
+                    <p><strong>IMPORTANT:</strong> When you draw relationship lines between tables, MySQL Workbench AUTOMATICALLY:</p>
+                    <ul>
+                        <li>Creates the foreign key constraint</li>
+                        <li>Adds "FK" designation to the column</li>
+                        <li>Sets up the proper references</li>
+                        <li>Creates indexes for performance</li>
+                    </ul>
+                    <p>You don't need to manually set foreign keys - the relationship tools do it all for you!</p>
+                </div>
+
+                <div class="legend-card">
+                    <h4>Understanding Relationship Lines in MySQL Workbench:</h4>
+                    <p>MySQL Workbench has TWO types of relationship tools:</p>
+                    <ul>
+                        <li><strong>━━━ Solid Line (Identifying Relationship)</strong> - Tool icon: solid line with crow's foot
+                            <ul>
+                                <li>Used when the foreign key becomes PART of the primary key</li>
+                                <li>Child record cannot exist without parent</li>
+                                <li>Example: Order_Items needs both order_id AND product_id</li>
+                            </ul>
+                        </li>
+                        <li><strong>┅┅┅ Dashed Line (Non-Identifying Relationship)</strong> - Tool icon: dashed line with crow's foot
+                            <ul>
+                                <li>Used when the foreign key is just a regular column</li>
+                                <li>Child record can conceptually exist without parent</li>
+                                <li>Example: Products can exist without a Category</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>How to Create a Relationship:</h3>
+                    <ol>
+                        <li>Select the correct tool from the left toolbar (solid or dashed as specified below)</li>
+                        <li>Click the PARENT table first (the "one" side - table with the primary key)</li>
+                        <li>Click the CHILD table second (the "many" side - table with the foreign key)</li>
+                        <li>MySQL Workbench automatically creates the foreign key column if it doesn't exist</li>
+                    </ol>
+                </div>
+
+                <h3>Relationships to Create:</h3>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">1</span> Customers to Addresses</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Customers table</p>
+                    <p><strong>Second Click:</strong> Addresses table</p>
+                    <p><strong>What it creates:</strong> Links Customers.customer_id to Addresses.customer_id</p>
+                    <p><strong>Meaning:</strong> One customer can have many addresses</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">2</span> Customers to Orders</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Customers table</p>
+                    <p><strong>Second Click:</strong> Orders table</p>
+                    <p><strong>What it creates:</strong> Links Customers.customer_id to Orders.customer_id</p>
+                    <p><strong>Meaning:</strong> One customer can place many orders (orders cannot exist without customer)</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">3</span> Customers to Reviews</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Customers table</p>
+                    <p><strong>Second Click:</strong> Reviews table</p>
+                    <p><strong>What it creates:</strong> Links Customers.customer_id to Reviews.customer_id</p>
+                    <p><strong>Meaning:</strong> One customer can write many reviews</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">4</span> Categories to Products</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Categories table</p>
+                    <p><strong>Second Click:</strong> Products table</p>
+                    <p><strong>What it creates:</strong> Links Categories.category_id to Products.category_id</p>
+                    <p><strong>Meaning:</strong> One category can contain many products (products can exist without category)</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">5</span> Suppliers to Products</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Suppliers table</p>
+                    <p><strong>Second Click:</strong> Products table</p>
+                    <p><strong>What it creates:</strong> Links Suppliers.supplier_id to Products.supplier_id</p>
+                    <p><strong>Meaning:</strong> One supplier can provide many products</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">6</span> Employees to Orders</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Employees table</p>
+                    <p><strong>Second Click:</strong> Orders table</p>
+                    <p><strong>What it creates:</strong> Links Employees.employee_id to Orders.employee_id</p>
+                    <p><strong>Meaning:</strong> One employee can process many orders</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">7</span> Addresses to Orders (for shipping)</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Addresses table</p>
+                    <p><strong>Second Click:</strong> Orders table</p>
+                    <p><strong>What happens:</strong> A dialog box appears asking which column to link</p>
+                    <p><strong>Select:</strong> Link Addresses.address_id to Orders.ship_address_id</p>
+                    <p><strong>Meaning:</strong> One address can be used for shipping many orders</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">8</span> Orders to Order_Items</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Orders table</p>
+                    <p><strong>Second Click:</strong> Order_Items table</p>
+                    <p><strong>What it creates:</strong> Links Orders.order_id to Order_Items.order_id</p>
+                    <p><strong>Meaning:</strong> One order can have many line items (items cannot exist without order)</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">9</span> Products to Order_Items</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Products table</p>
+                    <p><strong>Second Click:</strong> Order_Items table</p>
+                    <p><strong>What it creates:</strong> Links Products.product_id to Order_Items.product_id</p>
+                    <p><strong>Meaning:</strong> One product can appear in many order line items</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">10</span> Products to Reviews</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Products table</p>
+                    <p><strong>Second Click:</strong> Reviews table</p>
+                    <p><strong>What it creates:</strong> Links Products.product_id to Reviews.product_id</p>
+                    <p><strong>Meaning:</strong> One product can have many reviews (review needs a product)</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">11</span> Products to Inventory_Transactions</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Products table</p>
+                    <p><strong>Second Click:</strong> Inventory_Transactions table</p>
+                    <p><strong>What it creates:</strong> Links Products.product_id to Inventory_Transactions.product_id</p>
+                    <p><strong>Meaning:</strong> One product can have many inventory transactions</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">12</span> Orders to Inventory_Transactions</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Orders table</p>
+                    <p><strong>Second Click:</strong> Inventory_Transactions table</p>
+                    <p><strong>What happens:</strong> A dialog box appears</p>
+                    <p><strong>Select:</strong> Link Orders.order_id to Inventory_Transactions.reference_order_id</p>
+                    <p><strong>Meaning:</strong> One order can be referenced in inventory transactions (optional reference)</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">13</span> Customers to Shopping_Cart</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Customers table</p>
+                    <p><strong>Second Click:</strong> Shopping_Cart table</p>
+                    <p><strong>What it creates:</strong> Links Customers.customer_id to Shopping_Cart.customer_id</p>
+                    <p><strong>Meaning:</strong> One customer can have many items in cart (cart needs customer)</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">14</span> Products to Shopping_Cart</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Products table</p>
+                    <p><strong>Second Click:</strong> Shopping_Cart table</p>
+                    <p><strong>What it creates:</strong> Links Products.product_id to Shopping_Cart.product_id</p>
+                    <p><strong>Meaning:</strong> One product can be in many customers' carts</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">15</span> Customers to Wishlists</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Customers table</p>
+                    <p><strong>Second Click:</strong> Wishlists table</p>
+                    <p><strong>What it creates:</strong> Links Customers.customer_id to Wishlists.customer_id</p>
+                    <p><strong>Meaning:</strong> One customer can have many wishlist items</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">16</span> Products to Wishlists</h4>
+                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
+                    <p><strong>First Click:</strong> Products table</p>
+                    <p><strong>Second Click:</strong> Wishlists table</p>
+                    <p><strong>What it creates:</strong> Links Products.product_id to Wishlists.product_id</p>
+                    <p><strong>Meaning:</strong> One product can be on many customers' wishlists</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">17</span> Categories Self-Reference (Parent-Child Categories)</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Categories table</p>
+                    <p><strong>Second Click:</strong> Categories table (yes, the same table!)</p>
+                    <p><strong>What happens:</strong> A dialog box appears</p>
+                    <p><strong>Configure:</strong> Link Categories.category_id to Categories.parent_category_id</p>
+                    <p><strong>Meaning:</strong> One category can have many subcategories (subcategory can exist alone)</p>
+                </div>
+
+                <div class="relationship-card">
+                    <h4><span class="relationship-number">18</span> Employees Self-Reference (Manager-Employee)</h4>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Employees table</p>
+                    <p><strong>Second Click:</strong> Employees table (yes, the same table!)</p>
+                    <p><strong>What happens:</strong> A dialog box appears</p>
+                    <p><strong>Configure:</strong> Link Employees.employee_id to Employees.manager_id</p>
+                    <p><strong>Meaning:</strong> One employee (manager) can manage many employees</p>
+                </div>
+
+                <div class="legend-card">
+                    <h4>Visual Guide to Tools:</h4>
+                    <p>In the MySQL Workbench toolbar, you'll see these relationship tools:</p>
+                    <ul>
+                        <li>━━━┤ = 1:1 Identifying (solid line, one-to-one)</li>
+                        <li>┅┅┅┤ = 1:1 Non-Identifying (dashed line, one-to-one)</li>
+                        <li>━━━< = 1:n Identifying (solid line, one-to-many)</li>
+                        <li>┅┅┅< = 1:n Non-Identifying (dashed line, one-to-many)</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Troubleshooting Relationships:</h3>
+                    <ul>
+                        <li><strong>If you can't find the right tool:</strong>
+                            <ul>
+                                <li>The tools are in the left vertical toolbar</li>
+                                <li>Hover over each icon to see tooltips</li>
+                                <li>Solid line = Identifying relationship</li>
+                                <li>Dashed line = Non-Identifying relationship</li>
+                                <li>Depending on the configuration of Workbench you have to click the child table first then the parent table to get the primary and foreign key correct.</li>
+                            </ul>
+                        </li>
+                        <li><strong>If the relationship arrow is going the wrong way:</strong>
+                            <ul>
+                                <li>You clicked the tables in the wrong order</li>
+                                <li>Delete the relationship (select it and press Delete key)</li>
+                                <li>Try again, clicking the parent table first</li>
+                            </ul>
+                        </li>
+                        <li><strong>If you see a dialog asking about columns:</strong>
+                            <ul>
+                                <li>This happens when column names don't match exactly</li>
+                                <li>Select the correct columns from the dropdowns</li>
+                                <li>For example: address_id → ship_address_id</li>
+                            </ul>
+                        </li>
+                        <li><strong>If the relationship won't create:</strong>
+                            <ul>
+                                <li>Check that both columns have the same data type (both INT)</li>
+                                <li>Make sure the parent table has a primary key</li>
+                                <li>Verify the column exists in both tables</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>✓ RELATIONSHIP TYPES IN YOUR ERD:</h3>
+                    <p><strong>Solid Lines (Identifying - 10 total):</strong></p>
+                    <ul>
+                        <li>Orders and Order_Items (strong dependency)</li>
+                        <li>Products and their related junction tables</li>
+                        <li>Reviews (need product to exist)</li>
+                    </ul>
+                    <p><strong>Dashed Lines (Non-Identifying - 8 total):</strong></p>
+                    <ul>
+                        <li>Optional relationships (category, supplier, employee)</li>
+                        <li>Self-references (can be null)</li>
+                        <li>Addresses (customer can exist without address)</li>
+                    </ul>
+                    <p><strong>TOTAL: 18 relationships</strong></p>
+                </div>
+            </section>
+
+            <!-- Formatting Section -->
+            <section id="formatting" class="section">
+                <h2>🎨 Part 4: Organizing and Formatting the ERD</h2>
+                
+                <div class="info-box">
+                    <h3>Step 1: Auto-Arrange ERD</h3>
+                    <ol>
+                        <li>Select Arrange Tab</li>
+                        <li>Select <strong>Arrange → Autolayout</strong></li>
+                        <li>This gives you a starting point</li>
+                    </ol>
+                </div>
+
+                <div class="info-box">
+                    <h3>Step 2: Manual Organization</h3>
+                    <p>Drag tables to wherever you want to adjust arrangement to get the best organization.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Step 3: Color Coding</h3>
+                    <p>For each table:</p>
+                    <ol>
+                        <li>Click the table and navigate to the properties tab in the bottom left</li>
+                        <li>Click the Properties tab</li>
+                        <li>Under Diagram Properties, find Color</li>
+                        <li>Apply these colors:</li>
+                    </ol>
+                    
+                    <div class="color-legend" style="margin-top: 20px;">
+                        <div class="color-item">
+                            <div class="color-box" style="background: #4285f4;"></div>
+                            <span><strong>Blue:</strong> Customers, Addresses, Shopping_Cart, Wishlists</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-box" style="background: #34a853;"></div>
+                            <span><strong>Green:</strong> Products, Categories, Suppliers</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-box" style="background: #fbbc04;"></div>
+                            <span><strong>Orange:</strong> Orders, Order_Items</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-box" style="background: #673ab7;"></div>
+                            <span><strong>Purple:</strong> Employees</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-box" style="background: #ffd700;"></div>
+                            <span><strong>Yellow:</strong> Reviews, Inventory_Transactions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Step 4: Add Notes</h3>
+                    <ol>
+                        <li>Click the New Text Object</li>
+                        <li>Click on the canvas to place notes</li>
+                        <li>Add these informational notes:</li>
+                    </ol>
+                    
+                    <div class="code-block">
+Note 1: "Junction Tables"
+- Order_Items (Orders ↔ Products)
+- Shopping_Cart (Customers ↔ Products)
+- Wishlists (Customers ↔ Products)
+
+Note 2: "Self-Referencing"
+- Categories: parent_category_id → category_id
+- Employees: manager_id → employee_id
+
+Note 3: "Key Relationships"
+- One customer → Many orders
+- One order → Many order items
+- One product → Many order items</div>
+                </div>
+            </section>
+
+            <!-- Finalize Section -->
+            <section id="finalize" class="section">
+                <h2>✨ Part 5: Finalizing the ERD</h2>
+                
+                <div class="info-box">
+                    <h3>Step 1: Adjust Display Settings</h3>
+                    <ol>
+                        <li>Click <strong>Model → Diagram Properties and Size</strong>, this is where you can adjust the plot size for arranging the tables. This will give you more room.</li>
+                        <li>Click <strong>Model → Model Options → Diagram</strong></li>
+                        <li>De-Select "Use defaults from global settings": ✓</li>
+                        <li>Show Column Types: ✓</li>
+                        <li>Show Column Flags: ✓</li>
+                        <li>Show Relationship Labels: ✓</li>
+                    </ol>
+                </div>
+
+                <div class="info-box">
+                    <h3>Step 3: Save Your Work</h3>
+                    <ol>
+                        <li><strong>Save the Model:</strong> File → Save Model As → OnlineStore_ERD_LastName.mwb</li>
+                        <li><strong>Once ERD is created:</strong> Connect to database and Create Database using → "Forward Engineer SQL CREATE"</li>
+                        <li>File → Export → Forward Engineer SQL CREATE</li>
+                        <li>Create Script From EER Diagram</li>
+                        <li>Go to File --> Export --> Forward Engineering SQL Create</li>
+                    </ol>
+                </div>
+
+                <div class="info-box">
+                    <h3>Your Best Configuration:</h3>
+                    <ul>
+                        <li>✅ Generate DROP Statements Before Each CREATE Statement</li>
+                        <li>✅ Generate DROP SCHEMA</li>
+                        <li>□ Sort Tables Alphabetically (keep unchecked - need dependency order)</li>
+                        <li>□ Skip Creation of FOREIGN KEY INDEXES (keep unchecked)</li>
+                        <li>□ Skip creation of FK Indexes as well (keep unchecked)</li>
+                        <li>✅ Omit Schema Qualifier in Object Names</li>
+                        <li>✅ Generate USE statements</li>
+                        <li>✅ Generate Separate CREATE INDEX Statements</li>
+                        <li>□ Add SHOW WARNINGS (UNCHECK THIS - too verbose)</li>
+                        <li>□ Do Not Create Users (keep unchecked)</li>
+                        <li>✅ Don't create view placeholder tables</li>
+                        <li>✅ Generate INSERT Statements for Tables (if you want data)</li>
+                        <li>✅ Disable FK checks for inserts (if including data)</li>
+                        <li>□ Create triggers after inserts (only if you have triggers)</li>
+                    </ul>
+                  <p>After Creating your Script from Forward Engineer, enter it into the Query code area after connecting to MySQL on your computer. Once the database is connected dump the information_schema as per the screenshot below.</p>
+                  <img src="https://share.note.sx/files/4r/4rrfmuycwssj2iiha98i.png" alt="Information schema screenshot">
+
+                  <p>Export as PDF: Use the MySQL-DataDictionary-Plugin to export the PDF - <a href="https://github.com/AlbertL7/MySQL-DataDictionary-Plugin/tree/main" target="_blank">https://github.com/AlbertL7/MySQL-DataDictionary-Plugin/tree/main</a></p>
+                </div>
+
+                <div class="submission-list">
+                    <h3>📦 Submission Requirements</h3>
+                    <ul>
+                        <li>**OnlineStore_ERD_LastName.mwb</li>
+                        <li>**Screenshot of information_schema and Query</li>
+                        <li>**Screenshot of ERD from MySQL Workbench</li>
+                        <li>**Exported PDF from "MySQL-DataDictionary-Plugin"</li>
+                    </ul>
+                    <p>Export as PDF: Use the MySQL-DataDictionary-Plugin to export the PDF - <a href="https://github.com/AlbertL7/MySQL-DataDictionary-Plugin/tree/main" target="_blank">https://github.com/AlbertL7/MySQL-DataDictionary-Plugin/tree/main</a></p>
+                </div>
+
+                <div class="important-box">
+                    <h3>Validation Checklist</h3>
+                    <p>Before submitting, verify your ERD has:</p>
+                    <ul>
+                        <li><strong>All 12 Tables Created:</strong>
+                            <ul>
+                                <li>Customers (8 columns)</li>
+                                <li>Addresses (9 columns)</li>
+                                <li>Categories (4 columns)</li>
+                                <li>Suppliers (9 columns)</li>
+                                <li>Products (12 columns)</li>
+                                <li>Employees (10 columns)</li>
+                                <li>Orders (11 columns)</li>
+                                <li>Order_Items (7 columns)</li>
+                                <li>Reviews (8 columns)</li>
+                                <li>Shopping_Cart (5 columns)</li>
+                                <li>Wishlists (5 columns)</li>
+                                <li>Inventory_Transactions (6 columns)</li>
+                            </ul>
+                        </li>
+                        <li><strong>All 18 Relationships</strong></li>
+                        <li><strong>Visual Elements:</strong>
+                            <ul>
+                                <li>Tables color-coded by functional area</li>
+                                <li>Minimal line crossing</li>
+                                <li>Clear, logical layout</li>
+                                <li>Notes explaining special relationships</li>
+                                <li>Mix of solid and dashed relationship lines visible</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources" class="section">
+                <h2>📚 Resources & Understanding</h2>
+                
+                <div class="info-box">
+                    <h3>Foreign Key Columns in Each Table</h3>
+                    <p>Here's a complete list of which columns will become foreign keys:</p>
+                    <table>
+                        <tr>
+                            <th>Table</th>
+                            <th>Column</th>
+                            <th>Will Reference</th>
+                            <th>Created When You Draw</th>
+                        </tr>
+                        <tr>
+                            <td>Addresses</td>
+                            <td>customer_id</td>
+                            <td>Customers.customer_id</td>
+                            <td>Relationship #1</td>
+                        </tr>
+                        <tr>
+                            <td>Products</td>
+                            <td>category_id</td>
+                            <td>Categories.category_id</td>
+                            <td>Relationship #4</td>
+                        </tr>
+                        <tr>
+                            <td>Products</td>
+                            <td>supplier_id</td>
+                            <td>Suppliers.supplier_id</td>
+                            <td>Relationship #5</td>
+                        </tr>
+                        <tr>
+                            <td>Orders</td>
+                            <td>customer_id</td>
+                            <td>Customers.customer_id</td>
+                            <td>Relationship #2</td>
+                        </tr>
+                        <tr>
+                            <td>Orders</td>
+                            <td>employee_id</td>
+                            <td>Employees.employee_id</td>
+                            <td>Relationship #6</td>
+                        </tr>
+                        <tr>
+                            <td>Orders</td>
+                            <td>ship_address_id</td>
+                            <td>Addresses.address_id</td>
+                            <td>Relationship #7</td>
+                        </tr>
+                        <tr>
+                            <td>Order_Items</td>
+                            <td>order_id</td>
+                            <td>Orders.order_id</td>
+                            <td>Relationship #8</td>
+                        </tr>
+                        <tr>
+                            <td>Order_Items</td>
+                            <td>product_id</td>
+                            <td>Products.product_id</td>
+                            <td>Relationship #9</td>
+                        </tr>
+                        <tr>
+                            <td>Reviews</td>
+                            <td>product_id</td>
+                            <td>Products.product_id</td>
+                            <td>Relationship #10</td>
+                        </tr>
+                        <tr>
+                            <td>Reviews</td>
+                            <td>customer_id</td>
+                            <td>Customers.customer_id</td>
+                            <td>Relationship #3</td>
+                        </tr>
+                        <tr>
+                            <td>Inventory_Transactions</td>
+                            <td>product_id</td>
+                            <td>Products.product_id</td>
+                            <td>Relationship #11</td>
+                        </tr>
+                        <tr>
+                            <td>Inventory_Transactions</td>
+                            <td>reference_order_id</td>
+                            <td>Orders.order_id</td>
+                            <td>Relationship #12</td>
+                        </tr>
+                        <tr>
+                            <td>Shopping_Cart</td>
+                            <td>customer_id</td>
+                            <td>Customers.customer_id</td>
+                            <td>Relationship #13</td>
+                        </tr>
+                        <tr>
+                            <td>Shopping_Cart</td>
+                            <td>product_id</td>
+                            <td>Products.product_id</td>
+                            <td>Relationship #14</td>
+                        </tr>
+                        <tr>
+                            <td>Wishlists</td>
+                            <td>customer_id</td>
+                            <td>Customers.customer_id</td>
+                            <td>Relationship #15</td>
+                        </tr>
+                        <tr>
+                            <td>Wishlists</td>
+                            <td>product_id</td>
+                            <td>Products.product_id</td>
+                            <td>Relationship #16</td>
+                        </tr>
+                        <tr>
+                            <td>Categories</td>
+                            <td>parent_category_id</td>
+                            <td>Categories.category_id</td>
+                            <td>Relationship #17</td>
+                        </tr>
+                        <tr>
+                            <td>Employees</td>
+                            <td>manager_id</td>
+                            <td>Employees.employee_id</td>
+                            <td>Relationship #18</td>
+                        </tr>
+                    </table>
+                    <p><strong>Total: 18 foreign key relationships will be created automatically when you draw the relationship lines!</strong></p>
+                </div>
+
+                <div class="info-box">
+                    <h3>🧠 What's a Junction Table?</h3>
+                    <p>A junction table is basically a "relationship table" that connects two other tables when both sides can have many of each other.</p>
+                    <p>It's like the middleman in a complicated relationship status.</p>
+                    
+                    <h4>💬 Think of it like:</h4>
+                    <p>"It's complicated — we need a table for that."</p>
+                    
+                    <h4>🎵 Example: Playlists and Songs</h4>
+                    <p>You have:</p>
+                    <ul>
+                        <li>A Playlists table</li>
+                        <li>A Songs table</li>
+                    </ul>
+                    <p>One playlist can have many songs, but one song can also appear in many playlists.</p>
+                    <p>That's a many-to-many relationship.</p>
+                    <p>You can't just add a single "playlist_id" inside the Songs table — because each song could belong to lots of playlists.</p>
+                    <p>So you make a junction table called, for example, Playlist_Songs.</p>
+                    
+                    <div class="code-block">
+playlist_id  |  song_id
+-------------|----------
+     1       |    10
+     1       |    14
+     2       |    10
+     2       |    18</div>
+                    
+                    <p>Now:</p>
+                    <ul>
+                        <li>Playlist #1 has songs #10 and #14</li>
+                        <li>Playlist #2 has songs #10 and #18</li>
+                        <li>Song #10 is in both playlists</li>
+                    </ul>
+                    
+                    <h4>🧩 How It Works</h4>
+                    <p>That junction table just has two foreign keys — one from each main table:</p>
+                    <ul>
+                        <li>One connects to Playlists.playlist_id</li>
+                        <li>One connects to Songs.song_id</li>
+                    </ul>
+                    <p>Together, they show the connection between the two.</p>
+                    
+                    <h4>💡 Why It's Important</h4>
+                    <ul>
+                        <li>It keeps your database organized and normalized</li>
+                        <li>You don't repeat data all over the place</li>
+                        <li>You can easily look up connections between things</li>
+                        <li>You can add extra columns like "date_added" or "rating" if you want more info about the relationship itself</li>
+                    </ul>
+                    
+                    <h4>🛒 Real Examples You'll See</h4>
+                    <table>
+                        <tr>
+                            <th>Relationship</th>
+                            <th>Junction Table</th>
+                        </tr>
+                        <tr>
+                            <td>Orders ↔ Products</td>
+                            <td>Order_Items</td>
+                        </tr>
+                        <tr>
+                            <td>Customers ↔ Products (Cart)</td>
+                            <td>Shopping_Cart</td>
+                        </tr>
+                        <tr>
+                            <td>Customers ↔ Products (Wishlist)</td>
+                            <td>Wishlists</td>
+                        </tr>
+                        <tr>
+                            <td>Students ↔ Classes</td>
+                            <td>Enrollments</td>
+                        </tr>
+                        <tr>
+                            <td>Movies ↔ Actors</td>
+                            <td>Movie_Cast</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>🔑 TL;DR</h4>
+                    <p>A junction table:</p>
+                    <ul>
+                        <li>Lives between two tables</li>
+                        <li>Handles many-to-many connections</li>
+                        <li>Has two foreign keys</li>
+                        <li>Keeps everything clean, flexible, and easy to query</li>
+                    </ul>
+                    <p>Basically — it's the "matchmaker" of your database 💘</p>
+                </div>
+
+                <div class="warning-box">
+                    <h3>🔧 Troubleshooting Tips</h3>
+                    <ul>
+                        <li><strong>Can't create relationship?</strong>
+                            <ul>
+                                <li>Check that column names match</li>
+                                <li>Ensure data types are identical</li>
+                                <li>Primary key must exist on parent table</li>
+                            </ul>
+                        </li>
+                        <li><strong>Lines crossing everywhere?</strong>
+                            <ul>
+                                <li>Use Arrange → Autolayout first</li>
+                                <li>Then manually adjust</li>
+                                <li>Keep related tables close together</li>
+                            </ul>
+                        </li>
+                        <li><strong>Can't see all columns?</strong>
+                            <ul>
+                                <li>Right-click table → Expand All</li>
+                                <li>Or zoom out: View → Zoom → Fit Contents</li>
+                            </ul>
+                        </li>
+                        <li><strong>Relationship going wrong direction?</strong>
+                            <ul>
+                                <li>Delete it (select and press Delete)</li>
+                                <li>Re-create clicking parent first, then child</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Understanding the Design</h3>
+                    
+                    <h4>Why Junction Tables?</h4>
+                    <p>Junction tables (Order_Items, Shopping_Cart, Wishlists) solve many-to-many relationships:</p>
+                    <ul>
+                        <li><strong>Orders ↔ Products:</strong> An order contains many products; a product appears in many orders</li>
+                        <li><strong>Customers ↔ Products (Cart):</strong> Customers can cart many products; products can be in many carts</li>
+                        <li><strong>Customers ↔ Products (Wishlist):</strong> Customers can wish for many products; products can be wished by many</li>
+                    </ul>
+                </div>
+
+                <div class="info-box" style="text-align: center; padding: 30px;">
+                    <h2>🎉 Congratulations!</h2>
+                    <p style="font-size: 1.2rem; margin-top: 15px;">You've designed a professional database ERD entirely within MySQL Workbench!</p>
+                    <p style="margin-top: 15px;">This visual model could now be forward-engineered to create an actual database, but for this lab, the design itself demonstrates your understanding of database relationships and normalization.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function toggleTable(tableId) {
+            const tableContent = document.getElementById(tableId);
+            const tableHeader = tableContent.previousElementSibling;
+            
+            tableContent.classList.toggle('collapsed');
+            tableHeader.classList.toggle('collapsed');
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            const percentage = Math.round((checked.length / checkboxes.length) * 100);
+            
+            const progressBar = document.getElementById('checklist-progress');
+            if (progressBar) {
+                progressBar.style.width = percentage + '%';
+                progressBar.textContent = percentage + '%';
+            }
+            
+            const overallProgress = document.getElementById('overall-progress');
+            if (overallProgress) {
+                overallProgress.style.width = percentage + '%';
+                overallProgress.textContent = percentage + '%';
+            }
+            
+            // Celebrate completion
+            if (percentage === 100) {
+                confetti();
+            }
+        }
+
+        // Simple confetti effect
+        function confetti() {
+            const colors = ['#ff6b35', '#0066cc', '#28a745', '#ffc107', '#6f42c1'];
+            const confettiCount = 100;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.opacity = Math.random() + 0.5;
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.transition = `all ${Math.random() * 3 + 2}s ease-out`;
+                confetti.style.zIndex = '9999';
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.style.top = '100%';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg) translateX(${Math.random() * 200 - 100}px)`;
+                    confetti.style.opacity = '0';
+                }, 10);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
