@@ -1,1 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6: How to Code Summary Queries - MySQL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary: #00758f;
+            --primary-dark: #005566;
+            --secondary: #ff6b6b;
+            --background: #0a0e27;
+            --surface: #1a1e3a;
+            --surface-light: #2a2e4a;
+            --text: #e8eaf0;
+            --text-muted: #a0a4b8;
+            --accent: #4ecdc4;
+            --success: #52c41a;
+            --warning: #faad14;
+            --danger: #f5222d;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 2.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 300px;
+            position: sticky;
+            top: 140px;
+            height: fit-content;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-light);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--surface-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        h4 {
+            color: var(--primary);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: #e6edf3;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .keyword {
+            color: #ff7b72;
+            font-weight: bold;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        .table-name {
+            color: #79c0ff;
+        }
+
+        .column {
+            color: #7ee787;
+        }
+
+        .string {
+            color: #ffa657;
+        }
+
+        .comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .number {
+            color: #79c0ff;
+        }
+
+        .analogy-box {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(102, 126, 234, 0.1));
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .analogy-box h4 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .concept-card {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .visual-demo {
+            background: var(--surface-light);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .function-card {
+            background: linear-gradient(135deg, var(--surface), var(--surface-light));
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--accent);
+        }
+
+        .function-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .function-name {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .function-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .tip-box {
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box::before {
+            content: "💡 TIP: ";
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .warning-box {
+            background: rgba(250, 173, 20, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ WARNING: ";
+            color: var(--warning);
+            font-weight: bold;
+        }
+
+        .result-table {
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .result-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .result-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .result-table tr:hover {
+            background: rgba(78, 205, 196, 0.05);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--surface-light);
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: -2px;
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .highlight {
+            background: rgba(78, 205, 196, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            background: var(--surface-light);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .window-demo {
+            background: #0d1117;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .window-row {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--surface-light);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .window-highlight {
+            background: rgba(78, 205, 196, 0.2);
+        }
+
+        .explanation-box {
+            background: rgba(102, 126, 234, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <h1>📊 Chapter 6: How to Code Summary Queries - Enhanced Edition</h1>
+            <p class="subtitle">Master aggregate functions and data summarization with detailed explanations</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-title">Chapter Contents</div>
+            <div class="nav-item active" data-section="intro">📚 Introduction</div>
+            <div class="nav-item" data-section="aggregate-basics">🔢 Aggregate Functions</div>
+            <div class="nav-item" data-section="aggregate-queries">📈 Using Aggregates</div>
+            <div class="nav-item" data-section="groupby">📊 GROUP BY Clause</div>
+            <div class="nav-item" data-section="having">🎯 HAVING Clause</div>
+            <div class="nav-item" data-section="rollup">📋 WITH ROLLUP</div>
+            <div class="nav-item" data-section="window">🪟 Window Functions</div>
+            <div class="nav-item" data-section="frames">🖼️ Frames & Windows</div>
+            <div class="nav-item" data-section="summary">✅ Summary</div>
+        </nav>
+
+        <main class="content">
+            <section class="section" id="intro">
+                <h2>📚 Introduction: The Power of Summarization</h2>
+                
+                <p>So far, you've learned how to retrieve individual rows of data. But what if you need to answer questions like "What's the total sales for last month?" or "How many customers do we have per state?" This chapter introduces summary queries—powerful tools that transform detailed data into meaningful insights.</p>
+
+                <div class="analogy-box">
+                    <h4>📊 Real-World Analogy: The School Report Card</h4>
+                    <p>Think of aggregate functions like creating a report card from individual test scores. When you have 20 test scores throughout the semester, you don't want to list them all—you want meaningful summaries:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li><strong>AVG():</strong> Your average grade (e.g., 85% across all tests)</li>
+                        <li><strong>MAX():</strong> Your highest achievement (that perfect 100% you got once)</li>
+                        <li><strong>MIN():</strong> Your lowest score (the test you'd rather forget)</li>
+                        <li><strong>SUM():</strong> Total points earned (useful for weighted grading)</li>
+                        <li><strong>COUNT():</strong> Number of tests taken (to check attendance/completion)</li>
+                    </ul>
+                    <p>Just as a report card transforms dozens of individual scores into digestible insights, aggregate functions summarize thousands of data rows into actionable information!</p>
+                </div>
+
+                <h3>Why Summary Queries Matter</h3>
+                <div class="concept-card">
+                    <h4>Business Intelligence at Your Fingertips</h4>
+                    <p>Summary queries transform raw data into business decisions. Here's how different departments use them:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>📈 <strong>Sales Analysis:</strong> "What's our best-selling product category this quarter?" (GROUP BY category, SUM sales)</li>
+                        <li>👥 <strong>Customer Insights:</strong> "How many repeat customers do we have?" (COUNT DISTINCT with conditions)</li>
+                        <li>📊 <strong>Performance Metrics:</strong> "Which employees exceed their quotas?" (HAVING with aggregates)</li>
+                        <li>💰 <strong>Financial Reports:</strong> "Show me monthly revenue with running totals" (Window functions)</li>
+                    </ul>
+                </div>
+
+                <h3>Chapter Overview</h3>
+                <div class="flow-diagram">
+                    <div class="flow-step">Aggregate Functions</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">GROUP BY</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">HAVING</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">ROLLUP</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">Window Functions</div>
+                </div>
+            </section>
+
+            <section class="section" id="aggregate-basics">
+                <h2>🔢 How to Work with Aggregate Functions</h2>
+                
+                <p>Aggregate functions are SQL's calculators—they take multiple values and return a single result. Understanding how each function works internally helps you use them effectively.</p>
+
+                <h3>The Five Core Aggregate Functions</h3>
+                <div class="function-grid">
+                    <div class="function-card">
+                        <div class="function-name">COUNT()</div>
+                        <div class="function-desc">Counts rows or non-NULL values</div>
+                    </div>
+                    <div class="function-card">
+                        <div class="function-name">SUM()</div>
+                        <div class="function-desc">Adds up numeric values</div>
+                    </div>
+                    <div class="function-card">
+                        <div class="function-name">AVG()</div>
+                        <div class="function-desc">Calculates the mean value</div>
+                    </div>
+                    <div class="function-card">
+                        <div class="function-name">MAX()</div>
+                        <div class="function-desc">Finds the largest value</div>
+                    </div>
+                    <div class="function-card">
+                        <div class="function-name">MIN()</div>
+                        <div class="function-desc">Finds the smallest value</div>
+                    </div>
+                </div>
+
+                <h3>Basic Syntax with Detailed Explanation</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Let's understand what each aggregate does step-by-step</span>
+<span class="keyword">SELECT</span> 
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">total_rows</span>,           <span class="comment">-- Counts ALL rows, even if every column is NULL</span>
+    <span class="function">COUNT</span>(<span class="column">email</span>) <span class="keyword">AS</span> <span class="column">customers_with_email</span>, <span class="comment">-- Only counts rows where email IS NOT NULL</span>
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">city</span>) <span class="keyword">AS</span> <span class="column">unique_cities</span>, <span class="comment">-- Counts unique city values (duplicates counted once)</span>
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">total_sales</span>,         <span class="comment">-- Adds all amount values (NULL values ignored)</span>
+    <span class="function">AVG</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">average_sale</span>,        <span class="comment">-- Sum of amounts / Count of non-NULL amounts</span>
+    <span class="function">MAX</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">largest_sale</span>,        <span class="comment">-- Scans all amounts, returns the biggest</span>
+    <span class="function">MIN</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">smallest_sale</span>        <span class="comment">-- Scans all amounts, returns the smallest</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>;</pre>
+                </div>
+
+                <div class="explanation-box">
+                    <strong>What happens behind the scenes:</strong>
+                    <ol style="margin-left: 1rem;">
+                        <li>SQL reads through the entire orders table once</li>
+                        <li>For each aggregate function, it maintains a running calculation</li>
+                        <li>COUNT(*) increments for every row it sees</li>
+                        <li>COUNT(email) only increments when email is not NULL</li>
+                        <li>SUM keeps a running total, adding each non-NULL amount</li>
+                        <li>AVG tracks both sum and count to calculate the mean</li>
+                        <li>MAX/MIN compare each value with the current max/min</li>
+                        <li>After processing all rows, it returns the final calculations</li>
+                    </ol>
+                </div>
+
+                <h3>COUNT Variations - Deep Dive</h3>
+                <div class="concept-card">
+                    <h4>Understanding Different COUNT Usage</h4>
+                    <div class="code-block">
+                        <pre><span class="comment">-- Scenario: customers table with 1000 rows, 950 have emails, 800 have phones</span>
+
+<span class="comment">-- COUNT(*) counts every single row, regardless of NULL values</span>
+<span class="keyword">SELECT</span> <span class="function">COUNT</span>(*) <span class="keyword">FROM</span> <span class="table-name">customers</span>;
+<span class="comment">-- Result: 1000 (every row is counted)</span>
+
+<span class="comment">-- COUNT(column) only counts rows where that column is NOT NULL</span>
+<span class="keyword">SELECT</span> <span class="function">COUNT</span>(<span class="column">phone</span>) <span class="keyword">FROM</span> <span class="table-name">customers</span>;
+<span class="comment">-- Result: 800 (only rows with phone numbers)</span>
+
+<span class="comment">-- COUNT(DISTINCT column) counts unique non-NULL values</span>
+<span class="comment">-- If 950 customers are from 47 different states:</span>
+<span class="keyword">SELECT</span> <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">state</span>) <span class="keyword">FROM</span> <span class="table-name">customers</span>;
+<span class="comment">-- Result: 47 (number of unique states)</span>
+
+<span class="comment">-- Practical example: Data quality check</span>
+<span class="keyword">SELECT</span> 
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">total_customers</span>,
+    <span class="function">COUNT</span>(<span class="column">email</span>) <span class="keyword">AS</span> <span class="column">with_email</span>,
+    <span class="function">ROUND</span>(<span class="number">100.0</span> * <span class="function">COUNT</span>(<span class="column">email</span>) / <span class="function">COUNT</span>(*), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">email_completeness</span>,
+    <span class="function">COUNT</span>(<span class="column">phone</span>) <span class="keyword">AS</span> <span class="column">with_phone</span>,
+    <span class="function">ROUND</span>(<span class="number">100.0</span> * <span class="function">COUNT</span>(<span class="column">phone</span>) / <span class="function">COUNT</span>(*), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">phone_completeness</span>
+<span class="keyword">FROM</span> <span class="table-name">customers</span>;</pre>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    NULL values are ignored by all aggregate functions except COUNT(*). This affects calculations:
+                    <ul style="margin-left: 1rem;">
+                        <li>AVG ignores NULLs, so AVG of (10, 20, NULL) = 15, not 10</li>
+                        <li>SUM treats NULL as 0, but only for addition</li>
+                        <li>COUNT(column) doesn't count NULL values</li>
+                        <li>MIN/MAX skip over NULL values entirely</li>
+                    </ul>
+                </div>
+
+                <h3>Working with Different Data Types</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Numeric aggregates with business logic</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Calculate total inventory value</span>
+    <span class="function">SUM</span>(<span class="column">quantity</span> * <span class="column">unit_price</span>) <span class="keyword">AS</span> <span class="column">total_inventory_value</span>,
+    
+    <span class="comment">-- Average price rounded to 2 decimal places for display</span>
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">unit_price</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">average_price</span>,
+    
+    <span class="comment">-- Standard deviation shows price variance (higher = more varied pricing)</span>
+    <span class="function">ROUND</span>(<span class="function">STDDEV</span>(<span class="column">unit_price</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">price_variance</span>,
+    
+    <span class="comment">-- Coefficient of variation (CV) = stddev/mean (measures relative variability)</span>
+    <span class="function">ROUND</span>(<span class="function">STDDEV</span>(<span class="column">unit_price</span>) / <span class="function">AVG</span>(<span class="column">unit_price</span>) * <span class="number">100</span>, <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">price_cv_percent</span>
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">WHERE</span> <span class="column">status</span> = <span class="string">'active'</span>;
+
+<span class="comment">-- Date/time aggregates for business insights</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Find the date range of customer activity</span>
+    <span class="function">MIN</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">first_order_ever</span>,
+    <span class="function">MAX</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">most_recent_order</span>,
+    
+    <span class="comment">-- Calculate how many days the business has been operating</span>
+    <span class="function">DATEDIFF</span>(<span class="function">MAX</span>(<span class="column">order_date</span>), <span class="function">MIN</span>(<span class="column">order_date</span>)) <span class="keyword">AS</span> <span class="column">days_in_business</span>,
+    
+    <span class="comment">-- Average orders per day</span>
+    <span class="function">COUNT</span>(*) / <span class="function">NULLIF</span>(<span class="function">DATEDIFF</span>(<span class="function">MAX</span>(<span class="column">order_date</span>), <span class="function">MIN</span>(<span class="column">order_date</span>)), <span class="number">0</span>) <span class="keyword">AS</span> <span class="column">avg_orders_per_day</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>;
+
+<span class="comment">-- String aggregation (MySQL specific) - Creates a comma-separated list</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">category</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">product_count</span>,
+    <span class="comment">-- GROUP_CONCAT creates a single string from multiple rows</span>
+    <span class="function">GROUP_CONCAT</span>(<span class="column">product_name</span> <span class="keyword">ORDER BY</span> <span class="column">product_name</span> <span class="keyword">SEPARATOR</span> <span class="string">', '</span>) <span class="keyword">AS</span> <span class="column">product_list</span>
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">WHERE</span> <span class="column">in_stock</span> = <span class="keyword">TRUE</span>
+<span class="keyword">GROUP BY</span> <span class="column">category</span>
+<span class="keyword">LIMIT</span> <span class="number">5</span>;</pre>
+                </div>
+
+                <div class="explanation-box">
+                    <strong>Pro tip:</strong> When using AVG(), always consider whether NULL values make sense for your calculation. If NULL means "unknown" vs "zero", you might need different logic. Use COALESCE(column, 0) to treat NULL as zero when appropriate.
+                </div>
+            </section>
+
+            <section class="section" id="aggregate-queries">
+                <h2>📈 Queries That Use Aggregate Functions</h2>
+                
+                <p>Aggregate functions become powerful when combined with other SQL features. Let's explore practical patterns that solve real business problems.</p>
+
+                <h3>Simple Aggregate Queries - The Foundation</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Basic statistics that answer common business questions</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Total customers in database</span>
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">total_customers</span>,
+    
+    <span class="comment">-- How many have provided email (for marketing reach)</span>
+    <span class="function">COUNT</span>(<span class="column">email</span>) <span class="keyword">AS</span> <span class="column">contactable_by_email</span>,
+    
+    <span class="comment">-- Email penetration rate (what % can we email?)</span>
+    <span class="function">ROUND</span>(<span class="number">100.0</span> * <span class="function">COUNT</span>(<span class="column">email</span>) / <span class="function">COUNT</span>(*), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">email_rate</span>,
+    
+    <span class="comment">-- How many unique zip codes (for logistics planning)</span>
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">zip_code</span>) <span class="keyword">AS</span> <span class="column">unique_locations</span>
+<span class="keyword">FROM</span> <span class="table-name">customers</span>;
+
+<span class="comment">-- Financial summary with business insights</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Core revenue metrics</span>
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">total_revenue</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">average_order_value</span>,
+    
+    <span class="comment">-- Order size distribution insights</span>
+    <span class="function">MAX</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">largest_order</span>,
+    <span class="function">MIN</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">smallest_order</span>,
+    <span class="function">MAX</span>(<span class="column">amount</span>) - <span class="function">MIN</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">order_value_range</span>,
+    
+    <span class="comment">-- Median approximation (for skewed data)</span>
+    <span class="comment">-- Note: This is approximate; true median requires different approach</span>
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>) + 
+          (<span class="function">STDDEV</span>(<span class="column">amount</span>) * <span class="number">0.6745</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">approximate_median</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="string">'2024-01-01'</span>
+    <span class="keyword">AND</span> <span class="column">status</span> = <span class="string">'completed'</span>;</pre>
+                </div>
+
+                <h3>Conditional Aggregates - The Power Tool</h3>
+                <p>Conditional aggregates let you calculate multiple filtered summaries in a single query pass—much more efficient than multiple queries.</p>
+                
+                <div class="code-block">
+                    <pre><span class="comment">-- Count different conditions in one query (replaces multiple queries)</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Total orders for context</span>
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">total_orders</span>,
+    
+    <span class="comment">-- Status breakdown using CASE statements</span>
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">status</span> = <span class="string">'completed'</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">completed</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">status</span> = <span class="string">'pending'</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">pending</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">status</span> = <span class="string">'cancelled'</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">cancelled</span>,
+    
+    <span class="comment">-- Calculate completion rate</span>
+    <span class="function">ROUND</span>(<span class="number">100.0</span> * 
+        <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">status</span> = <span class="string">'completed'</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) / 
+        <span class="function">COUNT</span>(*), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">completion_rate</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="keyword">DATE_SUB</span>(<span class="keyword">CURDATE</span>(), <span class="keyword">INTERVAL</span> <span class="number">30</span> <span class="keyword">DAY</span>);
+
+<span class="comment">-- Revenue segmentation in one query</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Segment revenue by order size</span>
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> >= <span class="number">1000</span> <span class="keyword">THEN</span> <span class="column">amount</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">enterprise_revenue</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> <span class="keyword">BETWEEN</span> <span class="number">100</span> <span class="keyword">AND</span> <span class="number">999</span> <span class="keyword">THEN</span> <span class="column">amount</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">mid_market_revenue</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> < <span class="number">100</span> <span class="keyword">THEN</span> <span class="column">amount</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">small_revenue</span>,
+    
+    <span class="comment">-- Count orders in each segment</span>
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> >= <span class="number">1000</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">enterprise_orders</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> <span class="keyword">BETWEEN</span> <span class="number">100</span> <span class="keyword">AND</span> <span class="number">999</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">mid_market_orders</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> < <span class="number">100</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">small_orders</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">status</span> = <span class="string">'completed'</span>;</pre>
+                </div>
+
+                <div class="explanation-box">
+                    <strong>Why conditional aggregates matter:</strong>
+                    <p>Instead of running 6 separate queries to get order counts by status, you run ONE query. This is:</p>
+                    <ul style="margin-left: 1rem;">
+                        <li>6x faster (one table scan instead of six)</li>
+                        <li>Easier to maintain (one query to update)</li>
+                        <li>Guaranteed consistency (all counts from same point in time)</li>
+                        <li>Less network overhead (one round trip to database)</li>
+                    </ul>
+                </div>
+
+                <div class="analogy-box">
+                    <h4>🎯 Analogy: The Survey Analyzer</h4>
+                    <p>Imagine analyzing survey responses where people rate various aspects 1-5:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Without conditional aggregates: Read all surveys 5 times, once for each rating</li>
+                        <li>With conditional aggregates: Read surveys once, categorize as you go</li>
+                    </ul>
+                    <p>It's like having 5 assistants each counting different ratings simultaneously as you read each survey aloud once!</p>
+                </div>
+            </section>
+
+            <section class="section" id="groupby">
+                <h2>📊 How to Group and Summarize Data</h2>
+                
+                <p>GROUP BY is the heart of data analysis in SQL. It transforms row-level data into group-level insights, answering questions like "sales by region" or "average salary by department".</p>
+
+                <div class="analogy-box">
+                    <h4>📦 Analogy: The Warehouse Inventory</h4>
+                    <p>Imagine you're doing inventory in a warehouse with thousands of items:</p>
+                    <ol style="margin-left: 2rem;">
+                        <li>Without GROUP BY: "We have 10,000 items" (not very useful)</li>
+                        <li>With GROUP BY category: "Electronics: 3,000 items, Clothing: 4,000 items, Books: 3,000 items"</li>
+                        <li>With GROUP BY category, brand: Even more detailed breakdown</li>
+                    </ol>
+                    <p>GROUP BY organizes your data into meaningful buckets, then calculates statistics for each bucket!</p>
+                </div>
+
+                <h3>Basic GROUP BY - How It Works Internally</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- What happens step-by-step when you use GROUP BY:</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">category</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">product_count</span>,
+    <span class="function">AVG</span>(<span class="column">price</span>) <span class="keyword">AS</span> <span class="column">avg_price</span>,
+    <span class="function">MIN</span>(<span class="column">price</span>) <span class="keyword">AS</span> <span class="column">min_price</span>,
+    <span class="function">MAX</span>(<span class="column">price</span>) <span class="keyword">AS</span> <span class="column">max_price</span>
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">GROUP BY</span> <span class="column">category</span>
+<span class="keyword">ORDER BY</span> <span class="column">product_count</span> <span class="keyword">DESC</span>;
+
+<span class="comment">/* Behind the scenes:
+1. SQL reads the products table
+2. Creates "buckets" for each unique category value
+3. Places each row into its appropriate bucket
+4. For each bucket, calculates the aggregates
+5. Returns one result row per bucket
+6. Finally sorts by product_count (ORDER BY happens after GROUP BY)
+*/</span></pre>
+                </div>
+
+                <div class="explanation-box">
+                    <strong>The GROUP BY Mental Model:</strong>
+                    <p>Think of GROUP BY as a two-phase process:</p>
+                    <ol style="margin-left: 1rem;">
+                        <li><strong>Grouping Phase:</strong> Sort data into buckets based on GROUP BY columns</li>
+                        <li><strong>Aggregation Phase:</strong> Calculate statistics for each bucket</li>
+                    </ol>
+                    <p>You get one output row per unique combination of GROUP BY values.</p>
+                </div>
+
+                <h3>Grouping by Multiple Columns - The Power of Combinations</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Multiple column grouping creates a hierarchy</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Extract date parts for time-based analysis</span>
+    <span class="keyword">YEAR</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">year</span>,
+    <span class="keyword">MONTH</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">month</span>,
+    <span class="column">status</span>,
+    
+    <span class="comment">-- Calculate metrics for each year-month-status combination</span>
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">order_count</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">total_revenue</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_order_value</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="string">'2024-01-01'</span>
+<span class="keyword">GROUP BY</span> 
+    <span class="keyword">YEAR</span>(<span class="column">order_date</span>),    <span class="comment">-- First level: by year</span>
+    <span class="keyword">MONTH</span>(<span class="column">order_date</span>),   <span class="comment">-- Second level: by month within year</span>
+    <span class="column">status</span>              <span class="comment">-- Third level: by status within month</span>
+<span class="keyword">ORDER BY</span> <span class="column">year</span>, <span class="column">month</span>, <span class="column">total_revenue</span> <span class="keyword">DESC</span>;
+
+<span class="comment">/* This creates groups like:
+   - 2024, January, Completed: metrics...
+   - 2024, January, Pending: metrics...
+   - 2024, January, Cancelled: metrics...
+   - 2024, February, Completed: metrics...
+   And so on for each unique combination */</span></pre>
+                </div>
+
+                <h3>GROUP BY Rules and Common Mistakes</h3>
+                <div class="warning-box">
+                    Critical GROUP BY rules to remember:
+                    <ol style="margin-left: 1rem;">
+                        <li><strong>The Golden Rule:</strong> Every column in SELECT that isn't an aggregate MUST be in GROUP BY</li>
+                        <li><strong>NULL Handling:</strong> NULL values form their own group (all NULLs grouped together)</li>
+                        <li><strong>Execution Order:</strong> WHERE → GROUP BY → HAVING → ORDER BY</li>
+                        <li><strong>Hidden Columns:</strong> You can GROUP BY columns not in SELECT</li>
+                    </ol>
+                </div>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Common GROUP BY mistakes and how to fix them</span>
+
+<span class="comment">-- ❌ WRONG: product_name not in GROUP BY</span>
+<span class="keyword">SELECT</span> <span class="column">category</span>, <span class="column">product_name</span>, <span class="function">COUNT</span>(*)
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">GROUP BY</span> <span class="column">category</span>;  <span class="comment">-- ERROR: product_name must be in GROUP BY or be aggregated</span>
+
+<span class="comment">-- ✅ CORRECT: All non-aggregates in GROUP BY</span>
+<span class="keyword">SELECT</span> <span class="column">category</span>, <span class="column">product_name</span>, <span class="function">COUNT</span>(*)
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">GROUP BY</span> <span class="column">category</span>, <span class="column">product_name</span>;
+
+<span class="comment">-- ✅ ALSO CORRECT: Aggregate the extra column</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">category</span>, 
+    <span class="function">GROUP_CONCAT</span>(<span class="column">product_name</span>) <span class="keyword">AS</span> <span class="column">products_list</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">product_count</span>
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">GROUP BY</span> <span class="column">category</span>;</pre>
+                </div>
+
+                <h3>Advanced Grouping Patterns</h3>
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab(event, 'group-time')">Time-Based</button>
+                    <button class="tab" onclick="showTab(event, 'group-category')">Category-Based</button>
+                    <button class="tab" onclick="showTab(event, 'group-calculated')">Calculated Groups</button>
+                </div>
+
+                <div id="group-time" class="tab-content active">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Time-based grouping for trend analysis</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Group by day for daily trends</span>
+    <span class="keyword">DATE</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">order_day</span>,
+    <span class="keyword">DAYNAME</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">day_name</span>,
+    
+    <span class="comment">-- Daily metrics</span>
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">orders</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">revenue</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_order</span>,
+    
+    <span class="comment">-- Identify peak hours within each day</span>
+    <span class="function">MAX</span>(<span class="keyword">HOUR</span>(<span class="column">order_date</span>)) <span class="keyword">AS</span> <span class="column">latest_order_hour</span>,
+    <span class="function">MIN</span>(<span class="keyword">HOUR</span>(<span class="column">order_date</span>)) <span class="keyword">AS</span> <span class="column">earliest_order_hour</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="keyword">DATE_SUB</span>(<span class="keyword">CURDATE</span>(), <span class="keyword">INTERVAL</span> <span class="number">7</span> <span class="keyword">DAY</span>)
+<span class="keyword">GROUP BY</span> <span class="keyword">DATE</span>(<span class="column">order_date</span>), <span class="keyword">DAYNAME</span>(<span class="column">order_date</span>)
+<span class="keyword">ORDER BY</span> <span class="column">order_day</span>;
+
+<span class="comment">-- Hourly pattern analysis</span>
+<span class="keyword">SELECT</span> 
+    <span class="keyword">HOUR</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">hour_of_day</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">order_count</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">hourly_revenue</span>,
+    <span class="comment">-- Create visual bar chart with asterisks</span>
+    <span class="function">REPEAT</span>(<span class="string">'*'</span>, <span class="function">COUNT</span>(*) / <span class="number">10</span>) <span class="keyword">AS</span> <span class="column">activity_chart</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">30</span> <span class="keyword">DAY</span>)
+<span class="keyword">GROUP BY</span> <span class="keyword">HOUR</span>(<span class="column">order_date</span>)
+<span class="keyword">ORDER BY</span> <span class="column">hour_of_day</span>;</pre>
+                    </div>
+                </div>
+
+                <div id="group-category" class="tab-content">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Multi-dimensional category analysis</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">s.region</span>,
+    <span class="column">p.category</span>,
+    <span class="column">p.subcategory</span>,
+    
+    <span class="comment">-- Sales metrics</span>
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">s.order_id</span>) <span class="keyword">AS</span> <span class="column">unique_orders</span>,
+    <span class="function">SUM</span>(<span class="column">s.quantity</span>) <span class="keyword">AS</span> <span class="column">units_sold</span>,
+    <span class="function">SUM</span>(<span class="column">s.quantity</span> * <span class="column">s.unit_price</span>) <span class="keyword">AS</span> <span class="column">gross_revenue</span>,
+    
+    <span class="comment">-- Performance indicators</span>
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">s.quantity</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_units_per_order</span>,
+    <span class="function">ROUND</span>(<span class="function">SUM</span>(<span class="column">s.quantity</span> * <span class="column">s.unit_price</span>) / 
+          <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">s.order_id</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_order_value</span>
+<span class="keyword">FROM</span> <span class="table-name">sales</span> <span class="column">s</span>
+<span class="keyword">JOIN</span> <span class="table-name">products</span> <span class="column">p</span> <span class="keyword">ON</span> <span class="column">s.product_id</span> = <span class="column">p.product_id</span>
+<span class="keyword">WHERE</span> <span class="column">s.sale_date</span> >= <span class="string">'2024-01-01'</span>
+<span class="keyword">GROUP BY</span> <span class="column">s.region</span>, <span class="column">p.category</span>, <span class="column">p.subcategory</span>
+<span class="keyword">ORDER BY</span> <span class="column">gross_revenue</span> <span class="keyword">DESC</span>
+<span class="keyword">LIMIT</span> <span class="number">20</span>;</pre>
+                    </div>
+                </div>
+
+                <div id="group-calculated" class="tab-content">
+                    <div class="code-block">
+                        <pre><span class="comment">-- Group by calculated values for custom segmentation</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Create custom order size categories</span>
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">50</span> <span class="keyword">THEN</span> <span class="string">'Micro (< $50)'</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">200</span> <span class="keyword">THEN</span> <span class="string">'Small ($50-199)'</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">1000</span> <span class="keyword">THEN</span> <span class="string">'Medium ($200-999)'</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">5000</span> <span class="keyword">THEN</span> <span class="string">'Large ($1000-4999)'</span>
+        <span class="keyword">ELSE</span> <span class="string">'Enterprise ($5000+)'</span>
+    <span class="keyword">END AS</span> <span class="column">order_segment</span>,
+    
+    <span class="comment">-- Metrics for each segment</span>
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">order_count</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">total_revenue</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_in_segment</span>,
+    
+    <span class="comment">-- Percentage of total orders</span>
+    <span class="function">ROUND</span>(<span class="number">100.0</span> * <span class="function">COUNT</span>(*) / 
+          (<span class="keyword">SELECT</span> <span class="function">COUNT</span>(*) <span class="keyword">FROM</span> <span class="table-name">orders</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">pct_of_orders</span>,
+    
+    <span class="comment">-- Percentage of total revenue</span>
+    <span class="function">ROUND</span>(<span class="number">100.0</span> * <span class="function">SUM</span>(<span class="column">amount</span>) / 
+          (<span class="keyword">SELECT</span> <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">FROM</span> <span class="table-name">orders</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">pct_of_revenue</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">GROUP BY</span> <span class="column">order_segment</span>
+<span class="keyword">ORDER BY</span> 
+    <span class="keyword">CASE</span>  <span class="comment">-- Custom sort order for segments</span>
+        <span class="keyword">WHEN</span> <span class="column">order_segment</span> <span class="keyword">LIKE</span> <span class="string">'Micro%'</span> <span class="keyword">THEN</span> <span class="number">1</span>
+        <span class="keyword">WHEN</span> <span class="column">order_segment</span> <span class="keyword">LIKE</span> <span class="string">'Small%'</span> <span class="keyword">THEN</span> <span class="number">2</span>
+        <span class="keyword">WHEN</span> <span class="column">order_segment</span> <span class="keyword">LIKE</span> <span class="string">'Medium%'</span> <span class="keyword">THEN</span> <span class="number">3</span>
+        <span class="keyword">WHEN</span> <span class="column">order_segment</span> <span class="keyword">LIKE</span> <span class="string">'Large%'</span> <span class="keyword">THEN</span> <span class="number">4</span>
+        <span class="keyword">ELSE</span> <span class="number">5</span>
+    <span class="keyword">END</span>;</pre>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    When designing GROUP BY queries, ask yourself: "What level of detail do I need?" Start with broader groups (year, category) and add more granularity (month, subcategory) as needed. Each additional GROUP BY column multiplies your result rows!
+                </div>
+            </section>
+
+            <section class="section" id="having">
+                <h2>🎯 The HAVING Clause - Filtering Groups</h2>
+                
+                <p>HAVING is WHERE's cousin that works on groups instead of individual rows. It's essential for finding groups that meet specific criteria after aggregation.</p>
+
+                <div class="analogy-box">
+                    <h4>🏫 Analogy: The Class Performance Filter</h4>
+                    <p>Imagine selecting classes for an academic excellence award:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li><strong>WHERE:</strong> "Only consider students who attended >90% of classes" (filters individual students)</li>
+                        <li><strong>GROUP BY class:</strong> "Calculate average grade for each class"</li>
+                        <li><strong>HAVING AVG(grade) > 85:</strong> "Only show classes with average >85%" (filters entire classes)</li>
+                    </ul>
+                    <p>WHERE filters students before grouping; HAVING filters classes after calculating their averages!</p>
+                </div>
+
+                <h3>HAVING Syntax - The Detailed Breakdown</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Find high-value customers (those who've spent a lot)</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">customer_id</span>,
+    <span class="column">customer_name</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">order_count</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">lifetime_value</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_order_value</span>,
+    <span class="function">MAX</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">last_order_date</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span> <span class="column">o</span>
+<span class="keyword">JOIN</span> <span class="table-name">customers</span> <span class="column">c</span> <span class="keyword">ON</span> <span class="column">o.customer_id</span> = <span class="column">c.id</span>
+<span class="keyword">WHERE</span> <span class="column">o.status</span> = <span class="string">'completed'</span>  <span class="comment">-- WHERE: Filter individual orders first</span>
+<span class="keyword">GROUP BY</span> <span class="column">customer_id</span>, <span class="column">customer_name</span>
+<span class="keyword">HAVING</span> 
+    <span class="function">SUM</span>(<span class="column">amount</span>) > <span class="number">10000</span>  <span class="comment">-- HAVING: Filter groups (customers) after aggregation</span>
+    <span class="keyword">AND</span> <span class="function">COUNT</span>(*) >= <span class="number">5</span>      <span class="comment">-- Multiple HAVING conditions</span>
+    <span class="keyword">AND</span> <span class="function">AVG</span>(<span class="column">amount</span>) > <span class="number">500</span>  <span class="comment">-- Can use any aggregate function</span>
+<span class="keyword">ORDER BY</span> <span class="column">lifetime_value</span> <span class="keyword">DESC</span>;
+
+<span class="comment">/* Execution order explained:
+1. FROM: Get data from orders and customers tables
+2. JOIN: Connect the tables
+3. WHERE: Keep only completed orders
+4. GROUP BY: Create one group per customer
+5. Calculate aggregates for each group
+6. HAVING: Keep only groups meeting all conditions
+7. SELECT: Return the specified columns
+8. ORDER BY: Sort the final results
+*/</span></pre>
+                </div>
+
+                <h3>HAVING vs WHERE - The Critical Differences</h3>
+                <div class="concept-card">
+                    <h4>Understanding When to Use Each</h4>
+                    <table class="result-table">
+                        <tr>
+                            <th>Aspect</th>
+                            <th>WHERE</th>
+                            <th>HAVING</th>
+                        </tr>
+                        <tr>
+                            <td>When Applied</td>
+                            <td>Before GROUP BY (on raw rows)</td>
+                            <td>After GROUP BY (on groups)</td>
+                        </tr>
+                        <tr>
+                            <td>Can Use Aggregates?</td>
+                            <td>❌ No (aggregates don't exist yet)</td>
+                            <td>✅ Yes (aggregates are calculated)</td>
+                        </tr>
+                        <tr>
+                            <td>Performance Impact</td>
+                            <td>Faster (reduces data early)</td>
+                            <td>Slower (processes all groups first)</td>
+                        </tr>
+                        <tr>
+                            <td>Example Use Case</td>
+                            <td>"Orders from 2024"</td>
+                            <td>"Customers with >10 orders"</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>Complex HAVING Examples</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Find product categories that are both popular AND profitable</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">p.category</span>,
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">oi.order_id</span>) <span class="keyword">AS</span> <span class="column">times_ordered</span>,
+    <span class="function">SUM</span>(<span class="column">oi.quantity</span>) <span class="keyword">AS</span> <span class="column">units_sold</span>,
+    <span class="function">SUM</span>(<span class="column">oi.quantity</span> * <span class="column">oi.unit_price</span>) <span class="keyword">AS</span> <span class="column">gross_revenue</span>,
+    <span class="function">SUM</span>(<span class="column">oi.quantity</span> * (<span class="column">oi.unit_price</span> - <span class="column">p.cost</span>)) <span class="keyword">AS</span> <span class="column">gross_profit</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>((<span class="column">oi.unit_price</span> - <span class="column">p.cost</span>) / <span class="column">oi.unit_price</span> * <span class="number">100</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_margin_pct</span>
+<span class="keyword">FROM</span> <span class="table-name">order_items</span> <span class="column">oi</span>
+<span class="keyword">JOIN</span> <span class="table-name">products</span> <span class="column">p</span> <span class="keyword">ON</span> <span class="column">oi.product_id</span> = <span class="column">p.id</span>
+<span class="keyword">JOIN</span> <span class="table-name">orders</span> <span class="column">o</span> <span class="keyword">ON</span> <span class="column">oi.order_id</span> = <span class="column">o.id</span>
+<span class="keyword">WHERE</span> 
+    <span class="column">o.order_date</span> >= <span class="keyword">DATE_SUB</span>(<span class="keyword">CURDATE</span>(), <span class="keyword">INTERVAL</span> <span class="number">90</span> <span class="keyword">DAY</span>)
+    <span class="keyword">AND</span> <span class="column">o.status</span> = <span class="string">'completed'</span>
+<span class="keyword">GROUP BY</span> <span class="column">p.category</span>
+<span class="keyword">HAVING</span> 
+    <span class="comment">-- Category must be ordered frequently</span>
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">oi.order_id</span>) >= <span class="number">50</span>
+    <span class="comment">-- AND generate significant revenue</span>
+    <span class="keyword">AND</span> <span class="function">SUM</span>(<span class="column">oi.quantity</span> * <span class="column">oi.unit_price</span>) > <span class="number">10000</span>
+    <span class="comment">-- AND maintain good profit margins</span>
+    <span class="keyword">AND</span> <span class="function">AVG</span>((<span class="column">oi.unit_price</span> - <span class="column">p.cost</span>) / <span class="column">oi.unit_price</span> * <span class="number">100</span>) > <span class="number">30</span>
+<span class="keyword">ORDER BY</span> <span class="column">gross_profit</span> <span class="keyword">DESC</span>;
+
+<span class="comment">-- Find months with unusual patterns</span>
+<span class="keyword">SELECT</span> 
+    <span class="keyword">YEAR</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">year</span>,
+    <span class="keyword">MONTH</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">month</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">order_count</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">revenue</span>,
+    <span class="function">AVG</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">avg_order</span>,
+    <span class="function">STDDEV</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">order_stddev</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">status</span> = <span class="string">'completed'</span>
+<span class="keyword">GROUP BY</span> <span class="keyword">YEAR</span>(<span class="column">order_date</span>), <span class="keyword">MONTH</span>(<span class="column">order_date</span>)
+<span class="keyword">HAVING</span> 
+    <span class="comment">-- Find months with high volume but low average (many small orders)</span>
+    <span class="function">COUNT</span>(*) > <span class="number">1000</span> 
+    <span class="keyword">AND</span> <span class="function">AVG</span>(<span class="column">amount</span>) < (<span class="keyword">SELECT</span> <span class="function">AVG</span>(<span class="column">amount</span>) * <span class="number">0.7</span> <span class="keyword">FROM</span> <span class="table-name">orders</span>)
+    <span class="comment">-- OR months with high variability (mix of very large and small orders)</span>
+    <span class="keyword">OR</span> <span class="function">STDDEV</span>(<span class="column">amount</span>) > <span class="function">AVG</span>(<span class="column">amount</span>) * <span class="number">1.5</span>;</pre>
+                </div>
+
+                <div class="tip-box">
+                    Best practice: Use WHERE to filter as much data as possible before grouping. This improves performance significantly. Only use HAVING for conditions that require aggregate calculations.
+                </div>
+
+                <div class="explanation-box">
+                    <strong>Pro tip for performance:</strong>
+                    <p>If you're filtering on both regular columns and aggregates:</p>
+                    <ul style="margin-left: 1rem;">
+                        <li>Put regular column filters in WHERE (processes fewer rows)</li>
+                        <li>Put aggregate filters in HAVING (no choice - aggregates only work here)</li>
+                    </ul>
+                    <p>Example: Finding big spenders from California</p>
+                    <ul style="margin-left: 1rem;">
+                        <li>WHERE state = 'CA' (filters early)</li>
+                        <li>HAVING SUM(amount) > 1000 (filters after grouping)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section" id="rollup">
+                <h2>📋 WITH ROLLUP and GROUPING - Automatic Subtotals</h2>
+                
+                <p>WITH ROLLUP is like having an automatic calculator that adds subtotals and grand totals to your grouped data—perfect for financial reports and hierarchical summaries.</p>
+
+                <div class="analogy-box">
+                    <h4>🏢 Analogy: The Corporate Sales Report</h4>
+                    <p>Imagine creating a sales report for executives:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Sales by region and product (detailed level)</li>
+                        <li>Subtotals for each region (all products in that region)</li>
+                        <li>Grand total for entire company (all regions, all products)</li>
+                    </ul>
+                    <p>WITHOUT ROLLUP: You'd need three separate queries and manually combine them</p>
+                    <p>WITH ROLLUP: One query gives you all three levels automatically!</p>
+                </div>
+
+                <h3>Basic ROLLUP - How It Works</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- ROLLUP creates a hierarchy of totals from right to left</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">region</span>,
+    <span class="column">product_category</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">total_sales</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">order_count</span>
+<span class="keyword">FROM</span> <span class="table-name">sales</span>
+<span class="keyword">GROUP BY</span> <span class="column">region</span>, <span class="column">product_category</span> <span class="keyword">WITH ROLLUP</span>;
+
+<span class="comment">/* This produces these grouping levels:
+1. region='North', category='Electronics' - specific combination
+2. region='North', category='Clothing' - specific combination
+3. region='North', category=NULL - subtotal for North (all categories)
+4. region='South', category='Electronics' - specific combination
+5. region='South', category='Clothing' - specific combination  
+6. region='South', category=NULL - subtotal for South
+7. region=NULL, category=NULL - grand total (everything)
+
+ROLLUP works right-to-left in GROUP BY:
+- First removes product_category (creates regional subtotals)
+- Then removes region (creates grand total)
+*/</span></pre>
+                </div>
+
+                <h3>ROLLUP Result Visualization</h3>
+                <div class="visual-demo">
+                    <table class="result-table" style="max-width: 700px; margin: 0 auto;">
+                        <tr>
+                            <th>Region</th>
+                            <th>Category</th>
+                            <th>Total Sales</th>
+                            <th>What This Row Represents</th>
+                        </tr>
+                        <tr>
+                            <td>North</td>
+                            <td>Electronics</td>
+                            <td>$50,000</td>
+                            <td>North region, Electronics only</td>
+                        </tr>
+                        <tr>
+                            <td>North</td>
+                            <td>Clothing</td>
+                            <td>$30,000</td>
+                            <td>North region, Clothing only</td>
+                        </tr>
+                        <tr style="background: rgba(78, 205, 196, 0.1); font-weight: bold;">
+                            <td>North</td>
+                            <td>NULL</td>
+                            <td>$80,000</td>
+                            <td>📊 SUBTOTAL: All North sales</td>
+                        </tr>
+                        <tr>
+                            <td>South</td>
+                            <td>Electronics</td>
+                            <td>$45,000</td>
+                            <td>South region, Electronics only</td>
+                        </tr>
+                        <tr>
+                            <td>South</td>
+                            <td>Clothing</td>
+                            <td>$35,000</td>
+                            <td>South region, Clothing only</td>
+                        </tr>
+                        <tr style="background: rgba(78, 205, 196, 0.1); font-weight: bold;">
+                            <td>South</td>
+                            <td>NULL</td>
+                            <td>$80,000</td>
+                            <td>📊 SUBTOTAL: All South sales</td>
+                        </tr>
+                        <tr style="background: rgba(102, 126, 234, 0.2); font-weight: bold;">
+                            <td>NULL</td>
+                            <td>NULL</td>
+                            <td>$160,000</td>
+                            <td>🎯 GRAND TOTAL: Everything</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>The GROUPING Function - Identifying Summary Rows</h3>
+                <p>GROUPING() returns 1 for NULL values created by ROLLUP, 0 for real NULL values or actual data.</p>
+
+                <div class="code-block">
+                    <pre><span class="comment">-- Use GROUPING to create readable labels for summary rows</span>
+<span class="keyword">SELECT</span> 
+    <span class="comment">-- Smart labeling based on GROUPING results</span>
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">region</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'===&gt; GRAND TOTAL &lt;==='</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">category</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="function">CONCAT</span>(<span class="string">'Total for '</span>, <span class="column">region</span>)
+        <span class="keyword">ELSE</span> <span class="column">region</span>
+    <span class="keyword">END AS</span> <span class="column">region_label</span>,
+    
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">category</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'All Categories'</span>
+        <span class="keyword">ELSE</span> <span class="column">category</span>
+    <span class="keyword">END AS</span> <span class="column">category_label</span>,
+    
+    <span class="comment">-- Add visual indicators for summary levels</span>
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">region</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'***'</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">category</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'**'</span>
+        <span class="keyword">ELSE</span> <span class="string">''</span>
+    <span class="keyword">END AS</span> <span class="column">level_indicator</span>,
+    
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">total</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">transactions</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_transaction</span>
+<span class="keyword">FROM</span> <span class="table-name">sales</span>
+<span class="keyword">WHERE</span> <span class="column">sale_date</span> >= <span class="string">'2024-01-01'</span>
+<span class="keyword">GROUP BY</span> <span class="column">region</span>, <span class="column">category</span> <span class="keyword">WITH ROLLUP</span>;</pre>
+                </div>
+
+                <h3>Multi-Level ROLLUP for Complex Hierarchies</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Three-level hierarchy: Year > Quarter > Month</span>
+<span class="keyword">SELECT</span> 
+    <span class="keyword">YEAR</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">year</span>,
+    <span class="keyword">QUARTER</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">quarter</span>,
+    <span class="keyword">MONTHNAME</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">month</span>,
+    
+    <span class="comment">-- Financial metrics</span>
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">revenue</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">orders</span>,
+    
+    <span class="comment">-- Identify the level of aggregation</span>
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">year</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'GRAND TOTAL'</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">quarter</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="function">CONCAT</span>(<span class="string">'Year '</span>, <span class="column">year</span>, <span class="string">' Total'</span>)
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">month</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="function">CONCAT</span>(<span class="string">'Q'</span>, <span class="column">quarter</span>, <span class="string">' Total'</span>)
+        <span class="keyword">ELSE</span> <span class="string">'Monthly Detail'</span>
+    <span class="keyword">END AS</span> <span class="column">summary_level</span>,
+    
+    <span class="comment">-- Add indentation for visual hierarchy</span>
+    <span class="function">CONCAT</span>(
+        <span class="function">REPEAT</span>(<span class="string">'  '</span>, 
+            <span class="function">GROUPING</span>(<span class="column">year</span>) * <span class="number">0</span> + 
+            <span class="function">GROUPING</span>(<span class="column">quarter</span>) * <span class="number">0</span> + 
+            <span class="function">GROUPING</span>(<span class="column">month</span>) * <span class="number">0</span> + 
+            (<span class="number">3</span> - <span class="function">GROUPING</span>(<span class="column">year</span>) - <span class="function">GROUPING</span>(<span class="column">quarter</span>) - <span class="function">GROUPING</span>(<span class="column">month</span>))
+        ),
+        <span class="function">FORMAT</span>(<span class="function">SUM</span>(<span class="column">amount</span>), <span class="number">2</span>)
+    ) <span class="keyword">AS</span> <span class="column">formatted_revenue</span>
+    
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="string">'2024-01-01'</span>
+<span class="keyword">GROUP BY</span> <span class="column">year</span>, <span class="column">quarter</span>, <span class="column">month</span> <span class="keyword">WITH ROLLUP</span>
+<span class="keyword">ORDER BY</span> 
+    <span class="column">year</span> <span class="keyword">IS NULL</span>,  <span class="comment">-- Grand total last</span>
+    <span class="column">year</span>,
+    <span class="column">quarter</span> <span class="keyword">IS NULL</span>,  <span class="comment">-- Year totals after quarters</span>
+    <span class="column">quarter</span>,
+    <span class="column">month</span> <span class="keyword">IS NULL</span>,  <span class="comment">-- Quarter totals after months</span>
+    <span class="keyword">MONTH</span>(<span class="function">STR_TO_DATE</span>(<span class="column">month</span>, <span class="string">'%M'</span>));  <span class="comment">-- Months in calendar order</span></pre>
+                </div>
+
+                <div class="tip-box">
+                    ROLLUP column order matters! It creates subtotals from right to left. Plan your GROUP BY column order based on your reporting hierarchy: most general (region) to most specific (product).
+                </div>
+
+                <div class="explanation-box">
+                    <strong>When to use ROLLUP:</strong>
+                    <ul style="margin-left: 1rem;">
+                        <li>Financial reports needing subtotals and grand totals</li>
+                        <li>Hierarchical data summaries (region → state → city)</li>
+                        <li>Time-based reports (year → quarter → month)</li>
+                        <li>Any report where you'd otherwise need multiple queries for different aggregation levels</li>
+                    </ul>
+                    <p><strong>Remember:</strong> ROLLUP saves you from writing UNION ALL queries to combine different grouping levels!</p>
+                </div>
+            </section>
+
+            <section class="section" id="window">
+                <h2>🪟 Aggregate Window Functions - The Best of Both Worlds</h2>
+                
+                <p>Window functions are SQL's superpower—they calculate aggregates while keeping all your detailed rows. Instead of collapsing data like GROUP BY, they add calculated columns to every row.</p>
+
+                <div class="analogy-box">
+                    <h4>🏃 Analogy: The Marathon Race Tracker</h4>
+                    <p>Imagine you're tracking runners in a marathon with GPS:</p>
+                    <ul style="margin-left: 2rem;">
+                        <li><strong>Regular Query:</strong> "Runner #42 finished in 3:45:20"</li>
+                        <li><strong>GROUP BY:</strong> "Age group 30-39 had 200 runners, average time 3:52:00"</li>
+                        <li><strong>Window Function:</strong> "Runner #42 finished in 3:45:20, ranked 15th in their age group, 8 minutes faster than their group's average, currently 142nd overall"</li>
+                    </ul>
+                    <p>Window functions give each row its individual data PLUS contextual information about related rows!</p>
+                </div>
+
+                <h3>Window Function Anatomy</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- The structure of a window function</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">employee_name</span>,
+    <span class="column">department</span>,
+    <span class="column">salary</span>,
+    
+    <span class="comment">-- Window function structure:</span>
+    <span class="comment">-- FUNCTION() OVER (PARTITION BY ... ORDER BY ... FRAME)</span>
+    
+    <span class="function">AVG</span>(<span class="column">salary</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">PARTITION BY</span> <span class="column">department</span>  <span class="comment">-- Creates "windows" (like GROUP BY)</span>
+    ) <span class="keyword">AS</span> <span class="column">dept_avg_salary</span>,
+    
+    <span class="comment">-- Each employee sees their salary vs department average</span>
+    <span class="column">salary</span> - <span class="function">AVG</span>(<span class="column">salary</span>) <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> <span class="column">department</span>) <span class="keyword">AS</span> <span class="column">diff_from_dept_avg</span>,
+    
+    <span class="comment">-- Ranking within department</span>
+    <span class="function">RANK</span>() <span class="keyword">OVER</span> (
+        <span class="keyword">PARTITION BY</span> <span class="column">department</span> 
+        <span class="keyword">ORDER BY</span> <span class="column">salary</span> <span class="keyword">DESC</span>
+    ) <span class="keyword">AS</span> <span class="column">salary_rank_in_dept</span>,
+    
+    <span class="comment">-- Percentile within department</span>
+    <span class="function">PERCENT_RANK</span>() <span class="keyword">OVER</span> (
+        <span class="keyword">PARTITION BY</span> <span class="column">department</span> 
+        <span class="keyword">ORDER BY</span> <span class="column">salary</span>
+    ) <span class="keyword">AS</span> <span class="column">salary_percentile</span>
+<span class="keyword">FROM</span> <span class="table-name">employees</span>
+<span class="keyword">ORDER BY</span> <span class="column">department</span>, <span class="column">salary</span> <span class="keyword">DESC</span>;</pre>
+                </div>
+
+                <h3>Window Functions vs GROUP BY - Visual Comparison</h3>
+                <div class="visual-demo">
+                    <h4>Same Data, Different Results</h4>
+                    <div style="display: flex; gap: 2rem; margin-top: 1rem;">
+                        <div style="flex: 1;">
+                            <h5>GROUP BY Query</h5>
+                            <div class="code-block" style="font-size: 0.85rem;">
+                                <pre><span class="keyword">SELECT</span> <span class="column">dept</span>, <span class="function">AVG</span>(<span class="column">salary</span>)
+<span class="keyword">FROM</span> <span class="table-name">employees</span>
+<span class="keyword">GROUP BY</span> <span class="column">dept</span>;</pre>
+                            </div>
+                            <table class="result-table">
+                                <tr><th>Department</th><th>AVG Salary</th></tr>
+                                <tr><td>Sales</td><td>$50,000</td></tr>
+                                <tr><td>IT</td><td>$70,000</td></tr>
+                            </table>
+                            <p style="text-align: center; margin-top: 1rem; color: var(--text-muted);">2 rows (lost individual data)</p>
+                        </div>
+                        <div style="flex: 1;">
+                            <h5>Window Function Query</h5>
+                            <div class="code-block" style="font-size: 0.85rem;">
+                                <pre><span class="keyword">SELECT</span> <span class="column">name</span>, <span class="column">dept</span>, <span class="column">salary</span>,
+  <span class="function">AVG</span>(<span class="column">salary</span>) <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> <span class="column">dept</span>)
+<span class="keyword">FROM</span> <span class="table-name">employees</span>;</pre>
+                            </div>
+                            <table class="result-table">
+                                <tr><th>Name</th><th>Dept</th><th>Salary</th><th>Dept AVG</th></tr>
+                                <tr><td>John</td><td>Sales</td><td>$45,000</td><td>$50,000</td></tr>
+                                <tr><td>Jane</td><td>Sales</td><td>$55,000</td><td>$50,000</td></tr>
+                                <tr><td>Bob</td><td>IT</td><td>$65,000</td><td>$70,000</td></tr>
+                                <tr><td>Alice</td><td>IT</td><td>$75,000</td><td>$70,000</td></tr>
+                            </table>
+                            <p style="text-align: center; margin-top: 1rem; color: var(--text-muted);">4 rows (kept all details + added context)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Common Window Function Patterns</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- 1. RUNNING TOTALS (Cumulative Sums)</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">order_date</span>,
+    <span class="column">amount</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_date</span>
+        <span class="keyword">ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</span>
+    ) <span class="keyword">AS</span> <span class="column">running_total</span>,
+    
+    <span class="comment">-- Also calculate running average</span>
+    <span class="function">AVG</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_date</span>
+        <span class="keyword">ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</span>
+    ) <span class="keyword">AS</span> <span class="column">running_avg</span>
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">ORDER BY</span> <span class="column">order_date</span>;
+
+<span class="comment">-- 2. RANKING AND PERCENTILES</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">product_name</span>,
+    <span class="column">category</span>,
+    <span class="column">sales_count</span>,
+    
+    <span class="comment">-- Different ranking functions</span>
+    <span class="function">ROW_NUMBER</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">sales_count</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="column">overall_rank</span>,
+    <span class="function">RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> <span class="column">category</span> <span class="keyword">ORDER BY</span> <span class="column">sales_count</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="column">category_rank</span>,
+    <span class="function">DENSE_RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> <span class="column">category</span> <span class="keyword">ORDER BY</span> <span class="column">sales_count</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="column">category_dense_rank</span>,
+    <span class="function">NTILE</span>(<span class="number">4</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">sales_count</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="column">sales_quartile</span>
+<span class="keyword">FROM</span> <span class="table-name">product_sales</span>;
+
+<span class="comment">-- 3. MOVING AVERAGES (Sliding Windows)</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">date</span>,
+    <span class="column">daily_sales</span>,
+    
+    <span class="comment">-- 7-day moving average (current day + 6 previous)</span>
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">daily_sales</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">date</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">6</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>
+    ), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">moving_avg_7day</span>,
+    
+    <span class="comment">-- 30-day moving average</span>
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">daily_sales</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">date</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">29</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>
+    ), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">moving_avg_30day</span>,
+    
+    <span class="comment">-- Trend indicator (today vs 7-day average)</span>
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="column">daily_sales</span> > <span class="function">AVG</span>(<span class="column">daily_sales</span>) <span class="keyword">OVER</span> (
+            <span class="keyword">ORDER BY</span> <span class="column">date</span> 
+            <span class="keyword">ROWS BETWEEN</span> <span class="number">6</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>
+        ) <span class="keyword">THEN</span> <span class="string">'↑ Above Average'</span>
+        <span class="keyword">ELSE</span> <span class="string">'↓ Below Average'</span>
+    <span class="keyword">END AS</span> <span class="column">trend</span>
+<span class="keyword">FROM</span> <span class="table-name">daily_sales_data</span>
+<span class="keyword">ORDER BY</span> <span class="column">date</span>;
+
+<span class="comment">-- 4. LAG/LEAD - Accessing Previous/Next Rows</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">month</span>,
+    <span class="column">revenue</span>,
+    
+    <span class="comment">-- Previous month's revenue</span>
+    <span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">1</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">month</span>) <span class="keyword">AS</span> <span class="column">prev_month_revenue</span>,
+    
+    <span class="comment">-- Month-over-month change</span>
+    <span class="column">revenue</span> - <span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">1</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">month</span>) <span class="keyword">AS</span> <span class="column">mom_change</span>,
+    
+    <span class="comment">-- Month-over-month % change</span>
+    <span class="function">ROUND</span>(
+        (<span class="column">revenue</span> - <span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">1</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">month</span>)) * <span class="number">100.0</span> / 
+        <span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">1</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">month</span>), 
+        <span class="number">2</span>
+    ) <span class="keyword">AS</span> <span class="column">mom_percent_change</span>,
+    
+    <span class="comment">-- Next month's revenue (for forecasting comparisons)</span>
+    <span class="function">LEAD</span>(<span class="column">revenue</span>, <span class="number">1</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">month</span>) <span class="keyword">AS</span> <span class="column">next_month_revenue</span>
+<span class="keyword">FROM</span> <span class="table-name">monthly_revenue</span>
+<span class="keyword">ORDER BY</span> <span class="column">month</span>;</pre>
+                </div>
+
+                <div class="explanation-box">
+                    <strong>When to Use Window Functions vs GROUP BY:</strong>
+                    <table style="width: 100%; margin-top: 1rem;">
+                        <tr>
+                            <th>Use GROUP BY when:</th>
+                            <th>Use Window Functions when:</th>
+                        </tr>
+                        <tr>
+                            <td>You want summary rows only</td>
+                            <td>You need detail rows with context</td>
+                        </tr>
+                        <tr>
+                            <td>Creating reports with totals</td>
+                            <td>Calculating running totals</td>
+                        </tr>
+                        <tr>
+                            <td>Reducing data volume</td>
+                            <td>Ranking within groups</td>
+                        </tr>
+                        <tr>
+                            <td>Performance is critical</td>
+                            <td>Comparing rows to aggregates</td>
+                        </tr>
+                        <tr>
+                            <td>Simple aggregations suffice</td>
+                            <td>Need complex calculations</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="tip-box">
+                    Window functions can use multiple different windows in the same query. Each OVER clause defines its own independent window, giving you incredible flexibility in analysis!
+                </div>
+            </section>
+
+            <section class="section" id="frames">
+                <h2>🖼️ Frames and Named Windows - Advanced Control</h2>
+                
+                <p>Frames define exactly which rows a window function considers for each calculation. Named windows let you reuse window definitions for cleaner, more maintainable code.</p>
+
+                <h3>Understanding Frames - The Sliding Window</h3>
+                <div class="window-demo">
+                    <h4>Frame Visualization for Row #5</h4>
+                    <div class="window-row">Row 1: $100</div>
+                    <div class="window-row">Row 2: $150</div>
+                    <div class="window-row window-highlight">Row 3: $200 ← 2 PRECEDING starts here</div>
+                    <div class="window-row window-highlight">Row 4: $175</div>
+                    <div class="window-row window-highlight" style="background: rgba(102, 126, 234, 0.3); font-weight: bold;">Row 5: $225 ← CURRENT ROW (calculating for this)</div>
+                    <div class="window-row window-highlight">Row 6: $180 ← 1 FOLLOWING</div>
+                    <div class="window-row">Row 7: $210</div>
+                    <div class="window-row">Row 8: $195</div>
+                    <p style="margin-top: 1rem; font-weight: bold;">Frame: Rows 3-6 | SUM = $780 | AVG = $195</p>
+                </div>
+
+                <h3>Frame Specifications Explained</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Different frame specifications and what they calculate</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">order_id</span>,
+    <span class="column">order_date</span>,
+    <span class="column">amount</span>,
+    
+    <span class="comment">-- 1. UNBOUNDED PRECEDING to CURRENT ROW (default for ORDER BY)</span>
+    <span class="comment">-- Includes: All previous rows + current row</span>
+    <span class="comment">-- Use case: Running totals</span>
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_date</span>
+        <span class="keyword">ROWS UNBOUNDED PRECEDING</span>  <span class="comment">-- From first row to current</span>
+    ) <span class="keyword">AS</span> <span class="column">running_total</span>,
+    
+    <span class="comment">-- 2. N PRECEDING to CURRENT ROW</span>
+    <span class="comment">-- Includes: Last N rows + current row</span>
+    <span class="comment">-- Use case: Moving averages</span>
+    <span class="function">AVG</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_date</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">2</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>  <span class="comment">-- 3-row moving average</span>
+    ) <span class="keyword">AS</span> <span class="column">moving_avg_3</span>,
+    
+    <span class="comment">-- 3. CURRENT ROW to N FOLLOWING</span>
+    <span class="comment">-- Includes: Current row + next N rows</span>
+    <span class="comment">-- Use case: Forward-looking calculations</span>
+    <span class="function">MAX</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_date</span>
+        <span class="keyword">ROWS BETWEEN CURRENT ROW AND</span> <span class="number">2</span> <span class="keyword">FOLLOWING</span>  <span class="comment">-- Max of next 3 orders</span>
+    ) <span class="keyword">AS</span> <span class="column">max_next_3</span>,
+    
+    <span class="comment">-- 4. N PRECEDING to M FOLLOWING</span>
+    <span class="comment">-- Includes: Centered window around current row</span>
+    <span class="comment">-- Use case: Centered moving average, outlier detection</span>
+    <span class="function">AVG</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_date</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">1</span> <span class="keyword">PRECEDING AND</span> <span class="number">1</span> <span class="keyword">FOLLOWING</span>  <span class="comment">-- 3-row centered average</span>
+    ) <span class="keyword">AS</span> <span class="column">centered_avg</span>,
+    
+    <span class="comment">-- 5. UNBOUNDED PRECEDING to UNBOUNDED FOLLOWING</span>
+    <span class="comment">-- Includes: All rows in partition</span>
+    <span class="comment">-- Use case: Comparing to partition totals</span>
+    <span class="column">amount</span> * <span class="number">100.0</span> / <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</span>
+    ) <span class="keyword">AS</span> <span class="column">percent_of_total</span>
+    
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">ORDER BY</span> <span class="column">order_date</span>;</pre>
+                </div>
+
+                <h3>ROWS vs RANGE - Physical vs Logical</h3>
+                <div class="concept-card">
+                    <h4>The Key Difference</h4>
+                    <div class="code-block">
+                        <pre><span class="comment">-- ROWS: Counts physical rows (1st row, 2nd row, etc.)</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">sale_date</span>,
+    <span class="column">amount</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">sale_date</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">1</span> <span class="keyword">PRECEDING AND</span> <span class="number">1</span> <span class="keyword">FOLLOWING</span>
+    ) <span class="keyword">AS</span> <span class="column">sum_3_physical_rows</span>
+<span class="keyword">FROM</span> <span class="table-name">sales</span>;
+
+<span class="comment">-- RANGE: Groups by value (all rows with same date treated as one unit)</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">sale_date</span>,
+    <span class="column">amount</span>,
+    <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">sale_date</span>
+        <span class="keyword">RANGE BETWEEN INTERVAL</span> <span class="number">1</span> <span class="keyword">DAY PRECEDING 
+                   AND INTERVAL</span> <span class="number">1</span> <span class="keyword">DAY FOLLOWING</span>
+    ) <span class="keyword">AS</span> <span class="column">sum_3_day_window</span>
+<span class="keyword">FROM</span> <span class="table-name">sales</span>;
+
+<span class="comment">/* Example to illustrate difference:
+Data: 
+  2024-01-01: $100
+  2024-01-01: $150  (same date!)
+  2024-01-02: $200
+  
+For the first row:
+- ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING: Would sum rows 1-2 only
+- RANGE (same date): Would sum ALL of Jan 1 + Jan 2 = $450
+*/</span></pre>
+                    </div>
+                </div>
+
+                <h3>Named Windows - Write Once, Use Many Times</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Named windows make complex queries more readable and maintainable</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">employee_id</span>,
+    <span class="column">employee_name</span>,
+    <span class="column">department</span>,
+    <span class="column">hire_date</span>,
+    <span class="column">salary</span>,
+    <span class="column">performance_score</span>,
+    
+    <span class="comment">-- Department statistics (using window 'dept')</span>
+    <span class="function">COUNT</span>(*) <span class="keyword">OVER</span> <span class="column">dept</span> <span class="keyword">AS</span> <span class="column">dept_size</span>,
+    <span class="function">AVG</span>(<span class="column">salary</span>) <span class="keyword">OVER</span> <span class="column">dept</span> <span class="keyword">AS</span> <span class="column">dept_avg_salary</span>,
+    <span class="function">MAX</span>(<span class="column">salary</span>) <span class="keyword">OVER</span> <span class="column">dept</span> <span class="keyword">AS</span> <span class="column">dept_max_salary</span>,
+    
+    <span class="comment">-- Ranking by salary (using window 'dept_salary')</span>
+    <span class="function">RANK</span>() <span class="keyword">OVER</span> <span class="column">dept_salary</span> <span class="keyword">AS</span> <span class="column">salary_rank</span>,
+    <span class="function">PERCENT_RANK</span>() <span class="keyword">OVER</span> <span class="column">dept_salary</span> <span class="keyword">AS</span> <span class="column">salary_percentile</span>,
+    
+    <span class="comment">-- Ranking by performance (using window 'dept_performance')</span>
+    <span class="function">RANK</span>() <span class="keyword">OVER</span> <span class="column">dept_performance</span> <span class="keyword">AS</span> <span class="column">performance_rank</span>,
+    
+    <span class="comment">-- Seniority ranking (using window 'dept_seniority')</span>
+    <span class="function">ROW_NUMBER</span>() <span class="keyword">OVER</span> <span class="column">dept_seniority</span> <span class="keyword">AS</span> <span class="column">seniority_rank</span>,
+    
+    <span class="comment">-- Company-wide percentile (using window 'company_salary')</span>
+    <span class="function">PERCENT_RANK</span>() <span class="keyword">OVER</span> <span class="column">company_salary</span> <span class="keyword">AS</span> <span class="column">company_salary_percentile</span>
+    
+<span class="keyword">FROM</span> <span class="table-name">employees</span>
+<span class="keyword">WINDOW</span> 
+    <span class="comment">-- Define reusable windows</span>
+    <span class="column">dept</span> <span class="keyword">AS</span> (<span class="keyword">PARTITION BY</span> <span class="column">department</span>),
+    <span class="column">dept_salary</span> <span class="keyword">AS</span> (<span class="keyword">PARTITION BY</span> <span class="column">department</span> <span class="keyword">ORDER BY</span> <span class="column">salary</span> <span class="keyword">DESC</span>),
+    <span class="column">dept_performance</span> <span class="keyword">AS</span> (<span class="keyword">PARTITION BY</span> <span class="column">department</span> <span class="keyword">ORDER BY</span> <span class="column">performance_score</span> <span class="keyword">DESC</span>),
+    <span class="column">dept_seniority</span> <span class="keyword">AS</span> (<span class="keyword">PARTITION BY</span> <span class="column">department</span> <span class="keyword">ORDER BY</span> <span class="column">hire_date</span>),
+    <span class="column">company_salary</span> <span class="keyword">AS</span> (<span class="keyword">ORDER BY</span> <span class="column">salary</span> <span class="keyword">DESC</span>)
+<span class="keyword">ORDER BY</span> <span class="column">department</span>, <span class="column">salary</span> <span class="keyword">DESC</span>;</pre>
+                    </div>
+                </div>
+
+                <div class="explanation-box">
+                    <strong>Benefits of Named Windows:</strong>
+                    <ul style="margin-left: 1rem;">
+                        <li><strong>Readability:</strong> Define complex windows once, use clear names</li>
+                        <li><strong>Maintainability:</strong> Change window definition in one place</li>
+                        <li><strong>Performance:</strong> Database can optimize repeated window usage</li>
+                        <li><strong>Clarity:</strong> Makes complex queries easier to understand</li>
+                    </ul>
+                </div>
+
+                <h3>Advanced Frame Examples - Real Business Scenarios</h3>
+                <div class="code-block">
+                    <pre><span class="comment">-- Detecting anomalies using centered windows</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">date</span>,
+    <span class="column">daily_revenue</span>,
+    
+    <span class="comment">-- Calculate centered 7-day average (3 days before, current, 3 days after)</span>
+    <span class="function">AVG</span>(<span class="column">daily_revenue</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">date</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">3</span> <span class="keyword">PRECEDING AND</span> <span class="number">3</span> <span class="keyword">FOLLOWING</span>
+    ) <span class="keyword">AS</span> <span class="column">centered_avg</span>,
+    
+    <span class="comment">-- Calculate standard deviation for same window</span>
+    <span class="function">STDDEV</span>(<span class="column">daily_revenue</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">date</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">3</span> <span class="keyword">PRECEDING AND</span> <span class="number">3</span> <span class="keyword">FOLLOWING</span>
+    ) <span class="keyword">AS</span> <span class="column">centered_stddev</span>,
+    
+    <span class="comment">-- Flag anomalies (revenue more than 2 std devs from centered average)</span>
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> <span class="function">ABS</span>(<span class="column">daily_revenue</span> - <span class="function">AVG</span>(<span class="column">daily_revenue</span>) <span class="keyword">OVER</span> (
+            <span class="keyword">ORDER BY</span> <span class="column">date</span>
+            <span class="keyword">ROWS BETWEEN</span> <span class="number">3</span> <span class="keyword">PRECEDING AND</span> <span class="number">3</span> <span class="keyword">FOLLOWING</span>
+        )) > <span class="number">2</span> * <span class="function">STDDEV</span>(<span class="column">daily_revenue</span>) <span class="keyword">OVER</span> (
+            <span class="keyword">ORDER BY</span> <span class="column">date</span>
+            <span class="keyword">ROWS BETWEEN</span> <span class="number">3</span> <span class="keyword">PRECEDING AND</span> <span class="number">3</span> <span class="keyword">FOLLOWING</span>
+        ) <span class="keyword">THEN</span> <span class="string">'🚨 ANOMALY'</span>
+        <span class="keyword">ELSE</span> <span class="string">'Normal'</span>
+    <span class="keyword">END AS</span> <span class="column">anomaly_flag</span>
+<span class="keyword">FROM</span> <span class="table-name">daily_metrics</span>
+<span class="keyword">ORDER BY</span> <span class="column">date</span>;
+
+<span class="comment">-- Year-over-year comparison using LAG with specific offset</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">year</span>,
+    <span class="column">month</span>,
+    <span class="column">revenue</span>,
+    
+    <span class="comment">-- Same month last year (12 months ago)</span>
+    <span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">12</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">year</span>, <span class="column">month</span>) <span class="keyword">AS</span> <span class="column">revenue_last_year</span>,
+    
+    <span class="comment">-- Year-over-year growth</span>
+    <span class="function">ROUND</span>(
+        (<span class="column">revenue</span> - <span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">12</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">year</span>, <span class="column">month</span>)) * <span class="number">100.0</span> /
+        <span class="function">NULLIF</span>(<span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">12</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">year</span>, <span class="column">month</span>), <span class="number">0</span>),
+        <span class="number">2</span>
+    ) <span class="keyword">AS</span> <span class="column">yoy_growth_pct</span>,
+    
+    <span class="comment">-- 12-month trailing sum (rolling year total)</span>
+    <span class="function">SUM</span>(<span class="column">revenue</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">year</span>, <span class="column">month</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">11</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>
+    ) <span class="keyword">AS</span> <span class="column">trailing_12m_revenue</span>
+<span class="keyword">FROM</span> <span class="table-name">monthly_financials</span>
+<span class="keyword">ORDER BY</span> <span class="column">year</span>, <span class="column">month</span>;</pre>
+                </div>
+
+                <div class="tip-box">
+                    Frame tips: Start with simple frames (UNBOUNDED PRECEDING for running totals), then add complexity as needed. Always test edge cases - what happens at the start/end of your data where the full frame might not exist?
+                </div>
+            </section>
+
+            <section class="section" id="summary">
+                <h2>✅ Summary and Best Practices</h2>
+                
+                <h3>Key Concepts Recap</h3>
+                <div class="visual-demo">
+                    <table class="result-table" style="max-width: 900px; margin: 0 auto;">
+                        <tr>
+                            <th>Feature</th>
+                            <th>Purpose</th>
+                            <th>Key Point</th>
+                            <th>Common Mistake</th>
+                        </tr>
+                        <tr>
+                            <td>Aggregate Functions</td>
+                            <td>Summarize multiple rows into one value</td>
+                            <td>NULL values ignored (except COUNT(*))</td>
+                            <td>Forgetting NULLs affect AVG differently than you expect</td>
+                        </tr>
+                        <tr>
+                            <td>GROUP BY</td>
+                            <td>Create groups for aggregation</td>
+                            <td>All non-aggregate columns must be grouped</td>
+                            <td>Missing columns in GROUP BY clause</td>
+                        </tr>
+                        <tr>
+                            <td>HAVING</td>
+                            <td>Filter groups after aggregation</td>
+                            <td>Like WHERE but for groups</td>
+                            <td>Using HAVING when WHERE would be more efficient</td>
+                        </tr>
+                        <tr>
+                            <td>WITH ROLLUP</td>
+                            <td>Add subtotals and grand totals</td>
+                            <td>Creates hierarchy from right to left</td>
+                            <td>Wrong column order for desired hierarchy</td>
+                        </tr>
+                        <tr>
+                            <td>Window Functions</td>
+                            <td>Calculate across rows without grouping</td>
+                            <td>Keeps individual rows intact</td>
+                            <td>Using when GROUP BY would be simpler/faster</td>
+                        </tr>
+                        <tr>
+                            <td>Frames</td>
+                            <td>Define which rows to include in window</td>
+                            <td>ROWS vs RANGE have different behaviors</td>
+                            <td>Not understanding frame boundaries</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>Query Optimization Patterns</h3>
+                <div class="concept-card">
+                    <h4>Performance Best Practices</h4>
+                    <div class="code-block">
+                        <pre><span class="comment">-- ✅ GOOD: Filter early with WHERE</span>
+<span class="keyword">SELECT</span> <span class="column">category</span>, <span class="function">AVG</span>(<span class="column">price</span>)
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">WHERE</span> <span class="column">status</span> = <span class="string">'active'</span>  <span class="comment">-- Reduces data before grouping</span>
+<span class="keyword">GROUP BY</span> <span class="column">category</span>
+<span class="keyword">HAVING</span> <span class="function">AVG</span>(<span class="column">price</span>) > <span class="number">100</span>;
+
+<span class="comment">-- ❌ BAD: Unnecessary HAVING for non-aggregate filter</span>
+<span class="keyword">SELECT</span> <span class="column">category</span>, <span class="function">AVG</span>(<span class="column">price</span>)
+<span class="keyword">FROM</span> <span class="table-name">products</span>
+<span class="keyword">GROUP BY</span> <span class="column">category</span>
+<span class="keyword">HAVING</span> <span class="column">category</span> <span class="keyword">LIKE</span> <span class="string">'Electronics%'</span>  <span class="comment">-- Should be in WHERE</span>
+    <span class="keyword">AND</span> <span class="function">AVG</span>(<span class="column">price</span>) > <span class="number">100</span>;
+
+<span class="comment">-- ✅ GOOD: Use conditional aggregates instead of multiple queries</span>
+<span class="keyword">SELECT</span> 
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">region</span> = <span class="string">'North'</span> <span class="keyword">THEN</span> <span class="column">sales</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">north_sales</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">region</span> = <span class="string">'South'</span> <span class="keyword">THEN</span> <span class="column">sales</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">south_sales</span>
+<span class="keyword">FROM</span> <span class="table-name">regional_data</span>;
+
+<span class="comment">-- ✅ GOOD: Index columns used in GROUP BY</span>
+<span class="comment">-- CREATE INDEX idx_orders_customer ON orders(customer_id);</span>
+<span class="keyword">SELECT</span> <span class="column">customer_id</span>, <span class="function">COUNT</span>(*)
+<span class="keyword">FROM</span> <span class="table-name">orders</span>
+<span class="keyword">GROUP BY</span> <span class="column">customer_id</span>;</pre>
+                    </div>
+                </div>
+
+                <h3>Common Real-World Patterns</h3>
+                <div class="concept-card">
+                    <h4>Business Intelligence Dashboard Query</h4>
+                    <div class="code-block">
+                        <pre><span class="comment">-- Complete dashboard query with multiple insights</span>
+<span class="keyword">WITH</span> <span class="column">daily_metrics</span> <span class="keyword">AS</span> (
+    <span class="keyword">SELECT</span> 
+        <span class="keyword">DATE</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">order_day</span>,
+        <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">orders</span>,
+        <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">revenue</span>,
+        <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="column">customer_id</span>) <span class="keyword">AS</span> <span class="column">unique_customers</span>
+    <span class="keyword">FROM</span> <span class="table-name">orders</span>
+    <span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="keyword">DATE_SUB</span>(<span class="keyword">CURDATE</span>(), <span class="keyword">INTERVAL</span> <span class="number">30</span> <span class="keyword">DAY</span>)
+    <span class="keyword">GROUP BY</span> <span class="keyword">DATE</span>(<span class="column">order_date</span>)
+)
+<span class="keyword">SELECT</span> 
+    <span class="column">order_day</span>,
+    <span class="column">orders</span>,
+    <span class="column">revenue</span>,
+    <span class="column">unique_customers</span>,
+    
+    <span class="comment">-- Running totals</span>
+    <span class="function">SUM</span>(<span class="column">revenue</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_day</span>
+        <span class="keyword">ROWS UNBOUNDED PRECEDING</span>
+    ) <span class="keyword">AS</span> <span class="column">cumulative_revenue</span>,
+    
+    <span class="comment">-- 7-day moving average</span>
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">revenue</span>) <span class="keyword">OVER</span> (
+        <span class="keyword">ORDER BY</span> <span class="column">order_day</span>
+        <span class="keyword">ROWS BETWEEN</span> <span class="number">6</span> <span class="keyword">PRECEDING AND CURRENT ROW</span>
+    ), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">revenue_7day_avg</span>,
+    
+    <span class="comment">-- Day-over-day change</span>
+    <span class="column">revenue</span> - <span class="function">LAG</span>(<span class="column">revenue</span>, <span class="number">1</span>) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">order_day</span>) <span class="keyword">AS</span> <span class="column">dod_revenue_change</span>,
+    
+    <span class="comment">-- Rank by revenue</span>
+    <span class="function">RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> <span class="column">revenue</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> <span class="column">revenue_rank</span>
+<span class="keyword">FROM</span> <span class="column">daily_metrics</span>
+<span class="keyword">ORDER BY</span> <span class="column">order_day</span> <span class="keyword">DESC</span>;</pre>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Customer Lifetime Value Analysis</h4>
+                    <div class="code-block">
+                        <pre><span class="comment">-- Comprehensive customer analysis with cohorts</span>
+<span class="keyword">SELECT</span> 
+    <span class="column">customer_segment</span>,
+    <span class="column">join_year</span>,
+    <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">customers</span>,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">lifetime_value</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_ltv</span>,
+    <span class="function">ROUND</span>(<span class="function">PERCENTILE_CONT</span>(<span class="number">0.5</span>) <span class="keyword">WITHIN GROUP</span> (<span class="keyword">ORDER BY</span> <span class="column">lifetime_value</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">median_ltv</span>,
+    <span class="function">ROUND</span>(<span class="function">STDDEV</span>(<span class="column">lifetime_value</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">ltv_stddev</span>,
+    <span class="function">MIN</span>(<span class="column">lifetime_value</span>) <span class="keyword">AS</span> <span class="column">min_ltv</span>,
+    <span class="function">MAX</span>(<span class="column">lifetime_value</span>) <span class="keyword">AS</span> <span class="column">max_ltv</span>
+<span class="keyword">FROM</span> (
+    <span class="keyword">SELECT</span> 
+        <span class="column">c.customer_id</span>,
+        <span class="keyword">YEAR</span>(<span class="column">c.join_date</span>) <span class="keyword">AS</span> <span class="column">join_year</span>,
+        <span class="keyword">CASE</span>
+            <span class="keyword">WHEN</span> <span class="function">SUM</span>(<span class="column">o.amount</span>) >= <span class="number">10000</span> <span class="keyword">THEN</span> <span class="string">'VIP'</span>
+            <span class="keyword">WHEN</span> <span class="function">SUM</span>(<span class="column">o.amount</span>) >= <span class="number">1000</span> <span class="keyword">THEN</span> <span class="string">'Regular'</span>
+            <span class="keyword">ELSE</span> <span class="string">'Occasional'</span>
+        <span class="keyword">END AS</span> <span class="column">customer_segment</span>,
+        <span class="function">SUM</span>(<span class="column">o.amount</span>) <span class="keyword">AS</span> <span class="column">lifetime_value</span>
+    <span class="keyword">FROM</span> <span class="table-name">customers</span> <span class="column">c</span>
+    <span class="keyword">LEFT JOIN</span> <span class="table-name">orders</span> <span class="column">o</span> <span class="keyword">ON</span> <span class="column">c.customer_id</span> = <span class="column">o.customer_id</span>
+    <span class="keyword">GROUP BY</span> <span class="column">c.customer_id</span>, <span class="keyword">YEAR</span>(<span class="column">c.join_date</span>)
+) <span class="keyword">AS</span> <span class="column">customer_ltv</span>
+<span class="keyword">GROUP BY</span> <span class="column">customer_segment</span>, <span class="column">join_year</span> <span class="keyword">WITH ROLLUP</span>
+<span class="keyword">HAVING</span> <span class="column">customers</span> >= <span class="number">10</span>  <span class="comment">-- Only show segments with meaningful data</span>
+<span class="keyword">ORDER BY</span> 
+    <span class="column">customer_segment</span> <span class="keyword">IS NULL</span>,  <span class="comment">-- Grand total last</span>
+    <span class="column">customer_segment</span>,
+    <span class="column">join_year</span>;</pre>
+                    </div>
+                </div>
+
+                <h3>Decision Tree: Which Technique to Use?</h3>
+                <div class="flow-diagram" style="flex-direction: column; align-items: stretch;">
+                    <div class="concept-card">
+                        <h4>Do you need summary rows only? → Use GROUP BY</h4>
+                        <p>Example: Total sales by category</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Need subtotals and grand totals? → Add WITH ROLLUP</h4>
+                        <p>Example: Sales report with regional subtotals</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Need to filter groups? → Use HAVING</h4>
+                        <p>Example: Categories with >$10,000 in sales</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Need detail rows with context? → Use Window Functions</h4>
+                        <p>Example: Each sale with running total</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Need calculations across specific row ranges? → Use Frames</h4>
+                        <p>Example: 7-day moving average</p>
+                    </div>
+                </div>
+
+                <h3>Common Pitfalls and Solutions</h3>
+                <div class="warning-box">
+                    <h4 style="color: var(--warning); margin-bottom: 1rem;">Avoid These Common Mistakes:</h4>
+                    
+                    <p><strong>1. Forgetting NULL handling in aggregates:</strong></p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Problem: AVG ignores NULLs, potentially skewing results</li>
+                        <li>Solution: Use COALESCE or filter NULLs explicitly</li>
+                    </ul>
+                    
+                    <p><strong>2. Using HAVING instead of WHERE:</strong></p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Problem: Poor performance from late filtering</li>
+                        <li>Solution: Filter non-aggregates in WHERE clause</li>
+                    </ul>
+                    
+                    <p><strong>3. Wrong window frame boundaries:</strong></p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Problem: Incorrect calculations at data edges</li>
+                        <li>Solution: Test thoroughly, especially first/last rows</li>
+                    </ul>
+                    
+                    <p><strong>4. Overusing window functions:</strong></p>
+                    <ul style="margin-left: 2rem;">
+                        <li>Problem: Complex queries when GROUP BY would suffice</li>
+                        <li>Solution: Use simplest tool for the job</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--surface-light); border-radius: 10px;">
+                    <h3 style="color: var(--accent);">🎉 Mastery Achieved!</h3>
+                    <p style="font-size: 1.1rem; margin-top: 1rem;">You now have a comprehensive understanding of summary queries in MySQL. These techniques transform raw data into actionable insights, enabling powerful business intelligence and reporting.</p>
+                    
+                    <div style="margin-top: 2rem;">
+                        <strong>Your New Superpowers:</strong>
+                        <ul style="list-style: none; margin-top: 0.5rem; text-align: left; display: inline-block;">
+                            <li>✅ Calculate any type of summary statistic</li>
+                            <li>✅ Group data at multiple levels simultaneously</li>
+                            <li>✅ Filter both rows and groups effectively</li>
+                            <li>✅ Generate automatic subtotals and grand totals</li>
+                            <li>✅ Perform complex analytical calculations</li>
+                            <li>✅ Create sophisticated business reports</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid var(--surface);">
+                        <strong>Practice Project Ideas:</strong>
+                        <ol style="text-align: left; display: inline-block; margin-top: 0.5rem;">
+                            <li>Build a sales dashboard with multiple time periods</li>
+                            <li>Create a customer segmentation analysis</li>
+                            <li>Design a financial report with automatic totals</li>
+                            <li>Implement a ranking system for products/employees</li>
+                            <li>Develop trend analysis with moving averages</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                const section = document.getElementById(this.dataset.section);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Tab functionality
+        function showTab(evt, tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Scroll spy for active navigation
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    current = section.id;
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.section === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
