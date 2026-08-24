@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MySQL Workbench - Complete Interactive Learning Guide</title>
+    <title>Chapter 2 — How to use MySQL Workbench and other development tools</title>
     <style>
         * {
             margin: 0;
@@ -87,14 +87,20 @@
         }
 
         .nav-item {
+            display: block;
+            width: 100%;
             padding: 12px 15px;
             margin: 5px 0;
             background: #f7fafc;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 0;
             border-left: 4px solid transparent;
+            color: inherit;
+            font-family: inherit;
             font-size: 14px;
+            text-align: left;
         }
 
         .nav-item:hover {
@@ -355,12 +361,18 @@
         }
 
         .quiz-option {
+            display: block;
+            width: 100%;
             background: white;
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
             border: 2px solid #e2e8f0;
+            color: inherit;
             cursor: pointer;
+            font: inherit;
+            line-height: 1.5;
+            text-align: left;
             transition: all 0.3s ease;
         }
 
@@ -382,6 +394,157 @@
         .quiz-option.incorrect {
             background: #fff5f5;
             border-color: #fc8181;
+        }
+
+        .course-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .course-nav.bottom {
+            margin: 30px 0 0;
+        }
+
+        .course-nav a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 10px 16px;
+            color: #4c51bf;
+            background: rgba(255,255,255,0.95);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .course-nav a:hover {
+            background: white;
+        }
+
+        .course-alignment {
+            max-width: 900px;
+            margin: 14px auto 0;
+            color: #4a5568;
+            font-size: 0.98rem;
+        }
+
+        #interfaceTour {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        #interfaceTour[hidden] {
+            display: none;
+        }
+
+        #interfaceTour ol {
+            margin: 12px 0 16px 24px;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 3px solid #f59e0b;
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                width: 100%;
+                padding: 12px;
+            }
+
+            header {
+                padding: 24px 16px;
+                border-radius: 14px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                line-height: 1.15;
+            }
+
+            .subtitle {
+                font-size: 1.05rem;
+            }
+
+            .learning-path {
+                display: block;
+                margin-top: 18px;
+            }
+
+            .sidebar {
+                position: static;
+                max-height: none;
+                margin-bottom: 18px;
+                padding: 18px;
+            }
+
+            .content-area {
+                padding: 22px 16px;
+            }
+
+            .content-section h2 {
+                font-size: 1.75rem;
+                line-height: 1.2;
+            }
+
+            .content-section h3 {
+                padding-left: 10px;
+                font-size: 1.35rem;
+            }
+
+            .content-section {
+                animation: none;
+            }
+
+            .content-section ul,
+            .content-section ol {
+                margin-left: 22px;
+            }
+
+            .code-block {
+                padding: 18px 14px;
+                font-size: 12px;
+                white-space: pre;
+            }
+
+            .interactive-demo,
+            .practice-exercise,
+            .quiz-container {
+                padding: 18px 14px;
+            }
+
+            .course-nav {
+                flex-wrap: wrap;
+            }
+
+            .course-nav a {
+                flex: 1 1 145px;
+                justify-content: center;
+                text-align: center;
+            }
+
+            #quiz button[onclick="resetQuiz()"] {
+                display: block;
+                margin: 12px auto 0 !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
         }
 
         @keyframes fadeInDown {
@@ -443,16 +606,22 @@
 </head>
 <body>
     <div class="container">
+        <nav class="course-nav" aria-label="Chapter navigation">
+            <a href="/ciss340-chapter1.html">← Previous: Keys</a>
+            <a href="/ciss340/">Back to CISS 340</a>
+            <a href="/ciss340-chapter3.html">Next: SELECT →</a>
+        </nav>
         <header>
-            <h1>MySQL Workbench Mastery</h1>
-            <p class="subtitle">Complete Interactive Guide to Database Management</p>
+            <h1>Chapter 2: How to use MySQL Workbench and other development tools</h1>
+            <p class="subtitle">Interactive practice with Workbench, the Reference Manual, and the MySQL client</p>
+            <p class="course-alignment"><strong>Textbook alignment:</strong> This original course companion follows Murach Chapter 2. Clearly marked administration and security examples are optional previews of later chapters.</p>
         </header>
 
         <div class="learning-path">
             <div class="sidebar">
                 <div class="progress-tracker">
                     <h3>Your Progress</h3>
-                    <div class="progress-bar">
+                    <div class="progress-bar" id="progressMeter" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                         <div class="progress-fill" id="progressBar"></div>
                     </div>
                     <p style="margin-top: 10px; color: #718096; font-size: 14px;">
@@ -625,9 +794,20 @@ mysql-workbench</div>
                     </ul>
 
                     <div class="interactive-demo">
-                        <h4>🖱️ Interactive Demo</h4>
-                        <p>Click the button below to see a simulated walkthrough of the MySQL Workbench interface</p>
-                        <button class="demo-button" onclick="alert('In a real implementation, this would launch an interactive tour of the interface!')">Launch Interface Tour</button>
+                        <h4>⌨️ Interface Orientation</h4>
+                        <p>Open a short, keyboard-friendly map of the areas you will use in this module.</p>
+                        <button class="demo-button" id="tourToggle" type="button" aria-expanded="false" aria-controls="interfaceTour">Open Interface Tour</button>
+                        <div id="interfaceTour" hidden tabindex="-1">
+                            <h4>Workbench in five stops</h4>
+                            <ol>
+                                <li><strong>Home:</strong> choose or create a saved connection.</li>
+                                <li><strong>SQL Editor:</strong> write and run statements.</li>
+                                <li><strong>Schemas:</strong> browse databases, tables, views, and routines.</li>
+                                <li><strong>Result Grid and Output:</strong> inspect returned rows, warnings, and errors.</li>
+                                <li><strong>Administration:</strong> view server status when your account has permission.</li>
+                            </ol>
+                            <button class="demo-button" id="tourContinue" type="button">Continue to the Home Page lesson</button>
+                        </div>
                     </div>
                 </div>
 
@@ -816,7 +996,7 @@ Connection Name: My Local Database
 Connection Method: Standard (TCP/IP)
 Hostname: 127.0.0.1
 Port: 3306
-Username: root</div>
+Username: ciss340_student</div>
                         </li>
                         <li><strong>Configure Advanced Settings</strong> (Optional):
                             <ul>
@@ -912,7 +1092,7 @@ sc query MySQL80</div>
                     <ul>
                         <li><strong>Use Connection Pooling:</strong> For applications, not individual Workbench connections</li>
                         <li><strong>Implement Least Privilege:</strong> Create specific users with minimal required permissions</li>
-                        <li><strong>Regular Password Rotation:</strong> Change passwords periodically</li>
+                        <li><strong>Credential Hygiene:</strong> Use unique credentials and change them after suspected exposure, role changes, or when institutional policy requires it</li>
                         <li><strong>Monitor Failed Attempts:</strong> Track and investigate connection failures</li>
                         <li><strong>Document Connections:</strong> Maintain a registry of all database connections</li>
                     </ul>
@@ -1035,7 +1215,7 @@ Key Query Statistics:
                     <p>Critical metrics for InnoDB storage engine:</p>
                     <ul>
                         <li><strong>Buffer Pool Size:</strong> Memory allocated for data caching</li>
-                        <li><strong>Buffer Pool Hit Rate:</strong> Cache effectiveness (aim for >99%)</li>
+                        <li><strong>Buffer Pool Hit Rate:</strong> One signal of cache effectiveness; interpret its trend alongside workload and disk I/O</li>
                         <li><strong>Pages Read/Written:</strong> Disk I/O operations</li>
                         <li><strong>Row Operations:</strong> Inserts, updates, deletes, reads per second</li>
                         <li><strong>Deadlocks:</strong> Number of deadlock occurrences</li>
@@ -1043,12 +1223,12 @@ Key Query Statistics:
 
                     <div class="warning-box">
                         <h4>⚠️ Performance Alert Thresholds</h4>
-                        <p>Set up monitoring alerts for these conditions:</p>
+                        <p>Use baselines from your own workload before setting alert thresholds. Investigate sustained changes such as:</p>
                         <ul>
-                            <li>Buffer Pool Hit Rate < 95% (excessive disk I/O)</li>
-                            <li>Connections Used > 80% of max_connections</li>
-                            <li>Slow Query Rate > 1% of total queries</li>
-                            <li>Deadlocks > 10 per hour</li>
+                            <li>A falling buffer-pool hit rate paired with rising disk reads</li>
+                            <li>Connections repeatedly approaching <code>max_connections</code></li>
+                            <li>A growing number of slow statements for the same workload</li>
+                            <li>Deadlocks increasing above the application's normal baseline</li>
                         </ul>
                     </div>
 
@@ -1060,10 +1240,14 @@ Key Query Statistics:
 # Critical Variables to Monitor:
 max_connections = 151          # Maximum simultaneous connections
 innodb_buffer_pool_size = 128M # InnoDB cache size
-query_cache_size = 16M         # Query result cache
 thread_cache_size = 8          # Thread reuse pool
 max_allowed_packet = 64M       # Maximum packet size
 wait_timeout = 28800           # Connection timeout (seconds)</div>
+
+                    <div class="tip-box">
+                        <h4>MySQL 8.0 note</h4>
+                        <p>The legacy server query cache and its <code>Qcache_*</code> counters were removed in MySQL 8.0. Use the InnoDB buffer pool, Performance Schema reports, <code>EXPLAIN</code>, and the slow query log to investigate performance instead.</p>
+                    </div>
 
                     <h4>Status Variables Deep Dive:</h4>
                     <p>Access detailed metrics via Server → Status and System Variables:</p>
@@ -1071,7 +1255,7 @@ wait_timeout = 28800           # Connection timeout (seconds)</div>
                         <li><strong>Com_* variables:</strong> Count of each command type executed</li>
                         <li><strong>Handler_* variables:</strong> Storage engine operations</li>
                         <li><strong>Innodb_* variables:</strong> InnoDB-specific metrics</li>
-                        <li><strong>Qcache_* variables:</strong> Query cache statistics</li>
+                        <li><strong>Performance Schema summaries:</strong> Statement latency, waits, and resource use</li>
                         <li><strong>Threads_* variables:</strong> Thread pool information</li>
                     </ul>
 
@@ -1140,10 +1324,10 @@ LIMIT 10;</div>
                         <p>Signs of a well-performing MySQL server:</p>
                         <ul>
                             <li>Uptime measured in days/weeks without restarts</li>
-                            <li>Buffer pool hit rate consistently above 99%</li>
-                            <li>Low percentage of slow queries (<0.1%)</li>
+                            <li>Buffer-pool and disk-I/O trends remain stable for the expected workload</li>
+                            <li>Slow-query volume remains near the server's established baseline</li>
                             <li>Stable connection count with headroom</li>
-                            <li>No deadlocks or lock wait timeouts</li>
+                            <li>Deadlocks and lock waits are understood and remain near the normal baseline</li>
                         </ul>
                     </div>
                 </div>
@@ -2152,7 +2336,7 @@ JOIN orders o ON c.id = o.customer_id;</div>
                                 <li>INSERT INTO products VALUES ('Widget');</li>
                                 <li>SELECT user.name, COUNT(*) FROM orders;</li>
                                 <li>UPDATE customers SET WHERE id = 1;</li>
-                                <li>DELETE * FROM orders WHERE total < 0;</li>
+                                <li>DELETE * FROM orders WHERE total &lt; 0;</li>
                             </ol>
                             <p>Document the error type and correction for each.</p>
                         </div>
@@ -2730,7 +2914,7 @@ Start → MySQL → MySQL 8.0 Command Line Client
 
 # Method 2: From Command Prompt
 cd C:\Program Files\MySQL\MySQL Server 8.0\bin
-mysql -u root -p
+mysql -u ciss340_student -p
 
 # Method 3: If MySQL is in PATH
 mysql -u username -p</div>
@@ -2738,16 +2922,21 @@ mysql -u username -p</div>
                     <h4>macOS/Linux:</h4>
                     <div class="code-block">
 # Open terminal and run:
-mysql -u root -p
+mysql -u ciss340_student -p
 
 # With specific host and port:
-mysql -h localhost -P 3306 -u root -p
+mysql -h localhost -P 3306 -u ciss340_student -p
 
 # Connect to specific database:
-mysql -u root -p database_name
+mysql -u ciss340_student -p ciss340
 
 # Connect with options:
-mysql --user=root --password --host=localhost --port=3306</div>
+mysql --user=ciss340_student --password --host=localhost --port=3306</div>
+
+                    <div class="tip-box">
+                        <h4>Use the account for the task</h4>
+                        <p>Use the course or application account your instructor provides for normal work. Reserve an administrator account for explicit administration exercises; do not use <code>root</code> as an everyday client or application login.</p>
+                    </div>
 
                     <h3>Connection Options and Parameters</h3>
 
@@ -2810,6 +2999,7 @@ SHOW CREATE TABLE table_name;
 SHOW INDEX FROM table_name;</div>
 
                     <h4>User and Privilege Management:</h4>
+                    <p>Run this section only from an instructor-managed administrator account. The example stays inside the course schema and does not grant global privileges.</p>
                     <div class="code-block">
 -- Show current user
 SELECT USER();
@@ -2818,27 +3008,26 @@ SELECT USER();
 SELECT User, Host FROM mysql.user;
 
 -- Create user
-CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+CREATE USER 'ciss340_report'@'localhost' IDENTIFIED BY 'use-a-unique-password-manager-value';
 
--- Grant privileges
-GRANT SELECT, INSERT, UPDATE ON database.* TO 'username'@'localhost';
-GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost' WITH GRANT OPTION;
+-- Grant only the privilege and schema needed
+GRANT SELECT ON ciss340.* TO 'ciss340_report'@'localhost';
 
 -- Show grants
-SHOW GRANTS FOR 'username'@'localhost';
+SHOW GRANTS FOR 'ciss340_report'@'localhost';
 
 -- Revoke privileges
-REVOKE INSERT ON database.* FROM 'username'@'localhost';
+REVOKE SELECT ON ciss340.* FROM 'ciss340_report'@'localhost';
 
 -- Change password
-ALTER USER 'username'@'localhost' IDENTIFIED BY 'new_password';</div>
+ALTER USER 'ciss340_report'@'localhost' IDENTIFIED BY 'replace-with-a-new-unique-value';</div>
 
                     <h3>Working with SQL Files</h3>
 
                     <h4>Executing SQL Files:</h4>
                     <div class="code-block">
 # Method 1: From outside MySQL
-mysql -u root -p database_name < script.sql
+mysql -u ciss340_student -p ciss340 &lt; script.sql
 
 # Method 2: From within MySQL
 mysql> source /path/to/script.sql;
@@ -2846,10 +3035,10 @@ mysql> source /path/to/script.sql;
 mysql> \. /path/to/script.sql
 
 # Execute and save output
-mysql -u root -p database_name < script.sql > output.txt
+mysql -u ciss340_student -p ciss340 &lt; script.sql &gt; output.txt
 
 # Execute with verbose output
-mysql -u root -p -v database_name < script.sql</div>
+mysql -u ciss340_student -p -v ciss340 &lt; script.sql</div>
 
                     <h3>Output Formatting and Redirection</h3>
 
@@ -2897,21 +3086,23 @@ mysql -N -e "SELECT * FROM customers" database_name</div>
 #!/bin/bash
 # Backup script using CLI
 
-# Variables
-DB_USER="root"
-DB_PASS="password"
-DB_NAME="myapp"
+# First create an encrypted local login path interactively:
+# mysql_config_editor set --login-path=ciss340_backup --host=localhost \
+#   --user=ciss340_backup --password
+
+# Variables that are not secrets
+DB_NAME="ciss340"
 BACKUP_DIR="/backup"
 DATE=$(date +%Y%m%d_%H%M%S)
 
 # Create backup
-mysqldump -u $DB_USER -p$DB_PASS $DB_NAME > $BACKUP_DIR/backup_$DATE.sql
+mysqldump --login-path=ciss340_backup "$DB_NAME" > "$BACKUP_DIR/backup_$DATE.sql"
 
 # Compress backup
-gzip $BACKUP_DIR/backup_$DATE.sql
+gzip "$BACKUP_DIR/backup_$DATE.sql"
 
 # Delete old backups (older than 30 days)
-find $BACKUP_DIR -name "backup_*.sql.gz" -mtime +30 -delete
+find "$BACKUP_DIR" -name "backup_*.sql.gz" -mtime +30 -delete
 
 echo "Backup completed: backup_$DATE.sql.gz"</div>
 
@@ -2941,7 +3132,7 @@ PAGER set to stdout</div>
                         <h4>⚠️ Security Considerations</h4>
                         <ul>
                             <li>Never include passwords in command line (visible in process list)</li>
-                            <li>Use configuration files for credentials</li>
+                            <li>Use <code>mysql_config_editor</code>, a protected secret store, or your platform's secret manager for credentials</li>
                             <li>Protect .mysql_history file</li>
                             <li>Use SSL for remote connections</li>
                             <li>Limit client host access</li>
@@ -2950,15 +3141,17 @@ PAGER set to stdout</div>
 
                     <h3>Configuration Files</h3>
 
-                    <h4>my.cnf / my.ini Configuration:</h4>
+                    <h4>Non-secret client defaults:</h4>
                     <div class="code-block">
 # ~/.my.cnf (Unix) or my.ini (Windows)
 [client]
 host=localhost
-user=myusername
-password=mypassword
-database=mydatabase
+user=ciss340_student
+database=ciss340
 default-character-set=utf8mb4
+
+# Do not place a plaintext password in this file.
+# Store it with mysql_config_editor or enter it at the prompt.
 
 [mysql]
 prompt=(\\u@\\h) [\\d]>\\_
@@ -3055,9 +3248,9 @@ TRIGGER trg_audit_customer_update   -- trg_ prefix</div>
                         <li><strong>Use Indexes:</strong> Create indexes on JOIN and WHERE columns</li>
                         <li><strong>Avoid SELECT *:</strong> Specify only needed columns</li>
                         <li><strong>Limit Results:</strong> Use LIMIT for large datasets</li>
-                        <li><strong>Join Efficiently:</strong> Start with smallest table</li>
-                        <li><strong>Use EXISTS:</strong> Instead of IN for subqueries</li>
-                        <li><strong>Avoid Functions in WHERE:</strong> Prevents index usage</li>
+                        <li><strong>Inspect Join Plans:</strong> Let the optimizer choose join order, then verify the plan with EXPLAIN</li>
+                        <li><strong>Compare Semijoin Forms:</strong> Choose IN or EXISTS for clarity, then measure when performance matters</li>
+                        <li><strong>Keep Predicates Sargable:</strong> Avoid wrapping indexed columns in functions when an equivalent range predicate is available</li>
                     </ul>
 
                     <div class="tip-box">
@@ -3067,7 +3260,7 @@ TRIGGER trg_audit_customer_update   -- trg_ prefix</div>
                             <li>Check for full table scans</li>
                             <li>Verify index usage</li>
                             <li>Monitor slow query log</li>
-                            <li>Use query cache when appropriate</li>
+                            <li>Use Performance Schema and the slow query log to find expensive statements</li>
                             <li>Consider partitioning large tables</li>
                         </ol>
                     </div>
@@ -3088,7 +3281,7 @@ TRIGGER trg_audit_customer_update   -- trg_ prefix</div>
                     <div class="code-block">
 -- Principle of Least Privilege
 -- Create application user with minimal rights
-CREATE USER 'app_user'@'10.0.0.%' IDENTIFIED BY 'strong_password';
+CREATE USER 'app_user'@'10.0.0.%' IDENTIFIED BY 'use-a-unique-password-manager-value';
 
 -- Grant only necessary privileges
 GRANT SELECT, INSERT, UPDATE ON myapp.* TO 'app_user'@'10.0.0.%';
@@ -3098,8 +3291,8 @@ GRANT SELECT, INSERT, UPDATE ON myapp.* TO 'app_user'@'10.0.0.%';
 -- No GRANT OPTION for regular users
 
 -- Create read-only user for reporting
-CREATE USER 'report_user'@'%' IDENTIFIED BY 'password';
-GRANT SELECT ON myapp.* TO 'report_user'@'%';
+CREATE USER 'report_user'@'10.0.0.%' IDENTIFIED BY 'use-another-unique-password-manager-value';
+GRANT SELECT ON myapp.* TO 'report_user'@'10.0.0.%';
 
 -- Audit user privileges regularly
 SELECT * FROM information_schema.user_privileges;</div>
@@ -3134,7 +3327,7 @@ mysqlbinlog --read-from-remote-server --host=localhost \
 xtrabackup --backup --target-dir=/backup/
 
 # Test backup restoration
-mysql test_restore < full_backup.sql
+mysql test_restore &lt; full_backup.sql
 mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
 
                     <h3>Performance Monitoring</h3>
@@ -3247,9 +3440,9 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
 
                 <!-- Section 14: Final Quiz -->
                 <div class="content-section" id="quiz">
-                    <h2>📝 Final Quiz - Test Your MySQL Workbench Knowledge</h2>
+                    <h2>📝 Cumulative Practice Quiz: Workbench and Course Preview</h2>
 
-                    <p>Test your understanding of MySQL Workbench concepts covered in this guide. Select the best answer for each question.</p>
+                    <p>Questions 1–3 and 12 check the core Chapter 2 tool skills. The remaining questions are explicitly cumulative extensions that preview or review SQL, design, administration, and security topics from other chapters. Treat them as ungraded practice unless your instructor assigns them.</p>
 
                     <div class="quiz-question" data-question="1">
                         <h3>Question 1</h3>
@@ -3770,210 +3963,285 @@ mysql test_restore -e "SELECT COUNT(*) FROM important_table"</div>
                         </button>
                     </div>
 
-                    <div id="quizScore" style="display: none; margin-top: 30px; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">
+                    <div id="quizScore" role="status" aria-live="polite" tabindex="-1" style="display: none; margin-top: 30px; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">
                         <h2 id="scoreTitle"></h2>
                         <p id="scoreMessage" style="font-size: 1.2em; margin-top: 15px;"></p>
                     </div>
                 </div>
             </div>
         </div>
+        <nav class="course-nav bottom" aria-label="Chapter navigation at end">
+            <a href="/ciss340-chapter1.html">← Previous: Keys</a>
+            <a href="/ciss340/">Back to CISS 340</a>
+            <a href="/ciss340-chapter3.html">Next: SELECT →</a>
+        </nav>
     </div>
 
     <script>
+        const PROGRESS_KEY = 'mysqlProgress';
+        const ANSWERS_KEY = 'mysqlQuizAnswerIndexes';
         let visitedSections = new Set();
         let quizAnswers = {};
-        
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Remove active from all nav items
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-            
-            // Show selected section
-            const selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.classList.add('active');
+
+        function prefersReducedMotion() {
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        function readStoredJson(key, fallback) {
+            try {
+                const value = localStorage.getItem(key);
+                return value ? JSON.parse(value) : fallback;
+            } catch (error) {
+                return fallback;
             }
-            
-            // Mark nav item as active
-            event.target.closest('.nav-item').classList.add('active');
-            
-            // Track progress
+        }
+
+        function writeStoredJson(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (error) {
+                // Progress remains available for this visit if storage is unavailable.
+            }
+        }
+
+        function upgradeInteractiveControls() {
+            document.querySelectorAll('.nav-item').forEach(source => {
+                const match = source.getAttribute('onclick')?.match(/showSection\('([^']+)'\)/);
+                if (!match) return;
+
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = source.className;
+                button.innerHTML = source.innerHTML;
+                button.dataset.section = match[1];
+                button.setAttribute('aria-controls', match[1]);
+                button.setAttribute('aria-current', source.classList.contains('active') ? 'page' : 'false');
+                source.replaceWith(button);
+                button.addEventListener('click', () => showSection(button.dataset.section, button));
+            });
+
+            document.querySelectorAll('.quiz-question[data-question]').forEach(question => {
+                const questionNumber = question.dataset.question;
+                const heading = question.querySelector('h3');
+                if (heading) {
+                    heading.id = `quiz-question-${questionNumber}`;
+                    question.setAttribute('role', 'radiogroup');
+                    question.setAttribute('aria-labelledby', heading.id);
+                }
+
+                Array.from(question.querySelectorAll('.quiz-option')).forEach((source, index) => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = source.className;
+                    button.innerHTML = source.innerHTML;
+                    button.setAttribute('role', 'radio');
+                    button.setAttribute('aria-checked', 'false');
+                    button.tabIndex = index === 0 ? 0 : -1;
+                    if (source.hasAttribute('data-correct')) button.setAttribute('data-correct', '');
+                    source.replaceWith(button);
+                    button.addEventListener('click', () => selectQuizOption(button, questionNumber));
+                    button.addEventListener('keydown', event => moveWithinQuestion(event, button));
+                });
+            });
+
+            document.querySelectorAll('#quiz button:not([type])').forEach(button => {
+                button.type = 'button';
+            });
+        }
+
+        function moveWithinQuestion(event, current) {
+            if (!['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            const options = Array.from(current.closest('.quiz-question').querySelectorAll('.quiz-option'));
+            const currentIndex = options.indexOf(current);
+            let nextIndex = currentIndex;
+            if (event.key === 'Home') nextIndex = 0;
+            else if (event.key === 'End') nextIndex = options.length - 1;
+            else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % options.length;
+            else nextIndex = (currentIndex - 1 + options.length) % options.length;
+            options[nextIndex].focus();
+            options[nextIndex].click();
+        }
+
+        function showSection(sectionId, trigger) {
+            const selectedSection = document.getElementById(sectionId);
+            if (!selectedSection) return;
+
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                item.setAttribute('aria-current', 'false');
+            });
+
+            selectedSection.classList.add('active');
+            const activeItem = trigger || document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
+                activeItem.setAttribute('aria-current', 'page');
+            }
+
             visitedSections.add(sectionId);
             updateProgress();
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
         }
-        
+
         function updateProgress() {
-            const totalSections = 14; // Updated to include quiz
-            const completed = visitedSections.size;
-            const percentage = Math.round((completed / totalSections) * 100);
-            
+            const sectionIds = new Set(Array.from(document.querySelectorAll('.nav-item')).map(item => item.dataset.section));
+            const completed = Array.from(visitedSections).filter(id => sectionIds.has(id)).length;
+            const totalSections = sectionIds.size || 1;
+            const percentage = Math.min(100, Math.round((completed / totalSections) * 100));
+
             document.getElementById('progressBar').style.width = percentage + '%';
             document.getElementById('progressText').textContent = percentage;
-            
-            // Save progress
-            localStorage.setItem('mysqlProgress', JSON.stringify(Array.from(visitedSections)));
+            document.getElementById('progressMeter').setAttribute('aria-valuenow', String(percentage));
+            writeStoredJson(PROGRESS_KEY, Array.from(visitedSections).filter(id => sectionIds.has(id)));
         }
-        
-        // Quiz functions
-        function selectQuizOption(element, questionNum) {
-            // Remove previous selection for this question
+
+        function selectQuizOption(element, questionNum, persist = true) {
             const question = element.closest('.quiz-question');
-            const options = question.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('selected');
+            const options = Array.from(question.querySelectorAll('.quiz-option'));
+            const selectedIndex = options.indexOf(element);
+
+            options.forEach((option, index) => {
+                const selected = index === selectedIndex;
+                option.classList.toggle('selected', selected);
+                option.classList.remove('correct', 'incorrect');
+                option.setAttribute('aria-checked', String(selected));
+                option.tabIndex = selected ? 0 : -1;
+                option.removeAttribute('aria-label');
             });
-            
-            // Mark selected
-            element.classList.add('selected');
-            
-            // Store answer
-            quizAnswers[questionNum] = element.hasAttribute('data-correct');
+
+            quizAnswers[String(questionNum)] = selectedIndex;
+            if (persist) writeStoredJson(ANSWERS_KEY, quizAnswers);
         }
-        
+
         function submitQuiz() {
-            // Check if all questions answered
-            const totalQuestions = 30;
-            const answeredQuestions = Object.keys(quizAnswers).length;
-            
-            if (answeredQuestions < totalQuestions) {
-                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${totalQuestions} questions.`);
+            const questions = Array.from(document.querySelectorAll('.quiz-question[data-question]'));
+            const answeredQuestions = questions.filter(question => Number.isInteger(quizAnswers[question.dataset.question])).length;
+
+            if (answeredQuestions < questions.length) {
+                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${questions.length} questions.`);
                 return;
             }
-            
-            // Calculate score
+
             let correctAnswers = 0;
-            for (let i = 1; i <= totalQuestions; i++) {
-                if (quizAnswers[i]) {
-                    correctAnswers++;
-                }
-                
-                // Show correct/incorrect for each question
-                const question = document.querySelector(`.quiz-question[data-question="${i}"]`);
-                const options = question.querySelectorAll('.quiz-option');
-                options.forEach(opt => {
-                    if (opt.hasAttribute('data-correct')) {
-                        opt.classList.add('correct');
-                    } else if (opt.classList.contains('selected') && !opt.hasAttribute('data-correct')) {
-                        opt.classList.add('incorrect');
-                    }
+            questions.forEach(question => {
+                const selectedIndex = quizAnswers[question.dataset.question];
+                const options = Array.from(question.querySelectorAll('.quiz-option'));
+                const selectedOption = options[selectedIndex];
+                if (selectedOption?.hasAttribute('data-correct')) correctAnswers++;
+
+                options.forEach((option, index) => {
+                    const isCorrect = option.hasAttribute('data-correct');
+                    const isSelected = index === selectedIndex;
+                    option.classList.toggle('correct', isCorrect);
+                    option.classList.toggle('incorrect', isSelected && !isCorrect);
+                    const feedback = isCorrect ? ' Correct answer.' : (isSelected ? ' Your answer; incorrect.' : '');
+                    option.setAttribute('aria-label', option.textContent.trim() + feedback);
                 });
-            }
-            
-            // Calculate and display score
-            const score = (correctAnswers * 5); // 5 points per question
-            document.getElementById('finalScore').textContent = score;
-            
-            // Set score message
+            });
+
+            const score = Math.round((correctAnswers / questions.length) * 100);
+            document.getElementById('scoreTitle').textContent = `Your score: ${score}% (${correctAnswers} of ${questions.length})`;
             const messageEl = document.getElementById('scoreMessage');
             if (score >= 90) {
                 messageEl.textContent = "🎉 Outstanding! You're a MySQL Workbench expert!";
                 messageEl.style.color = '#22543d';
             } else if (score >= 70) {
-                messageEl.textContent = "✅ Great job! You have a solid understanding of MySQL Workbench.";
+                messageEl.textContent = '✅ Great job! You have a solid understanding of MySQL Workbench.';
                 messageEl.style.color = '#2b6cb1';
             } else if (score >= 50) {
-                messageEl.textContent = "📚 Good effort! Review the sections you struggled with.";
-                messageEl.style.color = '#d69e2e';
+                messageEl.textContent = '📚 Good effort! Review the sections you struggled with.';
+                messageEl.style.color = '#946200';
             } else {
-                messageEl.textContent = "📖 Keep learning! Review the material and try again.";
-                messageEl.style.color = '#e53e3e';
+                messageEl.textContent = '📖 Keep learning! Review the material and try again.';
+                messageEl.style.color = '#c53030';
             }
-            
-            // Show score
-            document.getElementById('quizScore').style.display = 'block';
-            
-            // Scroll to top of quiz
-            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
-            
-            // Mark quiz as completed in progress
-            visitedSections.add('quiz-completed');
+
+            const scorePanel = document.getElementById('quizScore');
+            scorePanel.style.display = 'block';
+            scorePanel.focus();
+            visitedSections.add('quiz');
             updateProgress();
         }
-        
+
         function resetQuiz() {
-            // Reset answers
             quizAnswers = {};
-            
-            // Remove all selections and correct/incorrect classes
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('selected', 'correct', 'incorrect');
-            });
-            
-            // Hide score
-            document.getElementById('quizScore').style.display = 'none';
-            
-            // Scroll to first question
-            document.querySelector('.quiz-question').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Initialize progress
-        visitedSections.add('intro');
-        updateProgress();
-        
-        // Add keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'ArrowRight') {
-                // Next section
-                const activeItem = document.querySelector('.nav-item.active');
-                const nextItem = activeItem?.parentElement?.nextElementSibling?.querySelector('.nav-item') || 
-                                activeItem?.nextElementSibling;
-                if (nextItem && nextItem.classList.contains('nav-item')) {
-                    nextItem.click();
-                }
-            } else if (e.ctrlKey && e.key === 'ArrowLeft') {
-                // Previous section
-                const activeItem = document.querySelector('.nav-item.active');
-                const prevItem = activeItem?.parentElement?.previousElementSibling?.querySelector('.nav-item:last-child') || 
-                                activeItem?.previousElementSibling;
-                if (prevItem && prevItem.classList.contains('nav-item')) {
-                    prevItem.click();
-                }
-            }
-        });
-        
-        // Auto-save progress to localStorage
-        window.addEventListener('beforeunload', function() {
-            localStorage.setItem('mysqlProgress', JSON.stringify(Array.from(visitedSections)));
-            if (Object.keys(quizAnswers).length > 0) {
-                localStorage.setItem('mysqlQuizAnswers', JSON.stringify(quizAnswers));
-            }
-        });
-        
-        // Restore progress on load
-        window.addEventListener('load', function() {
-            const saved = localStorage.getItem('mysqlProgress');
-            if (saved) {
-                visitedSections = new Set(JSON.parse(saved));
-                updateProgress();
-            }
-            
-            // Restore quiz answers if any
-            const savedAnswers = localStorage.getItem('mysqlQuizAnswers');
-            if (savedAnswers) {
-                quizAnswers = JSON.parse(savedAnswers);
-                // Re-select the previously chosen options
-                Object.keys(quizAnswers).forEach(questionNum => {
-                    const question = document.querySelector(`.quiz-question[data-question="${questionNum}"]`);
-                    if (question) {
-                        const options = question.querySelectorAll('.quiz-option');
-                        options.forEach(opt => {
-                            if ((opt.hasAttribute('data-correct') && quizAnswers[questionNum]) ||
-                                (!opt.hasAttribute('data-correct') && !quizAnswers[questionNum])) {
-                                // This logic needs refinement to properly restore selections
-                            }
-                        });
-                    }
+            try { localStorage.removeItem(ANSWERS_KEY); } catch (error) {}
+            document.querySelectorAll('.quiz-question[data-question]').forEach(question => {
+                Array.from(question.querySelectorAll('.quiz-option')).forEach((option, index) => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                    option.setAttribute('aria-checked', 'false');
+                    option.removeAttribute('aria-label');
+                    option.tabIndex = index === 0 ? 0 : -1;
                 });
+            });
+            document.getElementById('quizScore').style.display = 'none';
+            const firstOption = document.querySelector('.quiz-question .quiz-option');
+            if (firstOption) firstOption.focus();
+        }
+
+        function initializeTour() {
+            const toggle = document.getElementById('tourToggle');
+            const panel = document.getElementById('interfaceTour');
+            const continueButton = document.getElementById('tourContinue');
+            toggle.addEventListener('click', () => {
+                const willOpen = panel.hidden;
+                panel.hidden = !willOpen;
+                toggle.setAttribute('aria-expanded', String(willOpen));
+                toggle.textContent = willOpen ? 'Close Interface Tour' : 'Open Interface Tour';
+                if (willOpen) panel.focus();
+            });
+            continueButton.addEventListener('click', () => {
+                const homeNav = document.querySelector('.nav-item[data-section="homepage"]');
+                showSection('homepage', homeNav);
+                panel.hidden = true;
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.textContent = 'Open Interface Tour';
+                if (homeNav) homeNav.focus();
+            });
+        }
+
+        function initializePage() {
+            upgradeInteractiveControls();
+            initializeTour();
+
+            const validSections = new Set(Array.from(document.querySelectorAll('.nav-item')).map(item => item.dataset.section));
+            const savedProgress = readStoredJson(PROGRESS_KEY, []);
+            visitedSections = new Set(Array.isArray(savedProgress) ? savedProgress.filter(id => validSections.has(id)) : []);
+            visitedSections.add('intro');
+
+            const savedAnswers = readStoredJson(ANSWERS_KEY, {});
+            quizAnswers = savedAnswers && typeof savedAnswers === 'object' ? savedAnswers : {};
+            Object.entries(quizAnswers).forEach(([questionNumber, selectedIndex]) => {
+                const question = document.querySelector(`.quiz-question[data-question="${questionNumber}"]`);
+                const option = question?.querySelectorAll('.quiz-option')[Number(selectedIndex)];
+                if (option && Number.isInteger(Number(selectedIndex))) {
+                    selectQuizOption(option, questionNumber, false);
+                } else {
+                    delete quizAnswers[questionNumber];
+                }
+            });
+            writeStoredJson(ANSWERS_KEY, quizAnswers);
+            updateProgress();
+        }
+
+        document.addEventListener('keydown', event => {
+            if (!event.ctrlKey || !['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
+            const navItems = Array.from(document.querySelectorAll('.nav-item'));
+            const activeIndex = navItems.findIndex(item => item.classList.contains('active'));
+            if (activeIndex < 0) return;
+            const nextIndex = event.key === 'ArrowRight'
+                ? Math.min(navItems.length - 1, activeIndex + 1)
+                : Math.max(0, activeIndex - 1);
+            if (nextIndex !== activeIndex) {
+                event.preventDefault();
+                navItems[nextIndex].click();
+                navItems[nextIndex].focus();
             }
         });
+
+        initializePage();
     </script>
 </body>
 </html>

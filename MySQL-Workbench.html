@@ -56,13 +56,11 @@
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            animation: fadeInDown 0.8s;
         }
 
         .header .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
-            animation: fadeInUp 0.8s;
         }
 
         .header .meta-info {
@@ -118,13 +116,41 @@
             background: var(--secondary);
         }
 
+        a:focus-visible,
+        button:focus-visible,
+        [role="button"]:focus-visible,
+        input:focus-visible {
+            outline: 3px solid #ffd166;
+            outline-offset: 3px;
+        }
+
+        .course-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 12px 20px;
+            background: #0f172a;
+        }
+
+        .course-nav a {
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,.45);
+            border-radius: 999px;
+            padding: 7px 12px;
+        }
+
+        .course-nav a:hover {
+            background: white;
+            color: #0f172a;
+        }
+
         .content {
             padding: 40px;
         }
 
         .section {
             display: none;
-            animation: fadeIn 0.5s;
         }
 
         .section.active {
@@ -246,6 +272,13 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+        }
+
+        caption {
+            text-align: left;
+            font-weight: 700;
+            color: var(--dark);
+            padding: 8px 0;
         }
 
         th, td {
@@ -506,6 +539,20 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .container {
+                border-radius: 0;
+                width: 100%;
+            }
+
+            .header {
+                padding: 28px 18px;
+            }
+
             .header h1 {
                 font-size: 1.8rem;
             }
@@ -515,24 +562,46 @@
             }
             
             .content {
-                padding: 20px;
+                padding: 20px 14px;
+            }
+
+            .table-content,
+            .info-box,
+            .warning-box,
+            .important-box {
+                overflow-x: auto;
             }
 
             table {
                 font-size: 0.9rem;
+                min-width: 660px;
             }
 
             th, td {
                 padding: 8px;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <nav class="course-nav" aria-label="CISS 340 course navigation">
+            <a href="/ciss340/">← CISS 340 Home</a>
+            <a href="/ciss340-chapter1">Chapter 1</a>
+            <a href="/ciss340-chapter2">Chapter 2</a>
+        </nav>
         <div class="header">
             <h1>🗄️ MySQL Workbench ERD Design Lab</h1>
-            <div class="subtitle">Complete Online Store Database Design</div>
+            <div class="subtitle">OnlineStoreDB practice model • separate from the ShopFlow project</div>
             <div class="meta-info">
                 <span>📝 Type: Participation/Lab</span>
                 <span>🔧 Tools: MySQL Workbench</span>
@@ -541,23 +610,25 @@
             </div>
         </div>
 
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
-            <button class="nav-tab" onclick="showSection('checklist')">Checklist</button>
-            <button class="nav-tab" onclick="showSection('setup')">Part 1: Setup</button>
-            <button class="nav-tab" onclick="showSection('tables')">Part 2: Tables</button>
-            <button class="nav-tab" onclick="showSection('relationships')">Part 3: Relationships</button>
-            <button class="nav-tab" onclick="showSection('formatting')">Part 4: Formatting</button>
-            <button class="nav-tab" onclick="showSection('finalize')">Part 5: Finalize</button>
-            <button class="nav-tab" onclick="showSection('resources')">Resources</button>
+        <div class="nav-tabs" role="tablist" aria-label="Workbench lab sections">
+            <button class="nav-tab active" id="tab-overview" role="tab" aria-selected="true" aria-controls="overview" tabindex="0" data-section="overview">Overview</button>
+            <button class="nav-tab" id="tab-checklist" role="tab" aria-selected="false" aria-controls="checklist" tabindex="-1" data-section="checklist">Checklist</button>
+            <button class="nav-tab" id="tab-setup" role="tab" aria-selected="false" aria-controls="setup" tabindex="-1" data-section="setup">Part 1: Setup</button>
+            <button class="nav-tab" id="tab-tables" role="tab" aria-selected="false" aria-controls="tables" tabindex="-1" data-section="tables">Part 2: Tables</button>
+            <button class="nav-tab" id="tab-relationships" role="tab" aria-selected="false" aria-controls="relationships" tabindex="-1" data-section="relationships">Part 3: Relationships</button>
+            <button class="nav-tab" id="tab-formatting" role="tab" aria-selected="false" aria-controls="formatting" tabindex="-1" data-section="formatting">Part 4: Formatting</button>
+            <button class="nav-tab" id="tab-finalize" role="tab" aria-selected="false" aria-controls="finalize" tabindex="-1" data-section="finalize">Part 5: Finalize</button>
+            <button class="nav-tab" id="tab-resources" role="tab" aria-selected="false" aria-controls="resources" tabindex="-1" data-section="resources">Resources</button>
         </div>
 
         <div class="content">
             <!-- Overview Section -->
-            <section id="overview" class="section active">
+            <section id="overview" class="section active" role="tabpanel" aria-labelledby="tab-overview">
                 <h2>📚 Lab Overview</h2>
                 
                 <div class="info-box">
+                    <p><strong>Course-practice boundary:</strong> OnlineStoreDB is an ERD lab with its own 12-table schema. Do not substitute these table or column names for the seven-table ShopFlow project.</p>
+                    <p><strong>Book alignment:</strong> This hands-on model is a course extension. Murach Chapter 2 introduces Workbench and running SQL; detailed EER design belongs later in Murach Chapter 10.</p>
                     <h3>What We're Building: ONLINE STORE DATABASE STRUCTURE</h3>
                     <p><strong>12 Tables Total:</strong></p>
                     <ul>
@@ -616,14 +687,14 @@
                     <ul>
                         <li>The customer_id column in Orders table is just a regular INT column for now</li>
                         <li>The category_id column in Products table is just a regular INT column for now</li>
-                        <li>These columns will automatically become foreign keys when we draw relationships in Part 3</li>
+                        <li>We will map these existing child columns to parent keys in Part 3</li>
                     </ul>
                     <p><strong>When Drawing Relationships (Part 3):</strong></p>
-                    <p>Foreign keys are created AUTOMATICALLY when you connect tables with the relationship tools:</p>
+                    <p>Use <strong>Place a Relationship Using Existing Columns</strong>, then confirm each mapping:</p>
                     <ul>
-                        <li>When you connect Customers → Orders, MySQL Workbench automatically makes Orders.customer_id a foreign key</li>
-                        <li>The tool adds the FK constraint, creates the index, and sets up the reference</li>
-                        <li>You'll see "FK" appear next to the column name after the relationship is created</li>
+                        <li>For Customers → Orders, click Orders first, Customers second, and map Orders.customer_id → Customers.customer_id</li>
+                        <li>Verify the constraint and index in the child table's Foreign Keys and Indexes tabs</li>
+                        <li>Confirm that Workbench did not add a duplicate column</li>
                     </ul>
                 </div>
 
@@ -639,7 +710,7 @@
             </section>
 
             <!-- Checklist Section -->
-            <section id="checklist" class="section">
+            <section id="checklist" class="section" role="tabpanel" aria-labelledby="tab-checklist" hidden>
                 <h2>✅ Complete Relationship Checklist</h2>
                 
                 <div class="checklist-container">
@@ -740,7 +811,7 @@
             </section>
 
             <!-- Setup Section -->
-            <section id="setup" class="section">
+            <section id="setup" class="section" role="tabpanel" aria-labelledby="tab-setup" hidden>
                 <h2>🚀 Part 1: Starting a New ERD Model</h2>
                 
                 <div class="info-box">
@@ -762,16 +833,16 @@
                 </div>
 
                 <div class="important-box">
-                    <strong>⚠️ IMPORTANT:</strong> In Part 2, we're only creating tables and columns. We are NOT setting up foreign keys yet - those will be created automatically when we draw relationships in Part 3.
+                    <strong>⚠️ IMPORTANT:</strong> In Part 2, we're creating tables and the columns that will later become foreign keys. In Part 3, we will explicitly map those existing child columns to parent keys.
                 </div>
             </section>
 
             <!-- Tables Section -->
-            <section id="tables" class="section">
+            <section id="tables" class="section" role="tabpanel" aria-labelledby="tab-tables" hidden>
                 <h2>📋 Part 2: Creating Tables in the ERD</h2>
                 
                 <div class="important-box">
-                    <strong>⚠️ IMPORTANT:</strong> In this part, we're only creating tables and columns. We are NOT setting up foreign keys yet - those will be created automatically when we draw relationships in Part 3.
+                    <strong>⚠️ IMPORTANT:</strong> In this part, create the tables and all listed key columns. Do not add constraints yet; Part 3 maps each existing child column to its parent key.
                 </div>
 
                 <div class="info-box">
@@ -1897,37 +1968,35 @@
             </section>
 
             <!-- Relationships Section -->
-            <section id="relationships" class="section">
+            <section id="relationships" class="section" role="tabpanel" aria-labelledby="tab-relationships" hidden>
                 <h2>🔗 Part 3: Creating Relationships</h2>
                 
                 <div class="info-box">
                     <p>Now we'll connect the tables. We'll create 18 relationships total.</p>
-                    <p><strong>IMPORTANT:</strong> When you draw relationship lines between tables, MySQL Workbench AUTOMATICALLY:</p>
+                    <p><strong>IMPORTANT:</strong> The foreign-key columns already exist in this model. Use Workbench's <strong>Place a Relationship Using Existing Columns</strong> tool, then verify the mapping in the child table's Foreign Keys tab. This avoids accidentally creating duplicate columns.</p>
                     <ul>
-                        <li>Creates the foreign key constraint</li>
-                        <li>Adds "FK" designation to the column</li>
-                        <li>Sets up the proper references</li>
-                        <li>Creates indexes for performance</li>
+                        <li>Map the existing foreign-key column in the child table</li>
+                        <li>Reference the primary key in the parent table</li>
+                        <li>Confirm both columns have compatible data types</li>
+                        <li>Review optionality separately from identifying status</li>
                     </ul>
-                    <p>You don't need to manually set foreign keys - the relationship tools do it all for you!</p>
+                    <p>Workbench creates the constraint only after you confirm the mapping. Always inspect the result rather than assuming the tool chose the intended column.</p>
                 </div>
 
                 <div class="legend-card">
                     <h4>Understanding Relationship Lines in MySQL Workbench:</h4>
                     <p>MySQL Workbench has TWO types of relationship tools:</p>
                     <ul>
-                        <li><strong>━━━ Solid Line (Identifying Relationship)</strong> - Tool icon: solid line with crow's foot
+                        <li><strong>━━━ Solid Line (Identifying Relationship)</strong> — use only when the parent's foreign key is part of the child's primary key.
                             <ul>
-                                <li>Used when the foreign key becomes PART of the primary key</li>
-                                <li>Child record cannot exist without parent</li>
-                                <li>Example: Order_Items needs both order_id AND product_id</li>
+                                <li>This is about key structure, not merely whether the relationship is required.</li>
+                                <li>None of this lab's 12 tables use that pattern because every child has its own surrogate primary key.</li>
                             </ul>
                         </li>
-                        <li><strong>┅┅┅ Dashed Line (Non-Identifying Relationship)</strong> - Tool icon: dashed line with crow's foot
+                        <li><strong>┅┅┅ Dashed Line (Non-Identifying Relationship)</strong> — the foreign key is outside the child's primary key.
                             <ul>
-                                <li>Used when the foreign key is just a regular column</li>
-                                <li>Child record can conceptually exist without parent</li>
-                                <li>Example: Products can exist without a Category</li>
+                                <li>Use this for all 18 relationships in this lab.</li>
+                                <li>A dashed relationship can still be required; nullability controls optionality.</li>
                             </ul>
                         </li>
                     </ul>
@@ -1936,10 +2005,10 @@
                 <div class="info-box">
                     <h3>How to Create a Relationship:</h3>
                     <ol>
-                        <li>Select the correct tool from the left toolbar (solid or dashed as specified below)</li>
-                        <li>Click the PARENT table first (the "one" side - table with the primary key)</li>
-                        <li>Click the CHILD table second (the "many" side - table with the foreign key)</li>
-                        <li>MySQL Workbench automatically creates the foreign key column if it doesn't exist</li>
+                        <li>Select <strong>Place a Relationship Using Existing Columns</strong>. Because the child foreign keys are outside their primary keys, the finished connectors should be dashed.</li>
+                        <li>Click the <strong>CHILD/many table first</strong> — the table that already contains the foreign-key column.</li>
+                        <li>Click the <strong>PARENT/referenced table second</strong> — the table with the referenced primary key.</li>
+                        <li>Map the listed child column to the listed parent column and verify the Foreign Keys tab.</li>
                     </ol>
                 </div>
 
@@ -1948,17 +2017,17 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">1</span> Customers to Addresses</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Customers table</p>
-                    <p><strong>Second Click:</strong> Addresses table</p>
+                    <p><strong>First Click:</strong> Addresses table (child)</p>
+                    <p><strong>Second Click:</strong> Customers table (parent)</p>
                     <p><strong>What it creates:</strong> Links Customers.customer_id to Addresses.customer_id</p>
                     <p><strong>Meaning:</strong> One customer can have many addresses</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">2</span> Customers to Orders</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Customers table</p>
-                    <p><strong>Second Click:</strong> Orders table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Orders table (child)</p>
+                    <p><strong>Second Click:</strong> Customers table (parent)</p>
                     <p><strong>What it creates:</strong> Links Customers.customer_id to Orders.customer_id</p>
                     <p><strong>Meaning:</strong> One customer can place many orders (orders cannot exist without customer)</p>
                 </div>
@@ -1966,8 +2035,8 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">3</span> Customers to Reviews</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Customers table</p>
-                    <p><strong>Second Click:</strong> Reviews table</p>
+                    <p><strong>First Click:</strong> Reviews table (child)</p>
+                    <p><strong>Second Click:</strong> Customers table (parent)</p>
                     <p><strong>What it creates:</strong> Links Customers.customer_id to Reviews.customer_id</p>
                     <p><strong>Meaning:</strong> One customer can write many reviews</p>
                 </div>
@@ -1975,8 +2044,8 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">4</span> Categories to Products</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Categories table</p>
-                    <p><strong>Second Click:</strong> Products table</p>
+                    <p><strong>First Click:</strong> Products table (child)</p>
+                    <p><strong>Second Click:</strong> Categories table (parent)</p>
                     <p><strong>What it creates:</strong> Links Categories.category_id to Products.category_id</p>
                     <p><strong>Meaning:</strong> One category can contain many products (products can exist without category)</p>
                 </div>
@@ -1984,8 +2053,8 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">5</span> Suppliers to Products</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Suppliers table</p>
-                    <p><strong>Second Click:</strong> Products table</p>
+                    <p><strong>First Click:</strong> Products table (child)</p>
+                    <p><strong>Second Click:</strong> Suppliers table (parent)</p>
                     <p><strong>What it creates:</strong> Links Suppliers.supplier_id to Products.supplier_id</p>
                     <p><strong>Meaning:</strong> One supplier can provide many products</p>
                 </div>
@@ -1993,8 +2062,8 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">6</span> Employees to Orders</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Employees table</p>
-                    <p><strong>Second Click:</strong> Orders table</p>
+                    <p><strong>First Click:</strong> Orders table (child)</p>
+                    <p><strong>Second Click:</strong> Employees table (parent)</p>
                     <p><strong>What it creates:</strong> Links Employees.employee_id to Orders.employee_id</p>
                     <p><strong>Meaning:</strong> One employee can process many orders</p>
                 </div>
@@ -2002,45 +2071,45 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">7</span> Addresses to Orders (for shipping)</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Addresses table</p>
-                    <p><strong>Second Click:</strong> Orders table</p>
+                    <p><strong>First Click:</strong> Orders table (child)</p>
+                    <p><strong>Second Click:</strong> Addresses table (parent)</p>
                     <p><strong>What happens:</strong> A dialog box appears asking which column to link</p>
-                    <p><strong>Select:</strong> Link Addresses.address_id to Orders.ship_address_id</p>
+                    <p><strong>Select:</strong> Map Orders.ship_address_id (child FK) → Addresses.address_id (parent PK)</p>
                     <p><strong>Meaning:</strong> One address can be used for shipping many orders</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">8</span> Orders to Order_Items</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Orders table</p>
-                    <p><strong>Second Click:</strong> Order_Items table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Order_Items table (child)</p>
+                    <p><strong>Second Click:</strong> Orders table (parent)</p>
                     <p><strong>What it creates:</strong> Links Orders.order_id to Order_Items.order_id</p>
                     <p><strong>Meaning:</strong> One order can have many line items (items cannot exist without order)</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">9</span> Products to Order_Items</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Products table</p>
-                    <p><strong>Second Click:</strong> Order_Items table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Order_Items table (child)</p>
+                    <p><strong>Second Click:</strong> Products table (parent)</p>
                     <p><strong>What it creates:</strong> Links Products.product_id to Order_Items.product_id</p>
                     <p><strong>Meaning:</strong> One product can appear in many order line items</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">10</span> Products to Reviews</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Products table</p>
-                    <p><strong>Second Click:</strong> Reviews table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Reviews table (child)</p>
+                    <p><strong>Second Click:</strong> Products table (parent)</p>
                     <p><strong>What it creates:</strong> Links Products.product_id to Reviews.product_id</p>
                     <p><strong>Meaning:</strong> One product can have many reviews (review needs a product)</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">11</span> Products to Inventory_Transactions</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Products table</p>
-                    <p><strong>Second Click:</strong> Inventory_Transactions table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Inventory_Transactions table (child)</p>
+                    <p><strong>Second Click:</strong> Products table (parent)</p>
                     <p><strong>What it creates:</strong> Links Products.product_id to Inventory_Transactions.product_id</p>
                     <p><strong>Meaning:</strong> One product can have many inventory transactions</p>
                 </div>
@@ -2048,45 +2117,45 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">12</span> Orders to Inventory_Transactions</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Orders table</p>
-                    <p><strong>Second Click:</strong> Inventory_Transactions table</p>
+                    <p><strong>First Click:</strong> Inventory_Transactions table (child)</p>
+                    <p><strong>Second Click:</strong> Orders table (parent)</p>
                     <p><strong>What happens:</strong> A dialog box appears</p>
-                    <p><strong>Select:</strong> Link Orders.order_id to Inventory_Transactions.reference_order_id</p>
+                    <p><strong>Select:</strong> Map Inventory_Transactions.reference_order_id (child FK) → Orders.order_id (parent PK)</p>
                     <p><strong>Meaning:</strong> One order can be referenced in inventory transactions (optional reference)</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">13</span> Customers to Shopping_Cart</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Customers table</p>
-                    <p><strong>Second Click:</strong> Shopping_Cart table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Shopping_Cart table (child)</p>
+                    <p><strong>Second Click:</strong> Customers table (parent)</p>
                     <p><strong>What it creates:</strong> Links Customers.customer_id to Shopping_Cart.customer_id</p>
                     <p><strong>Meaning:</strong> One customer can have many items in cart (cart needs customer)</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">14</span> Products to Shopping_Cart</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Products table</p>
-                    <p><strong>Second Click:</strong> Shopping_Cart table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Shopping_Cart table (child)</p>
+                    <p><strong>Second Click:</strong> Products table (parent)</p>
                     <p><strong>What it creates:</strong> Links Products.product_id to Shopping_Cart.product_id</p>
                     <p><strong>Meaning:</strong> One product can be in many customers' carts</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">15</span> Customers to Wishlists</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Customers table</p>
-                    <p><strong>Second Click:</strong> Wishlists table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Wishlists table (child)</p>
+                    <p><strong>Second Click:</strong> Customers table (parent)</p>
                     <p><strong>What it creates:</strong> Links Customers.customer_id to Wishlists.customer_id</p>
                     <p><strong>Meaning:</strong> One customer can have many wishlist items</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">16</span> Products to Wishlists</h4>
-                    <p><strong>Tool:</strong> Solid line 1:n (Identifying)</p>
-                    <p><strong>First Click:</strong> Products table</p>
-                    <p><strong>Second Click:</strong> Wishlists table</p>
+                    <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
+                    <p><strong>First Click:</strong> Wishlists table (child)</p>
+                    <p><strong>Second Click:</strong> Products table (parent)</p>
                     <p><strong>What it creates:</strong> Links Products.product_id to Wishlists.product_id</p>
                     <p><strong>Meaning:</strong> One product can be on many customers' wishlists</p>
                 </div>
@@ -2094,20 +2163,20 @@
                 <div class="relationship-card">
                     <h4><span class="relationship-number">17</span> Categories Self-Reference (Parent-Child Categories)</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Categories table</p>
-                    <p><strong>Second Click:</strong> Categories table (yes, the same table!)</p>
+                    <p><strong>First Click:</strong> Categories table as child (parent_category_id)</p>
+                    <p><strong>Second Click:</strong> Categories table as parent (category_id)</p>
                     <p><strong>What happens:</strong> A dialog box appears</p>
-                    <p><strong>Configure:</strong> Link Categories.category_id to Categories.parent_category_id</p>
+                    <p><strong>Configure:</strong> Map Categories.parent_category_id (child FK) → Categories.category_id (parent PK)</p>
                     <p><strong>Meaning:</strong> One category can have many subcategories (subcategory can exist alone)</p>
                 </div>
 
                 <div class="relationship-card">
                     <h4><span class="relationship-number">18</span> Employees Self-Reference (Manager-Employee)</h4>
                     <p><strong>Tool:</strong> Dashed line 1:n (Non-Identifying)</p>
-                    <p><strong>First Click:</strong> Employees table</p>
-                    <p><strong>Second Click:</strong> Employees table (yes, the same table!)</p>
+                    <p><strong>First Click:</strong> Employees table as child (manager_id)</p>
+                    <p><strong>Second Click:</strong> Employees table as parent (employee_id)</p>
                     <p><strong>What happens:</strong> A dialog box appears</p>
-                    <p><strong>Configure:</strong> Link Employees.employee_id to Employees.manager_id</p>
+                    <p><strong>Configure:</strong> Map Employees.manager_id (child FK) → Employees.employee_id (parent PK)</p>
                     <p><strong>Meaning:</strong> One employee (manager) can manage many employees</p>
                 </div>
 
@@ -2117,9 +2186,10 @@
                     <ul>
                         <li>━━━┤ = 1:1 Identifying (solid line, one-to-one)</li>
                         <li>┅┅┅┤ = 1:1 Non-Identifying (dashed line, one-to-one)</li>
-                        <li>━━━< = 1:n Identifying (solid line, one-to-many)</li>
-                        <li>┅┅┅< = 1:n Non-Identifying (dashed line, one-to-many)</li>
+                        <li>━━━&lt; = 1:n Identifying (solid line, one-to-many)</li>
+                        <li>┅┅┅&lt; = 1:n Non-Identifying (dashed line, one-to-many)</li>
                     </ul>
+                    <p><strong>For this model:</strong> choose the dashed 1:n existing-columns workflow for every relationship because each child table has a separate surrogate primary key.</p>
                 </div>
 
                 <div class="warning-box">
@@ -2129,16 +2199,16 @@
                             <ul>
                                 <li>The tools are in the left vertical toolbar</li>
                                 <li>Hover over each icon to see tooltips</li>
-                                <li>Solid line = Identifying relationship</li>
-                                <li>Dashed line = Non-Identifying relationship</li>
-                                <li>Depending on the configuration of Workbench you have to click the child table first then the parent table to get the primary and foreign key correct.</li>
+                                <li>Solid line = identifying; dashed line = non-identifying</li>
+                                <li>This lab uses dashed, existing-column relationships throughout</li>
+                                <li>Workbench's documented 1:n sequence is child/many first, then parent/referenced</li>
                             </ul>
                         </li>
                         <li><strong>If the relationship arrow is going the wrong way:</strong>
                             <ul>
                                 <li>You clicked the tables in the wrong order</li>
                                 <li>Delete the relationship (select it and press Delete key)</li>
-                                <li>Try again, clicking the parent table first</li>
+                                <li>Try again, clicking the child table first and the parent table second</li>
                             </ul>
                         </li>
                         <li><strong>If you see a dialog asking about columns:</strong>
@@ -2160,24 +2230,18 @@
 
                 <div class="info-box">
                     <h3>✓ RELATIONSHIP TYPES IN YOUR ERD:</h3>
-                    <p><strong>Solid Lines (Identifying - 10 total):</strong></p>
+                    <p><strong>Dashed Lines (Non-Identifying — 18 total):</strong></p>
                     <ul>
-                        <li>Orders and Order_Items (strong dependency)</li>
-                        <li>Products and their related junction tables</li>
-                        <li>Reviews (need product to exist)</li>
-                    </ul>
-                    <p><strong>Dashed Lines (Non-Identifying - 8 total):</strong></p>
-                    <ul>
-                        <li>Optional relationships (category, supplier, employee)</li>
-                        <li>Self-references (can be null)</li>
-                        <li>Addresses (customer can exist without address)</li>
+                        <li>Every child table has its own surrogate primary key.</li>
+                        <li>The foreign keys do not form part of those primary keys.</li>
+                        <li>Required versus optional participation is controlled separately by nullability.</li>
                     </ul>
                     <p><strong>TOTAL: 18 relationships</strong></p>
                 </div>
             </section>
 
             <!-- Formatting Section -->
-            <section id="formatting" class="section">
+            <section id="formatting" class="section" role="tabpanel" aria-labelledby="tab-formatting" hidden>
                 <h2>🎨 Part 4: Organizing and Formatting the ERD</h2>
                 
                 <div class="info-box">
@@ -2254,7 +2318,7 @@ Note 3: "Key Relationships"
             </section>
 
             <!-- Finalize Section -->
-            <section id="finalize" class="section">
+            <section id="finalize" class="section" role="tabpanel" aria-labelledby="tab-finalize" hidden>
                 <h2>✨ Part 5: Finalizing the ERD</h2>
                 
                 <div class="info-box">
@@ -2270,13 +2334,13 @@ Note 3: "Key Relationships"
                 </div>
 
                 <div class="info-box">
-                    <h3>Step 3: Save Your Work</h3>
+                    <h3>Step 2: Save and Forward-Engineer Your Work</h3>
                     <ol>
                         <li><strong>Save the Model:</strong> File → Save Model As → OnlineStore_ERD_LastName.mwb</li>
-                        <li><strong>Once ERD is created:</strong> Connect to database and Create Database using → "Forward Engineer SQL CREATE"</li>
-                        <li>File → Export → Forward Engineer SQL CREATE</li>
-                        <li>Create Script From EER Diagram</li>
-                        <li>Go to File --> Export --> Forward Engineering SQL Create</li>
+                        <li><strong>Create the SQL script:</strong> File → Export → Forward Engineer SQL CREATE Script.</li>
+                        <li>Review the generated DDL before running it. This is <em>forward engineering</em>: model → SQL/database.</li>
+                        <li>Use Database → Forward Engineer only when you are ready to connect and create the schema.</li>
+                        <li><em>Reverse engineering</em> is the opposite path: an existing database → model.</li>
                     </ol>
                 </div>
 
@@ -2295,7 +2359,7 @@ Note 3: "Key Relationships"
                         <li>□ Do Not Create Users (keep unchecked)</li>
                         <li>✅ Don't create view placeholder tables</li>
                         <li>✅ Generate INSERT Statements for Tables (if you want data)</li>
-                        <li>✅ Disable FK checks for inserts (if including data)</li>
+                        <li>□ Disable FK checks (leave unchecked; load parent tables before child tables instead)</li>
                         <li>□ Create triggers after inserts (only if you have triggers)</li>
                     </ul>
                 </div>
@@ -2355,7 +2419,7 @@ Note 3: "Key Relationships"
                                 <li>Minimal line crossing</li>
                                 <li>Clear, logical layout</li>
                                 <li>Notes explaining special relationships</li>
-                                <li>Mix of solid and dashed relationship lines visible</li>
+                                <li>All 18 non-identifying relationships shown as dashed lines</li>
                             </ul>
                         </li>
                     </ul>
@@ -2363,18 +2427,18 @@ Note 3: "Key Relationships"
             </section>
 
             <!-- Resources Section -->
-            <section id="resources" class="section">
+            <section id="resources" class="section" role="tabpanel" aria-labelledby="tab-resources" hidden>
                 <h2>📚 Resources & Understanding</h2>
                 
                 <div class="info-box">
                     <h3>Foreign Key Columns in Each Table</h3>
-                    <p>Here's a complete list of which columns will become foreign keys:</p>
+                    <p>Here's the complete list of child columns to map to parent keys:</p>
                     <table>
                         <tr>
                             <th>Table</th>
                             <th>Column</th>
                             <th>Will Reference</th>
-                            <th>Created When You Draw</th>
+                            <th>Relationship</th>
                         </tr>
                         <tr>
                             <td>Addresses</td>
@@ -2485,7 +2549,7 @@ Note 3: "Key Relationships"
                             <td>Relationship #18</td>
                         </tr>
                     </table>
-                    <p><strong>Total: 18 foreign key relationships will be created automatically when you draw the relationship lines!</strong></p>
+                    <p><strong>Total:</strong> 18 foreign-key relationships. Verify each existing-column mapping in the child table before moving on.</p>
                 </div>
 
                 <div class="info-box">
@@ -2603,7 +2667,7 @@ playlist_id  |  song_id
                         <li><strong>Relationship going wrong direction?</strong>
                             <ul>
                                 <li>Delete it (select and press Delete)</li>
-                                <li>Re-create clicking parent first, then child</li>
+                                <li>Re-create it by clicking the child/many table first, then the parent/referenced table</li>
                             </ul>
                         </li>
                     </ul>
@@ -2631,22 +2695,26 @@ playlist_id  |  song_id
     </div>
 
     <script>
-        function showSection(sectionId) {
-            // Hide all sections
+        function showSection(sectionId, activeTab, moveFocus = false) {
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
+                section.hidden = true;
             });
-            
-            // Remove active class from all tabs
+
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+                tab.tabIndex = -1;
             });
-            
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
+
+            const section = document.getElementById(sectionId);
+            const tab = activeTab || document.querySelector(`[data-section="${sectionId}"]`);
+            section.classList.add('active');
+            section.hidden = false;
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            tab.tabIndex = 0;
+            if (moveFocus) tab.focus();
         }
 
         function toggleTable(tableId) {
@@ -2655,6 +2723,9 @@ playlist_id  |  song_id
             
             tableContent.classList.toggle('collapsed');
             tableHeader.classList.toggle('collapsed');
+            const isExpanded = !tableContent.classList.contains('collapsed');
+            tableHeader.setAttribute('aria-expanded', String(isExpanded));
+            tableContent.setAttribute('aria-hidden', String(!isExpanded));
         }
 
         function updateProgress() {
@@ -2714,6 +2785,49 @@ playlist_id  |  song_id
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => showSection(tab.dataset.section, tab));
+                tab.addEventListener('keydown', (event) => {
+                    let nextIndex = null;
+                    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % tabs.length;
+                    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (index - 1 + tabs.length) % tabs.length;
+                    if (event.key === 'Home') nextIndex = 0;
+                    if (event.key === 'End') nextIndex = tabs.length - 1;
+                    if (nextIndex !== null) {
+                        event.preventDefault();
+                        showSection(tabs[nextIndex].dataset.section, tabs[nextIndex], true);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.table-header').forEach((header, index) => {
+                const content = header.nextElementSibling;
+                if (!content.id) content.id = `table-panel-${index + 1}`;
+                header.setAttribute('role', 'button');
+                header.tabIndex = 0;
+                header.setAttribute('aria-controls', content.id);
+                header.setAttribute('aria-expanded', 'true');
+                content.setAttribute('aria-hidden', 'false');
+                header.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        toggleTable(content.id);
+                    }
+                });
+            });
+
+            document.querySelectorAll('table').forEach((table, index) => {
+                table.querySelectorAll('th').forEach(header => header.setAttribute('scope', 'col'));
+                if (!table.querySelector('caption')) {
+                    const caption = document.createElement('caption');
+                    const containerTitle = table.closest('.table-container')?.querySelector('.table-header h3')?.textContent;
+                    const nearbyTitle = table.closest('.info-box')?.querySelector('h3, h4')?.textContent;
+                    caption.textContent = containerTitle || nearbyTitle || `Reference table ${index + 1}`;
+                    table.prepend(caption);
+                }
+            });
+
             updateProgress();
         });
     </script>

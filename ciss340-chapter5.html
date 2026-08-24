@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 5: Insert, Update, and Delete Data - MySQL</title>
+    <title>Chapter 5: How to insert, update, and delete data - MySQL</title>
     <style>
         * {
             margin: 0;
@@ -102,6 +102,13 @@
         }
 
         .nav-item {
+            display: block;
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
             padding: 0.75rem;
             margin: 0.25rem 0;
             cursor: pointer;
@@ -443,14 +450,108 @@
             font-weight: bold;
         }
 
+        .course-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem 2rem;
+        }
+
+        .course-nav.top {
+            margin: 0 0 0.75rem;
+            padding: 0;
+        }
+
+        .course-nav a {
+            color: white;
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 999px;
+            padding: 0.55rem 0.9rem;
+            text-decoration: none;
+            font-weight: 650;
+        }
+
+        .nav-item:focus-visible,
+        .tab:focus-visible,
+        .course-nav a:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 3px;
+        }
+
+        table caption {
+            color: var(--text);
+            font-weight: 700;
+            text-align: left;
+            padding: 0 0 0.65rem;
+        }
+
         @media (max-width: 768px) {
+            .header {
+                position: static;
+                padding: 1.5rem 0;
+            }
+
+            .header-content,
+            .course-nav {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            h1 {
+                font-size: clamp(1.45rem, 7vw, 2rem);
+                overflow-wrap: anywhere;
+            }
+
             .container {
                 flex-direction: column;
+                width: 100%;
+                margin: 1rem auto;
+                padding: 0 1rem;
+                gap: 1rem;
             }
             
             .sidebar {
                 width: 100%;
                 position: static;
+            }
+
+            .section,
+            .visual-demo {
+                padding: 1.25rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: 1 1 10rem;
+                padding: 0.7rem;
+            }
+
+            .result-table {
+                display: block;
+                max-width: 100%;
+                overflow-x: auto;
+            }
+
+            .code-block,
+            pre {
+                max-width: 100%;
+                overflow-x: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -460,22 +561,25 @@
     
     <header class="header">
         <div class="header-content">
-            <h1>✏️ Chapter 5: How to Insert, Update, and Delete Data</h1>
+            <nav class="course-nav top" aria-label="CISS 340 course navigation">
+                <a href="/ciss340/">← CISS 340 Home</a>
+            </nav>
+            <h1>✏️ Chapter 5: How to insert, update, and delete data</h1>
             <p class="subtitle">Master MySQL's Data Manipulation Language (DML) statements</p>
         </div>
     </header>
 
     <div class="container">
-        <nav class="sidebar">
+        <nav class="sidebar" aria-label="Chapter 5 sections">
             <div class="nav-title">Chapter Contents</div>
-            <div class="nav-item active" data-section="intro">📚 Introduction</div>
-            <div class="nav-item" data-section="test-tables">🔧 Creating Test Tables</div>
-            <div class="nav-item" data-section="insert-basics">➕ INSERT Basics</div>
-            <div class="nav-item" data-section="insert-advanced">🚀 Advanced INSERT</div>
-            <div class="nav-item" data-section="update">✏️ UPDATE Statements</div>
-            <div class="nav-item" data-section="delete">🗑️ DELETE Statements</div>
-            <div class="nav-item" data-section="best-practices">⚡ Best Practices</div>
-            <div class="nav-item" data-section="summary">✅ Summary</div>
+            <button type="button" class="nav-item active" data-section="intro" aria-current="location">📚 Introduction</button>
+            <button type="button" class="nav-item" data-section="test-tables">🔧 Creating Test Tables</button>
+            <button type="button" class="nav-item" data-section="insert-basics">➕ INSERT Basics</button>
+            <button type="button" class="nav-item" data-section="insert-advanced">🚀 Advanced INSERT</button>
+            <button type="button" class="nav-item" data-section="update">✏️ UPDATE Statements</button>
+            <button type="button" class="nav-item" data-section="delete">🗑️ DELETE Statements</button>
+            <button type="button" class="nav-item" data-section="best-practices">⚡ Best Practices</button>
+            <button type="button" class="nav-item" data-section="summary">✅ Summary</button>
         </nav>
 
         <main class="content">
@@ -535,7 +639,10 @@
                 
                 <p>Before modifying real data, it's crucial to practice on test tables. This section shows you how to create safe environments for learning.</p>
 
-                <h3>Creating Tables for This Book</h3>
+                <h3>Creating Course Practice Tables</h3>
+                <div class="tip-box">
+                    These generic <code>customers</code> examples are course practice data. They support the Chapter 5 DML objectives but are not presented as tables from Murach's downloadable AP, OM, or EX databases.
+                </div>
                 <p>First, let's create a simple test database and tables to practice with:</p>
 
                 <div class="code-block">
@@ -558,24 +665,24 @@
                 <h3>Creating a Copy of a Table</h3>
                 <p>One of the safest ways to practice DML statements is to create copies of existing tables. Here are three methods:</p>
 
-                <div class="tabs">
-                    <button class="tab active" onclick="showTab(event, 'copy-structure')">Structure Only</button>
-                    <button class="tab" onclick="showTab(event, 'copy-with-data')">Structure + Data</button>
-                    <button class="tab" onclick="showTab(event, 'copy-selective')">Selective Copy</button>
+                <div class="tabs" role="tablist" aria-label="Table-copy methods">
+                    <button type="button" id="tab-copy-structure" class="tab active" role="tab" aria-selected="true" aria-controls="copy-structure" onclick="showTab(event, 'copy-structure')">Structure Only</button>
+                    <button type="button" id="tab-copy-with-data" class="tab" role="tab" aria-selected="false" aria-controls="copy-with-data" onclick="showTab(event, 'copy-with-data')">Structure + Data</button>
+                    <button type="button" id="tab-copy-selective" class="tab" role="tab" aria-selected="false" aria-controls="copy-selective" onclick="showTab(event, 'copy-selective')">Selective Copy</button>
                 </div>
 
-                <div id="copy-structure" class="tab-content active">
+                <div id="copy-structure" class="tab-content active" role="tabpanel" aria-labelledby="tab-copy-structure">
                     <div class="code-block">
                         <pre><span class="comment">-- Method 1: Copy only the structure (no data)</span>
 <span class="keyword">CREATE TABLE</span> <span class="table-name">customers_backup</span> 
 <span class="keyword">LIKE</span> <span class="table-name">customers</span>;
 
-<span class="comment">-- This creates an exact copy of the table structure</span>
-<span class="comment">-- including indexes, but without any rows</span></pre>
+<span class="comment">-- Copies the table definition and indexes, but no rows</span>
+<span class="comment">-- Foreign-key definitions are not copied by CREATE TABLE ... LIKE</span></pre>
                     </div>
                 </div>
 
-                <div id="copy-with-data" class="tab-content">
+                <div id="copy-with-data" class="tab-content" role="tabpanel" aria-labelledby="tab-copy-with-data" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Method 2: Copy structure and all data</span>
 <span class="keyword">CREATE TABLE</span> <span class="table-name">customers_copy</span> <span class="keyword">AS</span>
@@ -586,7 +693,7 @@
                     </div>
                 </div>
 
-                <div id="copy-selective" class="tab-content">
+                <div id="copy-selective" class="tab-content" role="tabpanel" aria-labelledby="tab-copy-selective" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Method 3: Copy with selective data</span>
 <span class="keyword">CREATE TABLE</span> <span class="table-name">vip_customers</span> <span class="keyword">AS</span>
@@ -672,7 +779,7 @@
 <span class="keyword">LIMIT</span> <span class="number">5</span>;
 
 <span class="comment">-- Verify the auto-generated IDs</span>
-<span class="keyword">SELECT</span> <span class="keyword">LAST_INSERT_ID</span>();  <span class="comment">-- Returns the last auto-generated ID</span></pre>
+<span class="keyword">SELECT</span> <span class="keyword">LAST_INSERT_ID</span>();  <span class="comment">-- For a multi-row INSERT, returns the first generated ID</span></pre>
                 </div>
             </section>
 
@@ -721,7 +828,7 @@
     <span class="column">credit_limit</span> * <span class="number">1.5</span> <span class="keyword">AS</span> <span class="column">new_limit</span>
 <span class="keyword">FROM</span> <span class="table-name">customers</span>
 <span class="keyword">WHERE</span> <span class="column">credit_limit</span> > <span class="number">3000</span>
-    <span class="keyword">AND</span> <span class="column">registration_date</span> < <span class="string">'2024-01-01'</span>;
+    <span class="keyword">AND</span> <span class="column">registration_date</span> &lt; <span class="string">'2024-01-01'</span>;
 
 <span class="comment">-- Insert summary data into a stats table</span>
 <span class="keyword">INSERT INTO</span> <span class="table-name">monthly_stats</span> 
@@ -744,16 +851,16 @@
 (<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>)
 <span class="keyword">VALUES</span> 
 (<span class="string">'John'</span>, <span class="string">'Doe'</span>, <span class="string">'john.doe@email.com'</span>);
-<span class="comment">-- If email already exists, this row is skipped silently</span>
+<span class="comment">-- If email already exists, this row is skipped and MySQL reports a warning</span>
 
 <span class="comment">-- Option 2: ON DUPLICATE KEY UPDATE - Update if exists</span>
 <span class="keyword">INSERT INTO</span> <span class="table-name">customers</span> 
 (<span class="column">first_name</span>, <span class="column">last_name</span>, <span class="column">email</span>, <span class="column">credit_limit</span>)
-<span class="keyword">VALUES</span> 
-(<span class="string">'John'</span>, <span class="string">'Doe'</span>, <span class="string">'john.doe@email.com'</span>, <span class="number">5000</span>)
+<span class="keyword">VALUES</span>
+(<span class="string">'John'</span>, <span class="string">'Doe'</span>, <span class="string">'john.doe@email.com'</span>, <span class="number">5000</span>) <span class="keyword">AS</span> <span class="table-name">new</span>
 <span class="keyword">ON DUPLICATE KEY UPDATE</span>
     <span class="column">credit_limit</span> = <span class="column">credit_limit</span> + <span class="number">500</span>,
-    <span class="column">last_name</span> = <span class="keyword">VALUES</span>(<span class="column">last_name</span>);
+    <span class="column">last_name</span> = <span class="table-name">new</span>.<span class="column">last_name</span>;
 <span class="comment">-- If email exists, increase credit limit and update last name</span>
 
 <span class="comment">-- Option 3: REPLACE - Delete old and insert new</span>
@@ -765,7 +872,7 @@
                 </div>
 
                 <div class="warning-box">
-                    REPLACE is destructive - it actually deletes the old row and inserts a new one. This can trigger DELETE and INSERT triggers and reset auto-increment values. Use with caution!
+                    REPLACE is destructive—it deletes the conflicting row and inserts a new one. This can fire DELETE and INSERT triggers and may generate a different AUTO_INCREMENT value. Use it only when those semantics are intentional.
                 </div>
             </section>
 
@@ -792,7 +899,7 @@
     <span class="column">credit_limit</span> = <span class="column">credit_limit</span> * <span class="number">1.1</span>,  <span class="comment">-- 10% increase</span>
     <span class="column">phone</span> = <span class="string">'555-9999'</span>
 <span class="keyword">WHERE</span> <span class="column">last_name</span> = <span class="string">'Doe'</span>
-    <span class="keyword">AND</span> <span class="column">registration_date</span> < <span class="string">'2024-01-01'</span>;</pre>
+    <span class="keyword">AND</span> <span class="column">registration_date</span> &lt; <span class="string">'2024-01-01'</span>;</pre>
                 </div>
 
                 <div class="danger-box">
@@ -806,13 +913,13 @@
                     <div class="code-block">
                         <pre><span class="comment">-- Step 1: Check what will be updated</span>
 <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">customers</span>
-<span class="keyword">WHERE</span> <span class="column">credit_limit</span> < <span class="number">2000</span>
+<span class="keyword">WHERE</span> <span class="column">credit_limit</span> &lt; <span class="number">2000</span>
     <span class="keyword">AND</span> <span class="column">registration_date</span> > <span class="string">'2023-01-01'</span>;
 
 <span class="comment">-- Step 2: If results look correct, run the update</span>
 <span class="keyword">UPDATE</span> <span class="table-name">customers</span>
 <span class="keyword">SET</span> <span class="column">credit_limit</span> = <span class="column">credit_limit</span> * <span class="number">1.25</span>
-<span class="keyword">WHERE</span> <span class="column">credit_limit</span> < <span class="number">2000</span>
+<span class="keyword">WHERE</span> <span class="column">credit_limit</span> &lt; <span class="number">2000</span>
     <span class="keyword">AND</span> <span class="column">registration_date</span> > <span class="string">'2023-01-01'</span>;</pre>
                     </div>
                 </div>
@@ -823,8 +930,8 @@
 <span class="keyword">UPDATE</span> <span class="table-name">customers</span>
 <span class="keyword">SET</span> 
     <span class="column">credit_limit</span> = <span class="keyword">CASE</span>
-        <span class="keyword">WHEN</span> <span class="column">credit_limit</span> < <span class="number">1000</span> <span class="keyword">THEN</span> <span class="column">credit_limit</span> * <span class="number">1.5</span>
-        <span class="keyword">WHEN</span> <span class="column">credit_limit</span> < <span class="number">5000</span> <span class="keyword">THEN</span> <span class="column">credit_limit</span> * <span class="number">1.2</span>
+        <span class="keyword">WHEN</span> <span class="column">credit_limit</span> &lt; <span class="number">1000</span> <span class="keyword">THEN</span> <span class="column">credit_limit</span> * <span class="number">1.5</span>
+        <span class="keyword">WHEN</span> <span class="column">credit_limit</span> &lt; <span class="number">5000</span> <span class="keyword">THEN</span> <span class="column">credit_limit</span> * <span class="number">1.2</span>
         <span class="keyword">ELSE</span> <span class="column">credit_limit</span> * <span class="number">1.1</span>
     <span class="keyword">END</span>;
 
@@ -832,8 +939,10 @@
 <span class="keyword">UPDATE</span> <span class="table-name">customers</span>
 <span class="keyword">SET</span> 
     <span class="column">email</span> = <span class="keyword">LOWER</span>(<span class="column">email</span>),
-    <span class="column">last_name</span> = <span class="keyword">UPPER</span>(<span class="keyword">SUBSTRING</span>(<span class="column">last_name</span>, <span class="number">1</span>, <span class="number">1</span>)) 
-                  + <span class="keyword">LOWER</span>(<span class="keyword">SUBSTRING</span>(<span class="column">last_name</span>, <span class="number">2</span>))
+    <span class="column">last_name</span> = <span class="keyword">CONCAT</span>(
+        <span class="keyword">UPPER</span>(<span class="keyword">SUBSTRING</span>(<span class="column">last_name</span>, <span class="number">1</span>, <span class="number">1</span>)),
+        <span class="keyword">LOWER</span>(<span class="keyword">SUBSTRING</span>(<span class="column">last_name</span>, <span class="number">2</span>))
+    )
 <span class="keyword">WHERE</span> <span class="column">customer_id</span> > <span class="number">100</span>;</pre>
                 </div>
 
@@ -852,6 +961,7 @@
 <span class="keyword">WHERE EXISTS</span> (
     <span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">FROM</span> <span class="table-name">orders</span> <span class="table-name">o</span>
     <span class="keyword">WHERE</span> <span class="table-name">o</span>.<span class="column">customer_id</span> = <span class="table-name">c</span>.<span class="column">customer_id</span>
+        <span class="keyword">AND</span> <span class="table-name">o</span>.<span class="column">order_date</span> > <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">6</span> <span class="keyword">MONTH</span>)
 );
 
 <span class="comment">-- Update using JOIN syntax (MySQL specific)</span>
@@ -896,7 +1006,7 @@
 
 <span class="comment">-- Delete multiple rows based on condition</span>
 <span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
-<span class="keyword">WHERE</span> <span class="column">registration_date</span> < <span class="string">'2020-01-01'</span>
+<span class="keyword">WHERE</span> <span class="column">registration_date</span> &lt; <span class="string">'2020-01-01'</span>
     <span class="keyword">AND</span> <span class="column">credit_limit</span> = <span class="number">0</span>;
 
 <span class="comment">-- Delete with LIMIT (useful for batch processing)</span>
@@ -911,30 +1021,30 @@
                 </div>
 
                 <h3>Safe DELETE Practices</h3>
-                <div class="tabs">
-                    <button class="tab active" onclick="showTab(event, 'delete-select')">SELECT First</button>
-                    <button class="tab" onclick="showTab(event, 'delete-backup')">Backup First</button>
-                    <button class="tab" onclick="showTab(event, 'delete-soft')">Soft Delete</button>
+                <div class="tabs" role="tablist" aria-label="Safe delete methods">
+                    <button type="button" id="tab-delete-select" class="tab active" role="tab" aria-selected="true" aria-controls="delete-select" onclick="showTab(event, 'delete-select')">SELECT First</button>
+                    <button type="button" id="tab-delete-backup" class="tab" role="tab" aria-selected="false" aria-controls="delete-backup" onclick="showTab(event, 'delete-backup')">Backup First</button>
+                    <button type="button" id="tab-delete-soft" class="tab" role="tab" aria-selected="false" aria-controls="delete-soft" onclick="showTab(event, 'delete-soft')">Soft Delete</button>
                 </div>
 
-                <div id="delete-select" class="tab-content active">
+                <div id="delete-select" class="tab-content active" role="tabpanel" aria-labelledby="tab-delete-select">
                     <div class="code-block">
                         <pre><span class="comment">-- Always SELECT first to verify what will be deleted</span>
 <span class="comment">-- Step 1: Check what will be deleted</span>
 <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="table-name">customers</span>
-<span class="keyword">WHERE</span> <span class="column">last_login</span> < <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);
+<span class="keyword">WHERE</span> <span class="column">last_login</span> &lt; <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);
 
 <span class="comment">-- Step 2: Count the rows</span>
 <span class="keyword">SELECT COUNT</span>(*) <span class="keyword">FROM</span> <span class="table-name">customers</span>
-<span class="keyword">WHERE</span> <span class="column">last_login</span> < <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);
+<span class="keyword">WHERE</span> <span class="column">last_login</span> &lt; <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);
 
 <span class="comment">-- Step 3: If correct, delete</span>
 <span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
-<span class="keyword">WHERE</span> <span class="column">last_login</span> < <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);</pre>
+<span class="keyword">WHERE</span> <span class="column">last_login</span> &lt; <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> <span class="number">2</span> <span class="keyword">YEAR</span>);</pre>
                     </div>
                 </div>
 
-                <div id="delete-backup" class="tab-content">
+                <div id="delete-backup" class="tab-content" role="tabpanel" aria-labelledby="tab-delete-backup" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Create a backup before deleting</span>
 <span class="keyword">CREATE TABLE</span> <span class="table-name">customers_deleted_backup</span> <span class="keyword">AS</span>
@@ -948,7 +1058,7 @@
                     </div>
                 </div>
 
-                <div id="delete-soft" class="tab-content">
+                <div id="delete-soft" class="tab-content" role="tabpanel" aria-labelledby="tab-delete-soft" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Instead of DELETE, use a "soft delete" approach</span>
 <span class="comment">-- Add a deleted flag column to your table</span>
@@ -1000,10 +1110,11 @@
                 <div class="concept-card">
                     <h4>When to use each:</h4>
                     <table class="result-table">
+                        <caption>DELETE and TRUNCATE comparison</caption>
                         <tr>
-                            <th>Feature</th>
-                            <th>DELETE</th>
-                            <th>TRUNCATE</th>
+                            <th scope="col">Feature</th>
+                            <th scope="col">DELETE</th>
+                            <th scope="col">TRUNCATE</th>
                         </tr>
                         <tr>
                             <td>Can use WHERE clause</td>
@@ -1012,8 +1123,8 @@
                         </tr>
                         <tr>
                             <td>Speed for all rows</td>
-                            <td>Slower</td>
-                            <td class="success-indicator">Much faster</td>
+                            <td>Row-by-row delete semantics</td>
+                            <td class="success-indicator">Typically faster for the whole table</td>
                         </tr>
                         <tr>
                             <td>Triggers fired</td>
@@ -1026,6 +1137,11 @@
                             <td class="error-indicator">No</td>
                         </tr>
                         <tr>
+                            <td>Logging model</td>
+                            <td>Row changes participate in the transaction log</td>
+                            <td>DDL operation recorded as a statement/metadata change</td>
+                        </tr>
+                        <tr>
                             <td>Resets AUTO_INCREMENT</td>
                             <td class="error-indicator">No</td>
                             <td class="success-indicator">Yes</td>
@@ -1034,10 +1150,10 @@
                 </div>
 
                 <div class="code-block">
-                    <pre><span class="comment">-- Remove all rows with DELETE (slow, logged)</span>
+                    <pre><span class="comment">-- Remove all rows with DELETE (row-delete semantics; can be rolled back inside a transaction)</span>
 <span class="keyword">DELETE FROM</span> <span class="table-name">large_table</span>;
 
-<span class="comment">-- Remove all rows with TRUNCATE (fast, not logged)</span>
+<span class="comment">-- Remove all rows with TRUNCATE (DDL; implicit commit; cannot be rolled back)</span>
 <span class="keyword">TRUNCATE TABLE</span> <span class="table-name">large_table</span>;</pre>
                 </div>
             </section>
@@ -1046,6 +1162,9 @@
                 <h2>⚡ Best Practices and Safety Tips</h2>
                 
                 <h3>Transaction Safety</h3>
+                <div class="tip-box">
+                    <strong>Course preview:</strong> This safety pattern is included so you can test DML responsibly. Murach develops transactions, locking, and concurrency in detail in Chapter 14.
+                </div>
                 <p>Use transactions to group related changes and enable rollback if something goes wrong:</p>
 
                 <div class="code-block">
@@ -1077,7 +1196,7 @@
                     <ul style="margin-left: 2rem;">
                         <li>📍 <strong>Batch Operations:</strong> Insert/update/delete multiple rows in one statement</li>
                         <li>📍 <strong>Use Indexes:</strong> Ensure WHERE clause columns are indexed</li>
-                        <li>📍 <strong>Disable Keys:</strong> For bulk inserts, temporarily disable indexes</li>
+                        <li>📍 <strong>Load in batches:</strong> Use appropriately sized multi-row inserts and measure performance on a practice database</li>
                         <li>📍 <strong>Use LOAD DATA:</strong> For importing large datasets from files</li>
                         <li>📍 <strong>Limit Scope:</strong> Use LIMIT for large updates/deletes</li>
                     </ul>
@@ -1119,11 +1238,12 @@
                 <h3>The Four Essential SQL Statements</h3>
                 <div class="visual-demo">
                     <table class="result-table" style="max-width: 800px; margin: 0 auto;">
+                        <caption>Purpose, risk, and recovery options for common DML statements</caption>
                         <tr>
-                            <th>Statement</th>
-                            <th>Purpose</th>
-                            <th>Risk Level</th>
-                            <th>Can Undo?</th>
+                            <th scope="col">Statement</th>
+                            <th scope="col">Purpose</th>
+                            <th scope="col">Risk Level</th>
+                            <th scope="col">Can Undo?</th>
                         </tr>
                         <tr>
                             <td>SELECT</td>
@@ -1135,19 +1255,19 @@
                             <td>INSERT</td>
                             <td>Add new rows</td>
                             <td style="color: var(--warning);">Medium</td>
-                            <td>DELETE the rows</td>
+                            <td>ROLLBACK before COMMIT; after COMMIT use a carefully verified compensating change or restore</td>
                         </tr>
                         <tr>
                             <td>UPDATE</td>
                             <td>Modify existing rows</td>
                             <td class="error-indicator">High</td>
-                            <td>Only with backup</td>
+                            <td>ROLLBACK before COMMIT in an explicit transaction; otherwise restore or reverse carefully</td>
                         </tr>
                         <tr>
                             <td>DELETE</td>
                             <td>Remove rows</td>
                             <td class="error-indicator">Very High</td>
-                            <td>Only with backup</td>
+                            <td>ROLLBACK before COMMIT in an explicit transaction; otherwise restore from backup</td>
                         </tr>
                     </table>
                 </div>
@@ -1220,6 +1340,12 @@
         </main>
     </div>
 
+    <nav class="course-nav" aria-label="Previous and next chapters">
+        <a href="/ciss340-chapter4">← Chapter 4</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter6">Chapter 6 →</a>
+    </nav>
+
     <script>
         // Progress bar
         window.addEventListener('scroll', () => {
@@ -1232,25 +1358,57 @@
         // Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.removeAttribute('aria-current');
+                });
                 this.classList.add('active');
+                this.setAttribute('aria-current', 'location');
                 
                 const section = document.getElementById(this.dataset.section);
-                section.scrollIntoView({ behavior: 'smooth' });
+                section.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
             });
         });
 
         // Tab functionality
         function showTab(evt, tabName) {
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            document.getElementById(tabName).classList.add('active');
+            const tabList = evt.currentTarget.closest('[role="tablist"]');
+            const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+                tab.tabIndex = -1;
+                const panel = document.getElementById(tab.getAttribute('aria-controls'));
+                panel.classList.remove('active');
+                panel.hidden = true;
+            });
+
+            const activePanel = document.getElementById(tabName);
+            activePanel.classList.add('active');
+            activePanel.hidden = false;
             evt.currentTarget.classList.add('active');
+            evt.currentTarget.setAttribute('aria-selected', 'true');
+            evt.currentTarget.tabIndex = 0;
         }
+
+        document.querySelectorAll('[role="tablist"]').forEach(tabList => {
+            const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+            tabs.forEach((tab, index) => {
+                tab.tabIndex = tab.getAttribute('aria-selected') === 'true' ? 0 : -1;
+                tab.addEventListener('keydown', event => {
+                    let nextIndex = null;
+                    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % tabs.length;
+                    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (index - 1 + tabs.length) % tabs.length;
+                    if (event.key === 'Home') nextIndex = 0;
+                    if (event.key === 'End') nextIndex = tabs.length - 1;
+                    if (nextIndex !== null) {
+                        event.preventDefault();
+                        tabs[nextIndex].click();
+                        tabs[nextIndex].focus();
+                    }
+                });
+            });
+        });
 
         // Scroll spy for active navigation
         window.addEventListener('scroll', () => {
@@ -1267,8 +1425,10 @@
             
             navItems.forEach(item => {
                 item.classList.remove('active');
+                item.removeAttribute('aria-current');
                 if (item.dataset.section === current) {
                     item.classList.add('active');
+                    item.setAttribute('aria-current', 'location');
                 }
             });
         });
