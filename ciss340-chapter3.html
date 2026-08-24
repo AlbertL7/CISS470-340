@@ -3088,10 +3088,10 @@ WHERE zip_code REGEXP '^[0-9]{5}(-[0-9]{4})?$';</div>
 SELECT * FROM products
 WHERE product_code REGEXP '^[A-Z]{2}-[0-9]{4}-[A-Z]$';
 
--- Finding words
+-- Finding whole words (double backslashes survive MySQL string parsing)
 SELECT * FROM products
-WHERE description REGEXP '[[:&lt;:]]laptop[[:>:]]';
--- [[:&lt;:]] and [[:>:]] are word boundaries
+WHERE description REGEXP '\\blaptop\\b';
+-- MySQL 8 uses ICU regular expressions; \b is a word boundary
 
 -- Case-insensitive search (REGEXP is case-insensitive by default in MySQL)
 SELECT * FROM products WHERE name REGEXP '[0-9]';
@@ -4387,7 +4387,7 @@ LIMIT 10;</div>
 
                         <div class="quiz-question" data-question="13">
                             <h3>Question 13: Arithmetic Operators</h3>
-                            <p>What is the result of 10 / 3 in MySQL (integer division)?</p>
+                            <p>What is the approximate result of ordinary division using 10 / 3 in MySQL?</p>
                             <div class="quiz-option" onclick="selectQuizOption(this, 13)">
                                 A) 3
                             </div>
@@ -4439,7 +4439,7 @@ LIMIT 10;</div>
                         <div class="quiz-question" data-question="16">
                             <h3>Question 16: String Functions</h3>
                             <p>Which function converts a string to uppercase?</p>
-                            <div class="quiz-option" onclick="selectQuizOption(this, 16)" data-correct>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)">
                                 A) UPPER()
                             </div>
                             <div class="quiz-option" onclick="selectQuizOption(this, 16)">
@@ -4448,7 +4448,7 @@ LIMIT 10;</div>
                             <div class="quiz-option" onclick="selectQuizOption(this, 16)">
                                 C) CAPS()
                             </div>
-                            <div class="quiz-option" onclick="selectQuizOption(this, 16)">
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)" data-correct>
                                 D) Both A and B
                             </div>
                         </div>

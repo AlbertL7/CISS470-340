@@ -1083,19 +1083,20 @@
                 <p>You can use subqueries to delete based on complex conditions:</p>
 
                 <div class="code-block">
-                    <pre><span class="comment">-- Delete customers with no orders</span>
-<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
-<span class="keyword">WHERE</span> <span class="column">customer_id</span> <span class="keyword">NOT IN</span> (
-    <span class="keyword">SELECT DISTINCT</span> <span class="column">customer_id</span> 
-    <span class="keyword">FROM</span> <span class="table-name">orders</span>
-);
-
-<span class="comment">-- Alternative using NOT EXISTS (often faster)</span>
+                    <pre><span class="comment">-- Delete customers with no orders (safe even if an order's customer_id is NULL)</span>
 <span class="keyword">DELETE FROM</span> <span class="table-name">customers</span> <span class="table-name">c</span>
 <span class="keyword">WHERE NOT EXISTS</span> (
     <span class="keyword">SELECT</span> <span class="number">1</span> 
     <span class="keyword">FROM</span> <span class="table-name">orders</span> <span class="table-name">o</span>
     <span class="keyword">WHERE</span> <span class="table-name">o</span>.<span class="column">customer_id</span> = <span class="table-name">c</span>.<span class="column">customer_id</span>
+);
+
+<span class="comment">-- NOT IN is safe only after NULLs are excluded from its subquery</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">customers</span>
+<span class="keyword">WHERE</span> <span class="column">customer_id</span> <span class="keyword">NOT IN</span> (
+    <span class="keyword">SELECT DISTINCT</span> <span class="column">customer_id</span>
+    <span class="keyword">FROM</span> <span class="table-name">orders</span>
+    <span class="keyword">WHERE</span> <span class="column">customer_id</span> <span class="keyword">IS NOT NULL</span>
 );
 
 <span class="comment">-- Delete using JOIN (MySQL specific)</span>
