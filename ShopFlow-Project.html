@@ -813,8 +813,8 @@
                         <caption>Use these definitions in the notebook, report, API, and website</caption>
                         <thead><tr><th scope="col">Metric</th><th scope="col">Canonical definition</th><th scope="col">Validation question</th></tr></thead>
                         <tbody>
-                            <tr><td>Line revenue</td><td>Use <code>order_items.line_total</code>; verify it matches quantity × unit price after any applicable discount.</td><td>Does each order-item row appear exactly once before summing?</td></tr>
-                            <tr><td>Project revenue</td><td>Sum <code>line_total</code> at the order-item grain. Document and consistently reuse any instructor-approved order-status filter.</td><td>Did a later join to reviews or tickets multiply order items?</td></tr>
+                            <tr><td>Line revenue</td><td>Calculate <code>order_items.quantity * order_items.unit_price</code>. If <code>line_total</code> exists, validate it against this calculation before using it.</td><td>Does each order-item row appear exactly once before summing?</td></tr>
+                            <tr><td>Project revenue</td><td>Sum calculated line revenue at the order-item grain for orders whose <code>order_status</code> is <code>Delivered</code>.</td><td>Did a later join to reviews or tickets multiply order items?</td></tr>
                             <tr><td>Customer lifetime value</td><td>Project revenue grouped by one unique <code>customer_id</code>, then summarized by segment.</td><td>Are customers counted once in the segment summary?</td></tr>
                             <tr><td>Conversion rate</td><td>Recovered abandoned carts divided by eligible abandoned carts, multiplied by 100.</td><td>Are the numerator and denominator from the same eligible population?</td></tr>
                             <tr><td>Repeat customer</td><td>A customer with at least two qualifying completed orders.</td><td>Are distinct orders counted rather than line items?</td></tr>
