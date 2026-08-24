@@ -265,11 +265,28 @@
         .week-grid,
         .query-grid,
         .evidence-grid,
-        .role-grid {
+        .role-grid,
+        .resource-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 1rem;
         }
+
+        .resource-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .resource-card { display: flex; flex-direction: column; align-items: flex-start; }
+        .resource-card p { flex: 1; color: var(--muted); }
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.75rem;
+            border-radius: .7rem;
+            background: var(--blue-dark);
+            padding: .65rem .9rem;
+            color: #fff;
+            font-weight: 850;
+            text-decoration: none;
+        }
+        .resource-link:hover { background: var(--orange); color: #fff; }
 
         .card { padding: 1.15rem; }
         .card h3 { margin: 0 0 .45rem; }
@@ -531,7 +548,7 @@
 
         @media (max-width: 700px) {
             .shell { width: 100%; margin: 0; border: 0; border-radius: 0; }
-            .overview-grid, .week-grid, .query-grid, .evidence-grid, .role-grid { grid-template-columns: 1fr; }
+            .overview-grid, .week-grid, .query-grid, .evidence-grid, .role-grid, .resource-grid { grid-template-columns: 1fr; }
             .progress-panel { grid-template-columns: 1fr; }
             .progress-value { text-align: left; }
             .week-banner { align-items: flex-start; flex-direction: column; }
@@ -606,6 +623,24 @@
                         <h2 id="start-title">Start with the big picture</h2>
                         <p class="section-intro">This project connects the database ideas from class to a small public storefront. The website is public; the database credentials are never public.</p>
                     </div>
+                </div>
+
+                <div class="resource-grid" aria-label="Project downloads">
+                    <article class="card resource-card">
+                        <h3>Project worksheet</h3>
+                        <p>Follow the full three-week build, record decisions, and capture only the seven targeted pieces of evidence.</p>
+                        <a class="resource-link" href="/resources/ShopFlow_E-Commerce_Database_Analytics_Worksheet_Fall_2026.docx" download>Download worksheet (.docx)</a>
+                    </article>
+                    <article class="card resource-card">
+                        <h3>Student checklist</h3>
+                        <p>Use the short grading and submission checklist before you turn in the notebook, report, repository, and website.</p>
+                        <a class="resource-link" href="/resources/ShopFlow_Project_Student_Checklist_Fall_2026.docx" download>Download checklist (.docx)</a>
+                    </article>
+                    <article class="card resource-card">
+                        <h3>AI prompt guide</h3>
+                        <p>Ask for useful drafts without sharing credentials or surrendering responsibility for testing and explanation.</p>
+                        <a class="resource-link" href="/resources/ShopFlow_AI_Prompt_Guide_Fall_2026.docx" download>Download AI guide (.docx)</a>
+                    </article>
                 </div>
 
                 <div class="architecture" role="list" aria-label="ShopFlow request and response path">
