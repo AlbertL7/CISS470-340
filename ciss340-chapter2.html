@@ -2756,24 +2756,20 @@ HELP 'BETWEEN';</div>
                     <h4>SQL Syntax Reference:</h4>
                     <div class="code-block">
 -- Example: Looking up JOIN syntax
--- Manual Section: 13.2.10 SELECT Statement
+-- Open the current MySQL 8 SELECT Statement reference for your installed version.
+-- The reference shows each optional clause and the order in which clauses appear.
 
-SELECT syntax:
+Simplified SELECT shape:
 SELECT
-    [ALL | DISTINCT | DISTINCTROW ]
-    [HIGH_PRIORITY]
-    [STRAIGHT_JOIN]
-    [SQL_SMALL_RESULT] [SQL_BIG_RESULT] [SQL_BUFFER_RESULT]
-    select_expr [, select_expr] ...
-    [FROM table_references
-      [PARTITION partition_list]]
+    [DISTINCT] select_expression [, select_expression ...]
+    [FROM table_reference]
     [WHERE where_condition]
-    [GROUP BY {col_name | expr | position}
-      [ASC | DESC], ... [WITH ROLLUP]]
+    [GROUP BY grouping_expression [, grouping_expression ...]]
     [HAVING where_condition]
-    [ORDER BY {col_name | expr | position}
-      [ASC | DESC], ...]
-    [LIMIT {[offset,] row_count | row_count OFFSET offset}]</div>
+    [ORDER BY sort_expression [ASC | DESC] [, sort_expression ...]]
+    [LIMIT row_count [OFFSET offset]]
+
+-- GROUP BY forms groups; use ORDER BY when the result must be sorted.</div>
 
                     <h4>Function Reference Lookup:</h4>
                     <div class="tip-box">
@@ -2828,14 +2824,13 @@ SELECT * FROM INFORMATION_SCHEMA.PLUGINS;</div>
                     <h4>1. Learning New Features:</h4>
                     <p>Example: Understanding Window Functions (MySQL 8.0+)</p>
                     <div class="code-block">
--- Documentation: Section 12.20 Window Functions
--- Example from manual:
+-- Documentation topic: Window Function Concepts and Syntax
 SELECT 
     employee_id,
     salary,
     department,
-    RANK() OVER (PARTITION BY department ORDER BY salary DESC) as rank,
-    DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) as dense_rank,
+    RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS salary_rank,
+    DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS salary_dense_rank,
     ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as row_num
 FROM employees;</div>
 

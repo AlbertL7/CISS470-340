@@ -1687,8 +1687,8 @@ SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
 -- UPPER / LOWER - Change case
 SELECT UPPER(first_name), LOWER(email) FROM customers;
 
--- LENGTH - Get string length
-SELECT product_name, LENGTH(product_name) AS name_length FROM products;
+-- CHAR_LENGTH - Count characters (LENGTH counts bytes)
+SELECT product_name, CHAR_LENGTH(product_name) AS name_length FROM products;
 
 -- SUBSTRING - Extract part of string
 SELECT SUBSTRING(phone_number, 1, 3) AS area_code FROM customers;
@@ -2214,14 +2214,14 @@ WHERE discount_percent >= 0.10;</div>
 
                     <h4>String Comparisons</h4>
                     <div class="code-block">
--- String equality (case-insensitive by default in MySQL)
+-- String equality under a case-insensitive (_ci) column collation
 SELECT * FROM customers WHERE last_name = 'Smith';
 
 -- String inequality
 SELECT * FROM products WHERE category != 'Books';
 
--- Alphabetical comparisons
-SELECT * FROM customers WHERE last_name > 'M';  -- Names starting N-Z
+-- Lexical comparisons follow the column's collation
+SELECT * FROM customers WHERE last_name >= 'N';  -- Names from N onward under the chosen collation
 SELECT * FROM customers WHERE first_name &lt; 'John';  -- Names before John
 
 -- Case-sensitive comparison (using BINARY)
@@ -3778,24 +3778,24 @@ SELECT * FROM products ORDER BY product_id LIMIT 10 OFFSET 10;
 -- Page 3 (rows 21-30)
 SELECT * FROM products ORDER BY product_id LIMIT 10 OFFSET 20;
 
--- Dynamic pagination
-SET @page = 3;
-SET @page_size = 10;
-SELECT * FROM products 
-ORDER BY product_id 
-LIMIT @page_size OFFSET (@page - 1) * @page_size;</div>
+-- Dynamic pagination in application code:
+-- compute offset = (page - 1) * page_size, then bind nonnegative integers
+-- to a prepared statement such as this one.
+SELECT * FROM products
+ORDER BY product_id
+LIMIT ? OFFSET ?;</div>
 
                     <h3>LIMIT with ORDER BY</h3>
                     <div class="code-block">
 -- Top N queries
 -- Top 10 best-selling products
 SELECT 
-    product_id,
+    p.product_id,
     product_name,
     SUM(quantity) as total_sold
 FROM order_items oi
 JOIN products p ON oi.product_id = p.product_id
-GROUP BY product_id
+GROUP BY p.product_id, p.product_name
 ORDER BY total_sold DESC
 LIMIT 10;
 
@@ -3861,16 +3861,9 @@ UNION ALL
 
                     <h3>LIMIT in Subqueries</h3>
                     <div class="code-block">
--- Find orders from top 10 customers
-SELECT * FROM orders 
-WHERE customer_id IN (
-    SELECT customer_id 
-    FROM customers 
-    ORDER BY total_purchases DESC 
-    LIMIT 10
-);  -- Note: This won't work in all MySQL versions
-
--- Workaround using derived table
+-- Find orders from the top 10 customers.
+-- MySQL 8 does not support LIMIT directly in an IN subquery,
+-- so put the limited result in a derived table and join it.
 SELECT o.* FROM orders o
 JOIN (
     SELECT customer_id 
