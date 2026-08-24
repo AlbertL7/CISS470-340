@@ -3876,8 +3876,8 @@ JOIN (
                     <div class="tip-box">
                         <h4>💡 LIMIT Performance Tips</h4>
                         <ul>
-                            <li>LIMIT can significantly improve query performance</li>
-                            <li>MySQL stops searching after finding LIMIT rows</li>
+                            <li>LIMIT can reduce work when MySQL can produce the requested rows early</li>
+                            <li>Sorting, grouping, or joins may still require processing many rows before LIMIT applies</li>
                             <li>Large OFFSET values can be slow (still scans skipped rows)</li>
                             <li>For deep pagination, consider keyset pagination instead</li>
                             <li>Always use ORDER BY with LIMIT for predictable results</li>
