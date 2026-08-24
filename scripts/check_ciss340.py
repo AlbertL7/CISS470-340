@@ -13,6 +13,7 @@ PAGES = [
     ROOT / "index.html",
     *(ROOT / f"ciss340-chapter{number}.html" for number in range(1, 7)),
     ROOT / "MySQL-Workbench.html",
+    ROOT / "ShopFlow-Project.html",
     ROOT / "ciss340" / "index.html",
     ROOT / "404.html",
 ]
@@ -53,7 +54,26 @@ REGRESSION_GUARDS = {
     },
     "index.html": {
         "forbidden": (),
-        "required": ("13 + quiz", "19 + quiz", "#ciss340"),
+        "required": ("13 + quiz", "19 + quiz", "#ciss340", "ShopFlow-Project.html"),
+    },
+    "ShopFlow-Project.html": {
+        "forbidden": (
+            "real business data",
+            "real-world data",
+            "free trial",
+            "Digital Ocean",
+            "defaultdb",
+            "750-word",
+            "publicly access your database",
+        ),
+        "required": (
+            "realistic, instructor-provided fictional data",
+            "MySQL 8.4 LTS",
+            "shopflow_reader",
+            "AI may produce drafts, but students must test, correct, document, and explain every submitted result.",
+            "The ten required business queries",
+            "Required project total",
+        ),
     },
 }
 

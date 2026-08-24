@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The complete three-week CISS 340 ShopFlow database analytics project guide for Fall 2026.">
+    <title>ShopFlow Database Analytics Project | CISS 340</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            color-scheme: light;
+            --ink: #152238;
+            --muted: #526275;
+            --paper: #ffffff;
+            --canvas: #eef4f8;
+            --navy: #102a43;
+            --blue: #1466b8;
+            --blue-dark: #0b4f91;
+            --teal: #087f78;
+            --teal-soft: #dff7f3;
+            --orange: #b94e00;
+            --orange-soft: #fff0df;
+            --green: #167647;
+            --green-soft: #e4f6ec;
+            --purple: #7041a7;
+            --purple-soft: #f0e9fb;
+            --red: #b42318;
+            --red-soft: #ffebe9;
+            --gold: #f4b41a;
+            --line: #cbd8e5;
+            --shadow: 0 14px 38px rgba(16, 42, 67, .14);
+            --radius: 1.1rem;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: linear-gradient(145deg, #dceafb 0%, var(--canvas) 44%, #e6f5f1 100%);
+            color: var(--ink);
+            font: 1rem/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        a { color: var(--blue-dark); }
+        a:hover { color: var(--orange); }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        summary:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 4px;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: .6rem;
+            left: .6rem;
+            z-index: 1000;
+            transform: translateY(-180%);
+            border-radius: .5rem;
+            background: var(--paper);
+            padding: .75rem 1rem;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .skip-link:focus { transform: translateY(0); }
+
+        .shell {
+            width: min(1240px, calc(100% - 2rem));
+            margin: 1rem auto 3rem;
+            overflow: clip;
+            border: 1px solid rgba(16, 42, 67, .12);
+            border-radius: 1.4rem;
+            background: var(--paper);
+            box-shadow: var(--shadow);
+        }
+
+        .course-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .65rem;
+            padding: .8rem clamp(1rem, 4vw, 2.4rem);
+            background: #071d2f;
+        }
+
+        .course-nav a {
+            border: 1px solid rgba(255,255,255,.48);
+            border-radius: 999px;
+            padding: .42rem .78rem;
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .course-nav a[aria-current="page"],
+        .course-nav a:hover {
+            background: #fff;
+            color: var(--navy);
+        }
+
+        .hero {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            padding: clamp(2.4rem, 7vw, 5.2rem) clamp(1.2rem, 6vw, 4.7rem);
+            background: linear-gradient(135deg, #0d355a 0%, #075d6d 58%, #087f78 100%);
+            color: #fff;
+        }
+
+        .hero::after {
+            position: absolute;
+            right: -8rem;
+            bottom: -10rem;
+            z-index: -1;
+            width: 28rem;
+            height: 28rem;
+            border: 4rem solid rgba(255,255,255,.08);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .eyebrow {
+            margin: 0 0 .5rem;
+            color: #b8fff2;
+            font-size: .84rem;
+            font-weight: 850;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        h1, h2, h3 { line-height: 1.2; }
+
+        h1 {
+            max-width: 18ch;
+            margin: 0;
+            font-size: clamp(2.25rem, 6vw, 4.7rem);
+            letter-spacing: -.045em;
+        }
+
+        .hero-lead {
+            max-width: 66ch;
+            margin: 1.2rem 0 0;
+            color: #e2f6f5;
+            font-size: clamp(1.05rem, 2vw, 1.28rem);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .65rem;
+            margin-top: 1.7rem;
+        }
+
+        .hero-meta span {
+            border: 1px solid rgba(255,255,255,.34);
+            border-radius: 999px;
+            background: rgba(0,0,0,.15);
+            padding: .45rem .82rem;
+            font-weight: 750;
+        }
+
+        .project-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            gap: .2rem;
+            overflow-x: auto;
+            padding: .45rem max(1rem, calc((100% - 1080px) / 2));
+            border-bottom: 1px solid #29455c;
+            background: rgba(16, 42, 67, .97);
+            scrollbar-width: thin;
+        }
+
+        .project-nav a {
+            flex: 0 0 auto;
+            border-radius: .45rem;
+            padding: .62rem .82rem;
+            color: #fff;
+            font-size: .92rem;
+            font-weight: 750;
+            text-decoration: none;
+        }
+
+        .project-nav a:hover { background: rgba(255,255,255,.14); }
+
+        main { padding: clamp(1.2rem, 4vw, 3.2rem); }
+
+        .section {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 1.8rem 0 3.2rem;
+            scroll-margin-top: 5rem;
+        }
+
+        .section + .section { border-top: 1px solid var(--line); }
+
+        .section-heading {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: .85rem;
+            align-items: start;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-number {
+            display: grid;
+            width: 2.5rem;
+            height: 2.5rem;
+            place-items: center;
+            border-radius: .75rem;
+            background: var(--navy);
+            color: #fff;
+            font-weight: 900;
+        }
+
+        h2 {
+            margin: 0;
+            color: var(--navy);
+            font-size: clamp(1.7rem, 4vw, 2.45rem);
+            letter-spacing: -.025em;
+        }
+
+        .section-intro {
+            max-width: 72ch;
+            margin: .35rem 0 0;
+            color: var(--muted);
+            font-size: 1.06rem;
+        }
+
+        h3 { color: var(--navy); }
+
+        .callout,
+        .card,
+        details {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--paper);
+        }
+
+        .callout {
+            margin: 1.3rem 0;
+            padding: 1.2rem 1.35rem;
+            border-left: .45rem solid var(--teal);
+            background: var(--teal-soft);
+        }
+
+        .callout.warning {
+            border-left-color: var(--orange);
+            background: var(--orange-soft);
+        }
+
+        .callout.security {
+            border-left-color: var(--red);
+            background: var(--red-soft);
+        }
+
+        .callout h3 { margin: 0 0 .35rem; }
+        .callout p:last-child { margin-bottom: 0; }
+
+        .overview-grid,
+        .week-grid,
+        .query-grid,
+        .evidence-grid,
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .card { padding: 1.15rem; }
+        .card h3 { margin: 0 0 .45rem; }
+        .card p:first-of-type { margin-top: 0; }
+        .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+
+        .architecture {
+            display: grid;
+            grid-template-columns: repeat(11, auto);
+            align-items: stretch;
+            justify-content: center;
+            gap: .35rem;
+            margin: 1.5rem 0;
+        }
+
+        .architecture-step {
+            display: grid;
+            min-width: 8rem;
+            place-items: center;
+            border: 2px solid #8db5d6;
+            border-radius: .9rem;
+            background: #f3f9ff;
+            padding: 1rem .7rem;
+            text-align: center;
+            font-weight: 850;
+        }
+
+        .architecture-step strong { display: block; color: var(--blue-dark); }
+        .architecture-step small { display: block; margin-top: .22rem; color: var(--muted); font-weight: 650; }
+        .arrow { display: grid; place-items: center; color: var(--teal); font-size: 1.45rem; font-weight: 950; }
+
+        .progress-panel {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 1rem;
+            align-items: center;
+            margin: 1.3rem 0 1.6rem;
+            border-radius: var(--radius);
+            background: var(--navy);
+            padding: 1rem 1.2rem;
+            color: #fff;
+        }
+
+        .progress-panel p { margin: 0 0 .45rem; font-weight: 800; }
+        .progress-track { height: .78rem; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.2); }
+        .progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #5de0c3, #f4d35e); transition: width .25s ease; }
+        .progress-value { min-width: 4.5rem; text-align: right; font-size: 1.25rem; font-weight: 900; }
+
+        button {
+            border: 0;
+            border-radius: .65rem;
+            background: var(--blue-dark);
+            padding: .68rem .92rem;
+            color: #fff;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        button:hover { background: var(--orange); }
+        .secondary-button { border: 1px solid #94a9bb; background: #fff; color: var(--navy); }
+        .secondary-button:hover { background: #eef4f8; color: var(--navy); }
+
+        .week-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 1.5rem 0 1rem;
+            border-radius: var(--radius);
+            padding: 1rem 1.2rem;
+            background: linear-gradient(110deg, var(--blue-dark), var(--teal));
+            color: #fff;
+        }
+
+        .week-banner h3 { margin: 0; color: #fff; font-size: 1.35rem; }
+        .week-banner p { margin: .15rem 0 0; color: #e9ffff; }
+        .week-points { flex: 0 0 auto; border-radius: 999px; background: rgba(0,0,0,.22); padding: .4rem .75rem; font-weight: 850; }
+
+        .checklist {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .check-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: .72rem;
+            align-items: start;
+            border-bottom: 1px solid #dbe4ec;
+            padding: .82rem 0;
+        }
+
+        .check-item:last-child { border-bottom: 0; }
+        .check-item input { width: 1.25rem; height: 1.25rem; margin-top: .18rem; accent-color: var(--teal); }
+        .check-item label { cursor: pointer; }
+        .check-item input:checked + label { color: var(--muted); text-decoration: line-through; }
+
+        .task-detail { display: block; color: var(--muted); font-size: .92rem; text-decoration: none; }
+
+        .flow-list {
+            counter-reset: flow;
+            display: grid;
+            gap: .65rem;
+            margin: 1rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .flow-list li {
+            counter-increment: flow;
+            display: grid;
+            grid-template-columns: 2rem 1fr;
+            gap: .65rem;
+            align-items: start;
+        }
+
+        .flow-list li::before {
+            display: grid;
+            width: 2rem;
+            height: 2rem;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--teal);
+            color: #fff;
+            content: counter(flow);
+            font-weight: 900;
+        }
+
+        .mapping-table,
+        .rubric-table,
+        .metric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        caption { margin-bottom: .55rem; color: var(--navy); font-weight: 850; text-align: left; }
+        th, td { border: 1px solid var(--line); padding: .7rem .75rem; text-align: left; vertical-align: top; }
+        th { background: #eaf2f8; color: var(--navy); }
+        tbody tr:nth-child(even) { background: #f8fbfd; }
+        .points { text-align: right; font-weight: 850; }
+        tfoot th { background: var(--navy); color: #fff; }
+
+        .table-scroll { overflow-x: auto; }
+        .table-scroll table { min-width: 690px; }
+
+        code, .code {
+            border-radius: .3rem;
+            background: #e9eff5;
+            padding: .1rem .34rem;
+            color: #153f63;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        }
+
+        pre {
+            overflow-x: auto;
+            border-radius: .8rem;
+            background: #071d2f;
+            padding: 1rem;
+            color: #d8f8f1;
+        }
+
+        pre code { background: transparent; padding: 0; color: inherit; }
+
+        .query-card {
+            position: relative;
+            padding: 1.05rem 1.05rem 1.05rem 3.7rem;
+        }
+
+        .query-number {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: grid;
+            width: 2rem;
+            height: 2rem;
+            place-items: center;
+            border-radius: .6rem;
+            background: var(--purple);
+            color: #fff;
+            font-weight: 900;
+        }
+
+        .query-card h3 { font-size: 1.02rem; }
+        .query-card p { margin: .28rem 0; color: var(--muted); font-size: .94rem; }
+
+        .chart-list {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: .7rem;
+            margin: 1.2rem 0;
+        }
+
+        .chart-item {
+            min-height: 8rem;
+            border: 1px solid var(--line);
+            border-top: .45rem solid var(--blue);
+            border-radius: .8rem;
+            background: #f8fbfd;
+            padding: .8rem;
+        }
+
+        .chart-item:nth-child(2) { border-top-color: var(--teal); }
+        .chart-item:nth-child(3) { border-top-color: var(--orange); }
+        .chart-item:nth-child(4) { border-top-color: var(--purple); }
+        .chart-item:nth-child(5) { border-top-color: var(--green); }
+        .chart-item strong { display: block; color: var(--navy); }
+        .chart-item small { color: var(--muted); }
+
+        details { margin: .8rem 0; overflow: hidden; }
+        summary { cursor: pointer; padding: .9rem 1rem; color: var(--navy); font-weight: 850; }
+        details[open] summary { border-bottom: 1px solid var(--line); background: #f3f8fb; }
+        .details-content { padding: .2rem 1rem 1rem; }
+
+        .evidence-card { border-top: .35rem solid var(--teal); }
+        .evidence-card h3 { margin-top: 0; }
+
+        .pill {
+            display: inline-block;
+            border-radius: 999px;
+            background: var(--purple-soft);
+            padding: .2rem .58rem;
+            color: #4f247e;
+            font-size: .84rem;
+            font-weight: 850;
+        }
+
+        .submission-list li { margin-bottom: .55rem; }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: .8rem;
+            border-top: 1px solid var(--line);
+            background: #f3f7fa;
+            padding: 1.2rem clamp(1rem, 4vw, 2.5rem);
+        }
+
+        .footer-nav a { font-weight: 800; text-decoration: none; }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+        }
+
+        @media (max-width: 950px) {
+            .architecture { grid-template-columns: 1fr; }
+            .architecture-step { min-width: 0; }
+            .arrow { transform: rotate(90deg); }
+            .chart-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 700px) {
+            .shell { width: 100%; margin: 0; border: 0; border-radius: 0; }
+            .overview-grid, .week-grid, .query-grid, .evidence-grid, .role-grid { grid-template-columns: 1fr; }
+            .progress-panel { grid-template-columns: 1fr; }
+            .progress-value { text-align: left; }
+            .week-banner { align-items: flex-start; flex-direction: column; }
+            .chart-list { grid-template-columns: 1fr; }
+            main { padding-inline: 1rem; }
+            .hero { padding-inline: 1.2rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
+        @media print {
+            body { background: #fff; font-size: 10pt; }
+            .shell { width: 100%; margin: 0; border: 0; box-shadow: none; }
+            .course-nav, .project-nav, .progress-panel, #reset-progress { display: none !important; }
+            .hero { background: #fff; color: #000; padding: 1rem 0; }
+            .hero::after { display: none; }
+            .hero-lead, .eyebrow { color: #222; }
+            .hero-meta span { border-color: #777; background: #fff; }
+            main { padding: 0; }
+            .section { padding: 1rem 0; break-inside: auto; }
+            .card, .callout, details, table { break-inside: avoid; }
+            details:not([open]) > *:not(summary) { display: block; }
+            a { color: #000; text-decoration: none; }
+            .footer-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to project guide</a>
+    <div class="shell">
+        <nav class="course-nav" aria-label="CISS 340 course navigation">
+            <a href="/ciss340/">← CISS 340 Home</a>
+            <a href="/MySQL-Workbench.html">MySQL Workbench Lab</a>
+            <a href="/ShopFlow-Project.html" aria-current="page">ShopFlow Project</a>
+        </nav>
+
+        <header class="hero">
+            <p class="eyebrow">CISS 340 • Fall 2026 project guide</p>
+            <h1>ShopFlow Database Analytics</h1>
+            <p class="hero-lead">Build a guided database-backed website prototype from realistic, instructor-provided fictional data. You will see how a browser request reaches a database—and how useful information returns to a customer.</p>
+            <div class="hero-meta" aria-label="Project summary">
+                <span>3 weeks</span>
+                <span>100 points</span>
+                <span>Individual project</span>
+                <span>+10 optional challenge</span>
+            </div>
+        </header>
+
+        <nav class="project-nav" aria-label="On this page">
+            <a href="#start">Start here</a>
+            <a href="#week-1">Week 1</a>
+            <a href="#week-2">Week 2</a>
+            <a href="#week-3">Week 3</a>
+            <a href="#queries">10 queries</a>
+            <a href="#evidence">Evidence</a>
+            <a href="#rubric">Rubric</a>
+            <a href="#submit">Submit</a>
+        </nav>
+
+        <main id="main-content">
+            <section class="section" id="start" aria-labelledby="start-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">1</span>
+                    <div>
+                        <h2 id="start-title">Start with the big picture</h2>
+                        <p class="section-intro">This project connects the database ideas from class to a small public storefront. The website is public; the database credentials are never public.</p>
+                    </div>
+                </div>
+
+                <div class="architecture" role="list" aria-label="ShopFlow request and response path">
+                    <div class="architecture-step" role="listitem"><strong>Browser</strong><small>A customer clicks</small></div>
+                    <div class="arrow" aria-hidden="true">→</div>
+                    <div class="architecture-step" role="listitem"><strong>Netlify page</strong><small>JavaScript requests data</small></div>
+                    <div class="arrow" aria-hidden="true">→</div>
+                    <div class="architecture-step" role="listitem"><strong>Function / API</strong><small>Server-side SQL</small></div>
+                    <div class="arrow" aria-hidden="true">→</div>
+                    <div class="architecture-step" role="listitem"><strong>Aiven MySQL</strong><small><code>shopflow</code> database</small></div>
+                    <div class="arrow" aria-hidden="true">→</div>
+                    <div class="architecture-step" role="listitem"><strong>JSON</strong><small>Rows become data</small></div>
+                    <div class="arrow" aria-hidden="true">→</div>
+                    <div class="architecture-step" role="listitem"><strong>Browser</strong><small>The page updates</small></div>
+                </div>
+
+                <div class="callout">
+                    <h3>The sentence to remember</h3>
+                    <p>Publish a website that retrieves fictional data through a server-side API. The browser never connects directly to MySQL and never receives a database password.</p>
+                </div>
+
+                <div class="overview-grid">
+                    <article class="card">
+                        <h3>What you are building</h3>
+                        <ul>
+                            <li>A seven-table MySQL 8.4 LTS database named <code>shopflow</code></li>
+                            <li>A complete Colab notebook with cleaning, validation, ten queries, and five interactive visualizations</li>
+                            <li>A public, read-only GitHub and Netlify demonstration site showing selected views</li>
+                            <li>A short professional report explaining your decisions and AI verification</li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>What this is—and is not</h3>
+                        <p>This is a <strong>guided learning prototype</strong>, not a production shopping system. All ShopFlow records are fictional and intentionally messy. Do not add real customer information.</p>
+                        <p>The notebook contains the full analytics work. The website demonstrates selected database results; it does not have to reproduce every notebook query or chart.</p>
+                    </article>
+                </div>
+
+                <div class="role-grid" style="margin-top: 1rem;">
+                    <article class="card">
+                        <span class="pill">Setup account</span>
+                        <h3><code>avnadmin</code></h3>
+                        <p>Use the Aiven administrator only in Colab or the MySQL command line to create the schema, load data, and create the limited website user. Never place this account in GitHub or Netlify.</p>
+                    </article>
+                    <article class="card">
+                        <span class="pill">Website account</span>
+                        <h3><code>shopflow_reader</code></h3>
+                        <p>Use this <strong>SELECT-only</strong> account in the Netlify Function. Store its password as a Netlify environment variable, not in source code.</p>
+                    </article>
+                </div>
+
+                <div class="callout security">
+                    <h3>Credential and AI safety</h3>
+                    <p>Never paste passwords, tokens, complete connection strings, private keys, or unredacted records into an AI tool, notebook output, screenshot, GitHub repository, or report. Use Colab Secrets and Netlify environment variables. If a secret is exposed, rotate it immediately.</p>
+                    <p><strong>AI may produce drafts, but students must test, correct, document, and explain every submitted result.</strong></p>
+                </div>
+
+                <div class="progress-panel" aria-live="polite">
+                    <div>
+                        <p id="overall-progress-label">Your saved project progress</p>
+                        <div class="progress-track" role="progressbar" aria-labelledby="overall-progress-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar" id="overall-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="progress-value" id="overall-progress-value">0%</div>
+                        <button class="secondary-button" type="button" id="reset-progress">Reset</button>
+                    </div>
+                </div>
+                <p class="sr-only" id="storage-note">Checklist choices are saved only in this browser.</p>
+            </section>
+
+            <section class="section" id="week-1" aria-labelledby="week-1-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">2</span>
+                    <div>
+                        <h2 id="week-1-title">Week 1: Set up and design</h2>
+                        <p class="section-intro">First make the cloud connection understandable and safe. Then build the seven-table structure and load parent tables before their children.</p>
+                    </div>
+                </div>
+
+                <div class="week-banner">
+                    <div><h3>Outcome</h3><p>A working cloud database with a documented schema and valid relationships</p></div>
+                    <span class="week-points">25 rubric points</span>
+                </div>
+
+                <div class="week-grid">
+                    <article class="card">
+                        <h3>Account and connection</h3>
+                        <ul class="checklist" data-week="week1">
+                            <li class="check-item"><input type="checkbox" id="w1-1" data-task="w1-1" aria-describedby="storage-note"><label for="w1-1">Create or open an <strong>Aiven free-tier</strong> MySQL 8.4 LTS service.<span class="task-detail">The free tier assigns the cloud provider and region; use what Aiven gives you.</span></label></li>
+                            <li class="check-item"><input type="checkbox" id="w1-2" data-task="w1-2"><label for="w1-2">Save connection values in Colab Secrets and connect with TLS.<span class="task-detail">Do not print the password or complete connection string.</span></label></li>
+                            <li class="check-item"><input type="checkbox" id="w1-3" data-task="w1-3"><label for="w1-3">Connect once with the MySQL command-line client and identify the server version.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w1-4" data-task="w1-4"><label for="w1-4">Create and select the <code>shopflow</code> database.</label></li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Schema and relationships</h3>
+                        <ul class="checklist" data-week="week1">
+                            <li class="check-item"><input type="checkbox" id="w1-5" data-task="w1-5"><label for="w1-5">Draw the seven-table ERD with primary keys, foreign keys, and cardinality.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w1-6" data-task="w1-6"><label for="w1-6">Create tables with appropriate data types, required fields, and constraints.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w1-7" data-task="w1-7"><label for="w1-7">Explain the CSV-to-table mapping and why load order matters.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w1-8" data-task="w1-8"><label for="w1-8">Run <code>SHOW TABLES</code> and inspect each table definition before loading.</label></li>
+                        </ul>
+                    </article>
+                </div>
+
+                <h3>Canonical CSV map and load order</h3>
+                <div class="table-scroll" tabindex="0" aria-label="Scrollable CSV mapping table">
+                    <table class="mapping-table">
+                        <caption>Load parent data before rows that depend on it</caption>
+                        <thead><tr><th scope="col">Order</th><th scope="col">Instructor file</th><th scope="col">MySQL table</th><th scope="col">Relationship role</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td><code>products_catalog.csv</code></td><td><code>products</code></td><td>Parent for order items, reviews, and abandoned carts</td></tr>
+                            <tr><td>2</td><td><code>customers_data.csv</code></td><td><code>customers</code></td><td>Parent for orders, reviews, carts, and support tickets</td></tr>
+                            <tr><td>3</td><td><code>orders_history.csv</code></td><td><code>orders</code></td><td>Child of customers; parent for order items</td></tr>
+                            <tr><td>4</td><td><code>order_items_detail.csv</code></td><td><code>order_items</code></td><td>Child of orders and products</td></tr>
+                            <tr><td>5</td><td><code>product_reviews.csv</code></td><td><code>reviews</code></td><td>Child of customers and products</td></tr>
+                            <tr><td>6</td><td><code>abandoned_carts.csv</code></td><td><code>abandoned_carts</code></td><td>Child of customers</td></tr>
+                            <tr><td>7</td><td><code>customer_support_tickets.csv</code></td><td><code>support_tickets</code></td><td>Child of customers and orders</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout warning">
+                    <h3>Before you force a load</h3>
+                    <p>If a foreign-key error occurs, check load order, data types, and orphaned IDs first. Do not make “disable foreign-key checks” your normal solution; constraints are warning you that related data does not line up.</p>
+                </div>
+            </section>
+
+            <section class="section" id="week-2" aria-labelledby="week-2-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">3</span>
+                    <div>
+                        <h2 id="week-2-title">Week 2: Clean, validate, and analyze</h2>
+                        <p class="section-intro">Preserve raw values, document each decision, prove the loaded data is trustworthy, and then answer the ten required business questions.</p>
+                    </div>
+                </div>
+
+                <div class="week-banner">
+                    <div><h3>Outcome</h3><p>A reproducible notebook with validated data, ten SQL analyses, and five interactive charts</p></div>
+                    <span class="week-points">55 rubric points</span>
+                </div>
+
+                <div class="week-grid">
+                    <article class="card">
+                        <h3>Clean and load</h3>
+                        <ul class="checklist" data-week="week2">
+                            <li class="check-item"><input type="checkbox" id="w2-1" data-task="w2-1"><label for="w2-1">Profile all seven CSV files before changing any values.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w2-2" data-task="w2-2"><label for="w2-2">Clean inconsistent nulls, formats, and duplicates with reusable Python functions.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w2-3" data-task="w2-3"><label for="w2-3">Quarantine or flag uncertain dates and phone numbers; do not invent replacements.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w2-4" data-task="w2-4"><label for="w2-4">Load every table in parent-first order and record its final row count.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w2-5" data-task="w2-5"><label for="w2-5">Verify duplicates, nulls, foreign-key orphans, and control totals.</label></li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Query and communicate</h3>
+                        <ul class="checklist" data-week="week2">
+                            <li class="check-item"><input type="checkbox" id="w2-6" data-task="w2-6"><label for="w2-6">Write and explain all ten required SQL business queries.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w2-7" data-task="w2-7"><label for="w2-7">Test query grain so joins do not duplicate revenue or customers.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w2-8" data-task="w2-8"><label for="w2-8">Build five interactive Plotly chart types and explain why each fits its question.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w2-9" data-task="w2-9"><label for="w2-9">Write an executive summary with key performance indicators and evidence-based conclusions.</label></li>
+                        </ul>
+                    </article>
+                </div>
+
+                <h3>Metric contract: calculate the same idea the same way</h3>
+                <div class="table-scroll" tabindex="0" aria-label="Scrollable metric contract table">
+                    <table class="metric-table">
+                        <caption>Use these definitions in the notebook, report, API, and website</caption>
+                        <thead><tr><th scope="col">Metric</th><th scope="col">Canonical definition</th><th scope="col">Validation question</th></tr></thead>
+                        <tbody>
+                            <tr><td>Line revenue</td><td>Use <code>order_items.line_total</code>; verify it matches quantity × unit price after any applicable discount.</td><td>Does each order-item row appear exactly once before summing?</td></tr>
+                            <tr><td>Project revenue</td><td>Sum <code>line_total</code> at the order-item grain. Document and consistently reuse any instructor-approved order-status filter.</td><td>Did a later join to reviews or tickets multiply order items?</td></tr>
+                            <tr><td>Customer lifetime value</td><td>Project revenue grouped by one unique <code>customer_id</code>, then summarized by segment.</td><td>Are customers counted once in the segment summary?</td></tr>
+                            <tr><td>Conversion rate</td><td>Recovered abandoned carts divided by eligible abandoned carts, multiplied by 100.</td><td>Are the numerator and denominator from the same eligible population?</td></tr>
+                            <tr><td>Repeat customer</td><td>A customer with at least two qualifying completed orders.</td><td>Are distinct orders counted rather than line items?</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <h3>Use a control total</h3>
+                    <p>Before making charts, calculate one trusted total from the smallest correct table set. Compare every later revenue query to that control. If the total changes after joining reviews, support tickets, or other one-to-many tables, investigate the query grain.</p>
+                </div>
+            </section>
+
+            <section class="section" id="queries" aria-labelledby="queries-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">4</span>
+                    <div>
+                        <h2 id="queries-title">The ten required business queries</h2>
+                        <p class="section-intro">For each query, include commented SQL, a readable result, a plain-language interpretation, and one decision the result could support.</p>
+                    </div>
+                </div>
+
+                <div class="query-grid">
+                    <article class="card query-card"><span class="query-number">1</span><h3>Customer segmentation</h3><p>Which segments generate the most project revenue?</p><p><strong>Practice:</strong> joins, grouping, aggregation</p></article>
+                    <article class="card query-card"><span class="query-number">2</span><h3>Product performance matrix</h3><p>Which products lead by project revenue and by quantity?</p><p><strong>Practice:</strong> multiple aggregations, sorting</p></article>
+                    <article class="card query-card"><span class="query-number">3</span><h3>Customer lifetime value</h3><p>What is customer lifetime value by customer segment?</p><p><strong>Practice:</strong> staged calculations, grouping</p></article>
+                    <article class="card query-card"><span class="query-number">4</span><h3>Cart abandonment</h3><p>How effective are recovery emails for eligible abandoned carts?</p><p><strong>Practice:</strong> <code>CASE</code>, conversion rates</p></article>
+                    <article class="card query-card"><span class="query-number">5</span><h3>Support ticket patterns</h3><p>What issues appear most often by category and priority?</p><p><strong>Practice:</strong> multi-level grouping</p></article>
+                    <article class="card query-card"><span class="query-number">6</span><h3>Review sentiment</h3><p>How are ratings distributed within each product category?</p><p><strong>Practice:</strong> percentages, subqueries or CTEs</p></article>
+                    <article class="card query-card"><span class="query-number">7</span><h3>Order fulfillment</h3><p>What are the delivered, cancelled, and other status rates?</p><p><strong>Practice:</strong> status analysis, conditional aggregation</p></article>
+                    <article class="card query-card"><span class="query-number">8</span><h3>Revenue trends</h3><p>How does project revenue change by month or season?</p><p><strong>Practice:</strong> date functions, time series</p></article>
+                    <article class="card query-card"><span class="query-number">9</span><h3>Cross-sell opportunities</h3><p>Which products are frequently purchased together?</p><p><strong>Practice:</strong> self-joins, pair de-duplication</p></article>
+                    <article class="card query-card"><span class="query-number">10</span><h3>Customer retention</h3><p>What does repeat-purchase behavior reveal?</p><p><strong>Practice:</strong> CTEs or window functions, cohorts</p></article>
+                </div>
+
+                <h3>Five interactive visualization requirements</h3>
+                <div class="chart-list" role="list">
+                    <div class="chart-item" role="listitem"><strong>Pie or donut</strong><small>Show one meaningful part-to-whole relationship.</small></div>
+                    <div class="chart-item" role="listitem"><strong>Bar</strong><small>Compare categories, segments, or ranked products.</small></div>
+                    <div class="chart-item" role="listitem"><strong>Line</strong><small>Show a metric changing over time.</small></div>
+                    <div class="chart-item" role="listitem"><strong>Sunburst</strong><small>Explore a justified hierarchy, such as category to product.</small></div>
+                    <div class="chart-item" role="listitem"><strong>Heatmap</strong><small>Reveal patterns across two dimensions.</small></div>
+                </div>
+                <p>Every Plotly chart must have a descriptive title, readable labels, appropriate units, useful hover text, and a short explanation of why that chart type supports the business question. Decoration alone does not earn credit.</p>
+            </section>
+
+            <section class="section" id="week-3" aria-labelledby="week-3-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">5</span>
+                    <div>
+                        <h2 id="week-3-title">Week 3: Secure, publish, and explain</h2>
+                        <p class="section-intro">Create a least-privilege database user, connect the supplied website structure through a same-origin Netlify Function, test the complete request path, and explain your learning.</p>
+                    </div>
+                </div>
+
+                <div class="week-banner">
+                    <div><h3>Outcome</h3><p>A public read-only demonstration that retrieves selected fictional data safely</p></div>
+                    <span class="week-points">20 rubric points</span>
+                </div>
+
+                <div class="week-grid">
+                    <article class="card">
+                        <h3>Secure and publish</h3>
+                        <ul class="checklist" data-week="week3">
+                            <li class="check-item"><input type="checkbox" id="w3-1" data-task="w3-1"><label for="w3-1">Create <code>shopflow_reader</code> and grant only <code>SELECT</code> on <code>shopflow.*</code>.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-2" data-task="w3-2"><label for="w3-2">Prove SELECT succeeds and INSERT fails for the reader account.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-3" data-task="w3-3"><label for="w3-3">Store connection values as Netlify environment variables.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-4" data-task="w3-4"><label for="w3-4">Call the API with the same-origin path <code>/.netlify/functions/...</code>.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-5" data-task="w3-5"><label for="w3-5">Publish the repository on GitHub and deploy the site on Netlify.</label></li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Test and explain</h3>
+                        <ul class="checklist" data-week="week3">
+                            <li class="check-item"><input type="checkbox" id="w3-6" data-task="w3-6"><label for="w3-6">Test product loading, search, empty states, and at least one analytics view.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-7" data-task="w3-7"><label for="w3-7">Trace one click from browser to function to SQL to JSON and back.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-8" data-task="w3-8"><label for="w3-8">Verify the public repository contains no secrets or real personal data.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-9" data-task="w3-9"><label for="w3-9">Complete three AI evidence cards and a 500-word reflection.</label></li>
+                            <li class="check-item"><input type="checkbox" id="w3-10" data-task="w3-10"><label for="w3-10">Submit the notebook, report, GitHub URL, Netlify URL, and final checklist.</label></li>
+                        </ul>
+                    </article>
+                </div>
+
+                <details>
+                    <summary>Recommended read-only account pattern</summary>
+                    <div class="details-content">
+                        <p>Use a unique password stored outside the notebook and repository. Your final code must retrieve it from a secret or environment variable.</p>
+                        <pre><code>CREATE USER 'shopflow_reader'@'%'
+  IDENTIFIED BY 'use-a-secret-not-this-placeholder';
+GRANT SELECT ON shopflow.* TO 'shopflow_reader'@'%';
+SHOW GRANTS FOR 'shopflow_reader'@'%';</code></pre>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>What “same-origin function” means</summary>
+                    <div class="details-content">
+                        <p>The page and function are deployed together. Browser JavaScript requests a relative path instead of a hard-coded deployment hostname:</p>
+                        <pre><code>const API_BASE_URL = '/.netlify/functions';
+const response = await fetch(`${API_BASE_URL}/products`);</code></pre>
+                        <p>The function—not the browser—uses the reader credentials to query Aiven and return JSON.</p>
+                    </div>
+                </details>
+            </section>
+
+            <section class="section" id="evidence" aria-labelledby="evidence-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">6</span>
+                    <div>
+                        <h2 id="evidence-title">Targeted evidence, not screenshot overload</h2>
+                        <p class="section-intro">Your executed notebook and working links are the primary evidence. Add only the screenshots below, make them readable, and redact secrets.</p>
+                    </div>
+                </div>
+
+                <div class="evidence-grid">
+                    <article class="card evidence-card">
+                        <h3>Week 1 evidence</h3>
+                        <ul>
+                            <li>Aiven service showing Running, MySQL 8.4, and its assigned provider/region</li>
+                            <li>Successful command-line and Colab connection with secrets hidden</li>
+                            <li>ERD plus <code>SHOW TABLES</code></li>
+                        </ul>
+                    </article>
+                    <article class="card evidence-card">
+                        <h3>Week 2 evidence</h3>
+                        <ul>
+                            <li>One clear before/after cleaning example</li>
+                            <li>One validation summary with row counts, duplicates, orphans, and control totals</li>
+                            <li>One dashboard view showing the five interactive visualizations</li>
+                        </ul>
+                    </article>
+                    <article class="card evidence-card">
+                        <h3>Week 3 evidence</h3>
+                        <ul>
+                            <li><code>SHOW GRANTS</code> plus SELECT success and INSERT denial</li>
+                            <li>Live site with products/search and a selected analytics view</li>
+                            <li>Browser Network panel showing one successful JSON response</li>
+                        </ul>
+                    </article>
+                    <article class="card evidence-card">
+                        <h3>Evidence rules</h3>
+                        <ul>
+                            <li>Label each image and explain what it proves</li>
+                            <li>Include your name and capture date in the caption—not inside secret-bearing tools</li>
+                            <li>Redact passwords, tokens, connection strings, and private values</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <h3 style="margin-top: 1.6rem;">Three AI evidence cards</h3>
+                <p>Choose three moments that changed your understanding or fixed a meaningful problem. Each card should answer:</p>
+                <ol>
+                    <li><strong>Prompt:</strong> What did you ask, without including secrets or private data?</li>
+                    <li><strong>Prediction:</strong> What did you expect the suggestion to do?</li>
+                    <li><strong>Test:</strong> What query, control total, error message, or comparison did you use?</li>
+                    <li><strong>Correction:</strong> What was wrong or incomplete, and how did you revise it?</li>
+                    <li><strong>Lesson:</strong> What can you now explain without AI?</li>
+                </ol>
+
+                <div class="callout">
+                    <h3>500-word reflection</h3>
+                    <p>Explain the data flow, schema decisions, cleaning work, and selected queries. Discuss how your three AI examples affected your reasoning, where AI was unreliable, how you verified its work, and what you would do differently next time.</p>
+                </div>
+            </section>
+
+            <section class="section" id="rubric" aria-labelledby="rubric-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">7</span>
+                    <div>
+                        <h2 id="rubric-title">One grading structure</h2>
+                        <p class="section-intro">The database and its analysis remain the center of the project. The website demonstrates how those results reach a user.</p>
+                    </div>
+                </div>
+
+                <div class="table-scroll" tabindex="0" aria-label="Scrollable project rubric">
+                    <table class="rubric-table">
+                        <caption>ShopFlow project rubric</caption>
+                        <thead><tr><th scope="col">Category</th><th scope="col">What earns credit</th><th scope="col" class="points">Points</th></tr></thead>
+                        <tbody>
+                            <tr><td>Secure setup and data flow</td><td>MySQL 8.4 service, secure connections, accurate architecture explanation</td><td class="points">10</td></tr>
+                            <tr><td>Schema and ERD</td><td>Seven mapped tables, sound data types, keys, constraints, and cardinality</td><td class="points">15</td></tr>
+                            <tr><td>Cleaning, load, and validation</td><td>Reproducible cleaning, parent-first load, row counts, duplicates, orphans, and control totals</td><td class="points">20</td></tr>
+                            <tr><td>SQL and business reasoning</td><td>Ten correct queries with clear explanations, verified grain, and useful interpretations</td><td class="points">25</td></tr>
+                            <tr><td>Interactive visualizations</td><td>Five purposeful Plotly chart types with labels, interactivity, and rationale</td><td class="points">10</td></tr>
+                            <tr><td>Website and API</td><td>Public GitHub/Netlify site, same-origin function, read-only access, working selected views</td><td class="points">10</td></tr>
+                            <tr><td>AI testing, documentation, and reflection</td><td>Three evidence cards, targeted evidence, 500-word reflection, clear explanation</td><td class="points">10</td></tr>
+                        </tbody>
+                        <tfoot><tr><th scope="row" colspan="2">Required project total</th><th class="points">100</th></tr></tfoot>
+                    </table>
+                </div>
+
+                <div class="callout warning">
+                    <h3>Optional production architecture challenge: +10</h3>
+                    <p>Design—but do not need to implement—a future production architecture. Address scaling, monitoring, backup/recovery, availability, and security. Clearly distinguish the class prototype from your proposed production design.</p>
+                </div>
+            </section>
+
+            <section class="section" id="submit" aria-labelledby="submit-title">
+                <div class="section-heading">
+                    <span class="section-number" aria-hidden="true">8</span>
+                    <div>
+                        <h2 id="submit-title">Final submission</h2>
+                        <p class="section-intro">Submit one complete package. Open every shared link in a private browser window before turning it in.</p>
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <article class="card">
+                        <h3>Required items</h3>
+                        <ol class="submission-list">
+                            <li>Executed Google Colab notebook link with comment access</li>
+                            <li>PDF report with executive summary, ERD, targeted evidence, and 500-word reflection</li>
+                            <li>Completed three-week checklist</li>
+                            <li>Public GitHub repository URL with README and no secrets</li>
+                            <li>Public Netlify website URL with working selected views</li>
+                        </ol>
+                    </article>
+                    <article class="card">
+                        <h3>Final five-minute test</h3>
+                        <ul class="checklist" data-week="final">
+                            <li class="check-item"><input type="checkbox" id="f-1" data-task="f-1"><label for="f-1">Every notebook cell runs from top to bottom.</label></li>
+                            <li class="check-item"><input type="checkbox" id="f-2" data-task="f-2"><label for="f-2">All ten queries and five charts are present and explained.</label></li>
+                            <li class="check-item"><input type="checkbox" id="f-3" data-task="f-3"><label for="f-3">The live site loads products, search, and analytics.</label></li>
+                            <li class="check-item"><input type="checkbox" id="f-4" data-task="f-4"><label for="f-4">Repository search finds no passwords, tokens, or connection strings.</label></li>
+                            <li class="check-item"><input type="checkbox" id="f-5" data-task="f-5"><label for="f-5">Links and permissions work when signed out.</label></li>
+                        </ul>
+                    </article>
+                </div>
+
+                <h3>Official tools and current references</h3>
+                <ul>
+                    <li><a href="https://aiven.io/docs/products/mysql/reference/version-lifecycle" target="_blank" rel="noopener">Aiven for MySQL version lifecycle<span class="sr-only"> (opens in a new tab)</span></a></li>
+                    <li><a href="https://aiven.io/docs/products/mysql/concepts/mysql-free-tier" target="_blank" rel="noopener">Aiven free-tier details<span class="sr-only"> (opens in a new tab)</span></a></li>
+                    <li><a href="https://colab.research.google.com/" target="_blank" rel="noopener">Google Colab<span class="sr-only"> (opens in a new tab)</span></a></li>
+                    <li><a href="https://github.com/" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+                    <li><a href="https://docs.netlify.com/build/functions/overview/" target="_blank" rel="noopener">Netlify Functions overview<span class="sr-only"> (opens in a new tab)</span></a></li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="footer-nav" aria-label="Previous and home navigation">
+            <a href="/MySQL-Workbench.html">← Previous: MySQL Workbench Lab</a>
+            <a href="/ciss340/">CISS 340 Home →</a>
+        </footer>
+    </div>
+
+    <script>
+        (() => {
+            const storageKey = 'ciss340-shopflow-progress-v1';
+            const checkboxes = Array.from(document.querySelectorAll('[data-task]'));
+            const progressBar = document.getElementById('overall-progress-bar');
+            const progressTrack = progressBar.parentElement;
+            const progressValue = document.getElementById('overall-progress-value');
+            const resetButton = document.getElementById('reset-progress');
+
+            function readProgress() {
+                try {
+                    return JSON.parse(localStorage.getItem(storageKey)) || {};
+                } catch (error) {
+                    return {};
+                }
+            }
+
+            function writeProgress(state) {
+                try {
+                    localStorage.setItem(storageKey, JSON.stringify(state));
+                } catch (error) {
+                    // The checklist remains usable when browser storage is unavailable.
+                }
+            }
+
+            function updateProgress() {
+                const complete = checkboxes.filter((checkbox) => checkbox.checked).length;
+                const percent = checkboxes.length ? Math.round((complete / checkboxes.length) * 100) : 0;
+                progressBar.style.width = `${percent}%`;
+                progressTrack.setAttribute('aria-valuenow', String(percent));
+                progressValue.textContent = `${percent}%`;
+            }
+
+            const saved = readProgress();
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = saved[checkbox.dataset.task] === true;
+                checkbox.addEventListener('change', () => {
+                    const state = readProgress();
+                    state[checkbox.dataset.task] = checkbox.checked;
+                    writeProgress(state);
+                    updateProgress();
+                });
+            });
+
+            resetButton.addEventListener('click', () => {
+                checkboxes.forEach((checkbox) => { checkbox.checked = false; });
+                try { localStorage.removeItem(storageKey); } catch (error) { /* no-op */ }
+                updateProgress();
+                checkboxes[0]?.focus();
+            });
+
+            updateProgress();
+        })();
+    </script>
+</body>
+</html>
