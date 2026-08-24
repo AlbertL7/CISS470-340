@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 4: Retrieving Data from Multiple Tables - MySQL</title>
+    <title>Chapter 4: How to retrieve data from two or more tables - MySQL</title>
     <style>
         * {
             margin: 0;
@@ -101,6 +101,13 @@
         }
 
         .nav-item {
+            display: block;
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
             padding: 0.75rem;
             margin: 0.25rem 0;
             cursor: pointer;
@@ -395,14 +402,114 @@
             box-shadow: 0 5px 15px rgba(0, 117, 143, 0.3);
         }
 
+        .course-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem 2rem;
+        }
+
+        .course-nav.top {
+            margin: 0 0 0.75rem;
+            padding: 0;
+        }
+
+        .course-nav a {
+            color: white;
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 999px;
+            padding: 0.55rem 0.9rem;
+            text-decoration: none;
+            font-weight: 650;
+        }
+
+        .nav-item:focus-visible,
+        .tab:focus-visible,
+        .course-nav a:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 3px;
+        }
+
+        table caption {
+            color: var(--text);
+            font-weight: 700;
+            text-align: left;
+            padding: 0 0 0.65rem;
+        }
+
         @media (max-width: 768px) {
+            .header {
+                position: static;
+                padding: 1.5rem 0;
+            }
+
+            .header-content,
+            .course-nav {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            h1 {
+                font-size: clamp(1.45rem, 7vw, 2rem);
+                overflow-wrap: anywhere;
+            }
+
             .container {
                 flex-direction: column;
+                width: 100%;
+                margin: 1rem auto;
+                padding: 0 1rem;
+                gap: 1rem;
             }
             
             .sidebar {
                 width: 100%;
                 position: static;
+            }
+
+            .section,
+            .visual-demo {
+                padding: 1.25rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: 1 1 10rem;
+                padding: 0.7rem;
+            }
+
+            .result-table {
+                display: block;
+                max-width: 100%;
+                overflow-x: auto;
+            }
+
+            .code-block,
+            pre {
+                max-width: 100%;
+                overflow-x: auto;
+            }
+
+            .join-arrow {
+                display: block;
+                transform: rotate(90deg);
+                margin: 0.5rem auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -412,22 +519,25 @@
     
     <header class="header">
         <div class="header-content">
-            <h1>📊 Chapter 4: How to Retrieve Data from Two or More Tables</h1>
+            <nav class="course-nav top" aria-label="CISS 340 course navigation">
+                <a href="/ciss340/">← CISS 340 Home</a>
+            </nav>
+            <h1>📊 Chapter 4: How to retrieve data from two or more tables</h1>
             <p class="subtitle">Master the art of combining data with joins and unions in MySQL</p>
         </div>
     </header>
 
     <div class="container">
-        <nav class="sidebar">
+        <nav class="sidebar" aria-label="Chapter 4 sections">
             <div class="nav-title">Chapter Contents</div>
-            <div class="nav-item active" data-section="intro">📚 Introduction</div>
-            <div class="nav-item" data-section="inner-joins">🔗 Inner Joins</div>
-            <div class="nav-item" data-section="table-aliases">🏷️ Table Aliases</div>
-            <div class="nav-item" data-section="advanced-inner">🚀 Advanced Inner Joins</div>
-            <div class="nav-item" data-section="outer-joins">↔️ Outer Joins</div>
-            <div class="nav-item" data-section="join-keywords">🔑 Join Keywords</div>
-            <div class="nav-item" data-section="unions">⚡ Unions</div>
-            <div class="nav-item" data-section="summary">✅ Summary</div>
+            <button type="button" class="nav-item active" data-section="intro" aria-current="location">📚 Introduction</button>
+            <button type="button" class="nav-item" data-section="inner-joins">🔗 Inner Joins</button>
+            <button type="button" class="nav-item" data-section="table-aliases">🏷️ Table Aliases</button>
+            <button type="button" class="nav-item" data-section="advanced-inner">🚀 Advanced Inner Joins</button>
+            <button type="button" class="nav-item" data-section="outer-joins">↔️ Outer Joins</button>
+            <button type="button" class="nav-item" data-section="join-keywords">🔑 Join Keywords</button>
+            <button type="button" class="nav-item" data-section="unions">⚡ Unions</button>
+            <button type="button" class="nav-item" data-section="summary">✅ Summary</button>
         </nav>
 
         <main class="content">
@@ -706,7 +816,7 @@
                         <li><strong>INNER JOIN:</strong> Shows only guests who were invited AND responded</li>
                         <li><strong>LEFT JOIN:</strong> Shows ALL invited guests, whether they responded or not</li>
                         <li><strong>RIGHT JOIN:</strong> Shows ALL responses, even unexpected ones</li>
-                        <li><strong>FULL JOIN:</strong> Shows everyone involved - all invitations and all responses</li>
+                        <li><strong>FULL OUTER JOIN (conceptual):</strong> Shows everyone involved—all invitations and all responses. MySQL has no direct FULL OUTER JOIN operator; a later example simulates the result with UNION.</li>
                     </ul>
                 </div>
 
@@ -751,13 +861,13 @@
 
                 <h3>Practical Outer Join Examples</h3>
 
-                <div class="tabs">
-                    <button class="tab active" onclick="showTab(event, 'finding-missing')">Finding Missing Data</button>
-                    <button class="tab" onclick="showTab(event, 'preserving-all')">Preserving All Records</button>
-                    <button class="tab" onclick="showTab(event, 'exclusive-data')">Exclusive Data</button>
+                <div class="tabs" role="tablist" aria-label="Outer join examples">
+                    <button type="button" id="tab-finding-missing" class="tab active" role="tab" aria-selected="true" aria-controls="finding-missing" onclick="showTab(event, 'finding-missing')">Finding Missing Data</button>
+                    <button type="button" id="tab-preserving-all" class="tab" role="tab" aria-selected="false" aria-controls="preserving-all" onclick="showTab(event, 'preserving-all')">Preserving All Records</button>
+                    <button type="button" id="tab-exclusive-data" class="tab" role="tab" aria-selected="false" aria-controls="exclusive-data" onclick="showTab(event, 'exclusive-data')">Exclusive Data</button>
                 </div>
 
-                <div id="finding-missing" class="tab-content active">
+                <div id="finding-missing" class="tab-content active" role="tabpanel" aria-labelledby="tab-finding-missing">
                     <div class="code-block">
                         <pre><span class="comment">-- Find customers who have never placed an order</span>
 <span class="keyword">SELECT</span> 
@@ -771,7 +881,7 @@
                     </div>
                 </div>
 
-                <div id="preserving-all" class="tab-content">
+                <div id="preserving-all" class="tab-content" role="tabpanel" aria-labelledby="tab-preserving-all" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Show all departments with employee counts (including empty departments)</span>
 <span class="keyword">SELECT</span> 
@@ -786,7 +896,7 @@
                     </div>
                 </div>
 
-                <div id="exclusive-data" class="tab-content">
+                <div id="exclusive-data" class="tab-content" role="tabpanel" aria-labelledby="tab-exclusive-data" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Find products that have never been reviewed</span>
 <span class="keyword">SELECT</span> 
@@ -797,7 +907,7 @@
 <span class="keyword">LEFT JOIN</span> <span class="table-name">reviews</span> <span class="table-name">r</span>
     <span class="keyword">ON</span> <span class="table-name">p</span>.<span class="column">product_id</span> = <span class="table-name">r</span>.<span class="column">product_id</span>
 <span class="keyword">WHERE</span> <span class="table-name">r</span>.<span class="column">review_id</span> <span class="keyword">IS NULL</span>
-    <span class="keyword">AND</span> <span class="table-name">p</span>.<span class="column">launch_date</span> < <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> 30 <span class="keyword">DAY</span>);</pre>
+    <span class="keyword">AND</span> <span class="table-name">p</span>.<span class="column">launch_date</span> &lt; <span class="keyword">DATE_SUB</span>(<span class="keyword">NOW</span>(), <span class="keyword">INTERVAL</span> 30 <span class="keyword">DAY</span>);</pre>
                     </div>
                 </div>
             </section>
@@ -823,7 +933,7 @@
                 </div>
 
                 <div class="tip-box">
-                    USING automatically removes duplicate columns from the result set, while ON keeps both columns.
+                    USING coalesces each named join column into one output column. Other columns with different names remain separate; an ON join keeps both join-key columns when you select <code>*</code>.
                 </div>
 
                 <h3>Natural Joins</h3>
@@ -981,10 +1091,10 @@
                 </div>
 
                 <h4>Simulating a Full Outer Join</h4>
-                <p>MySQL doesn't support FULL OUTER JOIN, but you can simulate it using UNION:</p>
+                <p>MySQL doesn't support FULL OUTER JOIN directly. This pattern preserves duplicates by combining a LEFT JOIN with only the unmatched rows from the reverse direction:</p>
 
                 <div class="code-block">
-                    <pre><span class="comment">-- Simulate FULL OUTER JOIN with UNION</span>
+                    <pre><span class="comment">-- Simulate FULL OUTER JOIN without collapsing legitimate duplicates</span>
 <span class="comment">-- Get all customers and their orders (including customers without orders)</span>
 <span class="keyword">SELECT</span> 
     <span class="table-name">c</span>.<span class="column">customer_id</span>,
@@ -995,17 +1105,18 @@
 <span class="keyword">LEFT JOIN</span> <span class="table-name">orders</span> <span class="table-name">o</span>
     <span class="keyword">ON</span> <span class="table-name">c</span>.<span class="column">customer_id</span> = <span class="table-name">o</span>.<span class="column">customer_id</span>
 
-<span class="keyword">UNION</span>
+<span class="keyword">UNION ALL</span>
 
-<span class="comment">-- Get all orders (including any orphaned orders)</span>
+<span class="comment">-- Add only orders that had no matching customer</span>
 <span class="keyword">SELECT</span> 
     <span class="table-name">c</span>.<span class="column">customer_id</span>,
     <span class="table-name">c</span>.<span class="column">customer_name</span>,
     <span class="table-name">o</span>.<span class="column">order_id</span>,
     <span class="table-name">o</span>.<span class="column">order_date</span>
-<span class="keyword">FROM</span> <span class="table-name">customers</span> <span class="table-name">c</span>
-<span class="keyword">RIGHT JOIN</span> <span class="table-name">orders</span> <span class="table-name">o</span>
-    <span class="keyword">ON</span> <span class="table-name">c</span>.<span class="column">customer_id</span> = <span class="table-name">o</span>.<span class="column">customer_id</span>;</pre>
+<span class="keyword">FROM</span> <span class="table-name">orders</span> <span class="table-name">o</span>
+<span class="keyword">LEFT JOIN</span> <span class="table-name">customers</span> <span class="table-name">c</span>
+    <span class="keyword">ON</span> <span class="table-name">c</span>.<span class="column">customer_id</span> = <span class="table-name">o</span>.<span class="column">customer_id</span>
+<span class="keyword">WHERE</span> <span class="table-name">c</span>.<span class="column">customer_id</span> <span class="keyword">IS NULL</span>;</pre>
                 </div>
 
                 <div class="tip-box">
@@ -1020,10 +1131,11 @@
                 <div class="concept-card">
                     <h4>Join Types Quick Reference</h4>
                     <table class="result-table">
+                        <caption>Comparison of MySQL join types</caption>
                         <tr>
-                            <th>Join Type</th>
-                            <th>Returns</th>
-                            <th>Use When</th>
+                            <th scope="col">Join Type</th>
+                            <th scope="col">Returns</th>
+                            <th scope="col">Use When</th>
                         </tr>
                         <tr>
                             <td>INNER JOIN</td>
@@ -1089,10 +1201,10 @@
                 <div class="concept-card">
                     <h4>Optimizing Join Performance</h4>
                     <ul style="margin-left: 2rem;">
-                        <li>📍 <strong>Index foreign keys:</strong> Always index columns used in ON clauses</li>
-                        <li>📍 <strong>Join order matters:</strong> Start with smaller tables when possible</li>
-                        <li>📍 <strong>Filter early:</strong> Use WHERE clauses to reduce data before joining</li>
-                        <li>📍 <strong>Avoid functions in ON clauses:</strong> They prevent index usage</li>
+                        <li>📍 <strong>Index join keys:</strong> Foreign-key and frequently joined columns are strong index candidates; verify with EXPLAIN</li>
+                        <li>📍 <strong>Let the optimizer plan:</strong> Table size, selectivity, indexes, and statistics all influence join order</li>
+                        <li>📍 <strong>Filter thoughtfully:</strong> Selective predicates can reduce work, but confirm the actual execution plan</li>
+                        <li>📍 <strong>Use sargable conditions:</strong> Functions on indexed join columns can make index access harder; inspect the plan rather than assuming</li>
                         <li>📍 <strong>Use EXPLAIN:</strong> Analyze query execution plans</li>
                         <li>📍 <strong>Consider denormalization:</strong> For frequently joined tables</li>
                     </ul>
@@ -1118,6 +1230,12 @@
         </main>
     </div>
 
+    <nav class="course-nav" aria-label="Previous and next chapters">
+        <a href="/ciss340-chapter3">← Chapter 3</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter5">Chapter 5 →</a>
+    </nav>
+
     <script>
         // Progress bar
         window.addEventListener('scroll', () => {
@@ -1130,24 +1248,37 @@
         // Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.removeAttribute('aria-current');
+                });
                 this.classList.add('active');
+                this.setAttribute('aria-current', 'location');
                 
                 const section = document.getElementById(this.dataset.section);
-                section.scrollIntoView({ behavior: 'smooth' });
+                section.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
             });
         });
 
         // Tab functionality
         function showTab(evt, tabName) {
             const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                content.hidden = true;
+            });
             
             const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
             
-            document.getElementById(tabName).classList.add('active');
+            const activePanel = document.getElementById(tabName);
+            activePanel.classList.add('active');
+            activePanel.hidden = false;
             evt.currentTarget.classList.add('active');
+            evt.currentTarget.setAttribute('aria-selected', 'true');
         }
 
         // Scroll spy for active navigation
@@ -1165,8 +1296,10 @@
             
             navItems.forEach(item => {
                 item.classList.remove('active');
+                item.removeAttribute('aria-current');
                 if (item.dataset.section === current) {
                     item.classList.add('active');
+                    item.setAttribute('aria-current', 'location');
                 }
             });
         });

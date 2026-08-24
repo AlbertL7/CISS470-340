@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 6: How to Code Summary Queries - MySQL</title>
+    <title>Chapter 6: How to code summary queries - MySQL</title>
     <style>
         * {
             margin: 0;
@@ -101,6 +101,13 @@
         }
 
         .nav-item {
+            display: block;
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
             padding: 0.75rem;
             margin: 0.25rem 0;
             cursor: pointer;
@@ -437,14 +444,119 @@
             font-size: 0.95rem;
         }
 
+        .course-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem 2rem;
+        }
+
+        .course-nav.top {
+            margin: 0 0 0.75rem;
+            padding: 0;
+        }
+
+        .course-nav a {
+            color: white;
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 999px;
+            padding: 0.55rem 0.9rem;
+            text-decoration: none;
+            font-weight: 650;
+        }
+
+        .nav-item:focus-visible,
+        .tab:focus-visible,
+        .course-nav a:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 3px;
+        }
+
+        table caption {
+            color: var(--text);
+            font-weight: 700;
+            text-align: left;
+            padding: 0 0 0.65rem;
+        }
+
         @media (max-width: 768px) {
+            .header {
+                position: static;
+                padding: 1.5rem 0;
+            }
+
+            .header-content,
+            .course-nav {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            h1 {
+                font-size: clamp(1.4rem, 7vw, 2rem);
+                overflow-wrap: anywhere;
+            }
+
             .container {
                 flex-direction: column;
+                width: 100%;
+                margin: 1rem auto;
+                padding: 0 1rem;
+                gap: 1rem;
             }
             
             .sidebar {
                 width: 100%;
                 position: static;
+            }
+
+            .section,
+            .visual-demo {
+                padding: 1.25rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: 1 1 10rem;
+                padding: 0.7rem;
+            }
+
+            .result-table,
+            table {
+                display: block;
+                max-width: 100%;
+                overflow-x: auto;
+            }
+
+            .code-block,
+            pre,
+            .window-demo {
+                max-width: 100%;
+                overflow-x: auto;
+            }
+
+            .visual-demo > div[style*="display: flex"] {
+                flex-direction: column;
+            }
+
+            .visual-demo > div[style*="display: flex"] > div {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -454,23 +566,26 @@
     
     <header class="header">
         <div class="header-content">
-            <h1>📊 Chapter 6: How to Code Summary Queries - Enhanced Edition</h1>
+            <nav class="course-nav top" aria-label="CISS 340 course navigation">
+                <a href="/ciss340/">← CISS 340 Home</a>
+            </nav>
+            <h1>📊 Chapter 6: How to code summary queries</h1>
             <p class="subtitle">Master aggregate functions and data summarization with detailed explanations</p>
         </div>
     </header>
 
     <div class="container">
-        <nav class="sidebar">
+        <nav class="sidebar" aria-label="Chapter 6 sections">
             <div class="nav-title">Chapter Contents</div>
-            <div class="nav-item active" data-section="intro">📚 Introduction</div>
-            <div class="nav-item" data-section="aggregate-basics">🔢 Aggregate Functions</div>
-            <div class="nav-item" data-section="aggregate-queries">📈 Using Aggregates</div>
-            <div class="nav-item" data-section="groupby">📊 GROUP BY Clause</div>
-            <div class="nav-item" data-section="having">🎯 HAVING Clause</div>
-            <div class="nav-item" data-section="rollup">📋 WITH ROLLUP</div>
-            <div class="nav-item" data-section="window">🪟 Window Functions</div>
-            <div class="nav-item" data-section="frames">🖼️ Frames & Windows</div>
-            <div class="nav-item" data-section="summary">✅ Summary</div>
+            <button type="button" class="nav-item active" data-section="intro" aria-current="location">📚 Introduction</button>
+            <button type="button" class="nav-item" data-section="aggregate-basics">🔢 Aggregate Functions</button>
+            <button type="button" class="nav-item" data-section="aggregate-queries">📈 Using Aggregates</button>
+            <button type="button" class="nav-item" data-section="groupby">📊 GROUP BY Clause</button>
+            <button type="button" class="nav-item" data-section="having">🎯 HAVING Clause</button>
+            <button type="button" class="nav-item" data-section="rollup">📋 WITH ROLLUP</button>
+            <button type="button" class="nav-item" data-section="window">🪟 Window Functions</button>
+            <button type="button" class="nav-item" data-section="frames">🖼️ Frames & Windows</button>
+            <button type="button" class="nav-item" data-section="summary">✅ Summary</button>
         </nav>
 
         <main class="content">
@@ -609,7 +724,7 @@
                     NULL values are ignored by all aggregate functions except COUNT(*). This affects calculations:
                     <ul style="margin-left: 1rem;">
                         <li>AVG ignores NULLs, so AVG of (10, 20, NULL) = 15, not 10</li>
-                        <li>SUM treats NULL as 0, but only for addition</li>
+                        <li>SUM ignores NULL inputs; if no non-NULL values remain, SUM returns NULL</li>
                         <li>COUNT(column) doesn't count NULL values</li>
                         <li>MIN/MAX skip over NULL values entirely</li>
                     </ul>
@@ -625,8 +740,8 @@
     <span class="comment">-- Average price rounded to 2 decimal places for display</span>
     <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">unit_price</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">average_price</span>,
     
-    <span class="comment">-- Standard deviation shows price variance (higher = more varied pricing)</span>
-    <span class="function">ROUND</span>(<span class="function">STDDEV</span>(<span class="column">unit_price</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">price_variance</span>,
+    <span class="comment">-- Standard deviation measures price spread (higher = more varied pricing)</span>
+    <span class="function">ROUND</span>(<span class="function">STDDEV</span>(<span class="column">unit_price</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">price_stddev</span>,
     
     <span class="comment">-- Coefficient of variation (CV) = stddev/mean (measures relative variability)</span>
     <span class="function">ROUND</span>(<span class="function">STDDEV</span>(<span class="column">unit_price</span>) / <span class="function">AVG</span>(<span class="column">unit_price</span>) * <span class="number">100</span>, <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">price_cv_percent</span>
@@ -694,12 +809,7 @@
     <span class="comment">-- Order size distribution insights</span>
     <span class="function">MAX</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">largest_order</span>,
     <span class="function">MIN</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">smallest_order</span>,
-    <span class="function">MAX</span>(<span class="column">amount</span>) - <span class="function">MIN</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">order_value_range</span>,
-    
-    <span class="comment">-- Median approximation (for skewed data)</span>
-    <span class="comment">-- Note: This is approximate; true median requires different approach</span>
-    <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">amount</span>) + 
-          (<span class="function">STDDEV</span>(<span class="column">amount</span>) * <span class="number">0.6745</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">approximate_median</span>
+    <span class="function">MAX</span>(<span class="column">amount</span>) - <span class="function">MIN</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">order_value_range</span>
 <span class="keyword">FROM</span> <span class="table-name">orders</span>
 <span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="string">'2024-01-01'</span>
     <span class="keyword">AND</span> <span class="column">status</span> = <span class="string">'completed'</span>;</pre>
@@ -731,12 +841,12 @@
     <span class="comment">-- Segment revenue by order size</span>
     <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> >= <span class="number">1000</span> <span class="keyword">THEN</span> <span class="column">amount</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">enterprise_revenue</span>,
     <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> <span class="keyword">BETWEEN</span> <span class="number">100</span> <span class="keyword">AND</span> <span class="number">999</span> <span class="keyword">THEN</span> <span class="column">amount</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">mid_market_revenue</span>,
-    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> < <span class="number">100</span> <span class="keyword">THEN</span> <span class="column">amount</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">small_revenue</span>,
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> &lt; <span class="number">100</span> <span class="keyword">THEN</span> <span class="column">amount</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">small_revenue</span>,
     
     <span class="comment">-- Count orders in each segment</span>
     <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> >= <span class="number">1000</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">enterprise_orders</span>,
     <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> <span class="keyword">BETWEEN</span> <span class="number">100</span> <span class="keyword">AND</span> <span class="number">999</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">mid_market_orders</span>,
-    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> < <span class="number">100</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">small_orders</span>
+    <span class="function">SUM</span>(<span class="keyword">CASE WHEN</span> <span class="column">amount</span> &lt; <span class="number">100</span> <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="column">small_orders</span>
 <span class="keyword">FROM</span> <span class="table-name">orders</span>
 <span class="keyword">WHERE</span> <span class="column">status</span> = <span class="string">'completed'</span>;</pre>
                 </div>
@@ -745,7 +855,7 @@
                     <strong>Why conditional aggregates matter:</strong>
                     <p>Instead of running 6 separate queries to get order counts by status, you run ONE query. This is:</p>
                     <ul style="margin-left: 1rem;">
-                        <li>6x faster (one table scan instead of six)</li>
+                        <li>Often more efficient because the database can compute the summaries in one statement; verify with EXPLAIN and measurement</li>
                         <li>Easier to maintain (one query to update)</li>
                         <li>Guaranteed consistency (all counts from same point in time)</li>
                         <li>Less network overhead (one round trip to database)</li>
@@ -845,7 +955,7 @@
                 <div class="warning-box">
                     Critical GROUP BY rules to remember:
                     <ol style="margin-left: 1rem;">
-                        <li><strong>The Golden Rule:</strong> Every column in SELECT that isn't an aggregate MUST be in GROUP BY</li>
+                        <li><strong>The beginner rule:</strong> With MySQL's default <code>ONLY_FULL_GROUP_BY</code> mode, group each selected nonaggregate column, aggregate it, or ensure MySQL can prove it is functionally dependent on the grouped columns (for example, through a grouped primary key).</li>
                         <li><strong>NULL Handling:</strong> NULL values form their own group (all NULLs grouped together)</li>
                         <li><strong>Execution Order:</strong> WHERE → GROUP BY → HAVING → ORDER BY</li>
                         <li><strong>Hidden Columns:</strong> You can GROUP BY columns not in SELECT</li>
@@ -875,13 +985,13 @@
                 </div>
 
                 <h3>Advanced Grouping Patterns</h3>
-                <div class="tabs">
-                    <button class="tab active" onclick="showTab(event, 'group-time')">Time-Based</button>
-                    <button class="tab" onclick="showTab(event, 'group-category')">Category-Based</button>
-                    <button class="tab" onclick="showTab(event, 'group-calculated')">Calculated Groups</button>
+                <div class="tabs" role="tablist" aria-label="GROUP BY examples">
+                    <button type="button" id="tab-group-time" class="tab active" role="tab" aria-selected="true" aria-controls="group-time" onclick="showTab(event, 'group-time')">Time-Based</button>
+                    <button type="button" id="tab-group-category" class="tab" role="tab" aria-selected="false" aria-controls="group-category" onclick="showTab(event, 'group-category')">Category-Based</button>
+                    <button type="button" id="tab-group-calculated" class="tab" role="tab" aria-selected="false" aria-controls="group-calculated" onclick="showTab(event, 'group-calculated')">Calculated Groups</button>
                 </div>
 
-                <div id="group-time" class="tab-content active">
+                <div id="group-time" class="tab-content active" role="tabpanel" aria-labelledby="tab-group-time">
                     <div class="code-block">
                         <pre><span class="comment">-- Time-based grouping for trend analysis</span>
 <span class="keyword">SELECT</span> 
@@ -916,7 +1026,7 @@
                     </div>
                 </div>
 
-                <div id="group-category" class="tab-content">
+                <div id="group-category" class="tab-content" role="tabpanel" aria-labelledby="tab-group-category" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Multi-dimensional category analysis</span>
 <span class="keyword">SELECT</span> 
@@ -942,16 +1052,16 @@
                     </div>
                 </div>
 
-                <div id="group-calculated" class="tab-content">
+                <div id="group-calculated" class="tab-content" role="tabpanel" aria-labelledby="tab-group-calculated" hidden>
                     <div class="code-block">
                         <pre><span class="comment">-- Group by calculated values for custom segmentation</span>
 <span class="keyword">SELECT</span> 
     <span class="comment">-- Create custom order size categories</span>
     <span class="keyword">CASE</span>
-        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">50</span> <span class="keyword">THEN</span> <span class="string">'Micro (< $50)'</span>
-        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">200</span> <span class="keyword">THEN</span> <span class="string">'Small ($50-199)'</span>
-        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">1000</span> <span class="keyword">THEN</span> <span class="string">'Medium ($200-999)'</span>
-        <span class="keyword">WHEN</span> <span class="column">amount</span> < <span class="number">5000</span> <span class="keyword">THEN</span> <span class="string">'Large ($1000-4999)'</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> &lt; <span class="number">50</span> <span class="keyword">THEN</span> <span class="string">'Micro (&lt; $50)'</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> &lt; <span class="number">200</span> <span class="keyword">THEN</span> <span class="string">'Small ($50-199)'</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> &lt; <span class="number">1000</span> <span class="keyword">THEN</span> <span class="string">'Medium ($200-999)'</span>
+        <span class="keyword">WHEN</span> <span class="column">amount</span> &lt; <span class="number">5000</span> <span class="keyword">THEN</span> <span class="string">'Large ($1000-4999)'</span>
         <span class="keyword">ELSE</span> <span class="string">'Enterprise ($5000+)'</span>
     <span class="keyword">END AS</span> <span class="column">order_segment</span>,
     
@@ -1037,10 +1147,11 @@
                 <div class="concept-card">
                     <h4>Understanding When to Use Each</h4>
                     <table class="result-table">
+                        <caption>WHERE and HAVING comparison</caption>
                         <tr>
-                            <th>Aspect</th>
-                            <th>WHERE</th>
-                            <th>HAVING</th>
+                            <th scope="col">Aspect</th>
+                            <th scope="col">WHERE</th>
+                            <th scope="col">HAVING</th>
                         </tr>
                         <tr>
                             <td>When Applied</td>
@@ -1175,11 +1286,12 @@ ROLLUP works right-to-left in GROUP BY:
                 <h3>ROLLUP Result Visualization</h3>
                 <div class="visual-demo">
                     <table class="result-table" style="max-width: 700px; margin: 0 auto;">
+                        <caption>Example WITH ROLLUP output</caption>
                         <tr>
-                            <th>Region</th>
-                            <th>Category</th>
-                            <th>Total Sales</th>
-                            <th>What This Row Represents</th>
+                            <th scope="col">Region</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Total Sales</th>
+                            <th scope="col">What This Row Represents</th>
                         </tr>
                         <tr>
                             <td>North</td>
@@ -1262,10 +1374,19 @@ ROLLUP works right-to-left in GROUP BY:
                 <h3>Multi-Level ROLLUP for Complex Hierarchies</h3>
                 <div class="code-block">
                     <pre><span class="comment">-- Three-level hierarchy: Year > Quarter > Month</span>
+<span class="keyword">WITH</span> <span class="table-name">order_periods</span> <span class="keyword">AS</span> (
+    <span class="keyword">SELECT</span>
+        <span class="keyword">YEAR</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">order_year</span>,
+        <span class="keyword">QUARTER</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">order_quarter</span>,
+        <span class="keyword">DATE_FORMAT</span>(<span class="column">order_date</span>, <span class="string">'%Y-%m'</span>) <span class="keyword">AS</span> <span class="column">order_month</span>,
+        <span class="column">amount</span>
+    <span class="keyword">FROM</span> <span class="table-name">orders</span>
+    <span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="string">'2024-01-01'</span>
+)
 <span class="keyword">SELECT</span> 
-    <span class="keyword">YEAR</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">year</span>,
-    <span class="keyword">QUARTER</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">quarter</span>,
-    <span class="keyword">MONTHNAME</span>(<span class="column">order_date</span>) <span class="keyword">AS</span> <span class="column">month</span>,
+    <span class="column">order_year</span>,
+    <span class="column">order_quarter</span>,
+    <span class="column">order_month</span>,
     
     <span class="comment">-- Financial metrics</span>
     <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">AS</span> <span class="column">revenue</span>,
@@ -1273,33 +1394,22 @@ ROLLUP works right-to-left in GROUP BY:
     
     <span class="comment">-- Identify the level of aggregation</span>
     <span class="keyword">CASE</span>
-        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">year</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'GRAND TOTAL'</span>
-        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">quarter</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="function">CONCAT</span>(<span class="string">'Year '</span>, <span class="column">year</span>, <span class="string">' Total'</span>)
-        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">month</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="function">CONCAT</span>(<span class="string">'Q'</span>, <span class="column">quarter</span>, <span class="string">' Total'</span>)
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">order_year</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">'GRAND TOTAL'</span>
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">order_quarter</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="function">CONCAT</span>(<span class="string">'Year '</span>, <span class="column">order_year</span>, <span class="string">' Total'</span>)
+        <span class="keyword">WHEN</span> <span class="function">GROUPING</span>(<span class="column">order_month</span>) = <span class="number">1</span> <span class="keyword">THEN</span> <span class="function">CONCAT</span>(<span class="string">'Q'</span>, <span class="column">order_quarter</span>, <span class="string">' Total'</span>)
         <span class="keyword">ELSE</span> <span class="string">'Monthly Detail'</span>
     <span class="keyword">END AS</span> <span class="column">summary_level</span>,
     
     <span class="comment">-- Add indentation for visual hierarchy</span>
     <span class="function">CONCAT</span>(
         <span class="function">REPEAT</span>(<span class="string">'  '</span>, 
-            <span class="function">GROUPING</span>(<span class="column">year</span>) * <span class="number">0</span> + 
-            <span class="function">GROUPING</span>(<span class="column">quarter</span>) * <span class="number">0</span> + 
-            <span class="function">GROUPING</span>(<span class="column">month</span>) * <span class="number">0</span> + 
-            (<span class="number">3</span> - <span class="function">GROUPING</span>(<span class="column">year</span>) - <span class="function">GROUPING</span>(<span class="column">quarter</span>) - <span class="function">GROUPING</span>(<span class="column">month</span>))
+            (<span class="number">3</span> - <span class="function">GROUPING</span>(<span class="column">order_year</span>) - <span class="function">GROUPING</span>(<span class="column">order_quarter</span>) - <span class="function">GROUPING</span>(<span class="column">order_month</span>))
         ),
         <span class="function">FORMAT</span>(<span class="function">SUM</span>(<span class="column">amount</span>), <span class="number">2</span>)
     ) <span class="keyword">AS</span> <span class="column">formatted_revenue</span>
     
-<span class="keyword">FROM</span> <span class="table-name">orders</span>
-<span class="keyword">WHERE</span> <span class="column">order_date</span> >= <span class="string">'2024-01-01'</span>
-<span class="keyword">GROUP BY</span> <span class="column">year</span>, <span class="column">quarter</span>, <span class="column">month</span> <span class="keyword">WITH ROLLUP</span>
-<span class="keyword">ORDER BY</span> 
-    <span class="column">year</span> <span class="keyword">IS NULL</span>,  <span class="comment">-- Grand total last</span>
-    <span class="column">year</span>,
-    <span class="column">quarter</span> <span class="keyword">IS NULL</span>,  <span class="comment">-- Year totals after quarters</span>
-    <span class="column">quarter</span>,
-    <span class="column">month</span> <span class="keyword">IS NULL</span>,  <span class="comment">-- Quarter totals after months</span>
-    <span class="keyword">MONTH</span>(<span class="function">STR_TO_DATE</span>(<span class="column">month</span>, <span class="string">'%M'</span>));  <span class="comment">-- Months in calendar order</span></pre>
+<span class="keyword">FROM</span> <span class="table-name">order_periods</span>
+<span class="keyword">GROUP BY</span> <span class="column">order_year</span>, <span class="column">order_quarter</span>, <span class="column">order_month</span> <span class="keyword">WITH ROLLUP</span>;</pre>
                 </div>
 
                 <div class="tip-box">
@@ -1320,6 +1430,9 @@ ROLLUP works right-to-left in GROUP BY:
 
             <section class="section" id="window">
                 <h2>🪟 Aggregate Window Functions - The Best of Both Worlds</h2>
+                <div class="tip-box">
+                    <strong>Book alignment:</strong> Aggregate window functions, named windows, and frames belong with Murach Chapter 6. Ranking and offset functions such as <code>RANK</code>, <code>PERCENT_RANK</code>, <code>LAG</code>, and <code>LEAD</code> are labeled here as a preview of the book's later analytic-functions material.
+                </div>
                 
                 <p>Window functions are SQL's superpower—they calculate aggregates while keeping all your detailed rows. Instead of collapsing data like GROUP BY, they add calculated columns to every row.</p>
 
@@ -1352,13 +1465,13 @@ ROLLUP works right-to-left in GROUP BY:
     <span class="comment">-- Each employee sees their salary vs department average</span>
     <span class="column">salary</span> - <span class="function">AVG</span>(<span class="column">salary</span>) <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> <span class="column">department</span>) <span class="keyword">AS</span> <span class="column">diff_from_dept_avg</span>,
     
-    <span class="comment">-- Ranking within department</span>
+    <span class="comment">-- OPTIONAL CHAPTER 9 PREVIEW: ranking within department</span>
     <span class="function">RANK</span>() <span class="keyword">OVER</span> (
         <span class="keyword">PARTITION BY</span> <span class="column">department</span> 
         <span class="keyword">ORDER BY</span> <span class="column">salary</span> <span class="keyword">DESC</span>
     ) <span class="keyword">AS</span> <span class="column">salary_rank_in_dept</span>,
     
-    <span class="comment">-- Percentile within department</span>
+    <span class="comment">-- OPTIONAL CHAPTER 9 PREVIEW: percentile within department</span>
     <span class="function">PERCENT_RANK</span>() <span class="keyword">OVER</span> (
         <span class="keyword">PARTITION BY</span> <span class="column">department</span> 
         <span class="keyword">ORDER BY</span> <span class="column">salary</span>
@@ -1379,7 +1492,8 @@ ROLLUP works right-to-left in GROUP BY:
 <span class="keyword">GROUP BY</span> <span class="column">dept</span>;</pre>
                             </div>
                             <table class="result-table">
-                                <tr><th>Department</th><th>AVG Salary</th></tr>
+                                <caption>GROUP BY example result</caption>
+                                <tr><th scope="col">Department</th><th scope="col">AVG Salary</th></tr>
                                 <tr><td>Sales</td><td>$50,000</td></tr>
                                 <tr><td>IT</td><td>$70,000</td></tr>
                             </table>
@@ -1393,7 +1507,8 @@ ROLLUP works right-to-left in GROUP BY:
 <span class="keyword">FROM</span> <span class="table-name">employees</span>;</pre>
                             </div>
                             <table class="result-table">
-                                <tr><th>Name</th><th>Dept</th><th>Salary</th><th>Dept AVG</th></tr>
+                                <caption>Window-function example result</caption>
+                                <tr><th scope="col">Name</th><th scope="col">Dept</th><th scope="col">Salary</th><th scope="col">Dept AVG</th></tr>
                                 <tr><td>John</td><td>Sales</td><td>$45,000</td><td>$50,000</td></tr>
                                 <tr><td>Jane</td><td>Sales</td><td>$55,000</td><td>$50,000</td></tr>
                                 <tr><td>Bob</td><td>IT</td><td>$65,000</td><td>$70,000</td></tr>
@@ -1405,6 +1520,9 @@ ROLLUP works right-to-left in GROUP BY:
                 </div>
 
                 <h3>Common Window Function Patterns</h3>
+                <div class="tip-box">
+                    The running aggregate below is Chapter 6 practice. The ranking and previous/next-row examples that follow are optional course previews of later material.
+                </div>
                 <div class="code-block">
                     <pre><span class="comment">-- 1. RUNNING TOTALS (Cumulative Sums)</span>
 <span class="keyword">SELECT</span> 
@@ -1423,7 +1541,7 @@ ROLLUP works right-to-left in GROUP BY:
 <span class="keyword">FROM</span> <span class="table-name">orders</span>
 <span class="keyword">ORDER BY</span> <span class="column">order_date</span>;
 
-<span class="comment">-- 2. RANKING AND PERCENTILES</span>
+<span class="comment">-- 2. OPTIONAL CHAPTER 9 PREVIEW: RANKING AND PERCENTILES</span>
 <span class="keyword">SELECT</span> 
     <span class="column">product_name</span>,
     <span class="column">category</span>,
@@ -1464,7 +1582,7 @@ ROLLUP works right-to-left in GROUP BY:
 <span class="keyword">FROM</span> <span class="table-name">daily_sales_data</span>
 <span class="keyword">ORDER BY</span> <span class="column">date</span>;
 
-<span class="comment">-- 4. LAG/LEAD - Accessing Previous/Next Rows</span>
+<span class="comment">-- 4. OPTIONAL CHAPTER 9 PREVIEW: LAG/LEAD - Accessing Previous/Next Rows</span>
 <span class="keyword">SELECT</span> 
     <span class="column">month</span>,
     <span class="column">revenue</span>,
@@ -1491,9 +1609,10 @@ ROLLUP works right-to-left in GROUP BY:
                 <div class="explanation-box">
                     <strong>When to Use Window Functions vs GROUP BY:</strong>
                     <table style="width: 100%; margin-top: 1rem;">
+                        <caption>Choosing GROUP BY or a window function</caption>
                         <tr>
-                            <th>Use GROUP BY when:</th>
-                            <th>Use Window Functions when:</th>
+                            <th scope="col">Use GROUP BY when:</th>
+                            <th scope="col">Use Window Functions when:</th>
                         </tr>
                         <tr>
                             <td>You want summary rows only</td>
@@ -1543,6 +1662,9 @@ ROLLUP works right-to-left in GROUP BY:
                 </div>
 
                 <h3>Frame Specifications Explained</h3>
+                <div class="tip-box">
+                    With an <code>ORDER BY</code> and no explicit frame, MySQL uses a value-based <code>RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code> frame, which includes peer rows with the same ordering value. Use an explicit <code>ROWS</code> frame when you mean physical rows.
+                </div>
                 <div class="code-block">
                     <pre><span class="comment">-- Different frame specifications and what they calculate</span>
 <span class="keyword">SELECT</span> 
@@ -1550,7 +1672,7 @@ ROLLUP works right-to-left in GROUP BY:
     <span class="column">order_date</span>,
     <span class="column">amount</span>,
     
-    <span class="comment">-- 1. UNBOUNDED PRECEDING to CURRENT ROW (default for ORDER BY)</span>
+    <span class="comment">-- 1. Explicit ROWS frame from UNBOUNDED PRECEDING to CURRENT ROW</span>
     <span class="comment">-- Includes: All previous rows + current row</span>
     <span class="comment">-- Use case: Running totals</span>
     <span class="function">SUM</span>(<span class="column">amount</span>) <span class="keyword">OVER</span> (
@@ -1632,6 +1754,9 @@ For the first row:
                 </div>
 
                 <h3>Named Windows - Write Once, Use Many Times</h3>
+                <div class="tip-box">
+                    The reusable named-window syntax is Chapter 6 material. This extended example also uses ranking functions as an optional Chapter 9 preview.
+                </div>
                 <div class="code-block">
                     <pre><span class="comment">-- Named windows make complex queries more readable and maintainable</span>
 <span class="keyword">SELECT</span> 
@@ -1669,7 +1794,6 @@ For the first row:
     <span class="column">dept_seniority</span> <span class="keyword">AS</span> (<span class="keyword">PARTITION BY</span> <span class="column">department</span> <span class="keyword">ORDER BY</span> <span class="column">hire_date</span>),
     <span class="column">company_salary</span> <span class="keyword">AS</span> (<span class="keyword">ORDER BY</span> <span class="column">salary</span> <span class="keyword">DESC</span>)
 <span class="keyword">ORDER BY</span> <span class="column">department</span>, <span class="column">salary</span> <span class="keyword">DESC</span>;</pre>
-                    </div>
                 </div>
 
                 <div class="explanation-box">
@@ -1751,11 +1875,12 @@ For the first row:
                 <h3>Key Concepts Recap</h3>
                 <div class="visual-demo">
                     <table class="result-table" style="max-width: 900px; margin: 0 auto;">
+                        <caption>Summary-query feature reference</caption>
                         <tr>
-                            <th>Feature</th>
-                            <th>Purpose</th>
-                            <th>Key Point</th>
-                            <th>Common Mistake</th>
+                            <th scope="col">Feature</th>
+                            <th scope="col">Purpose</th>
+                            <th scope="col">Key Point</th>
+                            <th scope="col">Common Mistake</th>
                         </tr>
                         <tr>
                             <td>Aggregate Functions</td>
@@ -1766,7 +1891,7 @@ For the first row:
                         <tr>
                             <td>GROUP BY</td>
                             <td>Create groups for aggregation</td>
-                            <td>All non-aggregate columns must be grouped</td>
+                            <td>Nonaggregate columns must be grouped, aggregated, or provably functionally dependent</td>
                             <td>Missing columns in GROUP BY clause</td>
                         </tr>
                         <tr>
@@ -1880,7 +2005,6 @@ For the first row:
     <span class="column">join_year</span>,
     <span class="function">COUNT</span>(*) <span class="keyword">AS</span> <span class="column">customers</span>,
     <span class="function">ROUND</span>(<span class="function">AVG</span>(<span class="column">lifetime_value</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">avg_ltv</span>,
-    <span class="function">ROUND</span>(<span class="function">PERCENTILE_CONT</span>(<span class="number">0.5</span>) <span class="keyword">WITHIN GROUP</span> (<span class="keyword">ORDER BY</span> <span class="column">lifetime_value</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">median_ltv</span>,
     <span class="function">ROUND</span>(<span class="function">STDDEV</span>(<span class="column">lifetime_value</span>), <span class="number">2</span>) <span class="keyword">AS</span> <span class="column">ltv_stddev</span>,
     <span class="function">MIN</span>(<span class="column">lifetime_value</span>) <span class="keyword">AS</span> <span class="column">min_ltv</span>,
     <span class="function">MAX</span>(<span class="column">lifetime_value</span>) <span class="keyword">AS</span> <span class="column">max_ltv</span>
@@ -1991,6 +2115,11 @@ For the first row:
         </main>
     </div>
 
+    <nav class="course-nav" aria-label="Previous chapter and course home">
+        <a href="/ciss340-chapter5">← Chapter 5</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+    </nav>
+
     <script>
         // Progress bar
         window.addEventListener('scroll', () => {
@@ -2003,24 +2132,37 @@ For the first row:
         // Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.removeAttribute('aria-current');
+                });
                 this.classList.add('active');
+                this.setAttribute('aria-current', 'location');
                 
                 const section = document.getElementById(this.dataset.section);
-                section.scrollIntoView({ behavior: 'smooth' });
+                section.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
             });
         });
 
         // Tab functionality
         function showTab(evt, tabName) {
             const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                content.hidden = true;
+            });
             
             const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
             
-            document.getElementById(tabName).classList.add('active');
+            const activePanel = document.getElementById(tabName);
+            activePanel.classList.add('active');
+            activePanel.hidden = false;
             evt.currentTarget.classList.add('active');
+            evt.currentTarget.setAttribute('aria-selected', 'true');
         }
 
         // Scroll spy for active navigation
@@ -2038,8 +2180,10 @@ For the first row:
             
             navItems.forEach(item => {
                 item.classList.remove('active');
+                item.removeAttribute('aria-current');
                 if (item.dataset.section === current) {
                     item.classList.add('active');
+                    item.setAttribute('aria-current', 'location');
                 }
             });
         });

@@ -76,6 +76,12 @@
             background: linear-gradient(90deg, #667eea, #764ba2);
             animation: slideIn 0.3s ease;
         }
+
+        .tab-button:focus-visible,
+        .chapter-card:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 4px;
+        }
         
         @keyframes slideIn {
             from {
@@ -99,10 +105,15 @@
             display: none;
             padding: 20px;
             animation: fadeIn 0.3s ease;
+            scroll-margin-top: 130px;
         }
         
         .tab-content.active {
             display: block;
+        }
+
+        .tab-content[hidden] {
+            display: none;
         }
         
         .container {
@@ -322,20 +333,29 @@
             font-size: 18px;
             font-weight: bold;
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
         
 
     </style>
 </head>
 <body>
     <!-- Tab Navigation -->
-    <nav class="tab-navigation">
+    <nav class="tab-navigation" aria-label="Course selection">
         <div class="tab-container">
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="switchTab('ciss470')">
+            <div class="tab-buttons" role="tablist" aria-label="Courses" aria-orientation="horizontal">
+                <button type="button" id="tab-ciss470" class="tab-button active" role="tab" aria-selected="true" aria-controls="ciss470" tabindex="0" data-tab="ciss470">
                     <span class="course-label">Policy Compliance & Risk</span>
                     CISS 470
                 </button>
-                <button class="tab-button" onclick="switchTab('ciss340')">
+                <button type="button" id="tab-ciss340" class="tab-button" role="tab" aria-selected="false" aria-controls="ciss340" tabindex="-1" data-tab="ciss340">
                     <span class="course-label">Database Concepts</span>
                     CISS 340
                 </button>
@@ -344,7 +364,7 @@
     </nav>
 
     <!-- CISS 470 Content -->
-    <div id="ciss470" class="tab-content active">
+    <div id="ciss470" class="tab-content active" role="tabpanel" aria-labelledby="tab-ciss470" tabindex="0">
         <div class="container">
             <div class="header">
                 <h1>🛡️ THE CYBER RISK HANDBOOK</h1>
@@ -949,12 +969,12 @@
     </div>
 
     <!-- CISS 340 Content -->
-    <div id="ciss340" class="tab-content">
+    <div id="ciss340" class="tab-content" role="tabpanel" aria-labelledby="tab-ciss340" tabindex="0" hidden>
         <div class="container">
             <div class="header">
-                <h1>🔐 Murach's MySQL 4th Edition</h1>
+                <h1>🗄️ Murach's MySQL 4th Edition</h1>
                 <p>Interactive Learning Portal - CISS 340</p>
-                <p style="font-size: 16px; margin-top: 10px; opacity: 0.8;">Building Your Foundation in Information Security</p>
+                <p style="font-size: 16px; margin-top: 10px; opacity: 0.8;">Building Your Foundation in Relational Databases and SQL</p>
             </div>
 
             <div class="navigation-tip">
@@ -970,18 +990,17 @@
                 <a href="ciss340-chapter1.html" class="chapter-card">
                     <div class="chapter-header chapter1-ciss340">
                         <div class="chapter-number">1</div>
-                        <div class="chapter-title">An Introduction to Relational Databases</div>
-                        <div class="chapter-subtitle">Fundamentals & Core Concepts</div>
+                        <div class="chapter-title">An introduction to relational databases</div>
+                        <div class="chapter-subtitle">Relational models, SQL, keys, and relationships</div>
                     </div>
                     <div class="chapter-content">
                         <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            learn how to use SQL to work with a relational database such as MySQL. If you’ve never worked with relational databases before, this chapter will teach you what they are and how they work. It also shows you some examples of SQL statements that you’ll be able to code yourself after completing section 1.
-
+                            Build a clear mental model of relational databases, then explore keys, constraints, relationships, and EER diagrams to see how connected tables work together.
                         </p>
                         <div class="chapter-stats">
                             <div class="stat">
-                                <div class="stat-value">5</div>
+                                <div class="stat-value">8</div>
                                 <div class="stat-label">Sections</div>
                             </div>
                             <div class="stat">
@@ -1000,21 +1019,21 @@
                 <a href="ciss340-chapter2.html" class="chapter-card">
                     <div class="chapter-header chapter2-ciss340">
                         <div class="chapter-number">2</div>
-                        <div class="chapter-title">MySQL Workbench</div>
-                        <div class="chapter-subtitle">Familiarize with MySQL Workbench</div>
+                        <div class="chapter-title">How to use MySQL Workbench and other development tools</div>
+                        <div class="chapter-subtitle">Workbench, the Reference Manual, and the command line</div>
                     </div>
                     <div class="chapter-content">
                         <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            The content teaches MySQL Workbench fundamentals including installation, database connections, server status monitoring, navigating database objects, viewing/editing table data and structure, executing SQL statements, handling errors, managing SQL scripts, using the reference manual, command line client usage, and best practices for database management.
+                            Learn to connect to MySQL, navigate database objects, run and troubleshoot SQL, work with scripts, consult the MySQL Reference Manual, and use the command-line client.
                         </p>
                         <div class="chapter-stats">
                             <div class="stat">
-                                <div class="stat-value">13</div>
-                                <div class="stat-label">Sections</div>
+                                <div class="stat-value">13 + quiz</div>
+                                <div class="stat-label">Lessons</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">1h 30</div>
+                                <div class="stat-value">1 hr 30 min</div>
                                 <div class="stat-label">Est. Time</div>
                             </div>
                             <div class="stat">
@@ -1029,21 +1048,21 @@
                 <a href="ciss340-chapter3.html" class="chapter-card">
                     <div class="chapter-header chapter3-ciss340">
                         <div class="chapter-number">3</div>
-                        <div class="chapter-title">How to Retreive Data</div>
-                        <div class="chapter-subtitle">SELECT the all the things</div>
+                        <div class="chapter-title">How to retrieve data from a single table</div>
+                        <div class="chapter-subtitle">SELECT, WHERE, ORDER BY, and LIMIT</div>
                     </div>
                     <div class="chapter-content">
                         <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            This tutorial teaches you how to retrieve and filter data from databases using SQL SELECT statements, covering everything from basic queries and column selection to advanced techniques like pattern matching, NULL handling, sorting, and best practices for writing efficient, secure SQL code.
+                            Retrieve and filter data with SELECT statements while practicing expressions, aliases, pattern matching, NULL handling, sorting, and limiting result sets.
                         </p>
                         <div class="chapter-stats">
                             <div class="stat">
-                                <div class="stat-value">19</div>
-                                <div class="stat-label">Sections</div>
+                                <div class="stat-value">19 + quiz</div>
+                                <div class="stat-label">Lessons</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">1h 30</div>
+                                <div class="stat-value">1 hr 30 min</div>
                                 <div class="stat-label">Est. Time</div>
                             </div>
                             <div class="stat">
@@ -1058,13 +1077,13 @@
                 <a href="ciss340-chapter4.html" class="chapter-card">
                     <div class="chapter-header chapter4-ciss340">
                         <div class="chapter-number">4</div>
-                        <div class="chapter-title">How to Retreive Data From Two or More Tables</div>
-                        <div class="chapter-subtitle">Join with a Union?</div>
+                        <div class="chapter-title">How to retrieve data from two or more tables</div>
+                        <div class="chapter-subtitle">Inner joins, outer joins, and unions</div>
                     </div>
                     <div class="chapter-content">
                         <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            In the last chapter, you learned how to create result sets that contain data from a single table. Now, this chapter shows you how to create result sets that contain data from two or more tables. To do that, you can use an inner join, an outer join, or a union.
+                            Combine related data with inner and outer joins, table aliases, USING and other join forms, then combine compatible result sets with UNION and UNION ALL.
                         </p>
                         <div class="chapter-stats">
                             <div class="stat">
@@ -1072,7 +1091,7 @@
                                 <div class="stat-label">Sections</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">1h 30</div>
+                                <div class="stat-value">1 hr 30 min</div>
                                 <div class="stat-label">Est. Time</div>
                             </div>
                             <div class="stat">
@@ -1087,13 +1106,13 @@
                 <a href="ciss340-chapter5.html" class="chapter-card">
                     <div class="chapter-header chapter5-ciss340">
                         <div class="chapter-number">5</div>
-                        <div class="chapter-title">How to Insert, Update, and Delete Data</div>
-                        <div class="chapter-subtitle">Manipulate to Your Will</div>
+                        <div class="chapter-title">How to insert, update, and delete data</div>
+                        <div class="chapter-subtitle">Safe, practical data modification with DML</div>
                     </div>
                     <div class="chapter-content">
                         <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            In the last two chapters, you learned how to code the SELECT statement to retrieve and summarize data. Now, you’ll learn how to code the INSERT, UPDATE, and DELETE statements to modify the data in a table. 
+                            Create safe practice tables and use INSERT, UPDATE, and DELETE to modify data deliberately, verify affected rows, and recover before a transaction is committed.
                         </p>
                         <div class="chapter-stats">
                             <div class="stat">
@@ -1101,7 +1120,7 @@
                                 <div class="stat-label">Sections</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">1h 30</div>
+                                <div class="stat-value">1 hr 30 min</div>
                                 <div class="stat-label">Est. Time</div>
                             </div>
                             <div class="stat">
@@ -1116,13 +1135,13 @@
                 <a href="ciss340-chapter6.html" class="chapter-card">
                     <div class="chapter-header chapter6-ciss340">
                         <div class="chapter-number">6</div>
-                        <div class="chapter-title">How to Code Summary Queries</div>
-                        <div class="chapter-subtitle">Functions, Group, Summerize, and Aggregate Window Functions</div>
+                        <div class="chapter-title">How to code summary queries</div>
+                        <div class="chapter-subtitle">Aggregate functions, grouping, and windowed summaries</div>
                     </div>
                     <div class="chapter-content">
                         <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                           In this chapter, you’ll learn how to code queries that summarize data. For example, you can use summary queries to report sales totals by vendor or state. Similarly, 
+                            Turn detail rows into useful summaries with aggregate functions, GROUP BY, HAVING, WITH ROLLUP, aggregate window functions, frames, and named windows.
                         </p>
                         <div class="chapter-stats">
                             <div class="stat">
@@ -1130,7 +1149,7 @@
                                 <div class="stat-label">Sections</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">1h 30</div>
+                                <div class="stat-value">1 hr 30 min</div>
                                 <div class="stat-label">Est. Time</div>
                             </div>
                             <div class="stat">
@@ -1141,90 +1160,7 @@
                     </div>
                 </a>
 
-                <!-- Chapters 4-10 -->
-                <div class="chapter-card chapter-coming">
-                    <div class="chapter-header chapter-coming">
-                        <div class="chapter-number">4</div>
-                        <div class="chapter-title">Chapter 4</div>
-                        <div class="chapter-subtitle">Coming Soon</div>
-                    </div>
-                    <div class="chapter-content">
-                        <span class="status-badge status-coming">Coming Soon</span>
-                        <p class="chapter-description">
-                            Chapter content is currently being developed and will be available soon.
-                        </p>
-                        <div class="chapter-stats">
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Sections</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Est. Time</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">Interactive</div>
-                                <div class="stat-label">Format</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chapter-card chapter-coming">
-                    <div class="chapter-header chapter-coming">
-                        <div class="chapter-number">5</div>
-                        <div class="chapter-title">Chapter 5</div>
-                        <div class="chapter-subtitle">Coming Soon</div>
-                    </div>
-                    <div class="chapter-content">
-                        <span class="status-badge status-coming">Coming Soon</span>
-                        <p class="chapter-description">
-                            Chapter content is currently being developed and will be available soon.
-                        </p>
-                        <div class="chapter-stats">
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Sections</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Est. Time</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">Interactive</div>
-                                <div class="stat-label">Format</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chapter-card chapter-coming">
-                    <div class="chapter-header chapter-coming">
-                        <div class="chapter-number">6</div>
-                        <div class="chapter-title">Chapter 6</div>
-                        <div class="chapter-subtitle">Coming Soon</div>
-                    </div>
-                    <div class="chapter-content">
-                        <span class="status-badge status-coming">Coming Soon</span>
-                        <p class="chapter-description">
-                            Chapter content is currently being developed and will be available soon.
-                        </p>
-                        <div class="chapter-stats">
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Sections</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Est. Time</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">Interactive</div>
-                                <div class="stat-label">Format</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Chapters 7-10 -->
 
                 <div class="chapter-card chapter-coming">
                     <div class="chapter-header chapter-coming">
@@ -1348,20 +1284,20 @@
                     <div class="chapter-header workbook-ex">
                         <div class="chapter-number">📜</div>
                         <div class="chapter-title">MySQL Workbench Exercise</div>
-                        <div class="chapter-subtitle">Familiarization with MySQL Workbench</div>
+                        <div class="chapter-subtitle">Build and document an EER model</div>
                     </div>
                     <div class="chapter-content">
                         <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                           Walk through creating tables, managing relationships using crows foot notation, reverse engineer EER Diagram into a database, Query the information_schema, orgainzise for ease of reading, and install a 3rd party plugin to create a professional DataDictionary report of the created database. 
+                            Create tables, map relationships with crow's-foot notation, forward-engineer an EER model into a database, query INFORMATION_SCHEMA, improve diagram readability, and generate a professional data-dictionary report.
                         </p>
                         <div class="chapter-stats">
                             <div class="stat">
-                                <div class="stat-value">🖫</div>
-                                <div class="stat-label"></div>
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">Sections</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-value">2h 30</div>
+                                <div class="stat-value">2 hr 30 min</div>
                                 <div class="stat-label">Est. Time</div>
                             </div>
                             <div class="stat">
@@ -1373,56 +1309,110 @@
                 </a>
 
             <div class="footer">
-                <p>🎓 CISS 340: Building Your Cybersecurity Foundation</p>
-                <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">Interactive Learning Modules - Content Coming Soon</p>
+                <p>🎓 CISS 340: Relational Databases and SQL</p>
+                <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">Interactive MySQL learning modules and Workbench practice</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Tab switching function
-        function switchTab(tabName) {
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active class from all tab buttons
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => {
-                button.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked button
-            event.currentTarget.classList.add('active');
-            
-            // Re-trigger animations for newly displayed cards
-            animateCards();
+        const tabButtons = Array.from(document.querySelectorAll('[role="tab"]'));
+        const tabPanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let animationTimers = [];
+
+        function tabFromLocation() {
+            return window.location.hash.toLowerCase() === '#ciss340' ? 'ciss340' : 'ciss470';
         }
-        
-        // Animate cards function
-        function animateCards() {
-            const activeTab = document.querySelector('.tab-content.active');
-            const cards = activeTab.querySelectorAll('.chapter-card');
-            cards.forEach((card, index) => {
+
+        function animateCards(panel) {
+            animationTimers.forEach(window.clearTimeout);
+            animationTimers = [];
+
+            const cards = Array.from(panel.querySelectorAll('.chapter-card'));
+            cards.forEach(card => {
+                if (reducedMotion.matches) {
+                    card.style.transition = 'none';
+                    card.style.opacity = '1';
+                    card.style.transform = 'none';
+                    return;
+                }
+
+                card.style.transition = 'none';
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
+            });
+
+            if (reducedMotion.matches) return;
+
+            window.requestAnimationFrame(() => {
+                cards.forEach((card, index) => {
+                    const timer = window.setTimeout(() => {
+                        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                    animationTimers.push(timer);
+                });
             });
         }
-        
-        // Add animation to cards on page load
-        window.addEventListener('load', function() {
-            animateCards();
+
+        function activateTab(tabName, updateUrl = false) {
+            const selectedButton = tabButtons.find(button => button.dataset.tab === tabName);
+            const selectedPanel = document.getElementById(tabName);
+            if (!selectedButton || !selectedPanel) return;
+
+            tabButtons.forEach(button => {
+                const isSelected = button === selectedButton;
+                button.classList.toggle('active', isSelected);
+                button.setAttribute('aria-selected', String(isSelected));
+                button.tabIndex = isSelected ? 0 : -1;
+            });
+
+            tabPanels.forEach(panel => {
+                const isSelected = panel === selectedPanel;
+                panel.classList.toggle('active', isSelected);
+                panel.hidden = !isSelected;
+            });
+
+            document.title = tabName === 'ciss340'
+                ? 'CISS 340 Database Learning Portal'
+                : 'Cybersecurity Learning Portal';
+
+            if (updateUrl) {
+                const nextUrl = `${window.location.pathname}${window.location.search}${tabName === 'ciss340' ? '#ciss340' : ''}`;
+                const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+                if (nextUrl !== currentUrl) {
+                    window.history.pushState({ tab: tabName }, '', nextUrl);
+                }
+            }
+
+            animateCards(selectedPanel);
+        }
+
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                activateTab(button.dataset.tab, true);
+            });
+
+            button.addEventListener('keydown', event => {
+                let nextIndex;
+                if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabButtons.length;
+                else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+                else if (event.key === 'Home') nextIndex = 0;
+                else if (event.key === 'End') nextIndex = tabButtons.length - 1;
+                else return;
+
+                event.preventDefault();
+                const nextButton = tabButtons[nextIndex];
+                nextButton.focus();
+                activateTab(nextButton.dataset.tab, true);
+            });
         });
+
+        window.addEventListener('popstate', () => activateTab(tabFromLocation()));
+        window.addEventListener('hashchange', () => activateTab(tabFromLocation()));
+        activateTab(tabFromLocation());
     </script>
 </body>
 </html>

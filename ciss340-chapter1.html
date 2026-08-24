@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Keys & Concepts - Comprehensive Visual Guide</title>
+    <title>Chapter 1 — An introduction to relational databases</title>
     <style>
         * {
             margin: 0;
@@ -327,11 +327,177 @@
             color: #f44336;
             font-size: 24px;
         }
+
+        .course-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .course-nav.bottom {
+            margin: 36px 0 0;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .course-nav a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 10px 16px;
+            color: #4c51bf;
+            background: #eef2ff;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .course-nav a:hover {
+            background: #e0e7ff;
+        }
+
+        .course-alignment {
+            max-width: 900px;
+            margin: -30px auto 36px;
+            color: #4a5568;
+            padding: 18px 22px;
+            background: #f7fafc;
+            border-left: 5px solid #4c51bf;
+            border-radius: 10px;
+        }
+
+        .course-alignment p {
+            margin: 0 0 8px;
+        }
+
+        .course-alignment ul {
+            margin: 8px 0 0 1.25rem;
+        }
+
+        caption {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        a:focus-visible {
+            outline: 3px solid #f59e0b;
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .container {
+                width: 100%;
+                padding: 20px 16px 28px;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            h1 {
+                margin: 20px 0 38px;
+                font-size: 2rem;
+                line-height: 1.15;
+            }
+
+            h2 {
+                margin-top: 34px;
+                font-size: 1.55rem;
+            }
+
+            h3 {
+                font-size: 1.25rem;
+            }
+
+            .concept-section,
+            .explanation-box,
+            .interactive-demo {
+                padding: 16px;
+            }
+
+            .key-type-header,
+            .visual-example,
+            .concept-section [style*="display: flex"] {
+                align-items: stretch !important;
+                flex-direction: column !important;
+                gap: 14px !important;
+            }
+
+            .example-table {
+                min-width: 0;
+                width: 100%;
+                overflow-x: auto;
+            }
+
+            .connection-arrow {
+                padding: 4px;
+                transform: rotate(90deg);
+            }
+
+            .table-container .data-table,
+            .example-table .data-table {
+                min-width: 620px;
+            }
+
+            .comparison-table {
+                display: block;
+                width: 100%;
+                min-width: 0;
+                max-width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .course-nav {
+                flex-wrap: wrap;
+            }
+
+            .course-nav a {
+                flex: 1 1 140px;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🔑 Complete Guide to Database Keys & Relationships</h1>
+        <nav class="course-nav" aria-label="Chapter navigation">
+            <a href="/ciss340/">← Back to CISS 340</a>
+            <a href="/ciss340-chapter2.html">Next: Workbench →</a>
+        </nav>
+        <h1>Chapter 1: An introduction to relational databases</h1>
+        <div class="course-alignment">
+            <p><strong>Murach Chapter 1 map:</strong> The chapter introduces client/server database systems, the relational model, SQL-based database systems, and the major families of SQL statements.</p>
+            <ul>
+                <li><strong>Client/server:</strong> a client such as Workbench sends a request; MySQL Server validates and executes it, then returns a result.</li>
+                <li><strong>Relational model:</strong> tables organize data as rows and columns; keys and constraints preserve identity and relationships.</li>
+                <li><strong>SQL overview:</strong> <code>SELECT</code> reads; <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code> change rows; <code>CREATE</code>, <code>ALTER</code>, and <code>DROP</code> define structures.</li>
+            </ul>
+            <p><strong>This companion's focus:</strong> the interactive examples go deeper on keys and EER diagrams, previewing Murach Chapters 10 and 11. AP, OM, and EX are the book's example databases; the online-store examples here are separate course examples.</p>
+        </div>
         
         <!-- Primary Keys Section -->
         <div class="concept-section">
@@ -370,13 +536,14 @@
             <h3>Visual Example: Primary Key in Action</h3>
             <div class="table-container">
                 <table class="data-table">
+                    <caption>Employee records showing a primary key</caption>
                     <thead>
                         <tr>
-                            <th>employee_id <span class="key-indicator pk-indicator">PRIMARY KEY</span></th>
-                            <th>first_name</th>
-                            <th>last_name</th>
-                            <th>email</th>
-                            <th>hire_date</th>
+                            <th scope="col">employee_id <span class="key-indicator pk-indicator">PRIMARY KEY</span></th>
+                            <th scope="col">first_name</th>
+                            <th scope="col">last_name</th>
+                            <th scope="col">email</th>
+                            <th scope="col">hire_date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -446,13 +613,14 @@
             <h3>Visual Example: Order Line Items (Classic Composite Key Use Case)</h3>
             <div class="table-container">
                 <table class="data-table">
+                    <caption>Order items showing a composite primary key</caption>
                     <thead>
                         <tr>
-                            <th>order_id <span class="key-indicator pk-indicator">PK-1</span></th>
-                            <th>line_number <span class="key-indicator pk-indicator">PK-2</span></th>
-                            <th>product_id</th>
-                            <th>quantity</th>
-                            <th>price</th>
+                            <th scope="col">order_id <span class="key-indicator pk-indicator">PK-1</span></th>
+                            <th scope="col">line_number <span class="key-indicator pk-indicator">PK-2</span></th>
+                            <th scope="col">product_id</th>
+                            <th scope="col">quantity</th>
+                            <th scope="col">price</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -515,7 +683,7 @@
                 </div>
                 
                 <div class="definition">
-                    <strong>Definition:</strong> A foreign key is a column (or columns) that creates a link between two tables. It contains values that match the primary key values in another table, establishing a parent-child relationship.
+                    <strong>Definition:</strong> A foreign key is a column (or group of columns) whose values reference a candidate key—normally a primary or UNIQUE key—in another table, or sometimes in the same table. The constraint preserves the relationship between the referencing and referenced rows.
                 </div>
                 
                 <div class="analogy-box">
@@ -529,12 +697,12 @@
             <h3>Visual Example: How Foreign Keys Connect Tables</h3>
             
             <div class="warning-box" style="margin-bottom: 30px;">
-                <div class="warning-header">🔍 CRITICAL: Foreign Key EXISTS IN ONLY ONE TABLE!</div>
-                <p><strong>NO, both tables DO NOT have foreign keys!</strong> This is a common misconception.</p>
+                <div class="warning-header">🔍 In this one-to-many example, the foreign key belongs on the many side</div>
+                <p>The two tables do not need matching foreign-key columns. The child row stores the reference to its parent.</p>
                 <ul style="margin-top: 10px;">
-                    <li><strong>Parent Table (Departments):</strong> Has ONLY its primary key, NO foreign key</li>
-                    <li><strong>Child Table (Employees):</strong> Has the foreign key that points to the parent</li>
-                    <li><strong>The Rule:</strong> In a one-to-many relationship, the foreign key is ALWAYS on the "many" side (child table)</li>
+                    <li><strong>Referenced table (Departments):</strong> Provides the key being referenced in this relationship</li>
+                    <li><strong>Referencing table (Employees):</strong> Stores <code>dept_id</code> as the foreign key</li>
+                    <li><strong>One-to-many pattern:</strong> The foreign key is placed on the many side. One-to-one, self-referencing, and junction-table designs use related but different patterns.</li>
                 </ul>
             </div>
             
@@ -545,13 +713,14 @@
             
             <div class="visual-example">
                 <div class="example-table">
-                    <div class="table-title">DEPARTMENTS Table (Parent - No Foreign Key Here!)</div>
+                    <div class="table-title">DEPARTMENTS Table (Referenced in This Relationship)</div>
                     <table class="data-table">
+                        <caption>Departments referenced by employee records</caption>
                         <thead>
                             <tr>
-                                <th>dept_id <span class="key-indicator pk-indicator">PK</span></th>
-                                <th>dept_name</th>
-                                <th>location</th>
+                                <th scope="col">dept_id <span class="key-indicator pk-indicator">PK</span></th>
+                                <th scope="col">dept_name</th>
+                                <th scope="col">location</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -573,7 +742,7 @@
                         </tbody>
                     </table>
                     <p style="text-align: center; color: #666; margin-top: 10px;">
-                        ↑ This table has ONLY its primary key (dept_id)
+                        ↑ In this simplified example, dept_id is the referenced primary key
                     </p>
                 </div>
                 
@@ -582,13 +751,14 @@
                 </div>
                 
                 <div class="example-table">
-                    <div class="table-title">EMPLOYEES Table (Child - Foreign Key is HERE!)</div>
+                    <div class="table-title">EMPLOYEES Table (Referencing Table)</div>
                     <table class="data-table">
+                        <caption>Employees whose department identifiers reference departments</caption>
                         <thead>
                             <tr>
-                                <th>emp_id <span class="key-indicator pk-indicator">PK</span></th>
-                                <th>emp_name</th>
-                                <th>dept_id <span class="key-indicator fk-indicator">FK→DEPARTMENTS</span></th>
+                                <th scope="col">emp_id <span class="key-indicator pk-indicator">PK</span></th>
+                                <th scope="col">emp_name</th>
+                                <th scope="col">dept_id <span class="key-indicator fk-indicator">FK→DEPARTMENTS</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -632,45 +802,45 @@
             
             <div class="rules-box">
                 <div class="rules-header">📋 Foreign Key Rules:</div>
-                <div class="rule-item">Must match an existing primary key value in the parent table (or be NULL)</div>
+                <div class="rule-item">Each non-NULL value must match a value in the referenced primary or UNIQUE key</div>
                 <div class="rule-item">Enforces "referential integrity" - can't reference non-existent data</div>
                 <div class="rule-item">Can have multiple foreign keys in one table</div>
                 <div class="rule-item">Can be NULL (unless specified as NOT NULL)</div>
                 <div class="rule-item">Same column can be both a primary key AND a foreign key</div>
-                <div class="rule-item">Updates/deletes in parent table can cascade to child tables</div>
+                <div class="rule-item">Updates and deletes follow the configured referential action, such as RESTRICT, SET NULL, or CASCADE</div>
             </div>
             
             <div class="use-case">
                 <div class="use-case-title">💡 What Foreign Keys Prevent:</div>
                 <ul>
                     <li><strong>Orphan Records:</strong> Can't have an employee in department 99 if department 99 doesn't exist</li>
-                    <li><strong>Broken Links:</strong> Can't delete a department that still has employees</li>
+                    <li><strong>Broken Links:</strong> A delete is rejected, cascaded, or converted to NULL according to the foreign key's configured action</li>
                     <li><strong>Data Inconsistency:</strong> If department 10 moves from "New York" to "Boston", all employees stay connected</li>
                 </ul>
             </div>
             
             <div class="explanation-box" style="margin-top: 30px; background: #ffebee; border-left: 5px solid #f44336;">
-                <h4 style="color: #c62828;">❌ Common Misconception: "Both Tables Have Foreign Keys"</h4>
-                <p style="margin-top: 15px;"><strong>This is WRONG!</strong> Here's why:</p>
+                <h4 style="color: #c62828;">Common Misconception: "Every relationship requires foreign keys in both tables"</h4>
+                <p style="margin-top: 15px;">For this one-to-many relationship, a single foreign key in Employees is sufficient:</p>
                 
                 <div style="display: flex; gap: 30px; margin-top: 20px;">
                     <div style="flex: 1;">
                         <h5 style="color: #c62828;">❌ INCORRECT Thinking:</h5>
                         <p>"Departments table has a foreign key to Employees"<br>
                         "Employees table has a foreign key to Departments"</p>
-                        <p style="margin-top: 10px; color: #666;">This would create a circular reference and doesn't make sense!</p>
+                        <p style="margin-top: 10px; color: #666;">Adding a second reference is unnecessary for this design. Circular references can exist in other valid models, but they require deliberate constraint and insert-order planning.</p>
                     </div>
                     
                     <div style="flex: 1;">
                         <h5 style="color: #2e7d32;">✅ CORRECT Understanding:</h5>
                         <p><strong>Parent (Departments):</strong> Has ONLY primary key<br>
                         <strong>Child (Employees):</strong> Has foreign key pointing to parent</p>
-                        <p style="margin-top: 10px; color: #666;">One-way reference from child to parent!</p>
+                        <p style="margin-top: 10px; color: #666;">The relationship can still be described in both directions even though the stored foreign key points from Employees to Departments.</p>
                     </div>
                 </div>
                 
                 <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px;">
-                    <strong>Remember:</strong> In a relationship, only the table that needs to "look up" information in another table has the foreign key. It's like having someone's phone number - only the person who needs to make the call stores the number!
+                    <strong>Remember:</strong> A foreign key is stored in the referencing table. A table may be referenced in one relationship and also contain foreign keys for a different relationship.
                 </div>
             </div>
         </div>
@@ -688,7 +858,7 @@
                 </div>
                 
                 <div class="definition">
-                    <strong>Definition:</strong> A unique key ensures all values in a column (or combination of columns) are different from each other. Unlike primary keys, a table can have multiple unique keys and they CAN contain NULL values (but only one NULL).
+                    <strong>Definition:</strong> A UNIQUE constraint prevents duplicate non-NULL values in a column or column group. Unlike a primary key, a table can have several UNIQUE constraints. In MySQL, a nullable UNIQUE column can contain multiple NULL values because NULL is not treated as equal to another NULL for this check.
                 </div>
                 
                 <div class="analogy-box">
@@ -702,14 +872,15 @@
             <h3>Visual Example: Multiple Unique Constraints</h3>
             <div class="table-container">
                 <table class="data-table">
+                    <caption>User records with several UNIQUE constraints</caption>
                     <thead>
                         <tr>
-                            <th>user_id <span class="key-indicator pk-indicator">PK</span></th>
-                            <th>username <span class="key-indicator uk-indicator">UNIQUE</span></th>
-                            <th>email <span class="key-indicator uk-indicator">UNIQUE</span></th>
-                            <th>ssn <span class="key-indicator uk-indicator">UNIQUE</span></th>
-                            <th>first_name</th>
-                            <th>last_name</th>
+                            <th scope="col">user_id <span class="key-indicator pk-indicator">PK</span></th>
+                            <th scope="col">username <span class="key-indicator uk-indicator">UNIQUE</span></th>
+                            <th scope="col">email <span class="key-indicator uk-indicator">UNIQUE</span></th>
+                            <th scope="col">ssn <span class="key-indicator uk-indicator">UNIQUE</span></th>
+                            <th scope="col">first_name</th>
+                            <th scope="col">last_name</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -737,6 +908,14 @@
                             <td>Bob</td>
                             <td>Smith</td>
                         </tr>
+                        <tr>
+                            <td class="primary-key-cell">4</td>
+                            <td class="unique-key-cell">amay</td>
+                            <td class="unique-key-cell">amay@email.com</td>
+                            <td class="unique-key-cell">NULL</td>
+                            <td>Ana</td>
+                            <td>May</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -750,47 +929,48 @@
             <h2>5. KEY COMPARISON - Understanding the Differences</h2>
             
             <table class="comparison-table">
+                <caption>Comparison of primary, foreign, and UNIQUE keys in MySQL</caption>
                 <thead>
                     <tr>
-                        <th>Feature</th>
-                        <th>Primary Key</th>
-                        <th>Foreign Key</th>
-                        <th>Unique Key</th>
+                        <th scope="col">Feature</th>
+                        <th scope="col">Primary Key</th>
+                        <th scope="col">Foreign Key</th>
+                        <th scope="col">Unique Key</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Purpose</strong></td>
+                        <th scope="row">Purpose</th>
                         <td>Uniquely identify each row</td>
                         <td>Link to another table</td>
                         <td>Ensure uniqueness</td>
                     </tr>
                     <tr>
-                        <td><strong>How many per table?</strong></td>
+                        <th scope="row">How many per table?</th>
                         <td>Only ONE</td>
                         <td>Can have MANY</td>
                         <td>Can have MANY</td>
                     </tr>
                     <tr>
-                        <td><strong>Can be NULL?</strong></td>
+                        <th scope="row">Can be NULL?</th>
                         <td><span class="cross">✗</span> Never</td>
-                        <td><span class="check">✓</span> Yes (usually)</td>
-                        <td><span class="check">✓</span> Yes (only once)</td>
+                        <td><span class="check">✓</span> When the column permits NULL</td>
+                        <td><span class="check">✓</span> Yes; MySQL permits multiple NULLs</td>
                     </tr>
                     <tr>
-                        <td><strong>Must be unique?</strong></td>
+                        <th scope="row">Must be unique?</th>
                         <td><span class="check">✓</span> Always</td>
                         <td><span class="cross">✗</span> No</td>
                         <td><span class="check">✓</span> Always</td>
                     </tr>
                     <tr>
-                        <td><strong>Creates index?</strong></td>
+                        <th scope="row">Creates index?</th>
                         <td><span class="check">✓</span> Automatically</td>
-                        <td><span class="cross">✗</span> Optional</td>
+                        <td><span class="check">✓</span> Required by MySQL; created automatically if needed</td>
                         <td><span class="check">✓</span> Automatically</td>
                     </tr>
                     <tr>
-                        <td><strong>Example</strong></td>
+                        <th scope="row">Example</th>
                         <td>employee_id</td>
                         <td>department_id (in employees)</td>
                         <td>email, ssn</td>
@@ -1121,10 +1301,10 @@
                 <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 20px; border-radius: 10px; border: 2px solid #4caf50;">
                     <h4 style="color: #2e7d32;">🎓 Key Pattern to Remember:</h4>
                     <ul style="margin-top: 10px;">
-                        <li><strong>Parent tables</strong> (CUSTOMERS, PRODUCTS, ORDERS when parent): Have ONLY their primary keys</li>
-                        <li><strong>Child tables</strong> (ORDERS when child, ORDER_ITEMS): Have foreign keys pointing to parents</li>
+                        <li><strong>Referenced tables</strong> (CUSTOMERS, PRODUCTS, and ORDERS in these relationships): Supply the key another table references</li>
+                        <li><strong>Referencing tables</strong> (ORDERS and ORDER_ITEMS): Store foreign keys; the same table can be referenced in one relationship and referencing in another</li>
                         <li><strong>Junction tables</strong> (ORDER_ITEMS): Have multiple foreign keys to connect multiple parents</li>
-                        <li><strong>Direction:</strong> Foreign keys always point FROM child TO parent, never the other way</li>
+                        <li><strong>Direction:</strong> Each foreign key points from its referencing columns to a candidate key in the referenced table</li>
                     </ul>
                 </div>
             </div>
@@ -1181,6 +1361,11 @@
                 <p><strong>Composite Key</strong> = Building + Apartment number (need both to be unique)</p>
             </div>
         </div>
+
+        <nav class="course-nav bottom" aria-label="Chapter navigation at end">
+            <a href="/ciss340/">← Back to CISS 340</a>
+            <a href="/ciss340-chapter2.html">Next: Workbench →</a>
+        </nav>
         
     </div>
 </body>

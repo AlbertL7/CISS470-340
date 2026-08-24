@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL SELECT Statement - Complete Interactive Learning Guide</title>
+    <title>Chapter 3 — How to retrieve data from a single table</title>
     <style>
         * {
             margin: 0;
@@ -112,14 +112,20 @@
         }
 
         .nav-item {
+            display: block;
+            width: 100%;
             padding: 12px 15px;
             margin: 5px 0;
             background: #f7fafc;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 0;
             border-left: 4px solid transparent;
+            color: inherit;
+            font-family: inherit;
             font-size: 14px;
+            text-align: left;
         }
 
         .nav-item:hover {
@@ -377,12 +383,18 @@
         }
 
         .quiz-option {
+            display: block;
+            width: 100%;
             background: #f7fafc;
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
             border: 2px solid #e2e8f0;
+            color: inherit;
             cursor: pointer;
+            font: inherit;
+            line-height: 1.5;
+            text-align: left;
             transition: all 0.3s ease;
         }
 
@@ -421,6 +433,159 @@
         .submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(42, 82, 152, 0.4);
+        }
+
+        .course-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .course-nav.bottom {
+            margin: 30px 0 0;
+        }
+
+        .course-nav a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 10px 16px;
+            color: #1e3c72;
+            background: rgba(255,255,255,0.96);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .course-nav a:hover {
+            background: white;
+        }
+
+        .course-alignment {
+            max-width: 900px;
+            margin: 14px auto 0;
+            color: #4a5568;
+            font-size: 0.98rem;
+        }
+
+        caption {
+            color: #2d3748;
+            font-weight: 700;
+            padding: 8px 0;
+            text-align: left;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 3px solid #f59e0b;
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                width: 100%;
+                padding: 12px;
+            }
+
+            header {
+                padding: 24px 16px;
+                border-radius: 14px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                line-height: 1.15;
+            }
+
+            .subtitle {
+                font-size: 1.05rem;
+            }
+
+            .learning-path {
+                display: block;
+                margin-top: 18px;
+            }
+
+            .sidebar {
+                position: static;
+                max-height: none;
+                margin-bottom: 18px;
+                padding: 18px;
+            }
+
+            .content-area {
+                padding: 22px 16px;
+            }
+
+            .content-section h2 {
+                font-size: 1.75rem;
+                line-height: 1.2;
+            }
+
+            .content-section h3 {
+                padding-left: 10px;
+                font-size: 1.35rem;
+            }
+
+            .content-section {
+                animation: none;
+            }
+
+            .content-section ul,
+            .content-section ol {
+                margin-left: 22px;
+            }
+
+            .code-block {
+                padding: 18px 14px;
+                font-size: 12px;
+                white-space: pre;
+            }
+
+            .practice-exercise,
+            .quiz-container {
+                padding: 18px 14px;
+            }
+
+            .sql-result,
+            .operator-table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+            }
+
+            .sql-result table {
+                min-width: 580px;
+            }
+
+            .operator-table {
+                min-width: 0;
+                max-width: 100%;
+                white-space: nowrap;
+            }
+
+            .course-nav {
+                flex-wrap: wrap;
+            }
+
+            .course-nav a {
+                flex: 1 1 145px;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
         }
 
         @keyframes fadeInDown {
@@ -478,16 +643,22 @@
 </head>
 <body>
     <div class="container">
+        <nav class="course-nav" aria-label="Chapter navigation">
+            <a href="/ciss340-chapter2.html">← Previous: Workbench</a>
+            <a href="/ciss340/">Back to CISS 340</a>
+            <a href="/ciss340-chapter4.html">Next: Multiple Tables →</a>
+        </nav>
         <header>
-            <h1>SQL SELECT Statement Mastery</h1>
-            <p class="subtitle">Complete Guide to Query Writing and Data Retrieval</p>
+            <h1>Chapter 3: How to retrieve data from a single table</h1>
+            <p class="subtitle">Interactive practice with SELECT, WHERE, ORDER BY, and LIMIT</p>
+            <p class="course-alignment"><strong>Textbook alignment:</strong> This original course companion follows the official Murach Chapter 3 sequence and keeps its examples in MySQL.</p>
         </header>
 
         <div class="learning-path">
             <div class="sidebar">
                 <div class="progress-tracker">
                     <h3>Your Progress</h3>
-                    <div class="progress-bar">
+                    <div class="progress-bar" id="progressMeter" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                         <div class="progress-fill" id="progressBar"></div>
                     </div>
                     <p style="margin-top: 10px; color: #718096; font-size: 14px;">
@@ -781,13 +952,14 @@ LIMIT 10;
                     <div class="sql-result">
                         <strong>customers table:</strong>
                         <table>
+                            <caption>Sample customer records used in Chapter 3 queries</caption>
                             <tr>
-                                <th>customer_id</th>
-                                <th>first_name</th>
-                                <th>last_name</th>
-                                <th>email</th>
-                                <th>city</th>
-                                <th>state</th>
+                                <th scope="col">customer_id</th>
+                                <th scope="col">first_name</th>
+                                <th scope="col">last_name</th>
+                                <th scope="col">email</th>
+                                <th scope="col">city</th>
+                                <th scope="col">state</th>
                             </tr>
                             <tr>
                                 <td>1</td>
@@ -811,12 +983,13 @@ LIMIT 10;
                     <div class="sql-result">
                         <strong>products table:</strong>
                         <table>
+                            <caption>Sample product records used in Chapter 3 queries</caption>
                             <tr>
-                                <th>product_id</th>
-                                <th>product_name</th>
-                                <th>category</th>
-                                <th>price</th>
-                                <th>stock</th>
+                                <th scope="col">product_id</th>
+                                <th scope="col">product_name</th>
+                                <th scope="col">category</th>
+                                <th scope="col">price</th>
+                                <th scope="col">stock</th>
                             </tr>
                             <tr>
                                 <td>1</td>
@@ -1207,11 +1380,12 @@ WHERE salary * 12 > 50000;</div>
 
                     <h3>Basic Arithmetic Operators</h3>
                     <table class="operator-table">
+                        <caption>Arithmetic operators available in MySQL expressions</caption>
                         <tr>
-                            <th>Operator</th>
-                            <th>Description</th>
-                            <th>Example</th>
-                            <th>Result</th>
+                            <th scope="col">Operator</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Example</th>
+                            <th scope="col">Result</th>
                         </tr>
                         <tr>
                             <td>+</td>
@@ -1384,34 +1558,15 @@ SELECT CONCAT('Hello', ' ', 'World') AS greeting;
 SELECT CONCAT(first_name, ' ', last_name) AS full_name
 FROM employees;</div>
 
-                    <h3>Different Concatenation Methods</h3>
+                    <h3>MySQL Concatenation Methods</h3>
                     
-                    <h4>Method 1: CONCAT Function</h4>
+                    <h4>CONCAT: join every argument</h4>
                     <div class="code-block">
--- Standard CONCAT function (MySQL, PostgreSQL)
+-- MySQL CONCAT function
 SELECT 
     CONCAT(first_name, ' ', last_name) AS full_name,
     CONCAT(address, ', ', city, ', ', state, ' ', zip) AS full_address,
     CONCAT('$', FORMAT(salary, 2)) AS formatted_salary
-FROM employees;</div>
-
-                    <h4>Method 2: Concatenation Operator ||</h4>
-                    <div class="code-block">
--- Using || operator (PostgreSQL, Oracle, SQLite)
-SELECT 
-    first_name || ' ' || last_name AS full_name,
-    address || ', ' || city || ', ' || state || ' ' || zip AS full_address
-FROM employees;
-
--- Note: In MySQL, need to set sql_mode for || to work:
-SET sql_mode = 'PIPES_AS_CONCAT';</div>
-
-                    <h4>Method 3: + Operator (SQL Server)</h4>
-                    <div class="code-block">
--- SQL Server uses + for concatenation
-SELECT 
-    first_name + ' ' + last_name AS full_name,
-    address + ', ' + city + ', ' + state + ' ' + zip AS full_address
 FROM employees;</div>
 
                     <h3>Advanced CONCAT Techniques</h3>
@@ -1425,8 +1580,9 @@ SELECT
     CONCAT_WS(' - ', product_code, product_name, category) AS product_info
 FROM employees;
 
--- Advantage: Automatically handles NULL values
--- If middle_name is NULL, no extra space appears</div>
+-- CONCAT_WS skips NULL arguments after the separator.
+-- If middle_name is NULL, no extra separator appears.
+-- Empty strings are not skipped, and a NULL separator returns NULL.</div>
 
                     <h4>Building Complex Strings</h4>
                     <div class="code-block">
@@ -1441,12 +1597,11 @@ FROM orders;</div>
 
                     <h3>Handling NULL Values in Concatenation</h3>
                     <div class="warning-box">
-                        <h4>⚠️ NULL Concatenation Behavior</h4>
-                        <p>Different databases handle NULL differently in concatenation:</p>
+                        <h4>⚠️ MySQL NULL Concatenation Behavior</h4>
                         <ul>
-                            <li><strong>MySQL CONCAT:</strong> Returns NULL if any part is NULL</li>
-                            <li><strong>PostgreSQL ||:</strong> Treats NULL as empty string</li>
-                            <li><strong>SQL Server +:</strong> Returns NULL if any part is NULL</li>
+                            <li><strong>CONCAT:</strong> Returns NULL if any argument is NULL.</li>
+                            <li><strong>CONCAT_WS:</strong> Skips NULL arguments after its separator, but returns NULL when the separator itself is NULL.</li>
+                            <li><strong>COALESCE or IFNULL:</strong> Lets you deliberately replace a NULL before passing it to CONCAT.</li>
                         </ul>
                         <div class="code-block">
 -- Handling NULLs safely
@@ -1457,7 +1612,7 @@ SELECT
     -- Using IFNULL (MySQL)
     CONCAT(IFNULL(first_name, ''), ' ', IFNULL(last_name, '')) AS name2,
     
-    -- Using CONCAT_WS (handles NULLs automatically)
+    -- CONCAT_WS skips NULL name parts after the separator
     CONCAT_WS(' ', first_name, last_name) AS name3
 FROM employees;</div>
                     </div>
@@ -1532,8 +1687,8 @@ SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
 -- UPPER / LOWER - Change case
 SELECT UPPER(first_name), LOWER(email) FROM customers;
 
--- LENGTH - Get string length
-SELECT product_name, LENGTH(product_name) AS name_length FROM products;
+-- CHAR_LENGTH - Count characters (LENGTH counts bytes)
+SELECT product_name, CHAR_LENGTH(product_name) AS name_length FROM products;
 
 -- SUBSTRING - Extract part of string
 SELECT SUBSTRING(phone_number, 1, 3) AS area_code FROM customers;
@@ -1724,7 +1879,7 @@ SELECT
 -- IF function
 SELECT 
     IF(10 > 5, 'True', 'False') AS simple_if,
-    IF(HOUR(NOW()) < 12, 'Good Morning', 'Good Afternoon') AS greeting;</div>
+    IF(HOUR(NOW()) &lt; 12, 'Good Morning', 'Good Afternoon') AS greeting;</div>
 
                     <h3>System Information Queries</h3>
                     <div class="code-block">
@@ -1814,7 +1969,8 @@ FROM table_name;</div>
                     <div class="sql-result">
                         <strong>Original data:</strong>
                         <table>
-                            <tr><th>city</th><th>state</th></tr>
+                            <caption>City and state pairs before DISTINCT is applied</caption>
+                            <tr><th scope="col">city</th><th scope="col">state</th></tr>
                             <tr><td>New York</td><td>NY</td></tr>
                             <tr><td>Los Angeles</td><td>CA</td></tr>
                             <tr><td>New York</td><td>NY</td></tr>
@@ -1971,11 +2127,12 @@ GROUP BY category;</div>
 
                     <h3>Complete List of Comparison Operators</h3>
                     <table class="operator-table">
+                        <caption>Comparison operators for WHERE conditions</caption>
                         <tr>
-                            <th>Operator</th>
-                            <th>Description</th>
-                            <th>Example</th>
-                            <th>Result</th>
+                            <th scope="col">Operator</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Example</th>
+                            <th scope="col">Result</th>
                         </tr>
                         <tr>
                             <td>=</td>
@@ -2029,15 +2186,15 @@ SELECT * FROM employees WHERE department_id = 10;
 
 -- Not equal to (both syntaxes work)
 SELECT * FROM products WHERE category != 'Electronics';
-SELECT * FROM products WHERE category <> 'Electronics';
+SELECT * FROM products WHERE category &lt;&gt; 'Electronics';
 
 -- Greater than / Less than
 SELECT * FROM products WHERE price > 100;
-SELECT * FROM products WHERE quantity < 10;
+SELECT * FROM products WHERE quantity &lt; 10;
 
 -- Greater than or equal / Less than or equal
 SELECT * FROM employees WHERE salary >= 50000;
-SELECT * FROM orders WHERE order_date <= '2024-12-31';</div>
+SELECT * FROM orders WHERE order_date &lt;= '2024-12-31';</div>
 
                     <h3>Comparing Different Data Types</h3>
                     
@@ -2045,7 +2202,7 @@ SELECT * FROM orders WHERE order_date <= '2024-12-31';</div>
                     <div class="code-block">
 -- Integer and decimal comparisons
 SELECT * FROM products 
-WHERE price > 49.99 AND price < 99.99;
+WHERE price &gt; 49.99 AND price &lt; 99.99;
 
 -- Calculated value comparisons
 SELECT * FROM order_items 
@@ -2057,15 +2214,15 @@ WHERE discount_percent >= 0.10;</div>
 
                     <h4>String Comparisons</h4>
                     <div class="code-block">
--- String equality (case-insensitive by default in MySQL)
+-- String equality under a case-insensitive (_ci) column collation
 SELECT * FROM customers WHERE last_name = 'Smith';
 
 -- String inequality
 SELECT * FROM products WHERE category != 'Books';
 
--- Alphabetical comparisons
-SELECT * FROM customers WHERE last_name > 'M';  -- Names starting N-Z
-SELECT * FROM customers WHERE first_name < 'John';  -- Names before John
+-- Lexical comparisons follow the column's collation
+SELECT * FROM customers WHERE last_name >= 'N';  -- Names from N onward under the chosen collation
+SELECT * FROM customers WHERE first_name &lt; 'John';  -- Names before John
 
 -- Case-sensitive comparison (using BINARY)
 SELECT * FROM users WHERE BINARY username = 'JohnDoe';</div>
@@ -2079,7 +2236,7 @@ SELECT * FROM orders WHERE order_date >= CURDATE();
 -- Date range comparisons
 SELECT * FROM employees 
 WHERE hire_date >= '2023-01-01' 
-  AND hire_date <= '2023-12-31';
+  AND hire_date &lt;= '2023-12-31';
 
 -- Comparing with calculated dates
 SELECT * FROM orders 
@@ -2098,8 +2255,8 @@ SELECT * FROM employees WHERE commission_pct != NULL;    -- Wrong!
 SELECT * FROM employees WHERE commission_pct IS NULL;
 SELECT * FROM employees WHERE commission_pct IS NOT NULL;
 
--- NULL-safe equal operator <=>
-SELECT * FROM employees WHERE commission_pct <=> NULL;   -- Works!</div>
+-- NULL-safe equal operator &lt;=>
+SELECT * FROM employees WHERE commission_pct &lt;=> NULL;   -- Works!</div>
                     </div>
 
                     <h3>Combining Multiple Comparisons</h3>
@@ -2107,7 +2264,7 @@ SELECT * FROM employees WHERE commission_pct <=> NULL;   -- Works!</div>
 -- Multiple conditions with AND
 SELECT * FROM products 
 WHERE price > 50 
-  AND price < 200 
+  AND price &lt; 200
   AND category = 'Electronics'
   AND stock_quantity > 0;
 
@@ -2163,10 +2320,11 @@ WHERE total_amount > (
 
                     <h3>The Three Logical Operators</h3>
                     <table class="operator-table">
+                        <caption>AND, OR, and NOT logical operators</caption>
                         <tr>
-                            <th>Operator</th>
-                            <th>Description</th>
-                            <th>Returns TRUE when</th>
+                            <th scope="col">Operator</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Returns TRUE when</th>
                         </tr>
                         <tr>
                             <td>AND</td>
@@ -2277,16 +2435,17 @@ WHERE (category = 'Electronics' OR category = 'Computers')
 -- Complex example
 SELECT * FROM orders 
 WHERE (status = 'Shipped' AND ship_date > '2024-01-01')
-   OR (status = 'Pending' AND order_date < '2024-01-01')
+   OR (status = 'Pending' AND order_date &lt; '2024-01-01')
    OR (priority = 'High' AND NOT status = 'Cancelled');</div>
 
                     <h3>Truth Tables</h3>
                     <h4>AND Truth Table</h4>
                     <table class="operator-table">
+                        <caption>Truth table for the AND operator</caption>
                         <tr>
-                            <th>Condition A</th>
-                            <th>Condition B</th>
-                            <th>A AND B</th>
+                            <th scope="col">Condition A</th>
+                            <th scope="col">Condition B</th>
+                            <th scope="col">A AND B</th>
                         </tr>
                         <tr>
                             <td>TRUE</td>
@@ -2312,10 +2471,11 @@ WHERE (status = 'Shipped' AND ship_date > '2024-01-01')
 
                     <h4>OR Truth Table</h4>
                     <table class="operator-table">
+                        <caption>Truth table for the OR operator</caption>
                         <tr>
-                            <th>Condition A</th>
-                            <th>Condition B</th>
-                            <th>A OR B</th>
+                            <th scope="col">Condition A</th>
+                            <th scope="col">Condition B</th>
+                            <th scope="col">A OR B</th>
                         </tr>
                         <tr>
                             <td>TRUE</td>
@@ -2357,7 +2517,7 @@ WHERE category IN ('Electronics', 'Computers', 'Software');</div>
                     <div class="code-block">
 -- Using AND for range
 SELECT * FROM products 
-WHERE price >= 100 AND price <= 500;
+WHERE price &gt;= 100 AND price &lt;= 500;
 
 -- Better with BETWEEN
 SELECT * FROM products 
@@ -2498,11 +2658,11 @@ WHERE NOT EXISTS (
                     <div class="tip-box">
                         <h4>💡 Performance Tips for IN</h4>
                         <ul>
-                            <li>IN is optimized for small to medium lists (< 1000 items)</li>
-                            <li>For very large lists, consider using a temporary table and JOIN</li>
+                            <li>IN is clear and appropriate for short literal lists</li>
+                            <li>For a very large changing set, consider a table and a join or subquery</li>
                             <li>Index the column being checked with IN</li>
                             <li>IN with subqueries may be rewritten as EXISTS by optimizer</li>
-                            <li>Avoid using IN with columns that allow NULL</li>
+                            <li><strong>IN is fine with nullable columns.</strong> The hazard is <strong>NOT IN</strong> when its list or subquery can contain NULL; filter NULL from the subquery or use NOT EXISTS.</li>
                         </ul>
                     </div>
 
@@ -2600,7 +2760,7 @@ FROM table_name
 WHERE column_name NOT BETWEEN value1 AND value2;
 
 -- Important: BETWEEN is inclusive of both boundaries
--- value1 <= column_name <= value2</div>
+-- value1 &lt;= column_name &lt;= value2</div>
 
                     <h3>BETWEEN with Numbers</h3>
                     <div class="code-block">
@@ -2611,7 +2771,7 @@ WHERE price BETWEEN 10.00 AND 50.00;
 
 -- Equivalent using comparison operators
 SELECT * FROM products 
-WHERE price >= 10.00 AND price <= 50.00;
+WHERE price &gt;= 10.00 AND price &lt;= 50.00;
 
 -- Integer ranges
 SELECT * FROM employees 
@@ -2657,7 +2817,7 @@ WHERE order_datetime BETWEEN '2024-01-01' AND '2024-12-31';
 -- Better approach for datetime columns:
 SELECT * FROM orders 
 WHERE order_datetime >= '2024-01-01' 
-  AND order_datetime < '2025-01-01';
+  AND order_datetime &lt; '2025-01-01';
 
 -- Or explicitly include time:
 SELECT * FROM orders 
@@ -2769,11 +2929,12 @@ WHERE order_date BETWEEN
 
                     <h3>LIKE Operator Wildcards</h3>
                     <table class="operator-table">
+                        <caption>Wildcards used with the LIKE operator</caption>
                         <tr>
-                            <th>Wildcard</th>
-                            <th>Description</th>
-                            <th>Example</th>
-                            <th>Matches</th>
+                            <th scope="col">Wildcard</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Example</th>
+                            <th scope="col">Matches</th>
                         </tr>
                         <tr>
                             <td>%</td>
@@ -2846,10 +3007,11 @@ WHERE name LIKE '%!_temp%' ESCAPE '!';
                     
                     <h4>REGEXP Metacharacters</h4>
                     <table class="operator-table">
+                        <caption>Common MySQL regular-expression metacharacters</caption>
                         <tr>
-                            <th>Pattern</th>
-                            <th>Description</th>
-                            <th>Example</th>
+                            <th scope="col">Pattern</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Example</th>
                         </tr>
                         <tr>
                             <td>^</td>
@@ -2926,10 +3088,10 @@ WHERE zip_code REGEXP '^[0-9]{5}(-[0-9]{4})?$';</div>
 SELECT * FROM products
 WHERE product_code REGEXP '^[A-Z]{2}-[0-9]{4}-[A-Z]$';
 
--- Finding words
+-- Finding whole words (double backslashes survive MySQL string parsing)
 SELECT * FROM products
-WHERE description REGEXP '[[:<:]]laptop[[:>:]]';
--- [[:<:]] and [[:>:]] are word boundaries
+WHERE description REGEXP '\\blaptop\\b';
+-- MySQL 8 uses ICU regular expressions; \b is a word boundary
 
 -- Case-insensitive search (REGEXP is case-insensitive by default in MySQL)
 SELECT * FROM products WHERE name REGEXP '[0-9]';
@@ -3014,7 +3176,7 @@ SELECT * FROM employees WHERE commission_pct IS NOT NULL;
 -- WRONG - These won't work!
 SELECT * FROM employees WHERE commission_pct = NULL;      -- Returns nothing
 SELECT * FROM employees WHERE commission_pct != NULL;     -- Returns nothing
-SELECT * FROM employees WHERE commission_pct <> NULL;     -- Returns nothing</div>
+SELECT * FROM employees WHERE commission_pct &lt;&gt; NULL;     -- Returns nothing</div>
 
                     <h3>NULL in Different Contexts</h3>
                     
@@ -3616,24 +3778,24 @@ SELECT * FROM products ORDER BY product_id LIMIT 10 OFFSET 10;
 -- Page 3 (rows 21-30)
 SELECT * FROM products ORDER BY product_id LIMIT 10 OFFSET 20;
 
--- Dynamic pagination
-SET @page = 3;
-SET @page_size = 10;
-SELECT * FROM products 
-ORDER BY product_id 
-LIMIT @page_size OFFSET (@page - 1) * @page_size;</div>
+-- Dynamic pagination in application code:
+-- compute offset = (page - 1) * page_size, then bind nonnegative integers
+-- to a prepared statement such as this one.
+SELECT * FROM products
+ORDER BY product_id
+LIMIT ? OFFSET ?;</div>
 
                     <h3>LIMIT with ORDER BY</h3>
                     <div class="code-block">
 -- Top N queries
 -- Top 10 best-selling products
 SELECT 
-    product_id,
+    p.product_id,
     product_name,
     SUM(quantity) as total_sold
 FROM order_items oi
 JOIN products p ON oi.product_id = p.product_id
-GROUP BY product_id
+GROUP BY p.product_id, p.product_name
 ORDER BY total_sold DESC
 LIMIT 10;
 
@@ -3699,16 +3861,9 @@ UNION ALL
 
                     <h3>LIMIT in Subqueries</h3>
                     <div class="code-block">
--- Find orders from top 10 customers
-SELECT * FROM orders 
-WHERE customer_id IN (
-    SELECT customer_id 
-    FROM customers 
-    ORDER BY total_purchases DESC 
-    LIMIT 10
-);  -- Note: This won't work in all MySQL versions
-
--- Workaround using derived table
+-- Find orders from the top 10 customers.
+-- MySQL 8 does not support LIMIT directly in an IN subquery,
+-- so put the limited result in a derived table and join it.
 SELECT o.* FROM orders o
 JOIN (
     SELECT customer_id 
@@ -3721,8 +3876,8 @@ JOIN (
                     <div class="tip-box">
                         <h4>💡 LIMIT Performance Tips</h4>
                         <ul>
-                            <li>LIMIT can significantly improve query performance</li>
-                            <li>MySQL stops searching after finding LIMIT rows</li>
+                            <li>LIMIT can reduce work when MySQL can produce the requested rows early</li>
+                            <li>Sorting, grouping, or joins may still require processing many rows before LIMIT applies</li>
                             <li>Large OFFSET values can be slow (still scans skipped rows)</li>
                             <li>For deep pagination, consider keyset pagination instead</li>
                             <li>Always use ORDER BY with LIMIT for predictable results</li>
@@ -3750,24 +3905,20 @@ JOIN (
     LIMIT 1000000, 20
 ) AS ids ON t.id = ids.id;</div>
 
-                    <h3>Database-Specific Alternatives</h3>
+                    <h3>Two MySQL Forms for Returning a Range</h3>
                     <div class="code-block">
--- MySQL/MariaDB
+-- Return the first 10 rows
 SELECT * FROM products LIMIT 10;
 
--- PostgreSQL (also supports LIMIT)
-SELECT * FROM products LIMIT 10;
+-- Skip 40 rows, then return 20 (keyword form)
+SELECT * FROM products
+ORDER BY product_id
+LIMIT 20 OFFSET 40;
 
--- SQL Server
-SELECT TOP 10 * FROM products;
-
--- Oracle (12c+)
-SELECT * FROM products FETCH FIRST 10 ROWS ONLY;
-
--- Older Oracle
-SELECT * FROM (
-    SELECT * FROM products ORDER BY product_id
-) WHERE ROWNUM <= 10;</div>
+-- The equivalent MySQL comma form: offset, row_count
+SELECT * FROM products
+ORDER BY product_id
+LIMIT 40, 20;</div>
 
                     <div class="practice-exercise">
                         <h4>🎯 Practice Exercise 18</h4>
@@ -3866,7 +4017,7 @@ WHERE YEAR(order_date) = 2024;
 -- Good: Range condition can use index
 SELECT * FROM orders 
 WHERE order_date >= '2024-01-01' 
-    AND order_date < '2025-01-01';
+    AND order_date &lt; '2025-01-01';
 
 -- Bad: Leading wildcard prevents index use
 SELECT * FROM customers WHERE last_name LIKE '%son';
@@ -3877,12 +4028,12 @@ SELECT * FROM customers WHERE last_name LIKE 'John%';</div>
                     <h4>Optimize WHERE Clauses</h4>
                     <div class="code-block">
 -- Put most selective conditions first
--- Bad: Less selective condition first
+-- Equivalent predicates: MySQL's optimizer can reorder AND conditions
 SELECT * FROM products 
 WHERE status = 'Active'      -- Many products are active
     AND product_id = 12345;   -- Very selective
 
--- Good: Most selective first
+-- Write the order that is easiest to read, then inspect EXPLAIN when needed
 SELECT * FROM products 
 WHERE product_id = 12345      -- Very selective
     AND status = 'Active';     -- Additional check
@@ -3897,10 +4048,11 @@ WHERE status IN ('A', 'B', 'C')</div>
                     <h3>Common Anti-Patterns to Avoid</h3>
                     
                     <table class="operator-table">
+                        <caption>Common SELECT anti-patterns and safer alternatives</caption>
                         <tr>
-                            <th>Anti-Pattern</th>
-                            <th>Problem</th>
-                            <th>Solution</th>
+                            <th scope="col">Anti-Pattern</th>
+                            <th scope="col">Problem</th>
+                            <th scope="col">Solution</th>
                         </tr>
                         <tr>
                             <td>SELECT *</td>
@@ -3908,14 +4060,14 @@ WHERE status IN ('A', 'B', 'C')</div>
                             <td>Specify exact columns</td>
                         </tr>
                         <tr>
-                            <td>No WHERE clause</td>
-                            <td>Returns entire table</td>
-                            <td>Always filter when possible</td>
+                            <td>Unintended query without WHERE</td>
+                            <td>May read the entire table</td>
+                            <td>Confirm whether the full result is actually required</td>
                         </tr>
                         <tr>
-                            <td>Functions in WHERE</td>
-                            <td>Prevents index usage</td>
-                            <td>Rewrite to use indexes</td>
+                            <td>Function around an indexed column</td>
+                            <td>Can prevent use of an ordinary index</td>
+                            <td>Use an equivalent range predicate when possible</td>
                         </tr>
                         <tr>
                             <td>Implicit conversions</td>
@@ -4199,7 +4351,7 @@ LIMIT 10;</div>
                                 A) !=
                             </div>
                             <div class="quiz-option" onclick="selectQuizOption(this, 11)">
-                                B) <>
+                                B) &lt;&gt;
                             </div>
                             <div class="quiz-option" onclick="selectQuizOption(this, 11)">
                                 C) NOT =
@@ -4228,7 +4380,7 @@ LIMIT 10;</div>
 
                         <div class="quiz-question" data-question="13">
                             <h3>Question 13: Arithmetic Operators</h3>
-                            <p>What is the result of 10 / 3 in MySQL (integer division)?</p>
+                            <p>What is the approximate result of ordinary division using 10 / 3 in MySQL?</p>
                             <div class="quiz-option" onclick="selectQuizOption(this, 13)">
                                 A) 3
                             </div>
@@ -4280,7 +4432,7 @@ LIMIT 10;</div>
                         <div class="quiz-question" data-question="16">
                             <h3>Question 16: String Functions</h3>
                             <p>Which function converts a string to uppercase?</p>
-                            <div class="quiz-option" onclick="selectQuizOption(this, 16)" data-correct>
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)">
                                 A) UPPER()
                             </div>
                             <div class="quiz-option" onclick="selectQuizOption(this, 16)">
@@ -4289,7 +4441,7 @@ LIMIT 10;</div>
                             <div class="quiz-option" onclick="selectQuizOption(this, 16)">
                                 C) CAPS()
                             </div>
-                            <div class="quiz-option" onclick="selectQuizOption(this, 16)">
+                            <div class="quiz-option" onclick="selectQuizOption(this, 16)" data-correct>
                                 D) Both A and B
                             </div>
                         </div>
@@ -4536,7 +4688,7 @@ LIMIT 10;</div>
                             <button class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
                         </div>
 
-                        <div id="quizScore" style="display: none; margin-top: 30px; text-align: center;">
+                        <div id="quizScore" role="status" aria-live="polite" tabindex="-1" style="display: none; margin-top: 30px; text-align: center;">
                             <div class="success-box">
                                 <h3>Your Score: <span id="finalScore"></span>%</h3>
                                 <p id="scoreMessage"></p>
@@ -4552,131 +4704,250 @@ LIMIT 10;</div>
                 </div>
             </div>
         </div>
+        <nav class="course-nav bottom" aria-label="Chapter navigation at end">
+            <a href="/ciss340-chapter2.html">← Previous: Workbench</a>
+            <a href="/ciss340/">Back to CISS 340</a>
+            <a href="/ciss340-chapter4.html">Next: Multiple Tables →</a>
+        </nav>
     </div>
 
     <script>
+        const PROGRESS_KEY = 'sqlSelectProgress';
+        const ANSWERS_KEY = 'sqlSelectQuizAnswerIndexes';
         let visitedSections = new Set();
         let quizAnswers = {};
-        
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Remove active from all nav items
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-            
-            // Show selected section
-            const selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.classList.add('active');
+
+        function prefersReducedMotion() {
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        function readStoredJson(key, fallback) {
+            try {
+                const value = localStorage.getItem(key);
+                return value ? JSON.parse(value) : fallback;
+            } catch (error) {
+                return fallback;
             }
-            
-            // Mark nav item as active
-            event.target.closest('.nav-item').classList.add('active');
-            
-            // Track progress
+        }
+
+        function writeStoredJson(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (error) {
+                // Progress remains available for this visit if storage is unavailable.
+            }
+        }
+
+        function upgradeInteractiveControls() {
+            document.querySelectorAll('.nav-item').forEach(source => {
+                const match = source.getAttribute('onclick')?.match(/showSection\('([^']+)'\)/);
+                if (!match) return;
+
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = source.className;
+                button.innerHTML = source.innerHTML;
+                button.dataset.section = match[1];
+                button.setAttribute('aria-controls', match[1]);
+                button.setAttribute('aria-current', source.classList.contains('active') ? 'page' : 'false');
+                source.replaceWith(button);
+                button.addEventListener('click', () => showSection(button.dataset.section, button));
+            });
+
+            document.querySelectorAll('.quiz-question[data-question]').forEach(question => {
+                const questionNumber = question.dataset.question;
+                const heading = question.querySelector('h3');
+                if (heading) {
+                    heading.id = `select-quiz-question-${questionNumber}`;
+                    question.setAttribute('role', 'radiogroup');
+                    question.setAttribute('aria-labelledby', heading.id);
+                }
+
+                Array.from(question.querySelectorAll('.quiz-option')).forEach((source, index) => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = source.className;
+                    button.innerHTML = source.innerHTML;
+                    button.setAttribute('role', 'radio');
+                    button.setAttribute('aria-checked', 'false');
+                    button.tabIndex = index === 0 ? 0 : -1;
+                    if (source.hasAttribute('data-correct')) button.setAttribute('data-correct', '');
+                    source.replaceWith(button);
+                    button.addEventListener('click', () => selectQuizOption(button, questionNumber));
+                    button.addEventListener('keydown', event => moveWithinQuestion(event, button));
+                });
+            });
+
+            document.querySelectorAll('#quiz button:not([type])').forEach(button => {
+                button.type = 'button';
+            });
+
+            document.querySelectorAll('table th:not([scope])').forEach(header => {
+                header.setAttribute('scope', 'col');
+            });
+        }
+
+        function moveWithinQuestion(event, current) {
+            if (!['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            const options = Array.from(current.closest('.quiz-question').querySelectorAll('.quiz-option'));
+            const currentIndex = options.indexOf(current);
+            let nextIndex = currentIndex;
+            if (event.key === 'Home') nextIndex = 0;
+            else if (event.key === 'End') nextIndex = options.length - 1;
+            else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % options.length;
+            else nextIndex = (currentIndex - 1 + options.length) % options.length;
+            options[nextIndex].focus();
+            options[nextIndex].click();
+        }
+
+        function showSection(sectionId, trigger) {
+            const selectedSection = document.getElementById(sectionId);
+            if (!selectedSection) return;
+
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                item.setAttribute('aria-current', 'false');
+            });
+
+            selectedSection.classList.add('active');
+            const activeItem = trigger || document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
+                activeItem.setAttribute('aria-current', 'page');
+            }
+
             visitedSections.add(sectionId);
             updateProgress();
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
         }
-        
+
         function updateProgress() {
-            const totalSections = 20;
-            const completed = visitedSections.size;
-            const percentage = Math.round((completed / totalSections) * 100);
-            
+            const sectionIds = new Set(Array.from(document.querySelectorAll('.nav-item')).map(item => item.dataset.section));
+            const completed = Array.from(visitedSections).filter(id => sectionIds.has(id)).length;
+            const totalSections = sectionIds.size || 1;
+            const percentage = Math.min(100, Math.round((completed / totalSections) * 100));
+
             document.getElementById('progressBar').style.width = percentage + '%';
             document.getElementById('progressText').textContent = percentage;
-            
-            // Save progress
-            localStorage.setItem('sqlSelectProgress', JSON.stringify(Array.from(visitedSections)));
+            document.getElementById('progressMeter').setAttribute('aria-valuenow', String(percentage));
+            writeStoredJson(PROGRESS_KEY, Array.from(visitedSections).filter(id => sectionIds.has(id)));
         }
-        
-        // Quiz functions
-        function selectQuizOption(element, questionNum) {
+
+        function selectQuizOption(element, questionNum, persist = true) {
             const question = element.closest('.quiz-question');
-            const options = question.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('selected');
+            const options = Array.from(question.querySelectorAll('.quiz-option'));
+            const selectedIndex = options.indexOf(element);
+
+            options.forEach((option, index) => {
+                const selected = index === selectedIndex;
+                option.classList.toggle('selected', selected);
+                option.classList.remove('correct', 'incorrect');
+                option.setAttribute('aria-checked', String(selected));
+                option.tabIndex = selected ? 0 : -1;
+                option.removeAttribute('aria-label');
             });
-            
-            element.classList.add('selected');
-            quizAnswers[questionNum] = element.hasAttribute('data-correct');
+
+            quizAnswers[String(questionNum)] = selectedIndex;
+            if (persist) writeStoredJson(ANSWERS_KEY, quizAnswers);
         }
-        
+
         function submitQuiz() {
-            const totalQuestions = 30;
-            const answeredQuestions = Object.keys(quizAnswers).length;
-            
-            if (answeredQuestions < totalQuestions) {
-                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${totalQuestions} questions.`);
+            const questions = Array.from(document.querySelectorAll('.quiz-question[data-question]'));
+            const answeredQuestions = questions.filter(question => Number.isInteger(quizAnswers[question.dataset.question])).length;
+
+            if (answeredQuestions < questions.length) {
+                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${questions.length} questions.`);
                 return;
             }
-            
+
             let correctAnswers = 0;
-            for (let i = 1; i <= totalQuestions; i++) {
-                if (quizAnswers[i]) {
-                    correctAnswers++;
-                }
-                
-                const question = document.querySelector(`.quiz-question[data-question="${i}"]`);
-                const options = question.querySelectorAll('.quiz-option');
-                options.forEach(opt => {
-                    if (opt.hasAttribute('data-correct')) {
-                        opt.classList.add('correct');
-                    } else if (opt.classList.contains('selected') && !opt.hasAttribute('data-correct')) {
-                        opt.classList.add('incorrect');
-                    }
+            questions.forEach(question => {
+                const selectedIndex = quizAnswers[question.dataset.question];
+                const options = Array.from(question.querySelectorAll('.quiz-option'));
+                const selectedOption = options[selectedIndex];
+                if (selectedOption?.hasAttribute('data-correct')) correctAnswers++;
+
+                options.forEach((option, index) => {
+                    const isCorrect = option.hasAttribute('data-correct');
+                    const isSelected = index === selectedIndex;
+                    option.classList.toggle('correct', isCorrect);
+                    option.classList.toggle('incorrect', isSelected && !isCorrect);
+                    const feedback = isCorrect ? ' Correct answer.' : (isSelected ? ' Your answer; incorrect.' : '');
+                    option.setAttribute('aria-label', option.textContent.trim() + feedback);
                 });
-            }
-            
-            const score = (correctAnswers * (100/totalQuestions));
-            document.getElementById('finalScore').textContent = Math.round(score);
-            
+            });
+
+            const score = Math.round((correctAnswers / questions.length) * 100);
+            document.getElementById('finalScore').textContent = score;
             const messageEl = document.getElementById('scoreMessage');
-            if (score >= 90) {
-                messageEl.textContent = "🎉 Outstanding! You're a SELECT statement expert!";
-            } else if (score >= 70) {
-                messageEl.textContent = "✅ Great job! You have a solid understanding.";
-            } else if (score >= 50) {
-                messageEl.textContent = "📚 Good effort! Review the topics you struggled with.";
-            } else {
-                messageEl.textContent = "📖 Keep learning! Review the material and try again.";
-            }
-            
-            document.getElementById('quizScore').style.display = 'block';
-            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+            if (score >= 90) messageEl.textContent = "🎉 Outstanding! You're a SELECT statement expert!";
+            else if (score >= 70) messageEl.textContent = '✅ Great job! You have a solid understanding.';
+            else if (score >= 50) messageEl.textContent = '📚 Good effort! Review the topics you struggled with.';
+            else messageEl.textContent = '📖 Keep learning! Review the material and try again.';
+
+            const scorePanel = document.getElementById('quizScore');
+            scorePanel.style.display = 'block';
+            scorePanel.focus();
+            visitedSections.add('quiz');
+            updateProgress();
         }
-        
+
         function resetQuiz() {
             quizAnswers = {};
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('selected', 'correct', 'incorrect');
+            try { localStorage.removeItem(ANSWERS_KEY); } catch (error) {}
+            document.querySelectorAll('.quiz-question[data-question]').forEach(question => {
+                Array.from(question.querySelectorAll('.quiz-option')).forEach((option, index) => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                    option.setAttribute('aria-checked', 'false');
+                    option.removeAttribute('aria-label');
+                    option.tabIndex = index === 0 ? 0 : -1;
+                });
             });
             document.getElementById('quizScore').style.display = 'none';
+            const firstOption = document.querySelector('.quiz-question .quiz-option');
+            if (firstOption) firstOption.focus();
         }
-        
-        // Initialize
-        window.addEventListener('load', function() {
-            const saved = localStorage.getItem('sqlSelectProgress');
-            if (saved) {
-                visitedSections = new Set(JSON.parse(saved));
-                updateProgress();
-            } else {
-                visitedSections.add('intro');
-                updateProgress();
+
+        function initializePage() {
+            upgradeInteractiveControls();
+            const validSections = new Set(Array.from(document.querySelectorAll('.nav-item')).map(item => item.dataset.section));
+            const savedProgress = readStoredJson(PROGRESS_KEY, []);
+            visitedSections = new Set(Array.isArray(savedProgress) ? savedProgress.filter(id => validSections.has(id)) : []);
+            visitedSections.add('intro');
+
+            const savedAnswers = readStoredJson(ANSWERS_KEY, {});
+            quizAnswers = savedAnswers && typeof savedAnswers === 'object' ? savedAnswers : {};
+            Object.entries(quizAnswers).forEach(([questionNumber, selectedIndex]) => {
+                const question = document.querySelector(`.quiz-question[data-question="${questionNumber}"]`);
+                const option = question?.querySelectorAll('.quiz-option')[Number(selectedIndex)];
+                if (option && Number.isInteger(Number(selectedIndex))) {
+                    selectQuizOption(option, questionNumber, false);
+                } else {
+                    delete quizAnswers[questionNumber];
+                }
+            });
+            writeStoredJson(ANSWERS_KEY, quizAnswers);
+            updateProgress();
+        }
+
+        document.addEventListener('keydown', event => {
+            if (!event.ctrlKey || !['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
+            const navItems = Array.from(document.querySelectorAll('.nav-item'));
+            const activeIndex = navItems.findIndex(item => item.classList.contains('active'));
+            if (activeIndex < 0) return;
+            const nextIndex = event.key === 'ArrowRight'
+                ? Math.min(navItems.length - 1, activeIndex + 1)
+                : Math.max(0, activeIndex - 1);
+            if (nextIndex !== activeIndex) {
+                event.preventDefault();
+                navItems[nextIndex].click();
+                navItems[nextIndex].focus();
             }
         });
-        
-        // Save progress on exit
-        window.addEventListener('beforeunload', function() {
-            localStorage.setItem('sqlSelectProgress', JSON.stringify(Array.from(visitedSections)));
-        });
+
+        initializePage();
     </script>
 </body>
 </html>
