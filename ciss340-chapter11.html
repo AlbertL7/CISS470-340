@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A beginner-friendly CISS 340 companion to Murach's MySQL Chapter 11, with safe ap_sandbox DDL, constraint, index, and Workbench practice.">
+    <title>Chapter 11: How to create databases, tables, and indexes | CISS 340</title>
+    <link rel="stylesheet" href="/ciss340-learning-module.css">
+    <script src="/ciss340-learning-module.js" defer></script>
+</head>
+<body class="chapter-11">
+    <a class="skip-link" href="#main-content">Skip to chapter content</a>
+    <div class="reading-progress" role="progressbar" aria-label="Chapter reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+    <header class="hero">
+        <div class="hero-inner">
+            <p class="eyebrow">CISS 340 · Murach's MySQL, 4th Edition</p>
+            <h1>Chapter 11: How to create databases, tables, and indexes</h1>
+            <p class="hero-summary">Turn a reviewed design into MySQL objects without losing sight of safety. We will create parent and child tables, name constraints, inspect the SQL MySQL stores, and treat destructive DDL with the care it deserves.</p>
+            <div class="hero-meta" role="list" aria-label="Chapter details">
+                <span class="meta-chip" role="listitem">Week 3 · implementation</span>
+                <span class="meta-chip" role="listitem">9 guided sections</span>
+                <span class="meta-chip" role="listitem">60–80 minutes</span>
+                <span class="meta-chip" role="listitem">DDL only in personal <code>ap_sandbox</code></span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="course-nav" aria-label="Chapter navigation">
+        <a href="/ciss340-chapter10">← Chapter 10</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/MySQL-Workbench">Next: Workbench lab →</a>
+    </nav>
+
+    <div class="module-layout">
+        <nav class="section-nav" aria-label="Chapter 11 sections">
+            <h2>On this page</h2>
+            <a href="#ddl" aria-current="location">1. From design to DDL</a>
+            <a href="#databases">2. Databases and USE</a>
+            <a href="#tables">3. Create tables</a>
+            <a href="#constraints">4. Keys and constraints</a>
+            <a href="#script">5. A dependency-safe script</a>
+            <a href="#changes">6. Alter, rename, truncate, drop</a>
+            <a href="#indexes">7. Create useful indexes</a>
+            <a href="#workbench">8. Workbench, text, and engines</a>
+            <a href="#summary">9. Wrap-up and practice</a>
+        </nav>
+
+        <main id="main-content" tabindex="-1">
+            <section class="lesson-section" id="ddl">
+                <h2>1. From a design to DDL</h2>
+                <p class="lead"><strong>Data definition language</strong> (DDL) creates or changes database objects. Chapter 10 decided what the structure means; Chapter 11 expresses that reviewed plan in MySQL.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: construction follows the blueprint</h3>
+                    <p>A table definition is a construction specification. Column types describe materials, a primary key gives every unit an identity, and foreign keys connect one part of the structure to another. Changing the plan while pouring concrete is expensive, so review first and build second.</p>
+                </div>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Create</span>
+                        <h3>Build an object</h3>
+                        <p><code>CREATE DATABASE</code>, <code>CREATE TABLE</code>, and <code>CREATE INDEX</code> add structure.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Alter</span>
+                        <h3>Change an object</h3>
+                        <p><code>ALTER TABLE</code> can add, modify, or remove columns and constraints.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Remove</span>
+                        <h3>Empty or destroy</h3>
+                        <p><code>TRUNCATE</code> removes all rows; <code>DROP</code> removes the object. Both require deliberate confirmation.</p>
+                    </article>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Non-negotiable course boundary</h3>
+                    <p>The publisher's <code>ap</code> schema is read-only. Run Chapter 11 DDL only in your personal <code>ap_sandbox</code>, and only when Canvas authorizes the step. If that sandbox is missing or you are connected to a shared server, stop and ask rather than creating a substitute.</p>
+                </div>
+
+                <div class="callout">
+                    <h3>DDL is not ordinary transaction practice</h3>
+                    <p>Most MySQL DDL statements cause an implicit commit. MySQL 8.4 supports atomic DDL for metadata consistency during failure, but that does not mean your later <code>ROLLBACK</code> can undo a completed <code>CREATE</code>, <code>ALTER</code>, <code>TRUNCATE</code>, or <code>DROP</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="databases">
+                <h2>2. Create, select, and drop databases carefully</h2>
+                <p>In MySQL, <em>database</em> and <em>schema</em> are commonly used for the same named container. Creating the container does not automatically select it for unqualified table names.</p>
+
+                <div class="code-block">
+                    <span class="code-label">Personal local server only · when Canvas directs</span>
+                    <pre><code>CREATE DATABASE IF NOT EXISTS ap_sandbox
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_0900_ai_ci;
+
+USE ap_sandbox;
+
+SELECT DATABASE() AS current_database;</code></pre>
+                </div>
+
+                <ol class="step-list">
+                    <li>Confirm the connection and server named in Canvas.</li>
+                    <li>Create <code>ap_sandbox</code> only if the assignment tells you to create it.</li>
+                    <li>Use <code>USE ap_sandbox</code> or fully qualify every object as <code>ap_sandbox.table_name</code>.</li>
+                    <li>Run <code>SELECT DATABASE()</code> before DDL and verify the result.</li>
+                </ol>
+
+                <div class="safety-note">
+                    <h3>Understand DROP DATABASE without practicing it on course data</h3>
+                    <p><code>DROP DATABASE</code> removes the schema and its objects. The syntax below is shown to complete the chapter vocabulary; do not run it against <code>ap</code>, <code>ap_sandbox</code>, ShopFlow, or an assigned server.</p>
+                    <div class="code-block">
+                        <span class="code-label">Syntax illustration only</span>
+                        <pre><code>DROP DATABASE your_disposable_schema;</code></pre>
+                    </div>
+                </div>
+
+                <div class="quick-check" data-answer="use">
+                    <h3>Quick check: after CREATE DATABASE</h3>
+                    <fieldset>
+                        <legend>You created a permitted personal schema, then an unqualified <code>CREATE TABLE</code> reports “No database selected.” What did you miss?</legend>
+                        <label class="answer-option"><input type="radio" name="ch11-database" value="reinstall"> Reinstall MySQL Workbench</label>
+                        <label class="answer-option"><input type="radio" name="ch11-database" value="use"> Select the schema with <code>USE</code> or qualify the table name</label>
+                        <label class="answer-option"><input type="radio" name="ch11-database" value="drop"> Drop and recreate the database</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. CREATE DATABASE creates the container; USE or a qualified name tells MySQL which container to use." data-retry="Try again. The schema exists, but the session has not selected a default schema."></p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="tables">
+                <h2>3. Create tables from meaning, types, and nullability</h2>
+                <p>A column definition combines a name, data type, and rules such as <code>NOT NULL</code> or <code>DEFAULT</code>. Keep names lowercase and descriptive so scripts behave consistently across operating systems.</p>
+
+                <div class="code-block">
+                    <span class="code-label">ap_sandbox · parent table</span>
+                    <pre><code>CREATE TABLE ap_sandbox.terms_work (
+    terms_id INT PRIMARY KEY,
+    terms_description VARCHAR(50) NOT NULL,
+    terms_due_days SMALLINT UNSIGNED NOT NULL,
+    CONSTRAINT chk_terms_work_due_days
+        CHECK (terms_due_days &gt;= 0)
+) ENGINE = InnoDB;</code></pre>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>What each part of the definition communicates</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Definition part</th>
+                                <th scope="col">Meaning</th>
+                                <th scope="col">Beginner question</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>SMALLINT UNSIGNED</code></th>
+                                <td>A nonnegative whole-number range</td>
+                                <td>Is the range sufficient for allowed due days?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>VARCHAR(50)</code></th>
+                                <td>Up to 50 characters of variable-length text</td>
+                                <td>Is the value text, and is the limit justified?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>NOT NULL</code></th>
+                                <td>A value is required</td>
+                                <td>Can the business fact genuinely be unknown?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>DEFAULT</code></th>
+                                <td>A value supplied when an insert omits the column</td>
+                                <td>Is that default true, or would it invent a fact?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <h3>Two MySQL 8.4 details</h3>
+                    <ul>
+                        <li><code>AUTO_INCREMENT</code> creates identifiers, not gap-free business sequence numbers. Gaps are normal.</li>
+                        <li>A <code>CHECK</code> condition accepts <code>TRUE</code> or <code>UNKNOWN</code>. Pair a range check with <code>NOT NULL</code> when the value is required.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="constraints">
+                <h2>4. Use constraints as guardrails</h2>
+                <p>Constraints make design rules executable. Name them so error messages, inspection, and later changes can refer to a meaningful rule.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: guardrails do different jobs</h3>
+                    <p>A primary key is an identity checkpoint, a unique constraint prevents duplicate business identifiers, a foreign key blocks orphan references, and a check constraint keeps values inside an allowed rule. One guardrail cannot replace the others.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">ap_sandbox · child table with named constraints</span>
+                    <pre><code>CREATE TABLE ap_sandbox.vendors_work (
+    vendor_id INT AUTO_INCREMENT PRIMARY KEY,
+    vendor_name VARCHAR(50) NOT NULL,
+    default_terms_id INT NOT NULL,
+    CONSTRAINT fk_vendors_work_terms
+        FOREIGN KEY (default_terms_id)
+        REFERENCES ap_sandbox.terms_work (terms_id)
+) ENGINE = InnoDB;</code></pre>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Constraint questions to ask before running DDL</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Constraint</th>
+                                <th scope="col">Question it answers</th>
+                                <th scope="col">Important MySQL detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">Primary key</th><td>How is each row identified?</td><td>It is unique and non-null and creates an index.</td></tr>
+                            <tr><th scope="row">Unique</th><td>Which other value or combination may not repeat?</td><td>A nullable unique key can permit multiple <code>NULL</code> values.</td></tr>
+                            <tr><th scope="row">Foreign key</th><td>Which parent row must exist?</td><td>Child and parent key types must be compatible.</td></tr>
+                            <tr><th scope="row">Check</th><td>Which row-level condition must not be false?</td><td>Use <code>NOT NULL</code> separately when unknown is not allowed.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Write a real table-level foreign key</h3>
+                    <p>Do not rely on an inline column phrase such as <code>vendor_id INT REFERENCES vendors_work(vendor_id)</code>. In MySQL, define the relationship with a separate <code>FOREIGN KEY (...) REFERENCES ...</code> constraint as shown above.</p>
+                </div>
+
+                <div class="choice-lab">
+                    <h3>Constraint gate: what blocks the row?</h3>
+                    <p>Choose a proposed row to identify the first relevant guardrail.</p>
+                    <div class="button-row" role="group" aria-label="Constraint scenario choices">
+                        <button type="button" data-choice="orphan" aria-pressed="true" aria-controls="ch11-gate-orphan">Unknown terms ID</button>
+                        <button type="button" data-choice="negative" aria-pressed="false" aria-controls="ch11-gate-negative">Negative amount</button>
+                        <button type="button" data-choice="duplicate" aria-pressed="false" aria-controls="ch11-gate-duplicate">Duplicate invoice number</button>
+                    </div>
+                    <div class="choice-panel" id="ch11-gate-orphan" data-panel="orphan">
+                        <h4>Foreign-key guardrail</h4>
+                        <p>A vendor cannot reference a <code>terms_id</code> that is absent from <code>terms_work</code>.</p>
+                    </div>
+                    <div class="choice-panel" id="ch11-gate-negative" data-panel="negative" hidden>
+                        <h4>Check-constraint guardrail</h4>
+                        <p>A named <code>CHECK (invoice_total &gt;= 0)</code> rejects a negative amount.</p>
+                    </div>
+                    <div class="choice-panel" id="ch11-gate-duplicate" data-panel="duplicate" hidden>
+                        <h4>Unique-constraint guardrail</h4>
+                        <p>A composite unique constraint on vendor and invoice number can prevent that business identifier from repeating for the same vendor.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="script">
+                <h2>5. Build a dependency-safe creation script</h2>
+                <p>Create a referenced parent before the child that depends on it. For removal, reverse the order. This makes the script readable and avoids treating integrity checks as obstacles to bypass.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: install the shelf before the hanging basket</h3>
+                    <p>A child table's foreign key hangs from a parent key. Build the parent support first, attach the child next, and dismantle the child before removing the parent.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">ap_sandbox · simplified creation order</span>
+                    <pre><code>-- 1. Confirm the target.
+SELECT DATABASE() AS current_database;
+
+-- 2. Create the independent parent first.
+CREATE TABLE ap_sandbox.terms_work (
+    terms_id INT PRIMARY KEY,
+    terms_description VARCHAR(50) NOT NULL,
+    terms_due_days SMALLINT UNSIGNED NOT NULL,
+    CONSTRAINT chk_terms_work_due_days
+        CHECK (terms_due_days &gt;= 0)
+) ENGINE = InnoDB;
+
+-- 3. Create the child after its parent exists.
+CREATE TABLE ap_sandbox.vendors_work (
+    vendor_id INT AUTO_INCREMENT PRIMARY KEY,
+    vendor_name VARCHAR(50) NOT NULL,
+    default_terms_id INT NOT NULL,
+    CONSTRAINT fk_vendors_work_terms
+        FOREIGN KEY (default_terms_id)
+        REFERENCES ap_sandbox.terms_work (terms_id)
+) ENGINE = InnoDB;
+
+-- 4. Create the next child after vendors_work exists.
+CREATE TABLE ap_sandbox.invoices_work (
+    invoice_id INT AUTO_INCREMENT PRIMARY KEY,
+    vendor_id INT NOT NULL,
+    invoice_number VARCHAR(50) NOT NULL,
+    invoice_date DATE NOT NULL,
+    invoice_total DECIMAL(10,2) NOT NULL,
+    CONSTRAINT uq_invoices_work_vendor_number
+        UNIQUE (vendor_id, invoice_number),
+    CONSTRAINT chk_invoices_work_total
+        CHECK (invoice_total &gt;= 0),
+    CONSTRAINT fk_invoices_work_vendor
+        FOREIGN KEY (vendor_id)
+        REFERENCES ap_sandbox.vendors_work (vendor_id)
+) ENGINE = InnoDB;
+
+-- 5. Inspect the definitions MySQL stored.
+SHOW CREATE TABLE ap_sandbox.terms_work;
+SHOW CREATE TABLE ap_sandbox.vendors_work;
+SHOW CREATE TABLE ap_sandbox.invoices_work;</code></pre>
+                </div>
+
+                <p><code>IF NOT EXISTS</code> can make a script easier to rerun, but it does not compare an existing object with the intended definition. Use <code>SHOW CREATE TABLE</code> to inspect the real result.</p>
+
+                <div class="quick-check" data-answer="parent-first">
+                    <h3>Quick check: choose the safe creation order</h3>
+                    <fieldset>
+                        <legend><code>vendors_work.default_terms_id</code> references <code>terms_work.terms_id</code>. Which table should the script create first?</legend>
+                        <label class="answer-option"><input type="radio" name="ch11-order" value="child-first"> <code>vendors_work</code>, because it contains the foreign key</label>
+                        <label class="answer-option"><input type="radio" name="ch11-order" value="parent-first"> <code>terms_work</code>, because the referenced parent key must exist</label>
+                        <label class="answer-option"><input type="radio" name="ch11-order" value="either"> Either; dependency order never matters</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Build the referenced parent before the child that points to it." data-retry="Try again. The foreign key needs an existing referenced table and key."></p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="changes">
+                <h2>6. Alter, rename, truncate, and drop with a preview mindset</h2>
+                <p>DDL changes structure immediately enough that a safe workflow must replace the “I can always roll it back” assumption.</p>
+
+                <ol class="step-list">
+                    <li>Confirm the connection, schema, and exact object name.</li>
+                    <li>Inspect the current definition with <code>SHOW CREATE TABLE</code>.</li>
+                    <li>Review dependent foreign keys, views, scripts, and application queries.</li>
+                    <li>Test the statement on a disposable or approved sandbox copy.</li>
+                    <li>Run one intended change, inspect the result, and record what changed.</li>
+                </ol>
+
+                <div class="code-block">
+                    <span class="code-label">ap_sandbox · permitted scratch-table example</span>
+                    <pre><code>ALTER TABLE ap_sandbox.vendors_work
+    ADD COLUMN vendor_phone VARCHAR(20) NULL;
+
+SHOW CREATE TABLE ap_sandbox.vendors_work;</code></pre>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Constraint changes use the names stored by MySQL</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Approved scratch-table goal</th>
+                                <th scope="col">ALTER TABLE form</th>
+                                <th scope="col">Check first</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">Add a named rule</th><td><code>ADD CONSTRAINT constraint_name ...</code></td><td>The rule is valid for every existing row.</td></tr>
+                            <tr><th scope="row">Remove a foreign key</th><td><code>DROP FOREIGN KEY constraint_name</code></td><td>No required relationship is being abandoned.</td></tr>
+                            <tr><th scope="row">Remove a check</th><td><code>DROP CHECK constraint_name</code></td><td>Another rule is not relying on the check.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>Use <code>SHOW CREATE TABLE</code> to get the actual constraint names. Do not guess a generated name, and do not remove a guardrail merely to make invalid data load.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Statements that look similar but have different consequences</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Statement</th>
+                                <th scope="col">Effect</th>
+                                <th scope="col">Safety fact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row"><code>RENAME TABLE</code></th><td>Changes the object's name</td><td>Dependent code may still use the old name.</td></tr>
+                            <tr><th scope="row"><code>TRUNCATE TABLE</code></th><td>Removes every row while keeping the table definition</td><td>It causes an implicit commit, does not fire delete triggers, and may be blocked by referencing foreign keys.</td></tr>
+                            <tr><th scope="row"><code>DROP TABLE</code></th><td>Removes the table definition and its data</td><td>It is destructive DDL, not a reversible row delete.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Do not “solve” relationship errors by disabling protection</h3>
+                    <p>Fix dependency order, key definitions, and data quality. Temporarily bypassing referential checks can admit orphan rows, and turning checks back on does not retroactively validate those rows.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="indexes">
+                <h2>7. Create useful indexes, not every possible index</h2>
+                <p>An index can reduce lookup work for the query patterns it matches, but it consumes space and must be maintained during inserts, updates, and deletes.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: the back-of-book index</h3>
+                    <p>A reader can jump from “vendor” to the right pages without scanning the entire book. But an index entry for every unimportant word would make the index larger than the lesson. Select entries that support real questions.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">ap_sandbox · measured query candidate</span>
+                    <pre><code>CREATE INDEX idx_invoices_work_vendor_date
+    ON ap_sandbox.invoices_work
+       (vendor_id, invoice_date);
+
+SHOW INDEX
+FROM ap_sandbox.invoices_work;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">Removal syntax · run only when the scratch exercise directs</span>
+                    <pre><code>DROP INDEX idx_invoices_work_vendor_date
+    ON ap_sandbox.invoices_work;</code></pre>
+                </div>
+
+                <p>MySQL uses the index name and table name when dropping an index. Inspect first so you do not remove an index required by a constraint or still needed by a real access pattern.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>What a composite index on (vendor_id, invoice_date) can support</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Filter pattern</th>
+                                <th scope="col">Leftmost-prefix fit</th>
+                                <th scope="col">Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row"><code>vendor_id = ?</code></th><td>Yes</td><td>It uses the first index column.</td></tr>
+                            <tr><th scope="row"><code>vendor_id = ? AND invoice_date &gt;= ?</code></th><td>Yes</td><td>It uses the first column, then a range on the second.</td></tr>
+                            <tr><th scope="row"><code>invoice_date = ?</code> alone</th><td>Not a direct leftmost-prefix lookup</td><td>The first index column is missing.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <h3>Know which indexes already exist</h3>
+                    <p>A primary key and each unique constraint create indexes. InnoDB also requires supporting indexes for foreign keys and can create a child-side index when one is missing. Inspect before adding an overlapping index, and use <code>EXPLAIN</code> with a real query.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="workbench">
+                <h2>8. Use Workbench—and verify text, character rules, and engines</h2>
+                <p>Workbench can edit columns, indexes, and foreign keys through panels, but the server executes SQL. Review the generated statement and inspect the stored definition afterward.</p>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Character set</span>
+                        <h3>Which characters can be stored?</h3>
+                        <p>Use <code>utf8mb4</code> for full Unicode support in new course objects.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Collation</span>
+                        <h3>How are strings compared and sorted?</h3>
+                        <p><code>utf8mb4_0900_ai_ci</code> is accent-insensitive and case-insensitive. Choose deliberately when those distinctions matter.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Storage engine</span>
+                        <h3>What machinery stores the table?</h3>
+                        <p>InnoDB is MySQL 8.4's default and supports transactions, row-level locking, and foreign keys.</p>
+                    </article>
+                </div>
+
+                <div class="analogy">
+                    <h3>Analogy: alphabet, dictionary order, and engine</h3>
+                    <p>The character set is the alphabet available to write names. The collation is the dictionary rule for deciding whether letters compare alike and where they sort. The storage engine is the machinery beneath the cabinet that manages how records are stored and protected.</p>
+                </div>
+
+                <ol class="step-list">
+                    <li>Open the table editor for the approved <code>ap_sandbox</code> object.</li>
+                    <li>Change only the requested column, index, or foreign-key definition.</li>
+                    <li>Review the SQL preview before applying it.</li>
+                    <li>Apply the change only when the target and statement are correct.</li>
+                    <li>Run <code>SHOW CREATE TABLE</code> and <code>SHOW INDEX</code> to verify what MySQL stored.</li>
+                </ol>
+
+                <div class="reveal-box">
+                    <h3>Why not type only <code>utf8</code>?</h3>
+                    <button type="button" data-reveal-target="ch11-utf8-note" aria-expanded="false">Reveal explanation</button>
+                    <div class="reveal-panel" id="ch11-utf8-note" tabindex="-1" hidden>
+                        <p>In MySQL 8.4, <code>utf8</code> is a deprecated alias for the three-byte <code>utf8mb3</code> character set. Spell <code>utf8mb4</code> explicitly so supplementary Unicode characters are supported and the intended behavior remains clear.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="summary">
+                <h2>9. Wrap-up and practice</h2>
+
+                <div class="summary-banner">
+                    <h3>The core habit: confirm, build, inspect</h3>
+                    <p>Confirm the target schema, build parents before children, and inspect the stored definition. DDL is safest when each statement implements one reviewed design decision.</p>
+                </div>
+
+                <h3>Chapter 11 checklist</h3>
+                <ul class="checklist">
+                    <li>I can create or select only the personal schema authorized in Canvas.</li>
+                    <li>I can create tables in dependency order with suitable types and nullability.</li>
+                    <li>I can explain primary, unique, foreign-key, and check constraints.</li>
+                    <li>I can use named table-level foreign-key constraints.</li>
+                    <li>I understand why DDL and <code>TRUNCATE</code> are not undone by a later rollback.</li>
+                    <li>I can choose an index from a real access pattern and explain its leftmost prefix.</li>
+                    <li>I can distinguish character set, collation, and storage engine.</li>
+                    <li>I verify Workbench changes with <code>SHOW CREATE TABLE</code>.</li>
+                </ul>
+
+                <div class="quick-check" data-answer="inspect">
+                    <h3>Final quick check</h3>
+                    <fieldset>
+                        <legend>Workbench reports that an approved scratch-table change succeeded. What is the best next step?</legend>
+                        <label class="answer-option"><input type="radio" name="ch11-final" value="assume"> Assume the model and server must match</label>
+                        <label class="answer-option"><input type="radio" name="ch11-final" value="inspect"> Inspect the server definition with <code>SHOW CREATE TABLE</code></label>
+                        <label class="answer-option"><input type="radio" name="ch11-final" value="drop"> Drop the table and rebuild it without checking</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. The stored server definition is the evidence of what MySQL actually applied." data-retry="Try again. Verify the resulting server object rather than relying only on the interface message."></p>
+                </div>
+
+                <div class="transfer-note">
+                    <h3>Transfer the skill, not the schema</h3>
+                    <p>ShopFlow also needs thoughtful tables, constraints, character rules, and indexes, but it remains a separate project schema. Do not copy AP objects into ShopFlow or use the canonical <code>ap</code> database as a DDL practice area.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <nav class="course-nav" aria-label="Chapter navigation at end">
+        <a href="/ciss340-chapter10">← Chapter 10</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/MySQL-Workbench">Next: Workbench lab →</a>
+    </nav>
+
+    <footer class="page-footer">
+        <p>This original course companion follows the scope of Joel Murach, <cite>Murach's MySQL</cite>, 4th Edition, Chapter 11. The fictional AP schema is publisher-provided; explanations, analogies, checks, and the Week 3 course framing are original CISS 340 materials.</p>
+        <p>Sources: <a href="https://instructors.murach.com/shop/murach-s-mysql-4th-edition-detail">Murach's MySQL, 4th Edition courseware</a>; official MySQL 8.4 guidance for <a href="https://dev.mysql.com/doc/refman/8.4/en/create-table.html">CREATE TABLE</a>, <a href="https://dev.mysql.com/doc/refman/8.4/en/implicit-commit.html">implicit commits</a>, and <a href="https://dev.mysql.com/doc/refman/8.4/en/charset.html">character sets and collations</a>.</p>
+    </footer>
+</body>
+</html>

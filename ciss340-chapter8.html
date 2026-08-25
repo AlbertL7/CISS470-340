@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A beginner-friendly CISS 340 companion to Murach's MySQL Chapter 8, with read-only AP examples, data-type analogies, and accessible practice.">
+    <title>Chapter 8: How to work with data types | CISS 340</title>
+    <link rel="stylesheet" href="/ciss340-learning-module.css">
+    <script src="/ciss340-learning-module.js" defer></script>
+</head>
+<body class="chapter-8">
+    <a class="skip-link" href="#main-content">Skip to chapter content</a>
+    <div class="reading-progress" role="progressbar" aria-label="Chapter reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+    <header class="hero">
+        <div class="hero-inner">
+            <p class="eyebrow">CISS 340 · Murach's MySQL, 4th Edition</p>
+            <h1>Chapter 8: How to work with data types</h1>
+            <p class="hero-summary">A data type is a promise about what a column can store and how MySQL should interpret it. Learn to choose sensible character, numeric, date/time, and binary types—and convert values without creating quiet surprises.</p>
+            <div class="hero-meta" role="list" aria-label="Chapter details">
+                <span class="meta-chip" role="listitem">9 guided sections</span>
+                <span class="meta-chip" role="listitem">About 50 minutes</span>
+                <span class="meta-chip" role="listitem">Used in Week 6</span>
+                <span class="meta-chip" role="listitem"><code>ap</code> schema · read only</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="course-nav" aria-label="Chapter navigation">
+        <a href="/ciss340-chapter7">← Chapter 7</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter9">Chapter 9 →</a>
+    </nav>
+
+    <div class="module-layout">
+        <nav class="section-nav" aria-label="Chapter 8 sections">
+            <h2>On this page</h2>
+            <a href="#mental-model" aria-current="location">1. A column's promise</a>
+            <a href="#character">2. Character data</a>
+            <a href="#numeric">3. Numeric data</a>
+            <a href="#date-time">4. Date and time data</a>
+            <a href="#special">5. Specialized and binary data</a>
+            <a href="#implicit">6. Implicit conversion</a>
+            <a href="#explicit">7. CAST and CONVERT</a>
+            <a href="#display">8. FORMAT and CHAR</a>
+            <a href="#summary">9. Wrap-up and practice</a>
+        </nav>
+
+        <main id="main-content" tabindex="-1">
+            <section class="lesson-section" id="mental-model">
+                <h2>1. A data type is a column's promise</h2>
+                <p class="lead">A MySQL data type tells the server what kind of value a column represents, how it can be compared, and how much precision or capacity it needs.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: choose the right container</h3>
+                    <p>A moving box, a filing cabinet, and a refrigerator can all hold “things,” but each protects and organizes a different kind of thing. A data type works the same way. A date belongs in a date-aware container, money belongs in an exact numeric container, and a product photo belongs in a binary container. Labeling every container “text” makes later work harder and less reliable.</p>
+                </div>
+
+                <h3>Inspect before you assume</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · read-only structure inspection</span>
+                    <pre><code>DESCRIBE ap.invoices;</code></pre>
+                </div>
+                <p><code>DESCRIBE</code> reads table metadata. It lets you see each column's declared type, whether <code>NULL</code> is allowed, key information, and default behavior without changing the publisher database.</p>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Meaning</span>
+                        <h3>What is this value?</h3>
+                        <p>An invoice number may contain digits but is an identifier, not a quantity used in arithmetic.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Range and precision</span>
+                        <h3>How large or exact?</h3>
+                        <p>Counts need enough integer range; currency needs a defined number of decimal places.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Behavior</span>
+                        <h3>How will SQL use it?</h3>
+                        <p>A real date can be sorted and compared as a date instead of as an arbitrary string.</p>
+                    </article>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Practice boundary</h3>
+                    <p>Use the <code>ap</code> schema only for read-only inspection and queries in this module. Do not alter publisher columns to “try” a new type. If a future worksheet requires a structure experiment, use only the separate sandbox named in that worksheet.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="character">
+                <h2>2. Character data: CHAR, VARCHAR, and TEXT</h2>
+                <p>Character types store text. The important beginner decision is whether the value has a predictable short length, a variable length, or the potential to become a large body of text.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Beginner map of common character types</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Type family</th>
+                                <th scope="col">Mental model</th>
+                                <th scope="col">Good fit</th>
+                                <th scope="col">Pause before using it when…</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>CHAR(n)</code></th>
+                                <td>A fixed-width slot</td>
+                                <td>A genuinely fixed-length code</td>
+                                <td>Values vary widely in length</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>VARCHAR(n)</code></th>
+                                <td>A flexible labeled folder</td>
+                                <td>Names, identifiers, email addresses, and other bounded text</td>
+                                <td>You cannot justify a realistic maximum</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>TEXT</code> family</th>
+                                <td>A document drawer</td>
+                                <td>Long descriptions or notes</td>
+                                <td>The value is short, structured, or frequently indexed as a whole</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>An identifier is not automatically a number</h3>
+                <p>Values such as <code>invoice_number</code>, ZIP codes, and telephone numbers may contain digits, but you do not add or average them. They may also contain punctuation or meaningful leading zeroes, so a character type is often the honest choice.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · observe character identifiers</span>
+                    <pre><code>SELECT invoice_number,
+       vendor_id
+FROM ap.invoices
+ORDER BY invoice_number
+LIMIT 10;</code></pre>
+                </div>
+
+                <div class="callout">
+                    <h3>Length is a rule, not a guess</h3>
+                    <p>The <code>n</code> in <code>VARCHAR(n)</code> is a maximum number of characters. Choose it from the business rule and valid data range—not simply the longest value in today's small sample.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="numeric">
+                <h2>3. Numeric data: integers, exact values, and approximations</h2>
+                <p>Numeric types fall into two big groups: exact types, which preserve a defined value, and approximate types, which trade exact decimal representation for a very broad scientific range.</p>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Whole numbers</span>
+                        <h3>Integer family</h3>
+                        <p><code>TINYINT</code>, <code>SMALLINT</code>, <code>MEDIUMINT</code>, <code>INT</code>, and <code>BIGINT</code> offer increasing ranges. Pick the smallest range that safely covers the real rule, with room for growth.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Exact decimals</span>
+                        <h3>DECIMAL</h3>
+                        <p><code>DECIMAL(p,s)</code> defines total precision and digits after the decimal point. It is the normal choice for currency and other values that must add exactly.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Approximate values</span>
+                        <h3>FLOAT and DOUBLE</h3>
+                        <p>These types are useful for measurements and scientific values where tiny representation differences are acceptable. Do not assume decimal equality will behave like exact money.</p>
+                    </article>
+                </div>
+
+                <h3>AP uses exact values for invoice arithmetic</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · read-only balance calculation</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total,
+       payment_total,
+       credit_total,
+       invoice_total - payment_total - credit_total AS balance_due
+FROM ap.invoices
+ORDER BY balance_due DESC
+LIMIT 10;</code></pre>
+                </div>
+                <p>The totals are amounts, so exact decimal arithmetic fits their meaning. The calculated alias <code>balance_due</code> does not change any stored value.</p>
+
+                <div class="callout">
+                    <h3>MySQL 8.4 numeric notes</h3>
+                    <p><code>BOOL</code> and <code>BOOLEAN</code> are aliases for <code>TINYINT(1)</code>; add an appropriate constraint when a column must accept only 0 and 1. Also avoid the deprecated <code>FLOAT(M,D)</code> form in new designs. Choose <code>FLOAT</code>/<code>DOUBLE</code> for approximate values or <code>DECIMAL(p,s)</code> for exact fixed-point values.</p>
+                </div>
+
+                <div class="quick-check" data-answer="decimal">
+                    <h3>Quick check: choose by meaning</h3>
+                    <fieldset>
+                        <legend>Which family is the best default for an invoice amount that must add to the cent?</legend>
+                        <label class="answer-option"><input type="radio" name="ch8-money" value="varchar"> <code>VARCHAR</code>, because the amount can be displayed as text</label>
+                        <label class="answer-option"><input type="radio" name="ch8-money" value="double"> <code>DOUBLE</code>, because it supports decimals</label>
+                        <label class="answer-option"><input type="radio" name="ch8-money" value="decimal"> <code>DECIMAL</code>, because the value must be exact to a defined scale</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. DECIMAL is designed for exact fixed-point values such as currency." data-retry="Try again. The key phrase is “must add to the cent,” which calls for exact fixed-point storage."></p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="date-time">
+                <h2>4. Date and time data</h2>
+                <p>A date is more than text that looks like a date. A date/time type lets MySQL validate, compare, sort, and calculate with the value according to calendar and clock rules.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Roles of the main MySQL date and time types</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Stores</th>
+                                <th scope="col">Beginner example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>DATE</code></th>
+                                <td>A calendar date without a time of day</td>
+                                <td>Invoice date or due date</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>TIME</code></th>
+                                <td>A time value or elapsed-time range</td>
+                                <td>A duration or scheduled time when no date is needed</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>DATETIME</code></th>
+                                <td>A calendar date and clock time</td>
+                                <td>An appointment whose displayed wall-clock value should be preserved</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>TIMESTAMP</code></th>
+                                <td>A date/time value with session time-zone conversion behavior</td>
+                                <td>A recorded event time when that conversion behavior is intended</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>YEAR</code></th>
+                                <td>A year value</td>
+                                <td>A model year when no month or day is part of the fact</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Use the AP columns as evidence</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · find and inspect the earliest invoice date</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_date,
+       invoice_due_date,
+       payment_date
+FROM ap.invoices
+WHERE invoice_date = (
+    SELECT MIN(invoice_date)
+    FROM ap.invoices
+)
+ORDER BY invoice_number;</code></pre>
+                </div>
+                <p>The date columns remain dates through the comparison and sort. The nullable <code>payment_date</code> represents a different rule: <code>NULL</code> means there is no recorded payment date, not that the date type has disappeared.</p>
+
+                <div class="callout">
+                    <h3>MySQL 8.4 temporal note</h3>
+                    <p><code>TIMESTAMP</code> converts between the session time zone and UTC and has a UTC range from 1970 into January 2038. <code>DATETIME</code> has a wider calendar range and does not perform that session-time-zone conversion. Choose the behavior your fact actually needs.</p>
+                </div>
+
+                <div class="analogy">
+                    <h3>Analogy: calendar entry versus timestamped receipt</h3>
+                    <p>“Dentist appointment: September 4 at 2:00 p.m.” is a wall-clock appointment. “The server received this request at this instant” is an event timestamp. Both include a date and time, but their time-zone expectations differ. Choose from the business meaning, not from whichever type name sounds newer.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="special">
+                <h2>5. Specialized, binary, and large-object types</h2>
+                <p>MySQL also provides types for restricted choices, raw bytes, and large values. These tools are useful when the domain truly calls for them; they are not automatic upgrades over ordinary relational design.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Specialized type families and their tradeoffs</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Family</th>
+                                <th scope="col">What it represents</th>
+                                <th scope="col">Design question to ask first</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>ENUM</code></th>
+                                <td>One value from a declared set</td>
+                                <td>Is the set small and stable enough to place in the table definition?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>SET</code></th>
+                                <td>Zero or more values from a declared set</td>
+                                <td>Would a related child or junction table model changing choices more clearly?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>BINARY</code> / <code>VARBINARY</code></th>
+                                <td>Short fixed- or variable-length byte strings</td>
+                                <td>Are these truly bytes rather than characters in a text encoding?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>BLOB</code> family</th>
+                                <td>Large binary content</td>
+                                <td>Does storing the content in the database fit the application's size, backup, and delivery needs?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>TEXT</code> family</th>
+                                <td>Large character content</td>
+                                <td>Is this unstructured text, or should parts become searchable relational columns?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>JSON</code></th>
+                                <td>Validated JSON documents with MySQL JSON operators and functions</td>
+                                <td>Is the structure genuinely flexible, or would ordinary related tables be clearer?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Spatial types</th>
+                                <td>Geometry values such as points, lines, and polygons</td>
+                                <td>Does the application need spatial meaning and spatial operations, not just latitude/longitude labels?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="callout"><strong>Recognition level:</strong> Murach's overview includes JSON and spatial families. This chapter identifies their purpose; detailed JSON and spatial design are beyond this beginner module.</p>
+
+                <div class="callout">
+                    <h3>NULL is not a data type</h3>
+                    <p><code>NULL</code> marks an unknown or absent value. Whether it is allowed is a separate column rule. A nullable <code>DATE</code> is still a date column, and a nullable <code>DECIMAL</code> is still an exact numeric column.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="implicit">
+                <h2>6. Implicit conversion: convenient but easy to misread</h2>
+                <p>MySQL sometimes converts a value automatically so two different types can participate in an expression. That is <strong>implicit conversion</strong>. It can be useful, but relying on it can hide a data or query mistake.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · a comparison that asks MySQL to guess</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total
+FROM ap.invoices
+WHERE invoice_total = '500.00';</code></pre>
+                </div>
+                <p>The column is numeric while the literal is character text. MySQL can coerce the string for this comparison, but the query communicates its intent more accurately with the numeric literal <code>500.00</code>.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · state the intended type</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total
+FROM ap.invoices
+WHERE invoice_total = 500.00;</code></pre>
+                </div>
+
+                <h3>Why implicit conversion deserves attention</h3>
+                <ul>
+                    <li>Text that begins with digits can be interpreted in ways a reader did not expect.</li>
+                    <li>Invalid conversion can produce an error, warning, or surprising value depending on the expression and SQL mode.</li>
+                    <li>Converting a column during comparison can make an index less useful.</li>
+                    <li><code>NULL</code> usually remains <code>NULL</code> through a conversion; it does not become an empty string or zero automatically.</li>
+                </ul>
+
+                <div class="reveal-box">
+                    <h3>Why not store every value as VARCHAR?</h3>
+                    <button type="button" data-reveal-target="ch8-varchar-note" aria-expanded="false">Reveal explanation</button>
+                    <div class="reveal-panel" id="ch8-varchar-note" tabindex="-1" hidden>
+                        <p>Text storage would give up important rules. Text sorts lexically, so <code>'100'</code> can appear before <code>'20'</code>; invalid dates can look like ordinary strings; and arithmetic requires conversion. Accurate types let MySQL validate and operate on values according to their real meaning.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="explicit">
+                <h2>7. Explicit conversion with CAST and CONVERT</h2>
+                <p>Explicit conversion tells both MySQL and the next reader exactly what representation you need. Use it deliberately at a boundary—such as parsing an input, aligning compatible expressions, or creating display text—not to cover up a poorly chosen column type.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · CAST values as character output</span>
+                    <pre><code>SELECT invoice_number,
+       CAST(invoice_total AS CHAR) AS invoice_total_text,
+       CAST(invoice_date AS CHAR) AS invoice_date_text
+FROM ap.invoices
+ORDER BY invoice_date DESC
+LIMIT 5;</code></pre>
+                </div>
+                <p>The aliases announce that the new values are text. The original columns remain unchanged because this is a read-only result expression.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · equivalent CONVERT form</span>
+                    <pre><code>SELECT invoice_number,
+       CONVERT(invoice_total, CHAR) AS invoice_total_text
+FROM ap.invoices
+ORDER BY invoice_total DESC
+LIMIT 5;</code></pre>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Two explicit conversion forms in MySQL</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Form</th>
+                                <th scope="col">Reading</th>
+                                <th scope="col">Reminder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>CAST(expression AS type)</code></th>
+                                <td>Cast this expression as the named type</td>
+                                <td>Clear, widely recognized conversion syntax</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>CONVERT(expression, type)</code></th>
+                                <td>Convert this expression to the named type</td>
+                                <td>MySQL also has a separate <code>CONVERT(... USING ...)</code> form for character sets</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Conversion cannot invent valid data</h3>
+                    <p>Before converting imported text, inspect the source format and test edge cases. A conversion expression is not proof that every source value is valid. Check warnings and validate the result rather than assuming success.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="display">
+                <h2>8. Display conversion with FORMAT and CHAR</h2>
+                <p>Some conversions are meant for presentation. Remember that a value formatted for people may no longer be suitable for numeric sorting or arithmetic.</p>
+
+                <h3>FORMAT returns display text</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · format an amount for display</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total,
+       FORMAT(invoice_total, 2) AS display_total
+FROM ap.invoices
+ORDER BY invoice_total DESC
+LIMIT 5;</code></pre>
+                </div>
+                <p><code>FORMAT(invoice_total, 2)</code> produces character text with two decimal places and grouping punctuation. Sort and calculate with the original <code>invoice_total</code>, then format near the presentation edge.</p>
+
+                <h3>CHAR builds characters from code values</h3>
+                <div class="code-block">
+                    <span class="code-label">Read-only expression · character codes</span>
+                    <pre><code>SELECT CHAR(65, 80) AS letters;</code></pre>
+                </div>
+                <p>With a compatible character set, the integer codes 65 and 80 form <code>AP</code>. This is a specialized conversion tool, not the normal way to turn an invoice amount into readable text.</p>
+
+                <div class="choice-lab">
+                    <h3>Choice lab: give the value an honest type</h3>
+                    <p>Choose an AP field to see the reasoning behind its type family.</p>
+                    <div class="button-row" role="group" aria-label="Data type examples">
+                        <button type="button" data-choice="number" aria-pressed="true" aria-controls="ch8-choice-number">Invoice number</button>
+                        <button type="button" data-choice="amount" aria-pressed="false" aria-controls="ch8-choice-amount">Invoice total</button>
+                        <button type="button" data-choice="date" aria-pressed="false" aria-controls="ch8-choice-date">Invoice date</button>
+                    </div>
+                    <div class="choice-panel" id="ch8-choice-number" data-panel="number">
+                        <h4>Invoice number → character type</h4>
+                        <p>It identifies a document. It may include punctuation or leading zeroes, and arithmetic on it has no business meaning.</p>
+                    </div>
+                    <div class="choice-panel" id="ch8-choice-amount" data-panel="amount" hidden>
+                        <h4>Invoice total → exact decimal type</h4>
+                        <p>It is a quantity used in arithmetic and must retain a defined scale for reliable financial totals.</p>
+                    </div>
+                    <div class="choice-panel" id="ch8-choice-date" data-panel="date" hidden>
+                        <h4>Invoice date → DATE</h4>
+                        <p>It is a calendar fact with no time of day in this model, so a date-aware type expresses the rule directly.</p>
+                    </div>
+                </div>
+
+                <div class="quick-check" data-answer="numeric-first">
+                    <h3>Quick check: calculation or presentation?</h3>
+                    <fieldset>
+                        <legend>You need to sort invoice totals from largest to smallest and also show commas with two decimals. Which sequence is safest?</legend>
+                        <label class="answer-option"><input type="radio" name="ch8-format" value="format-first"> Format first, then sort the formatted strings</label>
+                        <label class="answer-option"><input type="radio" name="ch8-format" value="numeric-first"> Sort using the numeric column, then format a separate display expression</label>
+                        <label class="answer-option"><input type="radio" name="ch8-format" value="varchar-column"> Change the stored amount to <code>VARCHAR</code></label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Keep calculation and ordering numeric; create formatted text only for display." data-retry="Try again. Formatting creates text, and text ordering is not numeric ordering."></p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="summary">
+                <h2>9. Wrap-up and practice</h2>
+
+                <div class="summary-banner">
+                    <h3>Choose a type from meaning, not appearance</h3>
+                    <p>A value made of digits is not automatically numeric, and a date-shaped string is not automatically a date. Ask what the value means, what operations belong to it, and what range or precision the business rule requires.</p>
+                </div>
+
+                <h3>Chapter 8 checklist</h3>
+                <ul class="checklist">
+                    <li>I can distinguish fixed, variable, and large character data.</li>
+                    <li>I know when to choose an integer, exact <code>DECIMAL</code>, or approximate numeric type.</li>
+                    <li>I can explain the different jobs of <code>DATE</code>, <code>DATETIME</code>, and <code>TIMESTAMP</code>.</li>
+                    <li>I recognize the purposes and tradeoffs of <code>ENUM</code>, <code>SET</code>, binary, <code>BLOB</code>, and <code>TEXT</code> types.</li>
+                    <li>I can identify an implicit conversion and replace guesswork with a clear literal or explicit conversion.</li>
+                    <li>I remember that <code>FORMAT</code> creates display text, not a better numeric value.</li>
+                </ul>
+
+                <div class="quick-check" data-answer="inspect">
+                    <h3>Final quick check</h3>
+                    <fieldset>
+                        <legend>Before converting an unfamiliar AP column, what is the best first step?</legend>
+                        <label class="answer-option"><input type="radio" name="ch8-first-step" value="alter"> Alter the publisher table to a familiar type</label>
+                        <label class="answer-option"><input type="radio" name="ch8-first-step" value="inspect"> Inspect its declared type and sample values, then state the conversion goal</label>
+                        <label class="answer-option"><input type="radio" name="ch8-first-step" value="text"> Convert everything to text</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Inspect first, preserve the publisher schema, and convert only for a clear reason." data-retry="Try again. The AP database is read-only, and a conversion should begin with evidence and a stated purpose."></p>
+                </div>
+
+                <div class="transfer-note">
+                    <h3>Where this goes next</h3>
+                    <p>ShopFlow will need honest types for prices, quantities, identifiers, dates, and customer-facing text. Use this chapter's reasoning when you explain a schema decision: meaning → operations → range or precision → final type.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <nav class="course-nav" aria-label="Chapter navigation at end">
+        <a href="/ciss340-chapter7">← Chapter 7</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter9">Chapter 9 →</a>
+    </nav>
+
+    <footer class="page-footer">
+        <p>This original course companion follows the scope of Murach's MySQL, 4th Edition, Chapter 8. Examples use the publisher's <code>ap</code> practice schema in read-only form; wording, analogies, and activities are original to CISS 340.</p>
+        <p><strong>Official references:</strong> <a href="https://instructors.murach.com/shop/murach-s-mysql-4th-edition-detail">Murach's MySQL, 4th Edition</a>; MySQL 8.4 Reference Manual: <a href="https://dev.mysql.com/doc/refman/8.4/en/numeric-types.html">Numeric types</a>, <a href="https://dev.mysql.com/doc/refman/8.4/en/date-and-time-types.html">Date and time types</a>, and <a href="https://dev.mysql.com/doc/refman/8.4/en/type-conversion.html">Type conversion</a>.</p>
+    </footer>
+</body>
+</html>

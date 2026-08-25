@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CISS 340 companion for Murach's MySQL Chapter 9: string, numeric, date/time, conditional, regular-expression, ranking, and analytic functions.">
+    <title>Chapter 9: How to use functions - CISS 340</title>
+    <link rel="stylesheet" href="/ciss340-learning-module.css">
+    <script defer src="/ciss340-learning-module.js"></script>
+</head>
+<body class="chapter-9">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+    <header class="hero">
+        <div class="hero-inner">
+            <p class="eyebrow">Murach's MySQL, 4th Edition • CISS 340</p>
+            <h1>Chapter 9: How to use functions</h1>
+            <p class="hero-summary">Functions are SQL's small, reusable tools: they clean labels, calculate numbers, work with dates, classify rows, recognize patterns, and compare each row with its neighbors.</p>
+            <div class="hero-meta" role="list" aria-label="Chapter details">
+                <span class="meta-chip" role="listitem">9 sections</span>
+                <span class="meta-chip" role="listitem">60–75 minutes</span>
+                <span class="meta-chip" role="listitem">Read-only AP practice</span>
+                <span class="meta-chip" role="listitem">MySQL 8.4 course notes</span>
+                <span class="meta-chip" role="listitem">Used in Week 7</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="course-nav" aria-label="Chapter navigation">
+        <a href="/ciss340-chapter8">← Chapter 8</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter10">Chapter 10 →</a>
+    </nav>
+
+    <div class="module-layout">
+        <nav class="section-nav" aria-label="Chapter 9 sections">
+            <h2>Chapter contents</h2>
+            <ul>
+                <li><a href="#function-map">1. The function toolkit</a></li>
+                <li><a href="#string-tools">2. String functions</a></li>
+                <li><a href="#parse-sort">3. Parse and sort strings</a></li>
+                <li><a href="#numeric-tools">4. Numeric functions</a></li>
+                <li><a href="#date-basics">5. Date/time basics</a></li>
+                <li><a href="#date-work">6. Format, calculate, search</a></li>
+                <li><a href="#conditional-tools">7. Conditional and NULL tools</a></li>
+                <li><a href="#regex-tools">8. Regular expressions</a></li>
+                <li><a href="#window-tools">9. Ranking and analytics</a></li>
+            </ul>
+        </nav>
+
+        <main id="main-content" tabindex="-1">
+            <section class="lesson-section" id="function-map">
+                <h2>1. Meet the function toolkit</h2>
+                <p class="lead">A function accepts one or more inputs, does one focused job, and returns a value. You can use that returned value in <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, and many other SQL clauses.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: the labeled kitchen drawer</h3>
+                    <p>You would not use a measuring cup to slice bread. SQL functions work the same way: choose the small tool that matches the job. <code>TRIM()</code> cleans text, <code>ROUND()</code> shapes a number, <code>DATEDIFF()</code> measures time, and <code>RANK()</code> compares rows.</p>
+                </div>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Text</span>
+                        <h3>String functions</h3>
+                        <p>Clean, join, measure, search, and split character data.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Quantities</span>
+                        <h3>Numeric functions</h3>
+                        <p>Round values, find magnitudes, and support calculations.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Calendar</span>
+                        <h3>Date/time functions</h3>
+                        <p>Parse, format, add, subtract, and search dates safely.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Context</span>
+                        <h3>Window functions</h3>
+                        <p>Rank a row or compare it with related rows without collapsing the result.</p>
+                    </article>
+                </div>
+
+                <div class="safety-note">
+                    <h3>AP stays read-only in this chapter</h3>
+                    <p>Every data-access query here is a read-only <code>SELECT</code>. The initial <code>USE ap</code> selects the schema; it does not edit its tables. Confirm your active schema and do not change the publisher-provided fictional data.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">Safe starting point</span>
+                    <pre><code>USE ap;
+
+SELECT DATABASE() AS active_database,
+       COUNT(*) AS vendor_count
+FROM ap.vendors;</code></pre>
+                </div>
+
+                <div class="callout">
+                    <h3>Two mental models</h3>
+                    <ul>
+                        <li><strong>Scalar function:</strong> one input row produces one calculated value, such as <code>UPPER(vendor_name)</code>.</li>
+                        <li><strong>Window function:</strong> the current row stays visible while MySQL also looks across a related set of rows.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="string-tools">
+                <h2>2. Work with string data</h2>
+                <p class="lead">String functions are the label maker and scissors of SQL. They can change case, remove unwanted spaces, extract part of a value, and assemble a readable result.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Common string-function jobs</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Job</th>
+                                <th scope="col">Useful functions</th>
+                                <th scope="col">Beginner reminder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Clean</th>
+                                <td><code>TRIM()</code>, <code>LTRIM()</code>, <code>RTRIM()</code></td>
+                                <td>The query result changes; the stored row does not.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Measure</th>
+                                <td><code>CHAR_LENGTH()</code>, <code>LENGTH()</code></td>
+                                <td>Characters and bytes are not always the same.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Extract</th>
+                                <td><code>LEFT()</code>, <code>RIGHT()</code>, <code>SUBSTRING()</code></td>
+                                <td>Positions begin at 1 for ordinary positive indexes.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Combine</th>
+                                <td><code>CONCAT()</code>, <code>CONCAT_WS()</code></td>
+                                <td>A <code>NULL</code> argument makes <code>CONCAT()</code> return <code>NULL</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">AP string-function tour</span>
+                    <pre><code>SELECT vendor_name,
+       UPPER(vendor_state) AS state_code,
+       TRIM(vendor_phone) AS clean_phone,
+       LEFT(vendor_zip_code, 5) AS zip5,
+       CHAR_LENGTH(vendor_name) AS name_characters,
+       LENGTH(vendor_name) AS name_bytes
+FROM ap.vendors
+ORDER BY vendor_name
+LIMIT 10;</code></pre>
+                </div>
+
+                <div class="analogy">
+                    <h3>Characters versus shipping weight</h3>
+                    <p><code>CHAR_LENGTH()</code> counts the letters a reader sees. <code>LENGTH()</code> counts the bytes used to carry those letters. With <code>utf8mb4</code>, one character can require several bytes.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">One character, two bytes in utf8mb4</span>
+                    <pre><code>SELECT LENGTH(_utf8mb4'é') AS bytes_used,
+       CHAR_LENGTH(_utf8mb4'é') AS characters_seen;
+-- Result: 2 bytes, 1 character</code></pre>
+                </div>
+
+                <h3>Build an address without losing it to NULL</h3>
+                <div class="code-block">
+                    <span class="code-label">CONCAT compared with CONCAT_WS</span>
+                    <pre><code>SELECT vendor_name,
+       CONCAT(vendor_address1, ', ', vendor_address2) AS risky_address,
+       CONCAT_WS(', ',
+                 vendor_address1,
+                 vendor_address2,
+                 vendor_city,
+                 vendor_state,
+                 vendor_zip_code) AS mailing_address
+FROM ap.vendors
+ORDER BY vendor_name
+LIMIT 10;</code></pre>
+                </div>
+                <p><code>CONCAT()</code> returns <code>NULL</code> if any argument is <code>NULL</code>. <code>CONCAT_WS()</code> skips <code>NULL</code> values after its separator, although it does not skip empty strings.</p>
+
+                <article class="quick-check" data-answer="characters">
+                    <h3>Quick check: choose the right ruler</h3>
+                    <fieldset>
+                        <legend>Which function answers “How many characters will a reader see?”</legend>
+                        <label class="answer-option"><input type="radio" name="length-check" value="bytes"> <span><code>LENGTH()</code>, because storage bytes and characters are always identical.</span></label>
+                        <label class="answer-option"><input type="radio" name="length-check" value="characters"> <span><code>CHAR_LENGTH()</code>, because it counts characters.</span></label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my thinking</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. CHAR_LENGTH() counts characters; LENGTH() counts bytes." data-retry="Try again. Think about what a person sees rather than how MySQL stores it."></p>
+                </article>
+            </section>
+
+            <section class="lesson-section" id="parse-sort">
+                <h2>3. Parse strings and sort numbers stored as text</h2>
+                <p class="lead">Parsing means taking one packed label and separating useful pieces. It is like reading the building, room, and seat from “SCI-204-B.”</p>
+
+                <div class="code-block">
+                    <span class="code-label">Parse a structured code</span>
+                    <pre><code>SELECT SUBSTRING_INDEX('ACME-2026-0042', '-', 1) AS vendor_code,
+       SUBSTRING_INDEX(
+           SUBSTRING_INDEX('ACME-2026-0042', '-', 2),
+           '-', -1
+       ) AS invoice_year,
+       SUBSTRING_INDEX('ACME-2026-0042', '-', -1) AS sequence_number;</code></pre>
+                </div>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <h3><code>LOCATE()</code></h3>
+                        <p>Finds where a smaller string begins inside a larger string.</p>
+                    </article>
+                    <article class="concept-card">
+                        <h3><code>SUBSTRING()</code></h3>
+                        <p>Returns characters beginning at a position you specify.</p>
+                    </article>
+                    <article class="concept-card">
+                        <h3><code>SUBSTRING_INDEX()</code></h3>
+                        <p>Returns text before or after a repeated delimiter.</p>
+                    </article>
+                    <article class="concept-card">
+                        <h3><code>REPLACE()</code></h3>
+                        <p>Returns a copy with matching text replaced; it does not update the column.</p>
+                    </article>
+                </div>
+
+                <h3>When “100” sorts before “20”</h3>
+                <p>Text sorts character by character, so a text value of <code>'100'</code> can come before <code>'20'</code>. Convert only when the column truly contains numeric text.</p>
+                <div class="code-block">
+                    <span class="code-label">Numeric-only invoice numbers</span>
+                    <pre><code>SELECT invoice_number
+FROM ap.invoices
+WHERE REGEXP_LIKE(invoice_number, '^[0-9]+$', 'c')
+ORDER BY CAST(invoice_number AS UNSIGNED), invoice_number;</code></pre>
+                </div>
+                <p>The pattern test prevents obviously mixed identifiers from being converted. Section 8 explains <code>REGEXP_LIKE()</code> piece by piece.</p>
+
+                <div class="safety-note">
+                    <h3>Validate before converting</h3>
+                    <p>Mixed identifiers such as <code>'A-100'</code> are labels, not numbers. Casting them as unsigned can produce 0 plus a warning, creating a misleading sort. Keep genuine business identifiers as strings.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="numeric-tools">
+                <h2>4. Work with numeric data</h2>
+                <p class="lead">Numeric functions are the calculator drawer. Use them to round for a business rule, find distance from a target, or organize values into useful units.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Numeric functions and what they return</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Function</th>
+                                <th scope="col">Example</th>
+                                <th scope="col">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row"><code>ROUND()</code></th><td><code>ROUND(19.995, 2)</code></td><td>Rounds to a requested number of decimal places.</td></tr>
+                            <tr><th scope="row"><code>TRUNCATE()</code></th><td><code>TRUNCATE(19.999, 2)</code></td><td>Cuts off extra places without rounding.</td></tr>
+                            <tr><th scope="row"><code>CEILING()</code></th><td><code>CEILING(4.1)</code></td><td>Returns the smallest integer not less than the input: 5.</td></tr>
+                            <tr><th scope="row"><code>FLOOR()</code></th><td><code>FLOOR(4.9)</code></td><td>Returns the largest integer not greater than the input: 4.</td></tr>
+                            <tr><th scope="row"><code>ABS()</code></th><td><code>ABS(-12.5)</code></td><td>Returns the distance from zero: 12.5.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">Calculate AP balances, then format for people</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total,
+       payment_total,
+       credit_total,
+       invoice_total - payment_total - credit_total AS balance_due,
+       FORMAT(invoice_total, 2) AS total_for_display
+FROM ap.invoices
+ORDER BY invoice_total DESC
+LIMIT 10;</code></pre>
+                </div>
+
+                <div class="callout">
+                    <h3><code>FORMAT()</code> returns a string</h3>
+                    <p><code>FORMAT(1234.5, 2)</code> produces a display value such as <code>'1,234.50'</code>. Sort, filter, and calculate with the original numeric column; format only the final display value.</p>
+                </div>
+
+                <h3>Floating-point values need breathing room</h3>
+                <p><code>FLOAT</code> and <code>DOUBLE</code> are approximate. Instead of testing exact equality, compare within a tolerance. For currency, prefer an appropriate <code>DECIMAL</code> definition.</p>
+                <div class="code-block">
+                    <span class="code-label">Tolerance pattern for approximate measurements</span>
+                    <pre><code>-- General pattern for a FLOAT or DOUBLE measurement
+WHERE ABS(measured_value - 0.3) &lt; 0.000001</code></pre>
+                </div>
+
+                <article class="quick-check" data-answer="numeric">
+                    <h3>Quick check: sort the right value</h3>
+                    <fieldset>
+                        <legend>Which expression should drive a largest-to-smallest invoice sort?</legend>
+                        <label class="answer-option"><input type="radio" name="format-check" value="formatted"> <span><code>ORDER BY FORMAT(invoice_total, 2) DESC</code></span></label>
+                        <label class="answer-option"><input type="radio" name="format-check" value="numeric"> <span><code>ORDER BY invoice_total DESC</code></span></label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my thinking</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Keep the numeric value numeric for sorting; FORMAT() is for display." data-retry="Not quite. A formatted number is a string, so it can sort like text."></p>
+                </article>
+            </section>
+
+            <section class="lesson-section" id="date-basics">
+                <h2>5. Get, parse, and extract dates and times</h2>
+                <p class="lead">Dates are not decorative labels. They are structured values that MySQL can compare, split into parts, and move forward or backward on a calendar.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: a calendar service desk</h3>
+                    <p>One clerk tells you the current date. Another translates a handwritten date into the database's standard form. A third extracts just the year, month, or weekday. Choose the clerk for the question you are asking.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">Current date and time</span>
+                    <pre><code>SELECT CURRENT_DATE AS today,
+       CURRENT_TIME AS session_time,
+       NOW() AS current_date_and_time,
+       UTC_TIMESTAMP() AS utc_date_and_time;</code></pre>
+                </div>
+                <p><code>CURRENT_DATE</code>, <code>CURRENT_TIME</code>, and <code>NOW()</code> use the MySQL session time zone. Use UTC deliberately when systems in different time zones must agree.</p>
+
+                <div class="code-block">
+                    <span class="code-label">Extract calendar parts from AP invoices</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_date,
+       YEAR(invoice_date) AS invoice_year,
+       MONTH(invoice_date) AS invoice_month,
+       DAYOFWEEK(invoice_date) AS weekday_number,
+       EXTRACT(YEAR_MONTH FROM invoice_date) AS year_month
+FROM ap.invoices
+ORDER BY invoice_date, invoice_id
+LIMIT 10;</code></pre>
+                </div>
+
+                <h3>Parse text only at the boundary</h3>
+                <div class="code-block">
+                    <span class="code-label">Convert a known text format to DATE</span>
+                    <pre><code>SELECT STR_TO_DATE('08/25/2026', '%m/%d/%Y') AS parsed_date;
+-- Result: 2026-08-25</code></pre>
+                </div>
+                <p>Once a value becomes a <code>DATE</code> or <code>DATETIME</code>, keep it in that type for comparisons and calculations. Turn it into display text only at the edge of a report.</p>
+            </section>
+
+            <section class="lesson-section" id="date-work">
+                <h2>6. Format, calculate, and search date/time data</h2>
+                <p class="lead">Use one tool to create a report label, another to calculate an interval, and a range predicate to search efficiently.</p>
+
+                <div class="code-block">
+                    <span class="code-label">Overdue AP invoices</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_due_date,
+       DATE_FORMAT(invoice_due_date, '%b %e, %Y') AS due_date_label,
+       DATEDIFF(CURRENT_DATE, invoice_due_date) AS days_past_due
+FROM ap.invoices
+WHERE payment_date IS NULL
+  AND invoice_due_date &lt; CURRENT_DATE
+ORDER BY invoice_due_date, invoice_id;</code></pre>
+                </div>
+                <p><code>DATE_FORMAT()</code> returns a string for people to read. <code>DATEDIFF()</code> compares the date portions and returns calendar days, not business days. The original <code>invoice_due_date</code> remains a date.</p>
+
+                <div class="code-block">
+                    <span class="code-label">Date arithmetic</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_date,
+       DATE_ADD(invoice_date, INTERVAL 30 DAY) AS date_plus_30_days,
+       DATE_SUB(invoice_date, INTERVAL 1 MONTH) AS one_month_earlier
+FROM ap.invoices
+ORDER BY invoice_date
+LIMIT 10;</code></pre>
+                </div>
+
+                <h3>Search with a half-open range</h3>
+                <div class="code-block">
+                    <span class="code-label">All invoices from calendar year 2022</span>
+                    <pre><code>SELECT invoice_id, invoice_number, invoice_date, invoice_total
+FROM ap.invoices
+WHERE invoice_date &gt;= '2022-01-01'
+  AND invoice_date &lt;  '2023-01-01'
+ORDER BY invoice_date, invoice_id;</code></pre>
+                </div>
+                <p>The inclusive start and exclusive end work for both <code>DATE</code> and <code>DATETIME</code> values. This is usually clearer and more index-friendly than wrapping the column in <code>YEAR()</code> inside the <code>WHERE</code> clause.</p>
+
+                <h3>Search a time with the same half-open idea</h3>
+                <p>The AP payment column is a <code>DATE</code>, so this small read-only result set demonstrates a true <code>TIME</code> search without changing the publisher database.</p>
+                <div class="code-block">
+                    <span class="code-label">Times from 9:00 a.m. up to, but not including, 5:00 p.m.</span>
+                    <pre><code>SELECT event_time
+FROM (
+    SELECT CAST('08:45:00' AS TIME) AS event_time
+    UNION ALL SELECT CAST('12:30:00' AS TIME)
+    UNION ALL SELECT CAST('17:15:00' AS TIME)
+) AS sample_events
+WHERE event_time &gt;= '09:00:00'
+  AND event_time &lt;  '17:00:00';
+-- Result: 12:30:00</code></pre>
+                </div>
+
+                <div class="choice-lab">
+                    <h3>Function selector lab</h3>
+                    <p>Choose a job to reveal the strongest beginner pattern.</p>
+                    <div class="button-row" role="group" aria-label="Choose a date/time job">
+                        <button type="button" data-choice="label" aria-pressed="true">Report label</button>
+                        <button type="button" data-choice="difference" aria-pressed="false">Days between</button>
+                        <button type="button" data-choice="filter" aria-pressed="false">Date filter</button>
+                    </div>
+                    <div class="choice-panel" data-panel="label">
+                        <h4>Use <code>DATE_FORMAT()</code></h4>
+                        <p>Create text such as “Aug 25, 2026” only when the final output needs a human-friendly label.</p>
+                    </div>
+                    <div class="choice-panel" data-panel="difference" hidden>
+                        <h4>Use <code>DATEDIFF()</code> or <code>TIMESTAMPDIFF()</code></h4>
+                        <p><code>DATEDIFF()</code> measures days. <code>TIMESTAMPDIFF()</code> lets you request a unit such as hour, month, or year.</p>
+                    </div>
+                    <div class="choice-panel" data-panel="filter" hidden>
+                        <h4>Compare the original column to a range</h4>
+                        <p>Use <code>&gt;= start</code> and <code>&lt; next_period</code>. Keep display formatting out of the filter.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="conditional-tools">
+                <h2>7. Use CASE, IF, IFNULL, and COALESCE</h2>
+                <p class="lead">Conditional expressions are the sorting desk: inspect a row, apply a rule, and return the appropriate label or fallback value.</p>
+
+                <div class="code-block">
+                    <span class="code-label">Classify each invoice without changing it</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total,
+       payment_date,
+       invoice_due_date,
+       CASE
+           WHEN payment_date IS NOT NULL THEN 'Paid'
+           WHEN invoice_due_date &lt; CURRENT_DATE THEN 'Past due'
+           ELSE 'Open'
+       END AS payment_status
+FROM ap.invoices
+ORDER BY invoice_due_date, invoice_id;</code></pre>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Choosing a conditional or NULL-handling expression</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Tool</th>
+                                <th scope="col">Best beginner use</th>
+                                <th scope="col">Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row"><code>CASE</code></th><td>Several conditions or portable, readable logic</td><td><code>CASE WHEN ... THEN ... ELSE ... END</code></td></tr>
+                            <tr><th scope="row"><code>IF()</code></th><td>One short MySQL-specific true/false choice</td><td><code>IF(payment_date IS NULL, 'Open', 'Paid')</code></td></tr>
+                            <tr><th scope="row"><code>IFNULL()</code></th><td>One value and one fallback</td><td><code>IFNULL(vendor_address2, '(none)')</code></td></tr>
+                            <tr><th scope="row"><code>COALESCE()</code></th><td>The first non-NULL value from a list</td><td><code>COALESCE(vendor_address2, vendor_address1, '(missing)')</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <h3>NULL is “unknown,” not an empty string</h3>
+                    <p>Use <code>IS NULL</code> or <code>IS NOT NULL</code> to test it. Use <code>IFNULL()</code> or <code>COALESCE()</code> only when a substitute makes sense for the report.</p>
+                </div>
+
+                <article class="quick-check" data-answer="coalesce">
+                    <h3>Quick check: choose a fallback</h3>
+                    <fieldset>
+                        <legend>Which expression returns the first available contact value from several columns?</legend>
+                        <label class="answer-option"><input type="radio" name="null-check" value="concat"> <span><code>CONCAT(value1, value2, value3)</code></span></label>
+                        <label class="answer-option"><input type="radio" name="null-check" value="coalesce"> <span><code>COALESCE(value1, value2, value3)</code></span></label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my thinking</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. COALESCE() returns the first non-NULL argument." data-retry="Try again. CONCAT() joins values; it does not choose the first available one."></p>
+                </article>
+            </section>
+
+            <section class="lesson-section" id="regex-tools">
+                <h2>8. Recognize patterns with regular-expression functions</h2>
+                <p class="lead">A regular expression is a reusable stencil for text. It can ask whether a value follows a pattern, locate the match, extract it, or replace it in the query result.</p>
+                <p>MySQL 8 uses the Unicode-aware ICU regular-expression engine. Match behavior can also depend on character set and collation, so use the optional match type when case behavior matters.</p>
+
+                <div class="code-block">
+                    <span class="code-label">MySQL 8 REGEXP_LIKE syntax</span>
+                    <pre><code>REGEXP_LIKE(expression, pattern, match_type)
+
+-- 'i' requests case-insensitive matching
+SELECT vendor_name
+FROM ap.vendors
+WHERE REGEXP_LIKE(vendor_name, 'systems|services', 'i')
+ORDER BY vendor_name;</code></pre>
+                </div>
+
+                <h3>Make matching rules explicit</h3>
+                <div class="code-block">
+                    <span class="code-label">Check five-digit and ZIP+4 forms</span>
+                    <pre><code>SELECT vendor_name,
+       vendor_zip_code,
+       CASE
+           WHEN REGEXP_LIKE(
+                    vendor_zip_code,
+                    '^[0-9]{5}(-[0-9]{4})?$',
+                    'c'
+                )
+           THEN 'Expected format'
+           ELSE 'Review'
+       END AS zip_format_check
+FROM ap.vendors
+ORDER BY vendor_name;</code></pre>
+                </div>
+                <p>In <code>REGEXP_LIKE()</code>, <code>'i'</code> requests case-insensitive matching and <code>'c'</code> requests case-sensitive matching. Stating the match type avoids relying on a column's collation when case matters.</p>
+
+                <div class="card-grid">
+                    <article class="concept-card"><h3><code>REGEXP_LIKE()</code></h3><p>Returns 1 when the pattern matches and 0 when it does not.</p></article>
+                    <article class="concept-card"><h3><code>REGEXP_INSTR()</code></h3><p>Returns the starting position of a match.</p></article>
+                    <article class="concept-card"><h3><code>REGEXP_SUBSTR()</code></h3><p>Returns the matching part of the string.</p></article>
+                    <article class="concept-card"><h3><code>REGEXP_REPLACE()</code></h3><p>Returns a transformed string; it does not update the table.</p></article>
+                </div>
+
+                <div class="reveal-box">
+                    <h3>Read the ZIP pattern one piece at a time</h3>
+                    <button type="button" aria-expanded="false" aria-controls="regex-anatomy" data-reveal-target="regex-anatomy">Reveal explanation</button>
+                    <div class="reveal-panel" id="regex-anatomy" tabindex="-1" hidden>
+                        <p><code>^</code> anchors the start; <code>[0-9]{5}</code> requires five digits; <code>(-[0-9]{4})?</code> makes a hyphen plus four digits optional; and <code>$</code> anchors the end. Together, the pattern checks the entire value instead of finding five digits somewhere inside it.</p>
+                    </div>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Pattern match is not data proof</h3>
+                    <p>A ZIP-shaped string can still be the wrong ZIP code. Regular expressions validate form, not real-world truth. Treat a “match” as one quality signal.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="window-tools">
+                <h2>9. Rank rows and look across a window</h2>
+                <p class="lead">Ranking and analytic functions keep each detail row while comparing it with related rows. The <code>OVER</code> clause defines which rows belong to that comparison.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: the race scoreboard</h3>
+                    <p>A normal row tells you one runner's time. A window function adds context: their place, the runner just ahead, or their percentile—without removing the runner from the scoreboard.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-label">Three ranking functions</span>
+                    <pre><code>WITH invoice_balances AS (
+    SELECT invoice_id,
+           vendor_id,
+           invoice_number,
+           invoice_total - payment_total - credit_total AS balance_due
+    FROM ap.invoices
+)
+SELECT vendor_id,
+       invoice_number,
+       balance_due,
+       ROW_NUMBER() OVER (
+           PARTITION BY vendor_id
+           ORDER BY balance_due DESC, invoice_id
+       ) AS row_number,
+       RANK() OVER (
+           PARTITION BY vendor_id
+           ORDER BY balance_due DESC
+       ) AS balance_rank,
+       DENSE_RANK() OVER (
+           PARTITION BY vendor_id
+           ORDER BY balance_due DESC
+       ) AS dense_balance_rank
+FROM invoice_balances
+ORDER BY vendor_id, balance_rank, invoice_id;</code></pre>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>How ties affect the three ranking functions</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Balance</th>
+                                <th scope="col"><code>ROW_NUMBER()</code></th>
+                                <th scope="col"><code>RANK()</code></th>
+                                <th scope="col"><code>DENSE_RANK()</code></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">$900</th><td>1</td><td>1</td><td>1</td></tr>
+                            <tr><th scope="row">$900</th><td>2</td><td>1</td><td>1</td></tr>
+                            <tr><th scope="row">$700</th><td>3</td><td>3</td><td>2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ul>
+                    <li><code>ROW_NUMBER()</code> always assigns a unique sequence; add a tie-breaker for deterministic results.</li>
+                    <li><code>RANK()</code> gives tied rows the same rank and leaves a gap afterward.</li>
+                    <li><code>DENSE_RANK()</code> gives tied rows the same rank without a gap.</li>
+                </ul>
+
+                <h3>Look backward and forward with LAG and LEAD</h3>
+                <div class="code-block">
+                    <span class="code-label">Compare each invoice with a neighboring invoice</span>
+                    <pre><code>SELECT vendor_id,
+       invoice_number,
+       invoice_date,
+       invoice_total,
+       LAG(invoice_total) OVER (
+           PARTITION BY vendor_id
+           ORDER BY invoice_date, invoice_id
+       ) AS prior_invoice_total,
+       LEAD(invoice_date) OVER (
+           PARTITION BY vendor_id
+           ORDER BY invoice_date, invoice_id
+       ) AS next_invoice_date
+FROM ap.invoices
+ORDER BY vendor_id, invoice_date, invoice_id;</code></pre>
+                </div>
+                <p>The first row in a partition has no earlier row, so <code>LAG()</code> returns <code>NULL</code> there. Likewise, <code>LEAD()</code> returns <code>NULL</code> at the end unless you provide a default argument.</p>
+
+                <div class="card-grid">
+                    <article class="concept-card"><h3><code>NTILE(4)</code></h3><p>Places ordered rows into four numbered buckets.</p></article>
+                    <article class="concept-card"><h3><code>PERCENT_RANK()</code></h3><p>Returns relative rank from 0 through 1.</p></article>
+                    <article class="concept-card"><h3><code>CUME_DIST()</code></h3><p>Returns the rows that precede or tie the current row in the window order, divided by all rows in the partition.</p></article>
+                    <article class="concept-card"><h3><code>FIRST_VALUE()</code></h3><p>Returns a value from the first row of the current window frame.</p></article>
+                </div>
+
+                <div class="transfer-note">
+                    <h3>Connection to Chapter 6</h3>
+                    <p>Chapter 6 introduced aggregate window calculations such as a running <code>SUM()</code>. Chapter 9 adds the nonaggregate ranking and analytic tools that answer “which place?” and “what came before or after?”</p>
+                </div>
+
+                <h3>Filter a rank in an outer query</h3>
+                <p>MySQL permits window functions in the <code>SELECT</code> list and <code>ORDER BY</code>, not directly in the same query level's <code>WHERE</code>. Put the window result in a common table expression or derived table, then filter it outside.</p>
+                <div class="code-block">
+                    <span class="code-label">Top three invoices per vendor</span>
+                    <pre><code>WITH ranked_invoices AS (
+    SELECT vendor_id,
+           invoice_id,
+           invoice_number,
+           invoice_total,
+           ROW_NUMBER() OVER (
+               PARTITION BY vendor_id
+               ORDER BY invoice_total DESC, invoice_id
+           ) AS vendor_row_number
+    FROM ap.invoices
+)
+SELECT vendor_id, invoice_number, invoice_total
+FROM ranked_invoices
+WHERE vendor_row_number &lt;= 3
+ORDER BY vendor_id, vendor_row_number;</code></pre>
+                </div>
+
+                <article class="quick-check" data-answer="rank">
+                    <h3>Quick check: leaderboard ties</h3>
+                    <fieldset>
+                        <legend>Which function gives tied rows the same position and leaves a gap afterward?</legend>
+                        <label class="answer-option"><input type="radio" name="rank-check" value="row-number"> <span><code>ROW_NUMBER()</code></span></label>
+                        <label class="answer-option"><input type="radio" name="rank-check" value="rank"> <span><code>RANK()</code></span></label>
+                        <label class="answer-option"><input type="radio" name="rank-check" value="dense-rank"> <span><code>DENSE_RANK()</code></span></label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my thinking</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. RANK() shares a rank for ties and leaves the next position as a gap." data-retry="Try again. Look for the function that models competition ranking with skipped positions after ties."></p>
+                </article>
+
+                <div class="summary-banner">
+                    <h3>Chapter 9 takeaway</h3>
+                    <ul class="checklist">
+                        <li>Choose a function for a specific job and keep <code>ap</code> read-only.</li>
+                        <li>Use <code>CHAR_LENGTH()</code> for characters and <code>LENGTH()</code> for bytes.</li>
+                        <li>Remember that <code>CONCAT()</code> can become <code>NULL</code> and <code>FORMAT()</code> returns text.</li>
+                        <li>Keep date and numeric values typed until the final display step.</li>
+                        <li>State the <code>REGEXP_LIKE()</code> match type when case behavior matters.</li>
+                        <li>Use <code>OVER</code> to add ranking or analytic context without collapsing detail rows.</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <nav class="course-nav" aria-label="Previous chapter, course home, and next chapter">
+        <a href="/ciss340-chapter8">← Chapter 8</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter10">Chapter 10 →</a>
+    </nav>
+
+    <footer class="page-footer">
+        <p>This original course companion follows the published scope of Murach's MySQL, 4th Edition, Chapter 9. Examples use the fictional AP database distributed with the textbook. Verify functions against your course's MySQL 8 environment.</p>
+        <p><a href="https://instructors.murach.com/shop/murach-s-mysql-4th-edition-detail">Murach's MySQL 4th Edition courseware</a> · <a href="https://dev.mysql.com/doc/refman/8.4/en/regexp.html">MySQL 8.4 regular expressions</a> · <a href="https://dev.mysql.com/doc/refman/8.4/en/window-function-descriptions.html">MySQL 8.4 window functions</a></p>
+    </footer>
+</body>
+</html>

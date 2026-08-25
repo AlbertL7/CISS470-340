@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A beginner-friendly CISS 340 companion to Murach's MySQL Chapter 10, with AP design examples, normalization analogies, and accessible practice.">
+    <title>Chapter 10: How to design a database | CISS 340</title>
+    <link rel="stylesheet" href="/ciss340-learning-module.css">
+    <script src="/ciss340-learning-module.js" defer></script>
+</head>
+<body class="chapter-10">
+    <a class="skip-link" href="#main-content">Skip to chapter content</a>
+    <div class="reading-progress" role="progressbar" aria-label="Chapter reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+    <header class="hero">
+        <div class="hero-inner">
+            <p class="eyebrow">CISS 340 · Murach's MySQL, 4th Edition</p>
+            <h1>Chapter 10: How to design a database</h1>
+            <p class="hero-summary">Turn a business story into tables that each have one clear job. We will state row grain, map dependencies and relationships, normalize a messy payables record, and sketch the result in MySQL Workbench.</p>
+            <div class="hero-meta" role="list" aria-label="Chapter details">
+                <span class="meta-chip" role="listitem">Week 3 · design before implementation</span>
+                <span class="meta-chip" role="listitem">9 guided sections</span>
+                <span class="meta-chip" role="listitem">60–75 minutes</span>
+                <span class="meta-chip" role="listitem"><code>ap</code> is read only</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="course-nav" aria-label="Chapter navigation">
+        <a href="/ciss340-chapter9">← Chapter 9</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter11">Chapter 11 →</a>
+    </nav>
+
+    <div class="module-layout">
+        <nav class="section-nav" aria-label="Chapter 10 sections">
+            <h2>On this page</h2>
+            <a href="#blueprint" aria-current="location">1. Design is a blueprint</a>
+            <a href="#grain">2. Grain and data elements</a>
+            <a href="#keys">3. Tables, keys, relationships</a>
+            <a href="#first-normal-form">4. First normal form</a>
+            <a href="#second-third">5. Second and third normal forms</a>
+            <a href="#indexes">6. Indexes and denormalization</a>
+            <a href="#workbench">7. Workbench EER models</a>
+            <a href="#design-lab">8. AP design lab</a>
+            <a href="#summary">9. Wrap-up and practice</a>
+        </nav>
+
+        <main id="main-content" tabindex="-1">
+            <section class="lesson-section" id="blueprint">
+                <h2>1. Design is the blueprint</h2>
+                <p class="lead">Database design decides what each row means, where each fact belongs, and which rules keep related facts trustworthy. SQL construction comes after those decisions.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: blueprint first, construction second</h3>
+                    <p>An architect decides where rooms belong and how people move between them before a builder pours concrete. Chapter 10 is the blueprint: entities, columns, keys, relationships, and normalization. Chapter 11 is the construction work that turns that plan into MySQL objects.</p>
+                </div>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Meaning</span>
+                        <h3>What does one row represent?</h3>
+                        <p>Every table needs one stable grain statement that all its columns can honor.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Structure</span>
+                        <h3>What depends on what?</h3>
+                        <p>Functional dependencies reveal which facts belong together and which facts are being repeated.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Rules</span>
+                        <h3>How may rows relate?</h3>
+                        <p>Keys, cardinality, and optionality translate business rules into a design we can test.</p>
+                    </article>
+                </div>
+
+                <div class="callout">
+                    <h3>Why Chapter 10 appears in Week 3</h3>
+                    <p>The book's chapter number is not the course week. CISS 340 studies Chapters 10 and 11 together in Week 3 so the major Workbench lab has a sound design before students write its DDL.</p>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Database boundary</h3>
+                    <p>Inspect the publisher's canonical <code>ap</code> schema, but do not alter it. Chapter 10 work is planning and diagramming. When Chapter 11 asks you to create objects, use only your personal <code>ap_sandbox</code> and only as Canvas directs.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="grain">
+                <h2>2. Start with grain and data elements</h2>
+                <p><strong>Grain</strong> is the promise a table makes about one row. Write the promise before naming columns: <strong>One row represents ...</strong></p>
+
+                <div class="analogy">
+                    <h3>Analogy: label the storage box</h3>
+                    <p>If a box is labeled “one invoice line,” it may hold a line amount and account code. Vendor phone numbers do not belong in that box; they describe a vendor and would be copied into every line. A clear label prevents mixed meanings.</p>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Useful AP grain statements</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Table</th>
+                                <th scope="col">One row represents</th>
+                                <th scope="col">Examples of facts at that grain</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>vendors</code></th>
+                                <td>One vendor</td>
+                                <td>Name, address, phone, default terms</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>invoices</code></th>
+                                <td>One invoice from one vendor</td>
+                                <td>Invoice number, dates, totals, terms</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>invoice_line_items</code></th>
+                                <td>One account-coded line on one invoice</td>
+                                <td>Sequence, account, line amount, description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Find dependencies, not just nouns</h3>
+                <p>A functional dependency says that one value determines another. These plain-language arrows help locate facts:</p>
+                <ul>
+                    <li><code>vendor_id</code> → vendor details</li>
+                    <li><code>terms_id</code> → terms description and allowed days</li>
+                    <li><code>invoice_id</code> → that invoice's vendor, number, dates, and totals</li>
+                    <li><code>account_number</code> → general-ledger account description</li>
+                </ul>
+                <p>Dependencies describe the business meaning. They are not claims that an ID causes another fact; they say the ID identifies the one fact that belongs with it.</p>
+
+                <div class="quick-check" data-answer="invoice-line">
+                    <h3>Quick check: state the grain</h3>
+                    <fieldset>
+                        <legend>A flat export repeats the same invoice once for every account-coded line. What does one export row represent?</legend>
+                        <label class="answer-option"><input type="radio" name="ch10-grain" value="vendor"> One vendor</label>
+                        <label class="answer-option"><input type="radio" name="ch10-grain" value="invoice"> One invoice, regardless of its lines</label>
+                        <label class="answer-option"><input type="radio" name="ch10-grain" value="invoice-line"> One line on one invoice</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Repetition by account-coded line tells us the export is at invoice-line grain." data-retry="Try again. Ask what changes from one repeated invoice row to the next."></p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="keys">
+                <h2>3. Turn meanings into tables, keys, and relationships</h2>
+                <p>After identifying grain and dependencies, group facts into tables. Then choose keys that identify rows and foreign keys that connect related grains.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Five-table AP design path used in Week 3 practice</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Table</th>
+                                <th scope="col">Primary key</th>
+                                <th scope="col">Important foreign-key direction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>terms</code></th>
+                                <td><code>terms_id</code></td>
+                                <td>Referenced by vendors and invoices</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>vendors</code></th>
+                                <td><code>vendor_id</code></td>
+                                <td><code>default_terms_id</code> points to terms</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>invoices</code></th>
+                                <td><code>invoice_id</code></td>
+                                <td><code>vendor_id</code> points to vendors; <code>terms_id</code> points to terms</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>general_ledger_accounts</code></th>
+                                <td><code>account_number</code></td>
+                                <td>Referenced by invoice line items</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>invoice_line_items</code></th>
+                                <td><code>invoice_id</code> plus <code>invoice_sequence</code></td>
+                                <td>Points to invoices and general-ledger accounts</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="analogy">
+                    <h3>Analogy: an address book, not repeated sticky notes</h3>
+                    <p>Store a vendor's details once in the address book. Each invoice carries the vendor's identifier, like a contact shortcut, instead of another copy of the phone number and address.</p>
+                </div>
+
+                <h3>Cardinality and optionality are separate ideas</h3>
+                <p>A crow's-foot marker means <em>many</em>. A circle means zero is permitted; a bar means one. Read the symbols at both ends rather than treating the crow's foot alone as a complete “zero-to-many” rule.</p>
+                <p>The foreign key normally appears on the <strong>child/many side</strong>. For example, many invoices may belong to one vendor, so <code>invoices.vendor_id</code> refers to <code>vendors.vendor_id</code>.</p>
+
+                <div class="callout">
+                    <h3>Many-to-many needs a bridge</h3>
+                    <p>If one invoice can use many accounts and one account can appear on many invoices, place the relationship facts in <code>invoice_line_items</code>. The bridge also stores facts such as line amount and sequence that belong to the pairing.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="first-normal-form">
+                <h2>4. First normal form: one consistent row shape</h2>
+                <p>First normal form (1NF) gives each table a consistent row grain, removes repeating column groups, and keeps each stored value single-valued for the domain the course has defined.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: one item per labeled slot</h3>
+                    <p>A form with columns named <code>account_1</code>, <code>account_2</code>, and <code>account_3</code> is like a cabinet with only three numbered slots. The fourth account has nowhere to go. A line-item table gives every account-coded line its own row, so the design can grow without adding another column.</p>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Spotting first-normal-form problems</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Problem pattern</th>
+                                <th scope="col">Why it hurts</th>
+                                <th scope="col">Design response</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Numbered repeating columns</th>
+                                <td>A fixed number of slots limits future rows and complicates queries.</td>
+                                <td>Move the repeating fact to rows in a related table.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Comma-separated account codes</th>
+                                <td>Individual codes are difficult to validate, join, or summarize.</td>
+                                <td>Store one account-coded line per row.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Mixed invoice and line facts</th>
+                                <td>Invoice facts repeat for every line, creating update anomalies.</td>
+                                <td>Separate invoice grain from invoice-line grain.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <h3>“Atomic” depends on the question</h3>
+                    <p>A full street address might be sufficient for display, but city and postal code must be separate if the business filters or validates them independently. Define useful domains from requirements instead of splitting every value without purpose.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="second-third">
+                <h2>5. Second and third normal forms: put every fact in its proper home</h2>
+                <p>After 1NF, ask which key determines each non-key fact. The practical CISS 340 target is a defensible design through third normal form.</p>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Second normal form</span>
+                        <h3>Depend on the whole key</h3>
+                        <p>2NF matters when a candidate key has more than one column. A non-key fact must depend on the full key, not just part of it.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Third normal form</span>
+                        <h3>Depend on the key, not another fact</h3>
+                        <p>In 3NF, a non-key fact should not determine another non-key fact. Vendor details therefore belong with the vendor, not in every invoice.</p>
+                    </article>
+                </div>
+
+                <h3>Apply the tests to invoice lines</h3>
+                <p>With the composite key <code>(invoice_id, invoice_sequence)</code>, invoice date depends only on <code>invoice_id</code>, so it belongs in <code>invoices</code>, not <code>invoice_line_items</code>. An account description depends on <code>account_number</code>, so it belongs in <code>general_ledger_accounts</code>.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>The seven normal forms in the chapter's overview</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Form</th>
+                                <th scope="col">Beginner takeaway</th>
+                                <th scope="col">CISS 340 treatment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">1NF</th><td>Consistent row grain; no repeating groups</td><td>Apply</td></tr>
+                            <tr><th scope="row">2NF</th><td>Non-key facts depend on the whole candidate key</td><td>Apply</td></tr>
+                            <tr><th scope="row">3NF</th><td>Non-key facts do not depend on other non-key facts</td><td>Apply</td></tr>
+                            <tr><th scope="row">Boyce-Codd normal form</th><td>Every determinant is a candidate key</td><td>Recognize</td></tr>
+                            <tr><th scope="row">4NF</th><td>Separate independent multivalued facts</td><td>Recognize</td></tr>
+                            <tr><th scope="row">5NF</th><td>Avoid hidden redundancy caused by complex join dependencies</td><td>Recognize</td></tr>
+                            <tr><th scope="row">Domain/key normal form</th><td>All rules follow from domains and keys</td><td>Recognize</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="safety-note">
+                    <h3>A surrogate key is not a normalization shortcut</h3>
+                    <p>Adding an auto-generated ID can identify a row, but it does not remove partial or transitive dependencies. Continue checking what the business facts depend on.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="indexes">
+                <h2>6. Choose index candidates—and denormalize only with evidence</h2>
+                <p>Design identifies likely access paths, but it should not create an index for every column. Start with keys and frequent, selective filters or joins, then validate with real queries and <code>EXPLAIN</code>.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: a book index has a maintenance cost</h3>
+                    <p>A good index helps a reader jump to the right page. An index containing every word would be bulky and expensive to maintain. Database indexes trade storage and write work for faster access to particular patterns.</p>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Beginner index decisions</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Observed access pattern</th>
+                                <th scope="col">Possible design response</th>
+                                <th scope="col">Question to verify</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Join invoices to vendors by <code>vendor_id</code></th>
+                                <td>Ensure the foreign-key path has its required supporting index.</td>
+                                <td>Are key types and attributes compatible?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Find one vendor's invoices by date</th>
+                                <td>Consider a composite index beginning with <code>vendor_id</code>.</td>
+                                <td>Does the real filter use the index's leftmost columns?</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Report almost every invoice</th>
+                                <td>An additional index may offer little benefit.</td>
+                                <td>Does the query read most rows anyway?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Denormalization is a deliberate trade</h3>
+                <p>Denormalization stores a controlled duplicate or derived value for a measured need. Before doing it, document the authoritative source, how copies stay synchronized, what anomaly risk is accepted, and whether query or caching changes solve the problem more safely.</p>
+
+                <div class="callout">
+                    <h3>MySQL 8.4 relationship note</h3>
+                    <p>Use compatible child and parent key types. For character keys, character set and collation must match. Design references to a <code>PRIMARY KEY</code> or <code>UNIQUE NOT NULL</code> key; MySQL's legacy support for nonunique referenced indexes is deprecated.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="workbench">
+                <h2>7. Make the design visible in a Workbench EER model</h2>
+                <p>An EER model lets you review table grain, columns, keys, and relationship rules before applying DDL to a server.</p>
+
+                <ol class="step-list">
+                    <li>Open an existing model or create a new model file for the assigned schema.</li>
+                    <li>Add each table and write its grain in your notes before entering columns.</li>
+                    <li>Mark primary keys, required versus optional columns, and reasonable data types.</li>
+                    <li>Create relationships from the child foreign-key columns to the parent key.</li>
+                    <li>Read every relationship in both directions and verify cardinality and optionality against the scenario.</li>
+                    <li>Arrange the diagram so lines are readable, then compare the model with your written data dictionary.</li>
+                </ol>
+
+                <div class="callout">
+                    <h3>A model file is not the live database</h3>
+                    <p>Editing an EER diagram changes the model. It does not change <code>ap</code> or any server until a separate implementation action is performed. In Week 3, follow the Workbench assignment's named schema and evidence steps exactly.</p>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>EER review checklist</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Review question</th>
+                                <th scope="col">Evidence in the model</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">Can every row be identified?</th><td>A primary or candidate key is visible.</td></tr>
+                            <tr><th scope="row">Can an orphan child be stored?</th><td>The foreign key and nullability match the business rule.</td></tr>
+                            <tr><th scope="row">Is a many-to-many relationship unresolved?</th><td>A bridge table appears with both parent references.</td></tr>
+                            <tr><th scope="row">Does a fact appear in several homes?</th><td>Dependencies and normalization have been reviewed.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="design-lab">
+                <h2>8. AP design lab: place each fact where it belongs</h2>
+                <p>Use this small decision lab to practice the reasoning behind the Week 3 normalization worksheet.</p>
+
+                <div class="choice-lab">
+                    <h3>Which table owns the fact?</h3>
+                    <p>Choose a fact to reveal its determinant, grain, and destination.</p>
+                    <div class="button-row" role="group" aria-label="AP fact choices">
+                        <button type="button" data-choice="phone" aria-pressed="true" aria-controls="ch10-fact-phone">Vendor phone</button>
+                        <button type="button" data-choice="due" aria-pressed="false" aria-controls="ch10-fact-due">Invoice due date</button>
+                        <button type="button" data-choice="line" aria-pressed="false" aria-controls="ch10-fact-line">Line amount</button>
+                    </div>
+                    <div class="choice-panel" id="ch10-fact-phone" data-panel="phone">
+                        <h4><code>vendor_phone</code> belongs in <code>vendors</code></h4>
+                        <p>It depends on <code>vendor_id</code>. Storing it on invoices or line items would repeat the same vendor fact.</p>
+                    </div>
+                    <div class="choice-panel" id="ch10-fact-due" data-panel="due" hidden>
+                        <h4><code>invoice_due_date</code> belongs in <code>invoices</code></h4>
+                        <p>It describes one invoice and depends on <code>invoice_id</code>, not on a particular line.</p>
+                    </div>
+                    <div class="choice-panel" id="ch10-fact-line" data-panel="line" hidden>
+                        <h4><code>line_item_amount</code> belongs in <code>invoice_line_items</code></h4>
+                        <p>It describes one account-coded line, identified within an invoice by its sequence.</p>
+                    </div>
+                </div>
+
+                <div class="quick-check" data-answer="vendors">
+                    <h3>Quick check: remove a transitive dependency</h3>
+                    <fieldset>
+                        <legend>An invoice row stores <code>vendor_id</code> and <code>vendor_phone</code>. Because vendor ID determines phone, where should the phone be stored?</legend>
+                        <label class="answer-option"><input type="radio" name="ch10-transitive" value="invoices"> In every invoice row</label>
+                        <label class="answer-option"><input type="radio" name="ch10-transitive" value="vendors"> Once in the vendors table</label>
+                        <label class="answer-option"><input type="radio" name="ch10-transitive" value="line-items"> Once per invoice line</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Vendor phone depends on the vendor key, so vendors is its single authoritative home." data-retry="Try again. Follow the determinant: vendor ID identifies the phone fact."></p>
+                </div>
+
+                <div class="reveal-box">
+                    <h3>Does normalization guarantee a correct design?</h3>
+                    <button type="button" data-reveal-target="ch10-normalization-note" aria-expanded="false">Reveal explanation</button>
+                    <div class="reveal-panel" id="ch10-normalization-note" tabindex="-1" hidden>
+                        <p>No. Normalization helps control dependency-based redundancy, but a design can still misunderstand the business, omit a rule, choose the wrong grain, or use unclear names. Review the model with concrete scenarios and sample rows.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="summary">
+                <h2>9. Wrap-up and practice</h2>
+
+                <div class="summary-banner">
+                    <h3>The core habit: write the grain before the columns</h3>
+                    <p>When every table has one clear row meaning, dependencies, keys, foreign keys, and normalization decisions become easier to explain and test.</p>
+                </div>
+
+                <h3>Chapter 10 checklist</h3>
+                <ul class="checklist">
+                    <li>I can write “One row represents ...” for every proposed table.</li>
+                    <li>I can identify determinants, dependent facts, and likely anomalies.</li>
+                    <li>I can choose primary keys and place foreign keys on the child/many side.</li>
+                    <li>I can apply 1NF, 2NF, and 3NF to a beginner business scenario.</li>
+                    <li>I can explain why a bridge table resolves a many-to-many relationship.</li>
+                    <li>I can select index candidates from access patterns instead of indexing everything.</li>
+                    <li>I can review an EER model without changing the canonical <code>ap</code> schema.</li>
+                </ul>
+
+                <div class="quick-check" data-answer="whole-key">
+                    <h3>Final quick check</h3>
+                    <fieldset>
+                        <legend>Which sentence best captures second normal form for a table with a composite candidate key?</legend>
+                        <label class="answer-option"><input type="radio" name="ch10-final" value="any-key"> Every table must use an auto-increment key</label>
+                        <label class="answer-option"><input type="radio" name="ch10-final" value="whole-key"> Every non-key fact depends on the whole candidate key</label>
+                        <label class="answer-option"><input type="radio" name="ch10-final" value="no-foreign"> The table must not contain foreign keys</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Second normal form removes partial dependencies on only part of a composite candidate key." data-retry="Try again. Focus on whether a non-key fact depends on the complete composite key."></p>
+                </div>
+
+                <div class="transfer-note">
+                    <h3>Next: implement the blueprint</h3>
+                    <p>Chapter 11 turns a reviewed design into databases, tables, constraints, and indexes. Keep the blueprint nearby: DDL should implement decisions, not invent them on the fly.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <nav class="course-nav" aria-label="Chapter navigation at end">
+        <a href="/ciss340-chapter9">← Chapter 9</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter11">Chapter 11 →</a>
+    </nav>
+
+    <footer class="page-footer">
+        <p>This original course companion follows the scope of Joel Murach, <cite>Murach's MySQL</cite>, 4th Edition, Chapter 10. The fictional AP schema is publisher-provided; explanations, analogies, checks, and the Week 3 course framing are original CISS 340 materials. MySQL behavior notes target MySQL 8.4 LTS.</p>
+        <p>Sources: <a href="https://instructors.murach.com/shop/murach-s-mysql-4th-edition-detail">Murach's MySQL, 4th Edition courseware</a>; official MySQL 8.4 guidance for <a href="https://dev.mysql.com/doc/refman/8.4/en/create-table-foreign-keys.html">foreign keys</a> and <a href="https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html">multiple-column indexes</a>.</p>
+    </footer>
+</body>
+</html>
