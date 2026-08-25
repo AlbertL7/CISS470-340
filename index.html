@@ -141,7 +141,7 @@
         
         .chapters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
             gap: 30px;
             margin-bottom: 50px;
         }
@@ -230,7 +230,7 @@
         
         .stat-label {
             font-size: 12px;
-            color: #999;
+            color: #595959;
             margin-top: 5px;
         }
         
@@ -254,6 +254,24 @@
         .chapter4-ciss340 { background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); }
         .chapter5-ciss340 { background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); }
         .chapter6-ciss340 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .chapter7-ciss340 { background: linear-gradient(135deg, #0f766e 0%, #115e59 100%); }
+        .chapter8-ciss340 { background: linear-gradient(135deg, #7c3aed 0%, #be185d 100%); }
+        .chapter9-ciss340 { background: linear-gradient(135deg, #92400e 0%, #9a3412 100%); }
+        .chapter10-ciss340 { background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%); }
+        .chapter11-ciss340 { background: linear-gradient(135deg, #047857 0%, #0e7490 100%); }
+        .chapter1-ciss340,
+        .chapter2-ciss340,
+        .chapter3-ciss340,
+        .chapter4-ciss340,
+        .chapter5-ciss340,
+        .chapter6-ciss340,
+        .chapter7-ciss340,
+        .chapter8-ciss340,
+        .chapter9-ciss340,
+        .chapter10-ciss340 {
+            min-height: 155px;
+        }
+        .chapter11-ciss340 { min-height: 180px; }
         .workbook-ex { background: linear-gradient(135deg, #db4d00 0%, #b04100 100%); }
         .shopflow-project { background: linear-gradient(135deg, #075d6d 0%, #1466b8 100%); }
         .chapter-coming { 
@@ -275,13 +293,56 @@
         }
         
         .status-available {
-            background: #4caf50;
+            background: #237a3b;
             color: white;
         }
         
         .status-coming {
-            background: #ff9800;
+            background: #9a4a00;
             color: white;
+        }
+
+        @media (max-width: 600px) {
+            .tab-container {
+                padding: 0;
+            }
+
+            .tab-buttons {
+                width: 100%;
+            }
+
+            .tab-button {
+                flex: 1 1 50%;
+                min-width: 0;
+                padding: 14px 8px;
+                font-size: 14px;
+                letter-spacing: 0.03em;
+            }
+
+            .course-label {
+                font-size: 10px;
+            }
+
+            .tab-content {
+                padding: 12px;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+
+            .header h1 {
+                font-size: 34px;
+                line-height: 1.15;
+            }
+
+            .header p {
+                font-size: 17px;
+            }
+
+            .chapters-grid {
+                gap: 18px;
+            }
         }
         
         @keyframes fadeIn {
@@ -1161,119 +1222,102 @@
                     </div>
                 </a>
 
-                <!-- Chapters 7-10 -->
+                <!-- Chapters 7-11 -->
 
-                <div class="chapter-card chapter-coming">
-                    <div class="chapter-header chapter-coming">
+                <a href="ciss340-chapter7.html" class="chapter-card">
+                    <div class="chapter-header chapter7-ciss340">
                         <div class="chapter-number">7</div>
-                        <div class="chapter-title">Chapter 7</div>
-                        <div class="chapter-subtitle">Coming Soon</div>
+                        <div class="chapter-title">How to code subqueries</div>
+                        <div class="chapter-subtitle">Questions inside questions, CTEs, and safe query building</div>
                     </div>
                     <div class="chapter-content">
-                        <span class="status-badge status-coming">Coming Soon</span>
+                        <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            Chapter content is currently being developed and will be available soon.
+                            Learn to predict a nested query's result shape, choose scalar, IN, EXISTS, or CTE patterns, and build each query from the inside out.
                         </p>
                         <div class="chapter-stats">
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Sections</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Est. Time</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">Interactive</div>
-                                <div class="stat-label">Format</div>
-                            </div>
+                            <div class="stat"><div class="stat-value">9</div><div class="stat-label">Sections</div></div>
+                            <div class="stat"><div class="stat-value">55 min</div><div class="stat-label">Est. Time</div></div>
+                            <div class="stat"><div class="stat-value">Interactive</div><div class="stat-label">Format</div></div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="chapter-card chapter-coming">
-                    <div class="chapter-header chapter-coming">
+                <a href="ciss340-chapter8.html" class="chapter-card">
+                    <div class="chapter-header chapter8-ciss340">
                         <div class="chapter-number">8</div>
-                        <div class="chapter-title">Chapter 8</div>
-                        <div class="chapter-subtitle">Coming Soon</div>
+                        <div class="chapter-title">How to work with data types</div>
+                        <div class="chapter-subtitle">Choose the right container for each value</div>
                     </div>
                     <div class="chapter-content">
-                        <span class="status-badge status-coming">Coming Soon</span>
+                        <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            Chapter content is currently being developed and will be available soon.
+                            Make beginner-friendly choices for identifiers, text, money, dates, counts, and conversions—without letting MySQL guess what you meant.
                         </p>
                         <div class="chapter-stats">
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Sections</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Est. Time</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">Interactive</div>
-                                <div class="stat-label">Format</div>
-                            </div>
+                            <div class="stat"><div class="stat-value">9</div><div class="stat-label">Sections</div></div>
+                            <div class="stat"><div class="stat-value">50 min</div><div class="stat-label">Est. Time</div></div>
+                            <div class="stat"><div class="stat-value">Interactive</div><div class="stat-label">Format</div></div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="chapter-card chapter-coming">
-                    <div class="chapter-header chapter-coming">
+                <a href="ciss340-chapter9.html" class="chapter-card">
+                    <div class="chapter-header chapter9-ciss340">
                         <div class="chapter-number">9</div>
-                        <div class="chapter-title">Chapter 9</div>
-                        <div class="chapter-subtitle">Coming Soon</div>
+                        <div class="chapter-title">How to use functions</div>
+                        <div class="chapter-subtitle">Transform, label, compare, and analyze values</div>
                     </div>
                     <div class="chapter-content">
-                        <span class="status-badge status-coming">Coming Soon</span>
+                        <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            Chapter content is currently being developed and will be available soon.
+                            Treat functions like dependable tools: shape text, work with dates and numbers, handle NULL, use regular expressions, and analyze rows with windows.
                         </p>
                         <div class="chapter-stats">
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Sections</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Est. Time</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">Interactive</div>
-                                <div class="stat-label">Format</div>
-                            </div>
+                            <div class="stat"><div class="stat-value">9</div><div class="stat-label">Sections</div></div>
+                            <div class="stat"><div class="stat-value">60–75 min</div><div class="stat-label">Est. Time</div></div>
+                            <div class="stat"><div class="stat-value">Interactive</div><div class="stat-label">Format</div></div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="chapter-card chapter-coming">
-                    <div class="chapter-header chapter-coming">
+                <a href="ciss340-chapter10.html" class="chapter-card">
+                    <div class="chapter-header chapter10-ciss340">
                         <div class="chapter-number">10</div>
-                        <div class="chapter-title">Chapter 10</div>
-                        <div class="chapter-subtitle">Coming Soon</div>
+                        <div class="chapter-title">How to design a database</div>
+                        <div class="chapter-subtitle">Turn business facts into a dependable blueprint</div>
                     </div>
                     <div class="chapter-content">
-                        <span class="status-badge status-coming">Coming Soon</span>
+                        <span class="status-badge status-available">Available</span>
                         <p class="chapter-description">
-                            Chapter content is currently being developed and will be available soon.
+                            Define row grain, give each fact one home, map relationships, normalize through 3NF, and review the design in an EER diagram before building.
                         </p>
                         <div class="chapter-stats">
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Sections</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">TBD</div>
-                                <div class="stat-label">Est. Time</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">Interactive</div>
-                                <div class="stat-label">Format</div>
-                            </div>
+                            <div class="stat"><div class="stat-value">9</div><div class="stat-label">Sections</div></div>
+                            <div class="stat"><div class="stat-value">60–75 min</div><div class="stat-label">Est. Time</div></div>
+                            <div class="stat"><div class="stat-value">Interactive</div><div class="stat-label">Format</div></div>
                         </div>
                     </div>
-                </div>
+                </a>
+
+                <a href="ciss340-chapter11.html" class="chapter-card">
+                    <div class="chapter-header chapter11-ciss340">
+                        <div class="chapter-number">11</div>
+                        <div class="chapter-title">How to create databases, tables, and indexes</div>
+                        <div class="chapter-subtitle">Turn the blueprint into safe, inspectable DDL</div>
+                    </div>
+                    <div class="chapter-content">
+                        <span class="status-badge status-available">Available</span>
+                        <p class="chapter-description">
+                            Build parent and child tables safely in your personal sandbox, name constraints, add justified indexes, and inspect what Workbench generates.
+                        </p>
+                        <div class="chapter-stats">
+                            <div class="stat"><div class="stat-value">9</div><div class="stat-label">Sections</div></div>
+                            <div class="stat"><div class="stat-value">60–80 min</div><div class="stat-label">Est. Time</div></div>
+                            <div class="stat"><div class="stat-value">Interactive</div><div class="stat-label">Format</div></div>
+                        </div>
+                    </div>
+                </a>
             </div>
 
             <div class="section-divider">

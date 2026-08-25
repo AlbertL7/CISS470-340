@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A beginner-friendly CISS 340 companion to Murach's MySQL Chapter 7, with read-only AP examples, analogies, and accessible practice.">
+    <title>Chapter 7: How to code subqueries | CISS 340</title>
+    <link rel="stylesheet" href="/ciss340-learning-module.css">
+    <script src="/ciss340-learning-module.js" defer></script>
+</head>
+<body class="chapter-7">
+    <a class="skip-link" href="#main-content">Skip to chapter content</a>
+    <div class="reading-progress" role="progressbar" aria-label="Chapter reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+    <header class="hero">
+        <div class="hero-inner">
+            <p class="eyebrow">CISS 340 · Murach's MySQL, 4th Edition</p>
+            <h1>Chapter 7: How to code subqueries</h1>
+            <p class="hero-summary">Learn how one query can answer a smaller question for another query. We will match each subquery's shape to the right SQL operator, then build from simple averages to correlated questions and readable CTEs.</p>
+            <div class="hero-meta" role="list" aria-label="Chapter details">
+                <span class="meta-chip" role="listitem">9 guided sections</span>
+                <span class="meta-chip" role="listitem">About 55 minutes</span>
+                <span class="meta-chip" role="listitem">Used in Week 6</span>
+                <span class="meta-chip" role="listitem"><code>ap</code> schema · read only</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="course-nav" aria-label="Chapter navigation">
+        <a href="/ciss340-chapter6">← Chapter 6</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter8">Chapter 8 →</a>
+    </nav>
+
+    <div class="module-layout">
+        <nav class="section-nav" aria-label="Chapter 7 sections">
+            <h2>On this page</h2>
+            <a href="#mental-model" aria-current="location">1. The question inside</a>
+            <a href="#scalar">2. One-value subqueries</a>
+            <a href="#lists">3. Lists, IN, ANY, and ALL</a>
+            <a href="#correlated">4. Correlated subqueries</a>
+            <a href="#select-clause">5. Subqueries in SELECT</a>
+            <a href="#from-clause">6. Subqueries in FROM</a>
+            <a href="#ctes">7. Common table expressions</a>
+            <a href="#workflow">8. A reliable workflow</a>
+            <a href="#summary">9. Wrap-up and practice</a>
+        </nav>
+
+        <main id="main-content" tabindex="-1">
+            <section class="lesson-section" id="mental-model">
+                <h2>1. The question inside the question</h2>
+                <p class="lead">A <strong>subquery</strong> is a complete query nested inside another SQL statement. Its result becomes an input to the surrounding query.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: ask the information desk first</h3>
+                    <p>Imagine that you want every package heavier than the building's average package. You first ask the information desk, “What is the average weight?” Then you take that one answer to the sorting room and compare every package with it. The information-desk question is the subquery; the sorting-room question is the outer query.</p>
+                </div>
+
+                <h3>Read from the inside out</h3>
+                <p>For an uncorrelated subquery, a useful mental model is to read the innermost query first. Decide what it returns, then read the outer query as though the returned value or values were placed inside it. MySQL's optimizer may choose a different physical execution plan, but this inside-out method is excellent for understanding and debugging the logic.</p>
+
+                <div class="card-grid">
+                    <article class="concept-card">
+                        <span class="label">Scalar shape</span>
+                        <h3>One value</h3>
+                        <p>Example: one average invoice total. It fits a single-value comparison such as <code>&gt;</code> or <code>=</code>.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">List shape</span>
+                        <h3>One column, many rows</h3>
+                        <p>Example: a list of vendor IDs. It fits operators such as <code>IN</code>, <code>ANY</code>, or <code>ALL</code>.</p>
+                    </article>
+                    <article class="concept-card">
+                        <span class="label">Table shape</span>
+                        <h3>Rows and columns</h3>
+                        <p>Example: one summary row per vendor. It can act like a temporary table in the <code>FROM</code> clause.</p>
+                    </article>
+                </div>
+
+                <div class="safety-note">
+                    <h3>Practice boundary</h3>
+                    <p>Every AP example in this chapter is read-only. Run only <code>SELECT</code>, <code>WITH</code>, <code>DESCRIBE</code>, or <code>EXPLAIN</code> statements against <code>ap</code>. Do not insert, update, delete, or change publisher objects.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="scalar">
+                <h2>2. One-value subqueries</h2>
+                <p>A scalar subquery must return no more than one row and one column. That makes its result usable wherever SQL expects one value.</p>
+
+                <h3>Find invoices above the overall average</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · read-only scalar subquery</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total
+FROM ap.invoices
+WHERE invoice_total &gt; (
+    SELECT AVG(invoice_total)
+    FROM ap.invoices
+)
+ORDER BY invoice_total DESC;</code></pre>
+                </div>
+
+                <ol class="step-list">
+                    <li>The inner query calculates one value: the average of all invoice totals.</li>
+                    <li>The outer query compares each invoice total with that one value.</li>
+                    <li>Only rows whose total is greater than the average reach the final result.</li>
+                </ol>
+
+                <div class="callout">
+                    <h3>Cardinality is the contract</h3>
+                    <p>If a scalar subquery returns no rows, its result is <code>NULL</code>. If it returns two or more rows, MySQL cannot decide which single value you meant and reports an error. Check the inner query by itself before nesting it.</p>
+                </div>
+
+                <h3>A scalar subquery can filter groups in HAVING</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · vendor averages above the overall average</span>
+                    <pre><code>SELECT vendor_id,
+       AVG(invoice_total) AS vendor_average
+FROM ap.invoices
+GROUP BY vendor_id
+HAVING AVG(invoice_total) &gt; (
+    SELECT AVG(invoice_total)
+    FROM ap.invoices
+)
+ORDER BY vendor_average DESC;</code></pre>
+                </div>
+                <p>The outer query creates one group per vendor. <code>HAVING</code> then compares each group average with the one overall average returned by the subquery.</p>
+
+                <div class="quick-check" data-answer="scalar">
+                    <h3>Quick check: match the shape</h3>
+                    <fieldset>
+                        <legend>An inner query uses <code>AVG(invoice_total)</code> without <code>GROUP BY</code>. What shape should it return?</legend>
+                        <label class="answer-option"><input type="radio" name="ch7-shape" value="scalar"> One value</label>
+                        <label class="answer-option"><input type="radio" name="ch7-shape" value="list"> A list of vendor IDs</label>
+                        <label class="answer-option"><input type="radio" name="ch7-shape" value="table"> A multi-column table</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. One aggregate over the full input produces one scalar value." data-retry="Try again. There is no GROUP BY, so this aggregate summarizes the entire input as one result."></p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="lists">
+                <h2>3. Lists with IN, ANY, and ALL</h2>
+                <p>When an inner query can return several rows from one column, use an operator that understands a list. The operator expresses how the outer value should compare with that list.</p>
+
+                <h3>Use IN for membership</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · vendors that have an unpaid invoice</span>
+                    <pre><code>SELECT vendor_id,
+       vendor_name
+FROM ap.vendors
+WHERE vendor_id IN (
+    SELECT vendor_id
+    FROM ap.invoices
+    WHERE payment_date IS NULL
+)
+ORDER BY vendor_name;</code></pre>
+                </div>
+                <p>The inner query supplies zero, one, or many vendor IDs. <code>IN</code> asks whether each outer vendor ID belongs to that returned set. Duplicate IDs inside the set do not duplicate the outer vendor rows.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>How the list operators read in everyday language</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Operator pattern</th>
+                                <th scope="col">Plain-language question</th>
+                                <th scope="col">Typical inner shape</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><code>value IN (...)</code></th>
+                                <td>Is this value in the returned set?</td>
+                                <td>One column, any number of rows</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>value &gt; ANY (...)</code></th>
+                                <td>Is this value greater than at least one returned value?</td>
+                                <td>One column, any number of rows</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><code>value &gt; ALL (...)</code></th>
+                                <td>Is this value greater than every returned value?</td>
+                                <td>One column, any number of rows</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p><code>SOME</code> is a MySQL synonym for <code>ANY</code>. In beginner queries, use one spelling consistently so the comparison is easier to recognize.</p>
+
+                <h3>Compare with every vendor average</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · ALL with a list of averages</span>
+                    <pre><code>SELECT invoice_number,
+       invoice_total
+FROM ap.invoices
+WHERE invoice_total &gt; ALL (
+    SELECT AVG(invoice_total)
+    FROM ap.invoices
+    GROUP BY vendor_id
+)
+ORDER BY invoice_total DESC;</code></pre>
+                </div>
+                <p>The inner query returns one average per vendor. The outer comparison keeps an invoice only when its total is greater than <em>every</em> average in that list.</p>
+
+                <div class="safety-note">
+                    <h3>NULL warning for NOT IN</h3>
+                    <p>If a <code>NOT IN</code> subquery returns even one <code>NULL</code>, the comparison can become unknown for every outer row. Filter <code>NULL</code> deliberately or, when you are asking whether a related row is missing, prefer a carefully correlated <code>NOT EXISTS</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="correlated">
+                <h2>4. Correlated subqueries and EXISTS</h2>
+                <p>A correlated subquery refers to a column from the outer query. It cannot be understood in isolation because the outer row supplies part of its input.</p>
+
+                <div class="analogy">
+                    <h3>Analogy: a custom measuring stick</h3>
+                    <p>An uncorrelated subquery uses one measuring stick for everyone, such as the overall average invoice. A correlated subquery creates a measuring stick for the current group: “Is this invoice above the average for <em>its own</em> vendor?”</p>
+                </div>
+
+                <h3>Compare each invoice with its vendor's average</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · correlated scalar subquery</span>
+                    <pre><code>SELECT i.vendor_id,
+       i.invoice_number,
+       i.invoice_total
+FROM ap.invoices AS i
+WHERE i.invoice_total &gt; (
+    SELECT AVG(i2.invoice_total)
+    FROM ap.invoices AS i2
+    WHERE i2.vendor_id = i.vendor_id
+)
+ORDER BY i.vendor_id,
+         i.invoice_total DESC;</code></pre>
+                </div>
+                <p>The reference <code>i.vendor_id</code> comes from the outer row. Conceptually, the inner query finds a matching vendor average for each candidate invoice. The optimizer may transform the work, so do not assume that the text is literally executed once per row.</p>
+
+                <h3>Use EXISTS when the question is “Does a row exist?”</h3>
+                <div class="code-block">
+                    <span class="code-label">AP · vendors with at least one invoice</span>
+                    <pre><code>SELECT v.vendor_id,
+       v.vendor_name
+FROM ap.vendors AS v
+WHERE EXISTS (
+    SELECT 1
+    FROM ap.invoices AS i
+    WHERE i.vendor_id = v.vendor_id
+)
+ORDER BY v.vendor_name;</code></pre>
+                </div>
+                <p><code>EXISTS</code> cares only whether the inner query finds a row. <code>SELECT 1</code> makes that intention clear; the selected value itself is not returned to the outer query.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · vendors with no invoices</span>
+                    <pre><code>SELECT v.vendor_id,
+       v.vendor_name
+FROM ap.vendors AS v
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM ap.invoices AS i
+    WHERE i.vendor_id = v.vendor_id
+)
+ORDER BY v.vendor_name;</code></pre>
+                </div>
+
+                <div class="quick-check" data-answer="exists">
+                    <h3>Quick check: choose the clearest tool</h3>
+                    <fieldset>
+                        <legend>You need vendors for which no related invoice row exists. Which pattern states that question most directly and avoids the <code>NOT IN</code>/<code>NULL</code> trap?</legend>
+                        <label class="answer-option"><input type="radio" name="ch7-missing" value="scalar"> A scalar comparison with <code>=</code></label>
+                        <label class="answer-option"><input type="radio" name="ch7-missing" value="exists"> A correlated <code>NOT EXISTS</code></label>
+                        <label class="answer-option"><input type="radio" name="ch7-missing" value="all"> A comparison with <code>&gt; ALL</code></label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. NOT EXISTS directly asks whether a matching related row is absent." data-retry="Try again. Focus on the words “no related row exists.”"></p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="select-clause">
+                <h2>5. A scalar subquery in the SELECT clause</h2>
+                <p>A scalar subquery can calculate one related value for each result row. This is useful for a compact teaching example, but a join plus grouping may be clearer or more efficient for larger reports.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · invoice count beside each vendor</span>
+                    <pre><code>SELECT v.vendor_id,
+       v.vendor_name,
+       (
+           SELECT COUNT(*)
+           FROM ap.invoices AS i
+           WHERE i.vendor_id = v.vendor_id
+       ) AS invoice_count
+FROM ap.vendors AS v
+ORDER BY invoice_count DESC,
+         v.vendor_name;</code></pre>
+                </div>
+                <p><code>COUNT(*)</code> returns one number, including zero when no matching invoice rows exist. That one-value guarantee makes this subquery valid as a result column.</p>
+
+                <div class="callout">
+                    <h3>Name calculated columns</h3>
+                    <p>The alias <code>invoice_count</code> gives the calculated column a useful heading and lets the <code>ORDER BY</code> clause refer to it clearly.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="from-clause">
+                <h2>6. A table subquery in the FROM clause</h2>
+                <p>A subquery in <code>FROM</code> is often called a <strong>derived table</strong>. It creates a result with rows and columns that the outer query can filter or join.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · summarize first, then add vendor names</span>
+                    <pre><code>SELECT v.vendor_name,
+       va.invoice_count,
+       va.average_invoice
+FROM (
+    SELECT vendor_id,
+           COUNT(*) AS invoice_count,
+           AVG(invoice_total) AS average_invoice
+    FROM ap.invoices
+    GROUP BY vendor_id
+) AS va
+JOIN ap.vendors AS v
+    ON v.vendor_id = va.vendor_id
+WHERE va.invoice_count &gt;= 2
+ORDER BY va.average_invoice DESC;</code></pre>
+                </div>
+
+                <ol class="step-list">
+                    <li>The inner query produces one summary row per vendor.</li>
+                    <li>The alias <code>va</code> gives the derived table a required name.</li>
+                    <li>The outer query joins in the readable vendor name and filters the already-computed count.</li>
+                </ol>
+
+                <div class="analogy">
+                    <h3>Analogy: a prep table in a kitchen</h3>
+                    <p>The derived table is a clean prep station. One cook groups and measures the ingredients; the next cook uses that prepared result to assemble the final dish. The prep result lasts only for this statement.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="ctes">
+                <h2>7. Common table expressions</h2>
+                <p>A common table expression, or <strong>CTE</strong>, gives a temporary name to a query at the start of a statement. It can make the same “build a result, then use it” logic easier to read than deeply nested parentheses.</p>
+
+                <div class="code-block">
+                    <span class="code-label">AP · named vendor totals</span>
+                    <pre><code>WITH vendor_totals AS (
+    SELECT vendor_id,
+           COUNT(*) AS invoice_count,
+           SUM(invoice_total) AS invoice_total_sum
+    FROM ap.invoices
+    GROUP BY vendor_id
+)
+SELECT v.vendor_name,
+       vt.invoice_count,
+       vt.invoice_total_sum
+FROM vendor_totals AS vt
+JOIN ap.vendors AS v
+    ON v.vendor_id = vt.vendor_id
+ORDER BY vt.invoice_total_sum DESC;</code></pre>
+                </div>
+                <p>The CTE exists only for this statement; it does not create a table in <code>ap</code>. Depending on the query, MySQL may merge or materialize a CTE as part of its execution plan.</p>
+
+                <h3>What makes a recursive CTE different?</h3>
+                <p>A recursive CTE refers to itself. It starts with an anchor row, then repeatedly adds rows until its stopping condition is reached. Recursive CTEs are useful for hierarchies and sequences, but they require a clear stopping rule. For this beginner module, recognizing the anchor → repeat → stop pattern is enough.</p>
+
+                <div class="code-block">
+                    <span class="code-label">Optional recognition example · anchor, repeat, stop</span>
+                    <pre><code>WITH RECURSIVE numbers AS (
+    SELECT 1 AS n                    -- anchor
+
+    UNION ALL
+
+    SELECT n + 1                    -- repeat
+    FROM numbers
+    WHERE n &lt; 5                     -- stop
+)
+SELECT n
+FROM numbers;</code></pre>
+                </div>
+                <p>This read-only statement returns the numbers 1 through 5. The stopping condition is essential; the goal here is to recognize the three-part structure, not to memorize a recursive exercise.</p>
+
+                <div class="table-scroll">
+                    <table>
+                        <caption>Choosing between three ways to organize an intermediate result</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Pattern</th>
+                                <th scope="col">Where it appears</th>
+                                <th scope="col">Good beginner use</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Scalar subquery</th>
+                                <td>Inside an expression</td>
+                                <td>Compare a row with one calculated value</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Derived table</th>
+                                <td>Inside <code>FROM</code></td>
+                                <td>Build a table-shaped result for one outer query</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">CTE</th>
+                                <td>After <code>WITH</code></td>
+                                <td>Name a multi-step result so the statement reads top to bottom</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="workflow">
+                <h2>8. A reliable workflow for complex questions</h2>
+                <p>Long SQL becomes manageable when you treat it as several small, testable questions.</p>
+
+                <ol class="step-list">
+                    <li>Write the business question in plain language and underline words such as “average,” “any,” “every,” or “exists.”</li>
+                    <li>Write the smallest query that produces the needed intermediate answer.</li>
+                    <li>Run an uncorrelated inner query by itself and inspect its rows, columns, and possible <code>NULL</code> values.</li>
+                    <li>Match that shape to the outer operator: scalar comparison, list operator, or table expression.</li>
+                    <li>Add aliases and qualify shared column names so every reference has one meaning.</li>
+                    <li>Test the complete statement, explain its result, and compare a join or CTE version when that improves clarity.</li>
+                </ol>
+
+                <div class="choice-lab">
+                    <h3>Choice lab: start from the question</h3>
+                    <p>Choose a business question to see the subquery shape that fits it.</p>
+                    <div class="button-row" role="group" aria-label="Subquery question choices">
+                        <button type="button" data-choice="one" aria-pressed="true" aria-controls="ch7-choice-one">Above one average</button>
+                        <button type="button" data-choice="list" aria-pressed="false" aria-controls="ch7-choice-list">Member of a list</button>
+                        <button type="button" data-choice="row" aria-pressed="false" aria-controls="ch7-choice-row">Missing related rows</button>
+                    </div>
+                    <div class="choice-panel" id="ch7-choice-one" data-panel="one">
+                        <h4>“Which invoices are above the overall average?”</h4>
+                        <p>Use a scalar subquery: one <code>AVG()</code> result paired with <code>&gt;</code>.</p>
+                    </div>
+                    <div class="choice-panel" id="ch7-choice-list" data-panel="list" hidden>
+                        <h4>“Which vendors appear in the unpaid-invoice list?”</h4>
+                        <p>Use a one-column list subquery paired with <code>IN</code>.</p>
+                    </div>
+                    <div class="choice-panel" id="ch7-choice-row" data-panel="row" hidden>
+                        <h4>“Which vendors have no matching invoice?”</h4>
+                        <p>Use a correlated <code>NOT EXISTS</code>; the inner query tests the current outer vendor.</p>
+                    </div>
+                </div>
+
+                <div class="reveal-box">
+                    <h3>Must a join always replace a subquery?</h3>
+                    <button type="button" data-reveal-target="ch7-join-note" aria-expanded="false">Reveal explanation</button>
+                    <div class="reveal-panel" id="ch7-join-note" tabindex="-1" hidden>
+                        <p>No. Many questions can be written either way, and MySQL may optimize equivalent forms similarly. Choose the form whose logic you can verify and explain, then use <code>EXPLAIN</code> and real measurements when performance matters. A correlated <code>EXISTS</code> is often the clearest expression of an existence test.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="summary">
+                <h2>9. Wrap-up and practice</h2>
+
+                <div class="summary-banner">
+                    <h3>The core habit: identify the returned shape</h3>
+                    <p>Before choosing an operator, predict whether the inner query returns one value, a one-column list, or a table. Most beginner subquery errors are shape mismatches or missing correlation conditions.</p>
+                </div>
+
+                <h3>Chapter 7 checklist</h3>
+                <ul class="checklist">
+                    <li>I can describe the inner and outer query in plain language.</li>
+                    <li>I can match scalar, list, and table results to appropriate SQL locations.</li>
+                    <li>I can explain how an outer alias makes a subquery correlated.</li>
+                    <li>I can use <code>EXISTS</code> and <code>NOT EXISTS</code> for related-row questions.</li>
+                    <li>I can name a derived table and write a readable CTE.</li>
+                    <li>I check cardinality and <code>NULL</code> behavior before trusting a result.</li>
+                </ul>
+
+                <div class="quick-check" data-answer="test-inner">
+                    <h3>Final quick check</h3>
+                    <fieldset>
+                        <legend>What is the best first debugging move for an uncorrelated subquery that gives a surprising result?</legend>
+                        <label class="answer-option"><input type="radio" name="ch7-debug" value="add-more"> Add more nesting immediately</label>
+                        <label class="answer-option"><input type="radio" name="ch7-debug" value="test-inner"> Run the inner query by itself and inspect its shape and values</label>
+                        <label class="answer-option"><input type="radio" name="ch7-debug" value="remove-aliases"> Remove every table alias</label>
+                    </fieldset>
+                    <button type="button" data-check-answer>Check my answer</button>
+                    <p class="feedback" role="status" aria-live="polite" data-correct="Correct. Verify the smallest piece first, including its row count, columns, and NULLs." data-retry="Try again. Debugging is easier when you isolate the smallest testable query."></p>
+                </div>
+
+                <div class="transfer-note">
+                    <h3>Where this goes next</h3>
+                    <p>Subqueries can help answer ShopFlow analytics questions such as “above average,” “belongs to a selected set,” and “has no related activity.” Before transferring a pattern, test it on the read-only AP data and explain why its returned shape matches its operator.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <nav class="course-nav" aria-label="Chapter navigation at end">
+        <a href="/ciss340-chapter6">← Chapter 6</a>
+        <a href="/ciss340/">CISS 340 Home</a>
+        <a href="/ciss340-chapter8">Chapter 8 →</a>
+    </nav>
+
+    <footer class="page-footer">
+        <p>This original course companion follows the scope of Murach's MySQL, 4th Edition, Chapter 7. Examples use the publisher's <code>ap</code> practice schema in read-only form; wording, analogies, and activities are original to CISS 340.</p>
+        <p><strong>Official references:</strong> <a href="https://instructors.murach.com/shop/murach-s-mysql-4th-edition-detail">Murach's MySQL, 4th Edition</a>; MySQL 8.4 Reference Manual: <a href="https://dev.mysql.com/doc/refman/8.4/en/subqueries.html">Subqueries</a> and <a href="https://dev.mysql.com/doc/refman/8.4/en/with.html">Common table expressions</a>.</p>
+    </footer>
+</body>
+</html>
