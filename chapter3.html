@@ -501,20 +501,56 @@
         
         li {
             margin: 10px 0;
+        }
+        
+        ul li {
             padding-left: 30px;
             position: relative;
         }
         
-        li:before {
+        ul li:before {
             content: "▶";
             position: absolute;
             left: 0;
             color: #667eea;
             font-weight: bold;
         }
+        
+        ol {
+            padding-left: 30px;
+        }
+        
+        .course-nav {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .course-nav a {
+            color: inherit;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .course-nav a:hover,
+        .course-nav a:focus-visible {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
+    <nav class="course-nav" aria-label="Course navigation">
+        <a href="index.html#ciss470">&larr; Course portal</a>
+        <span>
+            <a href="chapter2.html">&larr; Chapter 2</a> &nbsp;|&nbsp; <a href="chapter4.html">Chapter 4 &rarr;</a>
+        </span>
+    </nav>
     <div class="container">
         <div class="header">
             <h1>🎯 PRINCIPLES BEHIND CYBER RISK MANAGEMENT</h1>
@@ -526,7 +562,7 @@
 
         <!-- SLIDE 1: Opening Scene & Foundation -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>People Enact Principles: Tom Meets HR and Strategy</span>
                 <span class="slide-number">Part 1 of 5</span>
             </div>
@@ -556,7 +592,7 @@
                 <h3>🏗️ The Two Frameworks Working Together</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📋 COBIT 5 GEIT: Five Governing Principles</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -576,8 +612,8 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
-                        <span>🎯 ISO 31000: Eleven Risk Management Principles</span>
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        <span>🎯 ISO 31000:2009: Eleven Risk Management Principles</span>
                         <span class="expand-icon">▶</span>
                     </div>
                     <div class="expandable-content">
@@ -596,7 +632,7 @@
                             <li>Risk management <strong>facilitates continual improvement</strong></li>
                         </ol>
                         <p style="margin-top:15px; background:#fff3cd; padding:15px; border-radius:8px;">
-                            <strong>Important Note:</strong> The word "cyber" is inserted in the text to emphasize IT-specific risk, but these principles apply across the entire organization.
+                            <strong>Important Note:</strong> The word "cyber" is inserted in the text to emphasize IT-specific risk, but these principles apply across the entire organization. The chapter uses the ISO 31000:2009 edition. The 2018 revision (ISO 31000:2018) consolidates these into eight principles, so a current copy of the standard lists eight.
                         </p>
                     </div>
                 </div>
@@ -637,10 +673,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Quick Check</div>
                     <p style="margin-bottom:15px;">According to the chapter, what do principles aid in determining?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">A) Whether decisions and actions are helpful or harmful</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) The IT budget allocation</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) Technical security requirements</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">D) Compliance frameworks to adopt</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Whether decisions and actions are helpful or harmful</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) The IT budget allocation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Technical security requirements</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Compliance frameworks to adopt</div>
                     <div id="quiz1-feedback" class="feedback"></div>
                 </div>
 
@@ -652,7 +688,7 @@
 
         <!-- SLIDE 2: Meeting Stakeholder Needs -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>COBIT Principle 1: Meeting Stakeholder Needs</span>
                 <span class="slide-number">Part 2 of 5</span>
             </div>
@@ -666,7 +702,7 @@
 
                 <h3>🌐 Being Transparent and Inclusive</h3>
                 
-                <div class="iso-principle" onclick="expandIsoPrinciple('transparent')">
+                <div class="iso-principle" onclick="expandIsoPrinciple('transparent', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <strong>ISO 31000 Principle:</strong> "Risk management is transparent and inclusive"
                     <div id="transparent-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
                         <p><strong>What it means:</strong> "Appropriate and timely involvement of stakeholders and, in particular, decision makers at all levels ensures that [cyber] risk management remains relevant and up-to-date."</p>
@@ -697,7 +733,7 @@
 
                 <h3>🔄 Being Responsive to Change</h3>
                 
-                <div class="iso-principle" onclick="expandIsoPrinciple('dynamic')">
+                <div class="iso-principle" onclick="expandIsoPrinciple('dynamic', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <strong>ISO 31000 Principle:</strong> "Risk management is dynamic, iterative, and responsive to change"
                     <div id="dynamic-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
                         <p><strong>Core Message:</strong> "[Cyber] risk management continually senses and responds to change. As external and internal events occur, context and knowledge change, monitoring and review of risks take place, new risks emerge, some change, and others disappear."</p>
@@ -748,7 +784,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🔍 How to Demonstrate These Principles</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -775,10 +811,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Understanding Check</div>
                     <p style="margin-bottom:15px;">According to the chapter, why is the "dynamic and responsive" principle especially important for cyber risk?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) It reduces IT costs</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">B) Technology's disruptive nature and speed of change</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) It simplifies compliance</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) It eliminates all risks</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) It reduces IT costs</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Technology's disruptive nature and speed of change</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) It simplifies compliance</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) It eliminates all risks</div>
                     <div id="quiz2-feedback" class="feedback"></div>
                 </div>
 
@@ -790,7 +826,7 @@
 
         <!-- SLIDE 3: Covering Enterprise & Single Framework -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>COBIT Principles 2 & 3: Enterprise Coverage & Integration</span>
                 <span class="slide-number">Part 3 of 5</span>
             </div>
@@ -804,7 +840,7 @@
 
                 <h3>💎 Three Supporting ISO Principles for Enterprise Coverage</h3>
 
-                <div class="iso-principle" onclick="expandIsoPrinciple('value')">
+                <div class="iso-principle" onclick="expandIsoPrinciple('value', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <strong>1. Creating and Protecting Value</strong>
                     <div id="value-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
                         <p><strong>Principle:</strong> "Risk management creates and protects value"</p>
@@ -824,7 +860,7 @@
                     </div>
                 </div>
 
-                <div class="iso-principle" onclick="expandIsoPrinciple('tailored')">
+                <div class="iso-principle" onclick="expandIsoPrinciple('tailored', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <strong>2. Risk Management is Tailored</strong>
                     <div id="tailored-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
                         <p><strong>Principle:</strong> "[Cyber] risk management is aligned with the organization's external and internal context and risk profile"</p>
@@ -848,7 +884,7 @@
                     </div>
                 </div>
 
-                <div class="iso-principle" onclick="expandIsoPrinciple('uncertainty')">
+                <div class="iso-principle" onclick="expandIsoPrinciple('uncertainty', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <strong>3. Explicitly Addressing Uncertainty</strong>
                     <div id="uncertainty-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
                         <p><strong>Core Concept:</strong> People acknowledge that the future can be different from the past</p>
@@ -880,7 +916,7 @@
                 <h3>📐 Being Systematic, Structured, and Timely</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🎯 The Structured Approach Principle</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -923,10 +959,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Application Question</div>
                     <p style="margin-bottom:15px;">According to COBIT Principle 2, who has accountability for managing IT assets?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">A) IT functional roles</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')">B) Business managers</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">C) The CISO exclusively</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">D) External consultants</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) IT functional roles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Business managers</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) The CISO exclusively</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) External consultants</div>
                     <div id="quiz3-feedback" class="feedback"></div>
                 </div>
 
@@ -938,7 +974,7 @@
 
         <!-- SLIDE 4: Enabling Holistic Approach -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>COBIT Principle 4: Enabling a Holistic Approach</span>
                 <span class="slide-number">Part 4 of 5</span>
             </div>
@@ -953,19 +989,19 @@
                 <div class="process-diagram">
                     <h3>Figure 3.1: Risk Management Unifies Processes</h3>
                     <div style="position: relative; display: inline-block;">
-                        <div class="process-node process-center" style="position: relative; z-index: 10;">
+                        <div class="process-node process-center" style="position: relative; z-index: 10;" onclick="showProcessDetail('all')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                             Risk Management
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px;">
-                            <div class="process-node" onclick="showProcessDetail('legal')">Cyber Legal</div>
-                            <div class="process-node" onclick="showProcessDetail('hr')">Human Resources</div>
-                            <div class="process-node" onclick="showProcessDetail('ops')">Operations</div>
-                            <div class="process-node" onclick="showProcessDetail('cloud')">Cloud</div>
-                            <div class="process-node" onclick="showProcessDetail('infosec')">Information Security</div>
-                            <div class="process-node" onclick="showProcessDetail('tech')">Technology/Infrastructure</div>
-                            <div class="process-node" onclick="showProcessDetail('privacy')">Privacy/Compliance</div>
-                            <div class="process-node" onclick="showProcessDetail('physical')">Physical Security</div>
-                            <div class="process-node" onclick="showProcessDetail('all')">View All Connections</div>
+                            <div class="process-node" onclick="showProcessDetail('legal')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Cyber Legal</div>
+                            <div class="process-node" onclick="showProcessDetail('hr')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Human Resources</div>
+                            <div class="process-node" onclick="showProcessDetail('ops')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Operations</div>
+                            <div class="process-node" onclick="showProcessDetail('cloud')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Cloud</div>
+                            <div class="process-node" onclick="showProcessDetail('infosec')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Information Security</div>
+                            <div class="process-node" onclick="showProcessDetail('tech')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Technology/Infrastructure</div>
+                            <div class="process-node" onclick="showProcessDetail('privacy')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Privacy/Compliance</div>
+                            <div class="process-node" onclick="showProcessDetail('physical')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Physical Security</div>
+                            <div class="process-node" onclick="showProcessDetail('all')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">View All Connections</div>
                         </div>
                     </div>
                     <div id="process-detail" style="display:none; margin-top:20px; text-align:left;" class="highlight-box"></div>
@@ -974,7 +1010,7 @@
                 <h3>🔄 Four Critical ISO Principles for Holistic Approach</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>1️⃣ Integral Part of All Organizational Processes</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1007,7 +1043,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>2️⃣ Taking Human and Cultural Factors Into Account</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1042,7 +1078,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>3️⃣ Risk Management as Part of Decision Making</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1085,7 +1121,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>4️⃣ Based on Best Available Information</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1129,10 +1165,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Critical Thinking</div>
                     <p style="margin-bottom:15px;">According to the chapter, what type of decisions benefit from formal risk management processes with multiple techniques?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">A) Daily automatic decisions</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">B) Routine operational tasks</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')">C) Strategic importance decisions</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">D) All decisions equally</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Daily automatic decisions</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Routine operational tasks</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Strategic importance decisions</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) All decisions equally</div>
                     <div id="quiz4-feedback" class="feedback"></div>
                 </div>
 
@@ -1144,7 +1180,7 @@
 
         <!-- SLIDE 5: Governance vs Management & Conclusion -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>COBIT Principle 5: Separating Governance from Management</span>
                 <span class="slide-number">Part 5 of 5</span>
             </div>
@@ -1157,7 +1193,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🏛️ Governance vs Management Activities</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1201,7 +1237,7 @@
 
                 <h3>📈 Maturity Strategy and Continual Improvement</h3>
 
-                <div class="iso-principle" onclick="expandIsoPrinciple('improvement')">
+                <div class="iso-principle" onclick="expandIsoPrinciple('improvement', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <strong>ISO 31000 Principle:</strong> "Risk management facilitates continual improvement"
                     <div id="improvement-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #ff9800;">
                         <p><strong>Core Requirement:</strong> "Organizations should develop and implement strategies to improve their [cyber] risk management maturity alongside all other aspects of their organization."</p>
@@ -1296,16 +1332,16 @@
 
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Final Assessment</div>
-                    <p style="margin-bottom:15px;">How many ISO 31000 risk management principles support the five COBIT 5 principles?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 5 principles</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) 7 principles</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">C) 9 principles</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">D) 11 principles</div>
+                    <p style="margin-bottom:15px;">How many ISO 31000:2009 risk management principles does the chapter map to the five COBIT 5 principles?</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) 5 principles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) 7 principles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) 9 principles</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) 11 principles</div>
                     <div id="quiz5-feedback" class="feedback"></div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>👤 About the Author: Carol Fox</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1354,25 +1390,41 @@
         <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
             <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
             <p style="font-size: 14px; margin-top: 10px;">Chapter 3: Principles Behind Cyber Risk Management | By Carol Fox, RIMS</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Scroll through the sections or use the buttons below; the bar tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 5) * 100;
+            const total = document.querySelectorAll('.slide').length;
+            const progress = (sectionsViewed.size / total) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
-        function toggleSlide(header) {
-            const slide = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            sectionsViewed.add(slideNumber);
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
             updateProgress();
+        }
+
+        function toggleSlide(header) {
+            const slide = header.closest('.slide') || header.parentElement;
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reading a section also counts toward progress.
+        if ('IntersectionObserver' in window) {
+            const viewedObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) markViewed(entry.target); });
+            }, { threshold: 0.35 });
+            document.querySelectorAll('.slide').forEach(slide => viewedObserver.observe(slide));
         }
 
         function toggleExpand(element) {
@@ -1386,22 +1438,22 @@
         function checkAnswer(element, isCorrect, quizId) {
             const options = element.parentElement.querySelectorAll('.quiz-option');
             const feedbackDiv = document.getElementById(quizId + '-feedback');
-            
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
+                opt.setAttribute('aria-disabled', 'true');
                 opt.classList.remove('correct', 'incorrect');
+                if (/checkAnswer\(\s*this\s*,\s*true/.test(opt.getAttribute('onclick') || '')) {
+                    opt.classList.add('correct');
+                }
             });
-            
             if (isCorrect) {
-                element.classList.add('correct');
                 feedbackDiv.innerHTML = '✓ Correct! Well done!';
                 feedbackDiv.className = 'feedback correct';
             } else {
                 element.classList.add('incorrect');
-                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.innerHTML = '✗ Not quite. The correct answer is highlighted above; review that section again.';
                 feedbackDiv.className = 'feedback incorrect';
             }
-            
             feedbackDiv.style.display = 'block';
         }
 
@@ -1418,18 +1470,18 @@
             resultDiv.classList.add('show');
         }
 
-        function expandIsoPrinciple(principle) {
-            const detailId = principle + '-detail';
-            const detail = document.getElementById(detailId);
-            if (detail) {
-                detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
-            }
+        function expandIsoPrinciple(principle, evt) {
+            const detail = document.getElementById(principle + '-detail');
+            if (!detail) return;
+            const target = evt && evt.target;
+            if (target && detail.contains(target)) return;
+            detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
         }
 
         function showStakeholderAnswer(choice) {
             const resultDiv = document.getElementById('stakeholder-result');
             const results = {
-                'transparent': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>Good start!</h4><p>Transparency about conflicts is essential, but you also need to find a solution.</p></div>',
+                'transparent': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Good start!</h4><p>Transparency about conflicts is essential, but you also need to find a solution.</p></div>',
                 'prioritize': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Not recommended</h4><p>Prioritizing one stakeholder over another violates the inclusive principle.</p></div>',
                 'ignore': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Never ignore requirements</h4><p>This could lead to legal or relationship problems.</p></div>',
                 'integrate': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Best approach!</h4><p>Be transparent about the conflict AND work to find an integrated solution that addresses both requirements where possible, or clearly communicates trade-offs.</p></div>'
@@ -1498,27 +1550,33 @@
 
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 5;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
             alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
                   `${viewed === total ? 'Congratulations! You\'ve completed Chapter 3!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const target = Math.min(currentSlideIndex() + 1, slides.length - 1);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            const target = Math.max(currentSlideIndex() - 1, 0);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>

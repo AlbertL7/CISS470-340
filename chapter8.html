@@ -127,6 +127,7 @@
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: fadeInUp 0.6s ease;
+            scroll-margin-top: 150px;
         }
 
         @keyframes fadeInUp {
@@ -416,16 +417,38 @@
                 gap: 1rem;
             }
         }
+    
+        /* Knowledge check */
+        .quiz-container { background: var(--surface-light); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; border-left: 4px solid var(--accent); }
+        .quiz-question { font-weight: 600; color: var(--accent); margin-bottom: 1rem; font-size: 1.05rem; }
+        .quiz-option { background: var(--surface); border: 2px solid transparent; border-radius: 8px; padding: 0.85rem 1rem; margin: 0.5rem 0; cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; }
+        .quiz-option:hover { border-color: var(--accent); transform: translateX(4px); }
+        .quiz-option:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+        .quiz-option.correct { background: rgba(34, 197, 94, 0.18); border-color: #22c55e; }
+        .quiz-option.incorrect { background: rgba(239, 68, 68, 0.18); border-color: #ef4444; }
+        .quiz-option[aria-disabled="true"] { cursor: default; transform: none; }
+        .feedback { display: none; margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; line-height: 1.5; color: var(--text); }
+        .feedback.correct { display: block; background: rgba(34, 197, 94, 0.15); border-left: 4px solid #22c55e; }
+        .feedback.incorrect { display: block; background: rgba(239, 68, 68, 0.15); border-left: 4px solid #ef4444; }
+        .course-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; max-width: 1200px; margin: 0 auto; padding: 0.6rem 1rem; font-size: 0.9rem; color: var(--text); }
+        .course-nav a { color: inherit; font-weight: 600; text-decoration: none; }
+        .course-nav a:hover, .course-nav a:focus-visible { text-decoration: underline; }
     </style>
 </head>
 <body>
+    <nav class="course-nav" aria-label="Course navigation">
+        <a href="index.html#ciss470">&larr; Course portal</a>
+        <span>
+            <a href="chapter7.html">&larr; Chapter 7</a> &nbsp;|&nbsp; <a href="chapter9.html">Chapter 9 &rarr;</a>
+        </span>
+    </nav>
     <div class="progress-bar" id="progressBar"></div>
     
     <header class="header">
         <div class="header-content">
             <div>
                 <h1>💊 Chapter 8: Treating Cyber Risks</h1>
-                <div class="reading-time">⏱️ Estimated reading time: 22 minutes</div>
+                <div class="reading-time">⏱️ Estimated reading time: 15 minutes</div>
             </div>
             <input type="text" class="search-box" placeholder="🔍 Search chapter..." id="searchBox">
         </div>
@@ -434,14 +457,15 @@
     <div class="container">
         <nav class="sidebar">
             <div class="nav-title">Navigation</div>
-            <div class="nav-item active" data-section="intro">📖 Introduction</div>
-            <div class="nav-item" data-section="nuance">🎯 Proper Nuance</div>
-            <div class="nav-item" data-section="profile">📊 Risk Profile</div>
-            <div class="nav-item" data-section="treatment">💊 Treatment</div>
-            <div class="nav-item" data-section="alignment">🔄 Alignment</div>
-            <div class="nav-item" data-section="practice">⚙️ Practicing Treatment</div>
-            <div class="nav-item" data-section="business">💼 Business as Usual</div>
-            <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
+            <div class="nav-item active" data-section="intro" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">📖 Introduction</div>
+            <div class="nav-item" data-section="nuance" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🎯 Proper Nuance</div>
+            <div class="nav-item" data-section="profile" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">📊 Risk Profile</div>
+            <div class="nav-item" data-section="treatment" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">💊 Treatment</div>
+            <div class="nav-item" data-section="alignment" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🔄 Alignment</div>
+            <div class="nav-item" data-section="practice" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">⚙️ Practicing Treatment</div>
+            <div class="nav-item" data-section="business" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">💼 Business as Usual</div>
+            <div class="nav-item" data-section="knowledge-check" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🎯 Knowledge Check</div>
+            <div class="nav-item" data-section="conclusion" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🎓 Conclusion</div>
         </nav>
 
         <main class="content">
@@ -627,7 +651,7 @@
                     <p>Besides being able to respond to incidents, it's crucial for organizations to remain up to date and informed of emerging threats, and learn from other organizations. Various organizations exist to help:</p>
                     <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
                         <li>National level (National Cyber Security Centre)</li>
-                        <li>Sector level (International Sharing and Analysis Centers - ISACs)</li>
+                        <li>Sector level (Information Sharing and Analysis Centers - ISACs)</li>
                         <li>Informal cooperative associations (CISO groups within industries)</li>
                     </ul>
                     <p style="margin-top: 0.5rem;"><strong>Remember:</strong> An incident at another organization is also a potential threat to one's own organization.</p>
@@ -725,7 +749,7 @@
                     <ul style="margin-left: 1.5rem;">
                         <li>Supports consistent risk language and classification</li>
                         <li>Better and more quickly understood by stakeholders</li>
-                        <li>Enables top-down approach where IRM and ERM are aligned</li>
+                        <li>Enables top-down approach where IRM (information risk management) and ERM are aligned</li>
                         <li>Shows added value by providing insight into opportunities and risks</li>
                     </ul>
                 </div>
@@ -757,7 +781,7 @@
                         <strong>⚠️ Key Point:</strong> The starting point of managing cyber risks is defining the organization's risk appetite—an exercise to be performed by business representatives, not cybersecurity specialists.
                     </div>
                     
-                    <p style="margin-top: 1rem;">Follows ISO 31000:2009, Risk Management—Principles and Guidelines. Organizations increasingly formalize risk appetite statements containing both quantitative and qualitative components.</p>
+                    <p style="margin-top: 1rem;">This risk-appetite approach follows ISO 31000:2009, Risk Management—Principles and Guidelines (ISO 31000 was revised in 2018 as Risk management - Guidelines; the seven treatment options are unchanged). Organizations increasingly formalize risk appetite statements containing both quantitative and qualitative components.</p>
                     
                     <p style="margin-top: 1rem;"><strong>Note on Quantification:</strong> The qualitative components are most applicable for cyber risk because quantifying cyber risk impact is still based on empiric and rough estimations, not proven quantitative methodology. We lack historical, actuarial data despite efforts by organizations like the World Economic Forum.</p>
                 </div>
@@ -787,6 +811,7 @@
                         <li><strong>Sharing</strong> the risk with other parties (e.g., risk financing, contracts)</li>
                         <li><strong>Retaining</strong> the risk by informed decision</li>
                     </ol>
+                    <p style="margin-top: 1rem;">In the common four-option model these collapse to Avoid (1), Mitigate or Reduce (3, 4, 5), Transfer or Share (6, for example cyber insurance and contracts), and Accept or Retain (2, 7).</p>
                 </div>
 
                 <div class="warning-box">
@@ -807,6 +832,42 @@
                 <p style="margin-top: 1rem;">These should preferably be linked to financial criteria, meaning severe non-financial cyber occurrence is treated equally as risk with high financial impact.</p>
             </section>
 
+            <section class="section" id="knowledge-check">
+                <h2>🎯 Knowledge Check</h2>
+                <p>Four quick questions drawn from this chapter. Choose an answer to see the explanation.</p>
+                <div class="quiz-container">
+                    <div class="quiz-question">1. According to the chapter, what is the starting point for exploring an organization’s cyber risk?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Buying a security monitoring platform.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch8q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Determining the organization’s risk profile and risk appetite.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Hiring a chief information security officer.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Pursuing 100% security.</div>
+                    <div id="ch8q1-feedback" class="feedback" data-why="The chapter says the starting point is determining the organization’s risk profile and risk appetite, and reminds readers that 100% security is an illusion."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">2. Who should perform the exercise of defining the organization’s cyber risk appetite?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Cybersecurity specialists working alone.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) External auditors.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch8q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Business representatives, not cybersecurity specialists.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) The IT service desk.</div>
+                    <div id="ch8q2-feedback" class="feedback" data-why="Defining risk appetite is a business exercise; the chapter warns against the “Pavlovian response” of drafting controls before asking what level of risk is acceptable."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">3. In the Three Lines of Defense model presented in the chapter, which line is independent audit?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) The first line</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) The second line</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch8q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) The third line</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Audit sits outside all three lines</div>
+                    <div id="ch8q3-feedback" class="feedback" data-why="First line is the primary business, second line is the support functions (risk, security, compliance, legal, HR), and third line is independent audit."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">4. Which of the following is NOT one of the five aspects of the cyber risk profile model in the chapter?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Context and environment</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Targets</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch8q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Threat actors</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch8q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Annual security budget</div>
+                    <div id="ch8q4-feedback" class="feedback" data-why="The five aspects are context and environment, targets, threat actors, vulnerabilities and resilience, and regulatory requirements."></div>
+                </div>
+            </section>
             <section class="section" id="conclusion">
                 <h2>🎓 Conclusion</h2>
                 
@@ -905,37 +966,40 @@
         }
 
         function highlightText(searchTerm) {
-            const sections = document.querySelectorAll('.section');
+            const escaped = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp('(' + escaped + ')', 'gi');
             let firstMatch = null;
-            
-            sections.forEach(section => {
-                const walker = document.createTreeWalker(
-                    section,
-                    NodeFilter.SHOW_TEXT,
-                    null,
-                    false
-                );
-                
+            document.querySelectorAll('.section').forEach(section => {
+                const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT, null, false);
+                const nodes = [];
                 let node;
-                while (node = walker.nextNode()) {
-                    const text = node.nodeValue;
-                    const regex = new RegExp(`(${searchTerm})`, 'gi');
-                    
-                    if (regex.test(text)) {
-                        const span = document.createElement('span');
-                        span.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
-                        node.parentNode.replaceChild(span, node);
-                        
-                        if (!firstMatch) {
-                            firstMatch = span.querySelector('.highlight');
+                while ((node = walker.nextNode())) nodes.push(node);
+                nodes.forEach(textNode => {
+                    if (!regex.test(textNode.nodeValue)) return;
+                    regex.lastIndex = 0;
+                    const fragment = document.createDocumentFragment();
+                    textNode.nodeValue.split(regex).forEach((part, index) => {
+                        if (index % 2 === 1) {
+                            const mark = document.createElement('span');
+                            mark.className = 'highlight';
+                            mark.textContent = part;
+                            fragment.appendChild(mark);
+                            if (!firstMatch) firstMatch = mark;
+                        } else if (part) {
+                            fragment.appendChild(document.createTextNode(part));
                         }
-                    }
+                    });
+                    textNode.parentNode.replaceChild(fragment, textNode);
+                });
+            });
+            document.querySelectorAll('.highlight').forEach(mark => {
+                const hidden = mark.closest('.framework-details, .expandable-content');
+                if (hidden) {
+                    hidden.classList.add('expanded');
+                    if (hidden.parentElement) hidden.parentElement.classList.add('expanded');
                 }
             });
-            
-            if (firstMatch) {
-                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+            if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // Scroll spy for active navigation
@@ -958,6 +1022,26 @@
                 }
             });
         });
+    
+        // Knowledge check
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById(quizId + '-feedback');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                option.setAttribute('aria-disabled', 'true');
+                option.classList.remove('correct', 'incorrect');
+                if (option.dataset.correct === 'true') {
+                    option.classList.add('correct');
+                }
+            });
+            if (!isCorrect) {
+                element.classList.add('incorrect');
+            }
+            feedback.textContent = (isCorrect ? '\u2713 Correct. ' : '\u2717 Not quite. ') + feedback.dataset.why;
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.setAttribute('role', 'status');
+        }
     </script>
 </body>
 </html>

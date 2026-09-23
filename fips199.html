@@ -61,6 +61,12 @@
         .slide-header:hover {
             background: linear-gradient(135deg, #5a67d8 0%, #6b4399 100%);
         }
+
+        .slide-header:focus-visible,
+        .expandable-header:focus-visible {
+            outline: 3px solid #ffd54f;
+            outline-offset: 2px;
+        }
         
         .slide-number {
             background: rgba(255,255,255,0.2);
@@ -225,6 +231,10 @@
         .selector-button.selected {
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
         }
+
+        .selector-button.incorrect {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+        }
         
         .result-display {
             padding: 20px;
@@ -365,6 +375,18 @@
             color: #764ba2;
             font-weight: bold;
         }
+
+        ol {
+            padding-left: 30px;
+        }
+
+        ol li {
+            padding-left: 0;
+        }
+
+        ol li:before {
+            content: none;
+        }
         
         table {
             width: 100%;
@@ -417,7 +439,7 @@
     <div class="container">
         <div class="header">
             <h1>🛡️ FIPS 199: SECURITY CATEGORIZATION</h1>
-            <p style="font-size: 24px; margin-top: 10px;">Standards for Federal Information and Information Systems</p>
+            <p style="font-size: 24px; margin-top: 10px;">Standards for Security Categorization of Federal Information and Information Systems</p>
             <p style="font-size: 18px; margin-top: 5px;">Interactive Learning Module - February 2004</p>
             <div class="progress-bar">
                 <div class="progress-fill" id="progress"></div>
@@ -426,7 +448,7 @@
 
         <!-- SLIDE 1: Introduction & Purpose -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Understanding FIPS 199: Purpose and Foundation</span>
                 <span class="slide-number">Part 1 of 6</span>
             </div>
@@ -441,7 +463,7 @@
                 <h3>🎯 Three Key FISMA Tasks for NIST</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Task 1: Categorization Standards (FIPS 199)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -454,24 +476,24 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Task 2: Guidelines for Categories</span>
                         <span class="expand-icon">▶</span>
                     </div>
                     <div class="expandable-content">
                         <p>Recommend types of information and systems to include in each category.</p>
-                        <p style="margin-top:10px;"><em>Addressed in subsequent NIST publications.</em></p>
+                        <p style="margin-top:10px;"><em>Addressed in NIST SP 800-60, the guide for mapping information types and systems to security categories.</em></p>
                     </div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Task 3: Security Requirements</span>
                         <span class="expand-icon">▶</span>
                     </div>
                     <div class="expandable-content">
                         <p>Define minimum security requirements (management, operational, technical controls) for each category.</p>
-                        <p style="margin-top:10px;"><em>Addressed in NIST SP 800-53 and related documents.</em></p>
+                        <p style="margin-top:10px;"><em>Addressed by FIPS 200 (minimum security requirements), which in turn points to the NIST SP 800-53 control catalog.</em></p>
                     </div>
                 </div>
 
@@ -507,7 +529,7 @@
 
         <!-- SLIDE 2: Security Objectives (CIA Triad) -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>The CIA Triad: Three Security Objectives</span>
                 <span class="slide-number">Part 2 of 6</span>
             </div>
@@ -540,7 +562,7 @@
                 <h3>📖 Detailed Definitions and Loss Scenarios</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🔒 Confidentiality</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -565,7 +587,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>✓ Integrity</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -590,7 +612,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>⚡ Availability</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -618,7 +640,7 @@
                     <h4>Important Concept: Different Information Needs Different Protection</h4>
                     <p>Not all information requires the same level of protection for each objective:</p>
                     <ul>
-                        <li><strong>Public website:</strong> Low confidentiality needs, high integrity and availability needs</li>
+                        <li><strong>Public website:</strong> Confidentiality not applicable (NA), moderate integrity and availability needs</li>
                         <li><strong>Classified research:</strong> High confidentiality needs, moderate integrity and availability</li>
                         <li><strong>Financial transactions:</strong> High needs for all three objectives</li>
                     </ul>
@@ -632,7 +654,7 @@
 
         <!-- SLIDE 3: Impact Levels -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Impact Levels: Low, Moderate, and High</span>
                 <span class="slide-number">Part 3 of 6</span>
             </div>
@@ -652,7 +674,7 @@
                     <p style="margin-top:15px;"><strong>Definition:</strong> The loss could be expected to have a LIMITED adverse effect on organizational operations, assets, or individuals.</p>
                     
                     <div class="expandable" style="margin-top:15px;">
-                        <div class="expandable-header" onclick="toggleExpand(this)">
+                        <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                             <span>Examples of LOW Impact</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -676,7 +698,7 @@
                     <p style="margin-top:15px;"><strong>Definition:</strong> The loss could be expected to have a SERIOUS adverse effect on organizational operations, assets, or individuals.</p>
                     
                     <div class="expandable" style="margin-top:15px;">
-                        <div class="expandable-header" onclick="toggleExpand(this)">
+                        <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                             <span>Examples of MODERATE Impact</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -700,7 +722,7 @@
                     <p style="margin-top:15px;"><strong>Definition:</strong> The loss could be expected to have a SEVERE or CATASTROPHIC adverse effect on organizational operations, assets, or individuals.</p>
                     
                     <div class="expandable" style="margin-top:15px;">
-                        <div class="expandable-header" onclick="toggleExpand(this)">
+                        <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                             <span>Examples of HIGH Impact</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -726,10 +748,10 @@
                 <div class="interactive-calculator">
                     <div class="calculator-title">🎯 Impact Level Explorer</div>
                     <p>Select a scenario to understand its typical impact level:</p>
-                    <button class="selector-button" onclick="showImpactScenario('public')">Public Website Content</button>
-                    <button class="selector-button" onclick="showImpactScenario('medical')">Medical Records System</button>
-                    <button class="selector-button" onclick="showImpactScenario('financial')">Banking Transaction System</button>
-                    <button class="selector-button" onclick="showImpactScenario('infrastructure')">Critical Infrastructure Control</button>
+                    <button class="selector-button" onclick="showImpactScenario('public', this)">Public Website Content</button>
+                    <button class="selector-button" onclick="showImpactScenario('medical', this)">Medical Records System</button>
+                    <button class="selector-button" onclick="showImpactScenario('financial', this)">Banking Transaction System</button>
+                    <button class="selector-button" onclick="showImpactScenario('infrastructure', this)">Critical Infrastructure Control</button>
                     <div id="impact-scenario-result" class="result-display" style="display:none;"></div>
                 </div>
 
@@ -741,7 +763,7 @@
 
         <!-- SLIDE 4: Information Type Categorization -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Categorizing Information Types</span>
                 <span class="slide-number">Part 4 of 6</span>
             </div>
@@ -766,7 +788,7 @@
                 <h3>📚 Real Examples from FIPS 199</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Example 1: Public Web Server Information</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -791,7 +813,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Example 2: Law Enforcement Investigative Information</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -816,7 +838,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Example 3: Routine Administrative Information</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -846,24 +868,24 @@
                     
                     <div style="margin-top:20px;">
                         <strong>Confidentiality:</strong><br>
-                        <button class="selector-button" onclick="setInfoImpact('C', 'NA')">Not Applicable</button>
-                        <button class="selector-button" onclick="setInfoImpact('C', 'LOW')">Low</button>
-                        <button class="selector-button" onclick="setInfoImpact('C', 'MODERATE')">Moderate</button>
-                        <button class="selector-button" onclick="setInfoImpact('C', 'HIGH')">High</button>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'NA', this)">Not Applicable</button>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'LOW', this)">Low</button>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'MODERATE', this)">Moderate</button>
+                        <button class="selector-button" onclick="setInfoImpact('C', 'HIGH', this)">High</button>
                     </div>
                     
                     <div style="margin-top:15px;">
                         <strong>Integrity:</strong><br>
-                        <button class="selector-button" onclick="setInfoImpact('I', 'LOW')">Low</button>
-                        <button class="selector-button" onclick="setInfoImpact('I', 'MODERATE')">Moderate</button>
-                        <button class="selector-button" onclick="setInfoImpact('I', 'HIGH')">High</button>
+                        <button class="selector-button" onclick="setInfoImpact('I', 'LOW', this)">Low</button>
+                        <button class="selector-button" onclick="setInfoImpact('I', 'MODERATE', this)">Moderate</button>
+                        <button class="selector-button" onclick="setInfoImpact('I', 'HIGH', this)">High</button>
                     </div>
                     
                     <div style="margin-top:15px;">
                         <strong>Availability:</strong><br>
-                        <button class="selector-button" onclick="setInfoImpact('A', 'LOW')">Low</button>
-                        <button class="selector-button" onclick="setInfoImpact('A', 'MODERATE')">Moderate</button>
-                        <button class="selector-button" onclick="setInfoImpact('A', 'HIGH')">High</button>
+                        <button class="selector-button" onclick="setInfoImpact('A', 'LOW', this)">Low</button>
+                        <button class="selector-button" onclick="setInfoImpact('A', 'MODERATE', this)">Moderate</button>
+                        <button class="selector-button" onclick="setInfoImpact('A', 'HIGH', this)">High</button>
                     </div>
                     
                     <div id="info-category-result" class="result-display" style="display:none; margin-top:20px;"></div>
@@ -877,7 +899,7 @@
 
         <!-- SLIDE 5: System Categorization -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Categorizing Information Systems</span>
                 <span class="slide-number">Part 5 of 6</span>
             </div>
@@ -903,7 +925,7 @@
                 <h3>📊 System Categorization Examples</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Example 4: Acquisition System</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -935,7 +957,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Example 5: SCADA System (With Adjustment)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -980,9 +1002,9 @@
                     <div class="calculator-title">🖥️ System Category Calculator</div>
                     <p>Add information types to see the resulting system category:</p>
                     
-                    <button class="selector-button" onclick="addInfoType('type1')">Add: Public Info (C:NA, I:LOW, A:LOW)</button>
-                    <button class="selector-button" onclick="addInfoType('type2')">Add: Financial Data (C:MOD, I:HIGH, A:MOD)</button>
-                    <button class="selector-button" onclick="addInfoType('type3')">Add: PII Records (C:HIGH, I:MOD, A:LOW)</button>
+                    <button class="selector-button" onclick="addInfoType('type1', this)">Add: Public Info (C:NA, I:LOW, A:LOW)</button>
+                    <button class="selector-button" onclick="addInfoType('type2', this)">Add: Financial Data (C:MOD, I:HIGH, A:MOD)</button>
+                    <button class="selector-button" onclick="addInfoType('type3', this)">Add: PII Records (C:HIGH, I:MOD, A:LOW)</button>
                     <button class="selector-button" onclick="clearSystem()">Clear System</button>
                     
                     <div id="system-info-types" class="result-display" style="display:none; margin-top:15px;"></div>
@@ -1010,7 +1032,7 @@
 
         <!-- SLIDE 6: Summary and Application -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Summary and Practical Application</span>
                 <span class="slide-number">Part 6 of 6</span>
             </div>
@@ -1070,7 +1092,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🔗 Connection to Other Standards</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1089,7 +1111,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>⚖️ Key Considerations</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1120,10 +1142,10 @@
                         <p style="margin-top:10px;">What drives the system's security category?</p>
                     </div>
                     
-                    <button class="selector-button" onclick="showFinalAnswer('public')">The public information</button>
-                    <button class="selector-button" onclick="showFinalAnswer('average')">Average of all types</button>
-                    <button class="selector-button" onclick="showFinalAnswer('ssn')">The SSN data (highest impact)</button>
-                    <button class="selector-button" onclick="showFinalAnswer('policy')">The policy documents</button>
+                    <button class="selector-button" onclick="showFinalAnswer('public', this)">The public information</button>
+                    <button class="selector-button" onclick="showFinalAnswer('average', this)">Average of all types</button>
+                    <button class="selector-button" onclick="showFinalAnswer('ssn', this)">The SSN data (highest impact)</button>
+                    <button class="selector-button" onclick="showFinalAnswer('policy', this)">The policy documents</button>
                     
                     <div id="final-answer-result" class="result-display" style="display:none; margin-top:15px;"></div>
                 </div>
@@ -1153,27 +1175,49 @@
             <p style="font-size: 16px;">📖 Based on FIPS Publication 199</p>
             <p style="font-size: 14px; margin-top: 10px;">Standards for Security Categorization of Federal Information and Information Systems</p>
             <p style="font-size: 12px; margin-top: 10px;">National Institute of Standards and Technology | February 2004</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore concepts</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Scroll through the sections or use the buttons below; the bar tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
         let infoCategory = {C: null, I: null, A: null};
         let systemInfoTypes = [];
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 6) * 100;
+            const progress = (sectionsViewed.size / document.querySelectorAll('.slide').length) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
-        function toggleSlide(header) {
-            const slide = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            sectionsViewed.add(slideNumber);
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
             updateProgress();
+        }
+
+        function toggleSlide(header) {
+            const slide = header.closest('.slide') || header.parentElement;
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reading a section also counts toward progress.
+        if ('IntersectionObserver' in window) {
+            const viewedObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) markViewed(entry.target); });
+            }, { threshold: 0.35 });
+            document.querySelectorAll('.slide').forEach(slide => viewedObserver.observe(slide));
+        }
+
+        // Highlight the chosen button within its own group of selector buttons.
+        function selectButton(btn) {
+            if (!btn || !btn.parentElement) return;
+            btn.parentElement.querySelectorAll('.selector-button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
         }
 
         function toggleExpand(element) {
@@ -1184,14 +1228,15 @@
             content.classList.toggle('active');
         }
 
-        function showImpactScenario(scenario) {
+        function showImpactScenario(scenario, btn) {
+            selectButton(btn);
             const resultDiv = document.getElementById('impact-scenario-result');
             const scenarios = {
                 'public': `<strong>Public Website Content:</strong><br>
-                          • Confidentiality: LOW or NA (already public)<br>
-                          • Integrity: MODERATE to HIGH (false info could mislead citizens)<br>
+                          • Confidentiality: NA (already public)<br>
+                          • Integrity: MODERATE (false info could mislead citizens)<br>
                           • Availability: MODERATE (public expects access)<br><br>
-                          <em>Key concern: Maintaining trust through accurate, available information</em>`,
+                          <em>Key concern: Maintaining trust through accurate, available information (FIPS 199 Example 1)</em>`,
                 
                 'medical': `<strong>Medical Records System:</strong><br>
                            • Confidentiality: HIGH (privacy laws, personal health info)<br>
@@ -1216,23 +1261,26 @@
             resultDiv.style.display = 'block';
         }
 
-        function setInfoImpact(objective, level) {
+        function setInfoImpact(objective, level, btn) {
             infoCategory[objective] = level;
+            selectButton(btn);
             updateInfoCategoryDisplay();
         }
 
         function updateInfoCategoryDisplay() {
             const resultDiv = document.getElementById('info-category-result');
-            
-            if (infoCategory.C && infoCategory.I && infoCategory.A) {
-                resultDiv.innerHTML = `<strong>Your Information Category:</strong><br>
-                                      SC = {(confidentiality, ${infoCategory.C}), (integrity, ${infoCategory.I}), (availability, ${infoCategory.A})}<br><br>
-                                      <em>This category would be used to determine appropriate security controls for this information type.</em>`;
-                resultDiv.style.display = 'block';
-            }
+            const complete = infoCategory.C && infoCategory.I && infoCategory.A;
+            const show = value => value || '?';
+
+            resultDiv.innerHTML = `<strong>${complete ? 'Your Information Category:' : 'Your Information Category (in progress):'}</strong><br>
+                                  SC = {(confidentiality, ${show(infoCategory.C)}), (integrity, ${show(infoCategory.I)}), (availability, ${show(infoCategory.A)})}<br><br>
+                                  <em>${complete
+                                      ? 'This category would be used to determine appropriate security controls for this information type.'
+                                      : 'Pick a level for each remaining objective (shown as ?) to complete the category.'}</em>`;
+            resultDiv.style.display = 'block';
         }
 
-        function addInfoType(type) {
+        function addInfoType(type, btn) {
             const types = {
                 'type1': {name: 'Public Information', C: 'NA', I: 'LOW', A: 'LOW'},
                 'type2': {name: 'Financial Data', C: 'MODERATE', I: 'HIGH', A: 'MODERATE'},
@@ -1243,12 +1291,15 @@
                 systemInfoTypes.push(types[type]);
                 updateSystemCategoryDisplay();
             }
+            if (btn) btn.classList.add('selected');
         }
 
         function clearSystem() {
             systemInfoTypes = [];
-            document.getElementById('system-info-types').style.display = 'none';
+            const typesDiv = document.getElementById('system-info-types');
+            typesDiv.style.display = 'none';
             document.getElementById('system-category-result').style.display = 'none';
+            typesDiv.parentElement.querySelectorAll('.selector-button').forEach(b => b.classList.remove('selected'));
         }
 
         function updateSystemCategoryDisplay() {
@@ -1282,7 +1333,17 @@
             }
         }
 
-        function showFinalAnswer(answer) {
+        function showFinalAnswer(answer, btn) {
+            const correctAnswer = 'ssn';
+            const group = btn && btn.parentElement;
+            if (group) {
+                // Show the right answer in green and a wrong pick in red, like the chapter quizzes.
+                group.querySelectorAll('.selector-button').forEach(b => {
+                    b.classList.remove('selected', 'incorrect');
+                    if ((b.getAttribute('onclick') || '').indexOf("'" + correctAnswer + "'") !== -1) b.classList.add('selected');
+                });
+                if (answer !== correctAnswer) btn.classList.add('incorrect');
+            }
             const resultDiv = document.getElementById('final-answer-result');
             const answers = {
                 'public': `<div style="background:#ffcdd2; padding:15px; border-radius:8px;">
@@ -1295,11 +1356,11 @@
                 
                 'ssn': `<div style="background:#c8e6c9; padding:15px; border-radius:8px;">
                        <strong>✓ Correct!</strong><br>
-                       SSN data likely has HIGH confidentiality impact (privacy laws). This drives the system to at least MODERATE or HIGH category for confidentiality, regardless of other data types present.</div>`,
+                       The SSN data has the highest confidentiality impact of the three types. Under the high-water mark rule, that impact level (not an average, not the lowest) becomes the system's confidentiality level, regardless of the other data types present.</div>`,
                 
-                'policy': `<div style="background:#fff3cd; padding:15px; border-radius:8px;">
-                          <strong>Partially correct thinking</strong><br>
-                          Policy documents might be sensitive, but SSN data typically has higher impact due to privacy laws and potential for identity theft.</div>`
+                'policy': `<div style="background:#ffcdd2; padding:15px; border-radius:8px;">
+                          <strong>Incorrect</strong><br>
+                          Policy documents may be sensitive, but the system category is set by the highest-impact type present, which here is the SSN data.</div>`
             };
             
             resultDiv.innerHTML = answers[answer];
@@ -1308,27 +1369,33 @@
 
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 6;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
             alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
                   `${viewed === total ? 'Congratulations! You\'ve completed the FIPS 199 learning module!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const target = Math.min(currentSlideIndex() + 1, slides.length - 1);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            const target = Math.max(currentSlideIndex() - 1, 0);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>

@@ -34,6 +34,10 @@
             overflow-x: hidden;
         }
 
+        .course-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; max-width: 1200px; margin: 0 auto; padding: 0.6rem 1rem; font-size: 0.9rem; color: var(--text); }
+        .course-nav a { color: inherit; font-weight: 600; text-decoration: none; }
+        .course-nav a:hover, .course-nav a:focus-visible { text-decoration: underline; }
+
         .header {
             background: var(--gradient);
             padding: 2rem 0;
@@ -116,6 +120,11 @@
             box-shadow: 0 4px 12px rgba(0, 112, 186, 0.4);
         }
 
+        .nav-item:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+        }
+
         .content {
             flex: 1;
             min-width: 0;
@@ -126,6 +135,7 @@
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
+            scroll-margin-top: 150px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: fadeInUp 0.6s ease;
         }
@@ -221,6 +231,11 @@
         .domain-card:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .domain-card:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
         }
 
         .domain-card.edm { border-top: 5px solid #ff6b35; }
@@ -466,16 +481,35 @@
                 display: none;
             }
         }
+    
+        /* Knowledge check */
+        .quiz-container { background: var(--surface-light); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; border-left: 4px solid var(--accent); }
+        .quiz-question { font-weight: 600; color: var(--accent); margin-bottom: 1rem; font-size: 1.05rem; }
+        .quiz-option { background: var(--surface); border: 2px solid transparent; border-radius: 8px; padding: 0.85rem 1rem; margin: 0.5rem 0; cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; }
+        .quiz-option:hover { border-color: var(--accent); transform: translateX(4px); }
+        .quiz-option:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+        .quiz-option.correct { background: rgba(34, 197, 94, 0.18); border-color: #22c55e; }
+        .quiz-option.incorrect { background: rgba(239, 68, 68, 0.18); border-color: #ef4444; }
+        .quiz-option[aria-disabled="true"] { cursor: default; transform: none; }
+        .feedback { display: none; margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; line-height: 1.5; color: var(--text); }
+        .feedback.correct { display: block; background: rgba(34, 197, 94, 0.15); border-left: 4px solid #22c55e; }
+        .feedback.incorrect { display: block; background: rgba(239, 68, 68, 0.15); border-left: 4px solid #ef4444; }
     </style>
 </head>
 <body>
+    <nav class="course-nav" aria-label="Course navigation">
+        <a href="index.html#ciss470">&larr; Course portal</a>
+        <span>
+            <a href="chapter8.html">&larr; Chapter 8</a>
+        </span>
+    </nav>
     <div class="progress-bar" id="progressBar"></div>
     
     <header class="header">
         <div class="header-content">
             <div>
                 <h1>⚙️ Chapter 9: Treating Cyber Risks Using Process Capabilities</h1>
-                <div class="reading-time">⏱️ Estimated reading time: 25 minutes</div>
+                <div class="reading-time">⏱️ Estimated reading time: 20 minutes</div>
             </div>
             <input type="text" class="search-box" placeholder="🔍 Search chapter..." id="searchBox">
         </div>
@@ -484,15 +518,16 @@
     <div class="container">
         <nav class="sidebar">
             <div class="nav-title">Navigation</div>
-            <div class="nav-item active" data-section="intro">📖 Introduction</div>
-            <div class="nav-item" data-section="glue">🔗 Process as Glue</div>
-            <div class="nav-item" data-section="tribal">👥 Tribal Knowledge</div>
-            <div class="nav-item" data-section="cobit">📊 COBIT 5 Framework</div>
-            <div class="nav-item" data-section="domains">🎯 Five Domains</div>
-            <div class="nav-item" data-section="lifecycle">🔄 Process Lifecycle</div>
-            <div class="nav-item" data-section="risktable">📋 Risk & Capabilities</div>
-            <div class="nav-item" data-section="benefits">✅ CEO Benefits</div>
-            <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
+            <div class="nav-item active" data-section="intro" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">📖 Introduction</div>
+            <div class="nav-item" data-section="glue" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🔗 Process as Glue</div>
+            <div class="nav-item" data-section="tribal" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">👥 Tribal Knowledge</div>
+            <div class="nav-item" data-section="cobit" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">📊 COBIT 5 Framework</div>
+            <div class="nav-item" data-section="domains" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🎯 Five Domains</div>
+            <div class="nav-item" data-section="lifecycle" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🔄 Process Lifecycle</div>
+            <div class="nav-item" data-section="risktable" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">📋 Risk & Capabilities</div>
+            <div class="nav-item" data-section="benefits" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">✅ CEO Benefits</div>
+            <div class="nav-item" data-section="knowledge-check" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🎯 Knowledge Check</div>
+            <div class="nav-item" data-section="conclusion" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">🎓 Conclusion</div>
         </nav>
 
         <main class="content">
@@ -613,7 +648,7 @@
 
                 <h3>Why Particular Attention to Cybersecurity Processes?</h3>
                 <div class="success-box">
-                    <strong>💡 Simple Answer:</strong> Even the slightest failure in one of these processes can cause issues with confidential disclosure, availability, or data integrity of the systems in place to support the mission.
+                    <strong>💡 Simple Answer:</strong> Even the slightest failure in one of these processes can cause issues with confidentiality (unauthorized disclosure), availability, or data integrity of the systems in place to support the mission.
                 </div>
 
                 <h3>No Intrinsic Motivation to Document</h3>
@@ -739,7 +774,7 @@
                 <p>Different types of cybersecurity processes work together across five domains:</p>
 
                 <div class="domain-container">
-                    <div class="domain-card edm" onclick="toggleDomain('edm')">
+                    <div class="domain-card edm" role="button" tabindex="0" onclick="toggleDomain('edm', event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <div class="domain-abbr">EDM</div>
                         <h4>Evaluate, Direct, and Monitor</h4>
                         <div class="expandable-content" id="edm-content">
@@ -755,7 +790,7 @@
                         </div>
                     </div>
 
-                    <div class="domain-card apo" onclick="toggleDomain('apo')">
+                    <div class="domain-card apo" role="button" tabindex="0" onclick="toggleDomain('apo', event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <div class="domain-abbr">APO</div>
                         <h4>Align, Plan, and Organize</h4>
                         <div class="expandable-content" id="apo-content">
@@ -773,7 +808,7 @@
                         </div>
                     </div>
 
-                    <div class="domain-card bai" onclick="toggleDomain('bai')">
+                    <div class="domain-card bai" role="button" tabindex="0" onclick="toggleDomain('bai', event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <div class="domain-abbr">BAI</div>
                         <h4>Build, Acquire, and Implement</h4>
                         <div class="expandable-content" id="bai-content">
@@ -790,7 +825,7 @@
                         </div>
                     </div>
 
-                    <div class="domain-card dss" onclick="toggleDomain('dss')">
+                    <div class="domain-card dss" role="button" tabindex="0" onclick="toggleDomain('dss', event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <div class="domain-abbr">DSS</div>
                         <h4>Deliver, Service, and Support</h4>
                         <div class="expandable-content" id="dss-content">
@@ -808,7 +843,7 @@
                         </div>
                     </div>
 
-                    <div class="domain-card mea" onclick="toggleDomain('mea')">
+                    <div class="domain-card mea" role="button" tabindex="0" onclick="toggleDomain('mea', event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <div class="domain-abbr">MEA</div>
                         <h4>Monitor, Evaluate, and Assess</h4>
                         <div class="expandable-content" id="mea-content">
@@ -932,7 +967,7 @@
                             <tr>
                                 <td><strong>Software Implementation</strong></td>
                                 <td>Operational glitches, users not prepared for new applications</td>
-                                <td>APO11 - Monitor quality<br>BAI01 - Project management<br>BAI02 - Requirements<br>BAI03 - Development<br>BAI05 - Change management<br>BAI06-08 - Testing & training</td>
+                                <td>APO11 - Monitor quality<br>BAI01 - Project management<br>BAI02 - Requirements<br>BAI03 - Development<br>BAI05 - Organizational change enablement (user readiness)<br>BAI06 - Change management<br>BAI07 - Testing & transition<br>BAI08 - Knowledge management</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1020,6 +1055,42 @@
                 </div>
             </section>
 
+            <section class="section" id="knowledge-check">
+                <h2>🎯 Knowledge Check</h2>
+                <p>Four quick questions drawn from this chapter. Choose an answer to see the explanation.</p>
+                <div class="quiz-container">
+                    <div class="quiz-question">1. In the business model for information security described in the chapter, what sits at the center between People and Technology?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Budget</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch9q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Process</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Compliance</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Culture</div>
+                    <div id="ch9q1-feedback" class="feedback" data-why="Maria explains that process is located at the center of the business model; processes are the glue that binds people and technology."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">2. What does the vulnerability-management example (Employee A versus Employee B) illustrate?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Scanning tools are unreliable.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch9q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Undocumented processes produce inconsistent outputs and make the organization’s risk posture impossible to articulate.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Monthly scanning is excessive.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Junior staff should not apply patches.</div>
+                    <div id="ch9q2-feedback" class="feedback" data-why="Two employees using different tools, schedules, and patch windows produce different outcomes, increased risk, and no way to state the organization’s risk posture."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">3. Which COBIT 5 domain “keeps the cybersecurity lights on” with operations, incident management, continuity planning, and disaster recovery?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) EDM (Evaluate, Direct, and Monitor)</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) APO (Align, Plan, and Organize)</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) BAI (Build, Acquire, and Implement)</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch9q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) DSS (Deliver, Service, and Support)</div>
+                    <div id="ch9q3-feedback" class="feedback" data-why="DSS provides operational support: operations management, incident management, root cause analysis, crisis management, continuity, and disaster recovery."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">4. Why does the chapter recommend moving routine security actions to operations teams such as a SOC or MSSP?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch9q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Information security staff are more expensive resources who should design processes and focus on exceptions and analysis.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Operations teams have more security expertise.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Routine actions do not need to be documented.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch9q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Security teams are not allowed to run scans.</div>
+                    <div id="ch9q4-feedback" class="feedback" data-why="The chapter says security personnel should design the processes, move them to production operations quickly, and focus on exception reports and higher-value work."></div>
+                </div>
+            </section>
             <section class="section" id="conclusion">
                 <h2>🎓 Conclusion</h2>
                 
@@ -1095,9 +1166,12 @@
             });
         });
 
-        // Toggle domain content
-        function toggleDomain(domainId) {
+        // Toggle domain content; clicks inside an opened card leave it open
+        function toggleDomain(domainId, evt) {
             const content = document.getElementById(domainId + '-content');
+            if (!content) return;
+            const target = evt && evt.target;
+            if (target && content.contains(target)) return;
             content.classList.toggle('expanded');
         }
 
@@ -1137,37 +1211,40 @@
         }
 
         function highlightText(searchTerm) {
-            const sections = document.querySelectorAll('.section');
+            const escaped = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp('(' + escaped + ')', 'gi');
             let firstMatch = null;
-            
-            sections.forEach(section => {
-                const walker = document.createTreeWalker(
-                    section,
-                    NodeFilter.SHOW_TEXT,
-                    null,
-                    false
-                );
-                
+            document.querySelectorAll('.section').forEach(section => {
+                const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT, null, false);
+                const nodes = [];
                 let node;
-                while (node = walker.nextNode()) {
-                    const text = node.nodeValue;
-                    const regex = new RegExp(`(${searchTerm})`, 'gi');
-                    
-                    if (regex.test(text)) {
-                        const span = document.createElement('span');
-                        span.innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
-                        node.parentNode.replaceChild(span, node);
-                        
-                        if (!firstMatch) {
-                            firstMatch = span.querySelector('.highlight');
+                while ((node = walker.nextNode())) nodes.push(node);
+                nodes.forEach(textNode => {
+                    if (!regex.test(textNode.nodeValue)) return;
+                    regex.lastIndex = 0;
+                    const fragment = document.createDocumentFragment();
+                    textNode.nodeValue.split(regex).forEach((part, index) => {
+                        if (index % 2 === 1) {
+                            const mark = document.createElement('span');
+                            mark.className = 'highlight';
+                            mark.textContent = part;
+                            fragment.appendChild(mark);
+                            if (!firstMatch) firstMatch = mark;
+                        } else if (part) {
+                            fragment.appendChild(document.createTextNode(part));
                         }
-                    }
+                    });
+                    textNode.parentNode.replaceChild(fragment, textNode);
+                });
+            });
+            document.querySelectorAll('.highlight').forEach(mark => {
+                const hidden = mark.closest('.framework-details, .expandable-content');
+                if (hidden) {
+                    hidden.classList.add('expanded');
+                    if (hidden.parentElement) hidden.parentElement.classList.add('expanded');
                 }
             });
-            
-            if (firstMatch) {
-                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+            if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // Scroll spy for active navigation
@@ -1190,6 +1267,26 @@
                 }
             });
         });
+    
+        // Knowledge check
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById(quizId + '-feedback');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                option.setAttribute('aria-disabled', 'true');
+                option.classList.remove('correct', 'incorrect');
+                if (option.dataset.correct === 'true') {
+                    option.classList.add('correct');
+                }
+            });
+            if (!isCorrect) {
+                element.classList.add('incorrect');
+            }
+            feedback.textContent = (isCorrect ? '\u2713 Correct. ' : '\u2717 Not quite. ') + feedback.dataset.why;
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.setAttribute('role', 'status');
+        }
     </script>
 </body>
 </html>

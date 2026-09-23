@@ -22,6 +22,10 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
+        .course-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; max-width: 1200px; margin: 0 auto; padding: 0.6rem 1rem; font-size: 0.9rem; color: white; }
+        .course-nav a { color: inherit; font-weight: 600; text-decoration: none; }
+        .course-nav a:hover, .course-nav a:focus-visible { text-decoration: underline; }
         
         .header {
             text-align: center;
@@ -500,6 +504,12 @@
     </style>
 </head>
 <body>
+    <nav class="course-nav" aria-label="Course navigation">
+        <a href="index.html#ciss470">&larr; Course portal</a>
+        <span>
+            <a href="chapter4.html">&larr; Chapter 4</a> &nbsp;|&nbsp; <a href="chapter6.html">Chapter 6 &rarr;</a>
+        </span>
+    </nav>
     <div class="container">
         <div class="header">
             <h1>📊 CYBER STRATEGIC PERFORMANCE MANAGEMENT</h1>
@@ -511,7 +521,7 @@
 
         <!-- SLIDE 1: Opening & Overview -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>The Management Paradox: Measuring the Unmeasurable</span>
                 <span class="slide-number">Part 1 of 6</span>
             </div>
@@ -565,7 +575,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📊 The Core Measurement Philosophy</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -588,10 +598,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Opening Check</div>
                     <p style="margin-bottom:15px;">According to the chapter, what percentage of security happens outside the CISO's organization?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) 50%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) 60%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) 70%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">D) 80%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) 50%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) 60%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) 70%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, true, 'quiz1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) 80%</div>
                     <div id="quiz1-feedback" class="feedback"></div>
                 </div>
 
@@ -603,7 +613,7 @@
 
         <!-- SLIDE 2: Pitfalls in Measurement -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Five Critical Pitfalls to Avoid</span>
                 <span class="slide-number">Part 2 of 6</span>
             </div>
@@ -611,7 +621,7 @@
                 <h2>⚠️ Common Measurement Mistakes</h2>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Pitfall 1: Irrelevant Metrics</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -630,7 +640,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Pitfall 2: Only Lagging Indicators</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -649,7 +659,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Pitfall 3: Assuming More is Better</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -669,7 +679,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Pitfall 4: Relying on Subjectivity</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -688,7 +698,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Pitfall 5: Measuring Only the Security Team</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -720,10 +730,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Pitfall Understanding</div>
                     <p style="margin-bottom:15px;">Which metric type represents an OUTPUT rather than an INPUT?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) Patch currency rate</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">B) Training completion percentage</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">C) Number of security incidents</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) Encryption deployment rate</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Patch currency rate</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Training completion percentage</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, true, 'quiz2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Number of security incidents</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Encryption deployment rate</div>
                     <div id="quiz2-feedback" class="feedback"></div>
                 </div>
 
@@ -735,7 +745,7 @@
 
         <!-- SLIDE 3: Strategy Components -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Four Components of Effective Cybersecurity Strategy</span>
                 <span class="slide-number">Part 3 of 6</span>
             </div>
@@ -750,7 +760,7 @@
                 <h3>📋 The Four Essential Components</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Component 1: Organization Risk Assessment</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -772,7 +782,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Component 2: Cybersecurity Capabilities</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -815,7 +825,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Component 3: Target State Protections</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -860,7 +870,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Component 4: Portfolio of Initiatives</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -919,7 +929,7 @@
 
         <!-- SLIDE 4: Performance Management System -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Creating Your Performance Management System</span>
                 <span class="slide-number">Part 4 of 6</span>
             </div>
@@ -934,7 +944,7 @@
                 <h3>📈 Component 1: Measuring Progress Against Initiatives</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Setting Medium-Term Success Metrics</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -965,7 +975,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Using Markers as Milestones</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -990,7 +1000,7 @@
                 <h3 style="margin-top:40px;">📊 Component 2: Measuring Capability (DRA)</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Digital Resilience Assessment (DRA) Methodology</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1026,7 +1036,7 @@
                 <h3 style="margin-top:40px;">🛡️ Component 3: Measuring Protection</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>"Crown Jewels" Protection Measurement</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1062,7 +1072,7 @@
 
                 <div class="interactive-scenario">
                     <div class="scenario-title">📊 Measurement Priority</div>
-                    <p>You can only implement one measurement component this quarter. Which provides the most immediate value?</p>
+                    <p>Resources are tight this quarter and you are standing up cyber performance measurement for the first time. What is the best way to start?</p>
                     <button class="choice-button" onclick="showMeasurementPriority('progress')">Progress against initiatives</button>
                     <button class="choice-button" onclick="showMeasurementPriority('capability')">Overall capability assessment</button>
                     <button class="choice-button" onclick="showMeasurementPriority('protection')">Crown jewels protection</button>
@@ -1108,7 +1118,7 @@
 
         <!-- SLIDE 5: Implementation Excellence -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Making Metrics Work: Implementation Excellence</span>
                 <span class="slide-number">Part 5 of 6</span>
             </div>
@@ -1123,7 +1133,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Creating Effective Dashboards</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1153,7 +1163,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Common Implementation Challenges</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1221,10 +1231,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Implementation Check</div>
                     <p style="margin-bottom:15px;">What's the recommended maximum number of key metrics for executive dashboards?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 5-10</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">B) 15-20</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">C) 25-30</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">D) As many as needed</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz5')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) 5-10</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, true, 'quiz5')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) 15-20</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz5')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) 25-30</div>
+                    <div class="quiz-option" role="button" tabindex="0" onclick="checkAnswer(this, false, 'quiz5')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) As many as needed</div>
                     <div id="quiz5-feedback" class="feedback"></div>
                 </div>
 
@@ -1236,7 +1246,7 @@
 
         <!-- SLIDE 6: Conclusion -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Conclusion: Building Your Strategic Performance System</span>
                 <span class="slide-number">Part 6 of 6</span>
             </div>
@@ -1319,7 +1329,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🔑 Key Success Principles</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1363,7 +1373,7 @@
 
                 <div class="interactive-scenario">
                     <div class="scenario-title">🎓 Final Reflection</div>
-                    <p>After implementing this framework, what should be your first priority?</p>
+                    <p>You have been asked to stand up this framework. What is your first priority?</p>
                     <button class="choice-button" onclick="showFinalReflection('baseline')">Establish current baseline</button>
                     <button class="choice-button" onclick="showFinalReflection('quick')">Show quick wins</button>
                     <button class="choice-button" onclick="showFinalReflection('buy-in')">Get executive buy-in</button>
@@ -1394,25 +1404,40 @@
         <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
             <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
             <p style="font-size: 14px; margin-top: 10px;">Chapter 5: Cyber Strategic Performance Management | By James Kaplan & Jim Boehm</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Scroll through the sections or use the buttons below; the bar tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 6) * 100;
+            const progress = (sectionsViewed.size / document.querySelectorAll('.slide').length) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
-        function toggleSlide(header) {
-            const slide = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            sectionsViewed.add(slideNumber);
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
             updateProgress();
+        }
+
+        function toggleSlide(header) {
+            const slide = header.closest('.slide') || header.parentElement;
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reading a section also counts toward progress.
+        if ('IntersectionObserver' in window) {
+            const viewedObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) markViewed(entry.target); });
+            }, { threshold: 0.35 });
+            document.querySelectorAll('.slide').forEach(slide => viewedObserver.observe(slide));
         }
 
         function toggleExpand(element) {
@@ -1426,22 +1451,22 @@
         function checkAnswer(element, isCorrect, quizId) {
             const options = element.parentElement.querySelectorAll('.quiz-option');
             const feedbackDiv = document.getElementById(quizId + '-feedback');
-            
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
+                opt.setAttribute('aria-disabled', 'true');
                 opt.classList.remove('correct', 'incorrect');
+                if (/checkAnswer\(\s*this\s*,\s*true/.test(opt.getAttribute('onclick') || '')) {
+                    opt.classList.add('correct');
+                }
             });
-            
             if (isCorrect) {
-                element.classList.add('correct');
                 feedbackDiv.innerHTML = '✓ Correct! Well done!';
                 feedbackDiv.className = 'feedback correct';
             } else {
                 element.classList.add('incorrect');
-                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.innerHTML = '✗ Not quite. The correct answer is highlighted above; review that section again.';
                 feedbackDiv.className = 'feedback incorrect';
             }
-            
             feedbackDiv.style.display = 'block';
         }
 
@@ -1464,7 +1489,7 @@
                 'praise': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Missed opportunity</h4><p>Praising vanity metrics reinforces wrong behavior. Need to redirect focus.</p></div>',
                 'question': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Excellent response</h4><p>Asking about sophisticated attacks focuses on real risk, not script kiddies.</p></div>',
                 'compare': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Partially helpful</h4><p>Peer comparison provides context but still focuses on wrong metric.</p></div>',
-                'ignore': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Too dismissive</h4><p>Should acknowledge effort but redirect to business-relevant metrics.</p></div>'
+                'ignore': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Right direction, too vague</h4><p>Business impact is the goal, but "focus on business impact" gives the CISO nothing concrete to answer. Ask which attacks were sophisticated and what got through; that turns a vanity count into a business-impact question.</p></div>'
             };
             
             resultDiv.innerHTML = results[choice];
@@ -1525,27 +1550,33 @@
 
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 6;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
             alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
                   `${viewed === total ? 'Congratulations! You\'ve completed Chapter 5!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const target = Math.min(currentSlideIndex() + 1, slides.length - 1);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            const target = Math.max(currentSlideIndex() - 1, 0);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>

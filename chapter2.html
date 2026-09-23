@@ -36,6 +36,29 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
+        .course-nav {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .course-nav a {
+            color: inherit;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .course-nav a:hover,
+        .course-nav a:focus-visible {
+            text-decoration: underline;
+        }
+
         .slide {
             background: white;
             border-radius: 15px;
@@ -515,6 +538,12 @@
     </style>
 </head>
 <body>
+    <nav class="course-nav" aria-label="Course navigation">
+        <a href="index.html#ciss470">&larr; Course portal</a>
+        <span>
+            <a href="chapter1.html">&larr; Chapter 1</a> &nbsp;|&nbsp; <a href="chapter3.html">Chapter 3 &rarr;</a>
+        </span>
+    </nav>
     <div class="container">
         <div class="header">
             <h1>🛡️ BOARD CYBER RISK OVERSIGHT</h1>
@@ -526,7 +555,7 @@
 
         <!-- SLIDE 1: Opening & Core Message -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Tara's Message: The Board's New Reality</span>
                 <span class="slide-number">Part 1 of 5</span>
             </div>
@@ -555,7 +584,7 @@
                 <h3>📋 Three Critical Questions This Chapter Addresses</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>Question 1: What are boards expected to do now?</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -574,7 +603,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>Question 2: What barriers will well-intending boards face?</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -592,7 +621,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>Question 3: What practical steps should boards take now?</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -625,10 +654,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Quick Check</div>
                     <p style="margin-bottom:15px;">According to the chapter, what is the KEY principle boards need to understand about cybersecurity?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) It's primarily a technology issue</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">B) It's an enterprise risk management issue, not just IT</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) It should be delegated to the CISO</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">D) It requires more IT spending</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz1')">A) It's primarily a technology issue</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz1')">B) It's an enterprise risk management issue, not just IT</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz1')">C) It should be delegated to the CISO</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz1')">D) It requires more IT spending</div>
                     <div id="quiz1-feedback" class="feedback"></div>
                 </div>
 
@@ -640,7 +669,7 @@
 
         <!-- SLIDE 2: NACD Five Principles -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>What Boards Are Expected to Do: The NACD Framework</span>
                 <span class="slide-number">Part 2 of 5</span>
             </div>
@@ -649,12 +678,12 @@
 
                 <div class="highlight-box">
                     <h3>Background: The 2014 Wake-Up Call</h3>
-                    <p style="font-size: 18px;">The National Association of Corporate Directors (NACD) recognized the emerging need for director guidance following a flurry of major scandals involving IT security breaches. They produced a "Cyber Risk Oversight" guide available at https://www.nacdonline.org/cyber</p>
+                    <p style="font-size: 18px;">The National Association of Corporate Directors (NACD) recognized the emerging need for director guidance following a flurry of major scandals involving IT security breaches. They produced a "Cyber-Risk Oversight" guide (Director's Handbook Series, 2014); the <a href="https://www.nacdonline.org/all-governance/governance-resources/governance-research/director-handbooks/2026-cyber-risk-oversight/" target="_blank" rel="noopener">current edition</a> is available on the NACD website.</p>
                 </div>
 
                 <h3>🎯 The Five Core Principles - Click Each to Explore</h3>
 
-                <div class="principle-card" onclick="expandPrinciple(1)">
+                <div class="principle-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandPrinciple(1, event)">
                     <span class="principle-number">1</span>
                     <strong>Cybersecurity as Enterprise Risk (THE KEY PRINCIPLE)</strong>
                     <div id="principle-1-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
@@ -670,7 +699,7 @@
                     </div>
                 </div>
 
-                <div class="principle-card" onclick="expandPrinciple(2)">
+                <div class="principle-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandPrinciple(2, event)">
                     <span class="principle-number">2</span>
                     <strong>Understanding Legal Implications</strong>
                     <div id="principle-2-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
@@ -687,7 +716,7 @@
                     </div>
                 </div>
 
-                <div class="principle-card" onclick="expandPrinciple(3)">
+                <div class="principle-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandPrinciple(3, event)">
                     <span class="principle-number">3</span>
                     <strong>Access to Expertise & Regular Agenda Time</strong>
                     <div id="principle-3-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
@@ -712,7 +741,7 @@
                     </div>
                 </div>
 
-                <div class="principle-card" onclick="expandPrinciple(4)">
+                <div class="principle-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandPrinciple(4, event)">
                     <span class="principle-number">4</span>
                     <strong>Enterprise-Wide Framework Expectations</strong>
                     <div id="principle-4-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
@@ -734,7 +763,7 @@
                     </div>
                 </div>
 
-                <div class="principle-card" onclick="expandPrinciple(5)">
+                <div class="principle-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandPrinciple(5, event)">
                     <span class="principle-number">5</span>
                     <strong>Risk Treatment Decisions & Insurance</strong>
                     <div id="principle-5-detail" style="display:none; margin-top:15px; padding-top:15px; border-top:2px solid #e0e0e0;">
@@ -757,12 +786,13 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>📚 Additional Resources: NIST Cybersecurity Framework</span>
                         <span class="expand-icon">▶</span>
                     </div>
                     <div class="expandable-content">
                         <h4>Framework for Improving Critical Infrastructure Cybersecurity v1.0</h4>
+                        <p style="font-size:14px; color:#555; margin-bottom:10px;">The chapter cites v1.0 (February 2014). NIST CSF 2.0, released February 2024, is the current version and adds a Govern function with an Oversight category.</p>
                         <p>The chapter references the widely acclaimed NIST framework, noting:</p>
                         <ul>
                             <li><strong>Strength:</strong> Promotes cybersecurity as subset of ERM</li>
@@ -787,11 +817,11 @@
 
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Understanding Check</div>
-                    <p style="margin-bottom:15px;">What does the NACD specifically identify as "the key principle" among the five?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">A) Approach cybersecurity as an ERM issue, not just IT</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">B) Understand legal implications</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) Have adequate expertise</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) Establish a framework</div>
+                    <p style="margin-bottom:15px;">What do the chapter authors identify as "the key principle" among the NACD's five?</p>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz2')">A) Approach cybersecurity as an ERM issue, not just IT</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz2')">B) Understand legal implications</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz2')">C) Have adequate expertise</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz2')">D) Establish a framework</div>
                     <div id="quiz2-feedback" class="feedback"></div>
                 </div>
 
@@ -803,7 +833,7 @@
 
         <!-- SLIDE 3: Five Barriers to Action -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>The Five Barriers: Why Boards Struggle with Cyber Oversight</span>
                 <span class="slide-number">Part 3 of 5</span>
             </div>
@@ -815,7 +845,7 @@
                     <p style="font-size: 18px;">Most boards will face significant difficulty as they attempt to address cyber risk management. Understanding these barriers is essential to overcoming them.</p>
                 </div>
 
-                <div class="barrier-box" onclick="expandBarrier(1)">
+                <div class="barrier-box" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandBarrier(1, event)">
                     <span class="barrier-number">Barrier 1</span>
                     <strong>Lack of Senior Management Ownership</strong>
                     <div id="barrier-1-detail" style="display:none; margin-top:15px;">
@@ -840,7 +870,7 @@
                     </div>
                 </div>
 
-                <div class="barrier-box" onclick="expandBarrier(2)">
+                <div class="barrier-box" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandBarrier(2, event)">
                     <span class="barrier-number">Barrier 2</span>
                     <strong>Failure to Link to Key Organization Objectives</strong>
                     <div id="barrier-2-detail" style="display:none; margin-top:15px;">
@@ -866,7 +896,7 @@
                     </div>
                 </div>
 
-                <div class="barrier-box" onclick="expandBarrier(3)">
+                <div class="barrier-box" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandBarrier(3, event)">
                     <span class="barrier-number">Barrier 3</span>
                     <strong>Omission from Entity-Level Objectives</strong>
                     <div id="barrier-3-detail" style="display:none; margin-top:15px;">
@@ -884,7 +914,7 @@
                     </div>
                 </div>
 
-                <div class="barrier-box" onclick="expandBarrier(4)">
+                <div class="barrier-box" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandBarrier(4, event)">
                     <span class="barrier-number">Barrier 4</span>
                     <strong>Too Much Focus on Internal Controls</strong>
                     <div id="barrier-4-detail" style="display:none; margin-top:15px;">
@@ -892,7 +922,7 @@
                         <ul>
                             <li>ERM and internal audit focus primarily on identifying controls</li>
                             <li>Binary approach (deficient/not deficient) like Sarbanes-Oxley 404</li>
-                            <li>Not aligned with ISO 31000:2009 Risk Management principles</li>
+                            <li>Not aligned with ISO 31000:2009 Risk Management principles (the chapter cites the 2009 edition; ISO 31000:2018 is current and keeps the same risk treatment options)</li>
                             <li>Limited to control assessment rather than full risk treatment</li>
                         </ul>
                         <h4 style="margin-top:15px;">Full Range of Risk Treatment Options (ISO 31000):</h4>
@@ -912,7 +942,7 @@
                     </div>
                 </div>
 
-                <div class="barrier-box" onclick="expandBarrier(5)">
+                <div class="barrier-box" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandBarrier(5, event)">
                     <span class="barrier-number">Barrier 5</span>
                     <strong>Lack of Reliable Information on Residual Risk</strong>
                     <div id="barrier-5-detail" style="display:none; margin-top:15px;">
@@ -961,10 +991,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Comprehension Check</div>
                     <p style="margin-bottom:15px;">According to IIA surveys, what percentage of audit, IT security, and ERM specialists link their work to top organizational objectives?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')">A) Only a small percentage</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">B) About 50%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">C) The majority</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">D) Nearly all</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz3')">A) Only a small percentage</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz3')">B) About 50%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz3')">C) The majority</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz3')">D) Nearly all</div>
                     <div id="quiz3-feedback" class="feedback"></div>
                 </div>
 
@@ -976,7 +1006,7 @@
 
         <!-- SLIDE 4: Four Practical Steps -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Four Practical Steps: The Radical Departure</span>
                 <span class="slide-number">Part 4 of 5</span>
             </div>
@@ -988,7 +1018,7 @@
                     <p>These four steps represent a fundamental departure from traditional approaches. They require boards to actively drive change, not passively receive reports.</p>
                 </div>
 
-                <div class="step-card" onclick="expandStep(1)">
+                <div class="step-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandStep(1, event)">
                     <span class="step-number">Step 1</span>
                     <h3 style="margin-top:15px;">Use a "Five Lines of Assurance" Approach</h3>
                     <div id="step-1-detail" style="display:none; margin-top:20px;">
@@ -1036,7 +1066,7 @@
                     </div>
                 </div>
 
-                <div class="step-card" onclick="expandStep(2)">
+                <div class="step-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandStep(2, event)">
                     <span class="step-number">Step 2</span>
                     <h3 style="margin-top:15px;">Include Top Objectives and Specific Owners</h3>
                     <div id="step-2-detail" style="display:none; margin-top:20px;">
@@ -1078,7 +1108,7 @@
                     </div>
                 </div>
 
-                <div class="step-card" onclick="expandStep(3)">
+                <div class="step-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandStep(3, event)">
                     <span class="step-number">Step 3</span>
                     <h3 style="margin-top:15px;">Establish a Risk Management Framework</h3>
                     <div id="step-3-detail" style="display:none; margin-top:20px;">
@@ -1087,7 +1117,7 @@
 
                         <h4 style="margin-top:20px;">Framework Requirements:</h4>
                         <ul>
-                            <li>Align with ISO 31000:2009 Risk Management principles</li>
+                            <li>Align with ISO 31000:2009 Risk Management principles (ISO 31000:2018 is the current edition)</li>
                             <li>Direct linkage of risks to organization objectives</li>
                             <li>Focus on residual risk status, not just controls</li>
                             <li>Composite Residual Risk Rating (CRRR) for each objective</li>
@@ -1112,7 +1142,7 @@
                     </div>
                 </div>
 
-                <div class="step-card" onclick="expandStep(4)">
+                <div class="step-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="expandStep(4, event)">
                     <span class="step-number">Step 4</span>
                     <h3 style="margin-top:15px;">Require Regular Reporting by the CEO</h3>
                     <div id="step-4-detail" style="display:none; margin-top:20px;">
@@ -1171,10 +1201,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Application Question</div>
                     <p style="margin-bottom:15px;">According to Step 4, how often should the CEO ideally provide consolidated risk reports to the board?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">A) Annually</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">B) Semi-annually</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')">C) Quarterly</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">D) Only when incidents occur</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz4')">A) Annually</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz4')">B) Semi-annually</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz4')">C) Quarterly</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz4')">D) Only when incidents occur</div>
                     <div id="quiz4-feedback" class="feedback"></div>
                 </div>
 
@@ -1186,7 +1216,7 @@
 
         <!-- SLIDE 5: The Way Forward -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>The Way Forward: Call to Action</span>
                 <span class="slide-number">Part 5 of 5</span>
             </div>
@@ -1199,7 +1229,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>🔄 Why Radical Change Is Necessary</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1250,7 +1280,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>📊 The Change Management Strategy</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1325,15 +1355,15 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Final Assessment</div>
                     <p style="margin-bottom:15px;">What does the chapter identify as the central requirement for effective cyber risk management?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) More investment in technology</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) Better internal controls</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">C) Linkage to business objectives with CEO ownership</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">D) Stricter regulatory compliance</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz5')">A) More investment in technology</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz5')">B) Better internal controls</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz5')">C) Linkage to business objectives with CEO ownership</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz5')">D) Stricter regulatory compliance</div>
                     <div id="quiz5-feedback" class="feedback"></div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>👥 About the Authors</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1382,25 +1412,33 @@
         <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
             <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
             <p style="font-size: 14px; margin-top: 10px;">Chapter 2: Board Cyber Risk Oversight | By Tim J. Leech and Lauren C. Hanlon</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Scroll through the sections or use the navigation buttons; the bar tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 5) * 100;
+            const total = document.querySelectorAll('.slide').length;
+            const progress = (sectionsViewed.size / total) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
-        function toggleSlide(header) {
-            const slide = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            sectionsViewed.add(slideNumber);
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
             updateProgress();
+        }
+
+        function toggleSlide(header) {
+            const slide = header.closest('.slide') || header.parentElement;
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function toggleExpand(element) {
@@ -1414,22 +1452,22 @@
         function checkAnswer(element, isCorrect, quizId) {
             const options = element.parentElement.querySelectorAll('.quiz-option');
             const feedbackDiv = document.getElementById(quizId + '-feedback');
-            
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
+                opt.setAttribute('aria-disabled', 'true');
                 opt.classList.remove('correct', 'incorrect');
+                if (/checkAnswer\(\s*this\s*,\s*true/.test(opt.getAttribute('onclick') || '')) {
+                    opt.classList.add('correct');
+                }
             });
-            
             if (isCorrect) {
-                element.classList.add('correct');
                 feedbackDiv.innerHTML = '✓ Correct! Well done!';
                 feedbackDiv.className = 'feedback correct';
             } else {
                 element.classList.add('incorrect');
-                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.innerHTML = '✗ Not quite. The correct answer is highlighted above; review that section again.';
                 feedbackDiv.className = 'feedback incorrect';
             }
-            
             feedbackDiv.style.display = 'block';
         }
 
@@ -1446,20 +1484,19 @@
             resultDiv.classList.add('show');
         }
 
-        function expandPrinciple(num) {
+        function expandPrinciple(num, evt) {
             const detail = document.getElementById(`principle-${num}-detail`);
-            if (detail.style.display === 'none') {
-                detail.style.display = 'block';
-            } else {
-                detail.style.display = 'none';
-            }
+            if (!detail) return;
+            const target = evt && evt.target;
+            if (target && detail.contains(target)) return;
+            detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
         }
 
         function showPrinciplePriority(choice) {
             const resultDiv = document.getElementById('principle-priority-result');
             const results = {
                 'legal': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Important but not first</h4><p>Legal implications are critical, but without the right framework (ERM approach), you can\'t properly assess legal risks.</p></div>',
-                'erm': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>The NACD identifies this as "the key principle." Without viewing cyber as enterprise risk, all other efforts remain siloed and ineffective.</p></div>',
+                'erm': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ Correct!</h4><p>Leech and Hanlon call this "the key principle." Without viewing cyber as enterprise risk, all other efforts remain siloed and ineffective.</p></div>',
                 'expertise': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Necessary but not foundational</h4><p>Expertise is needed, but without the right approach (ERM), even experts will struggle to be effective.</p></div>',
                 'framework': '<div style="background:#fff3e0; padding:15px; border-radius:8px;"><h4>Follows from principle #1</h4><p>The framework is important, but it must be based on the enterprise risk approach to be effective.</p></div>'
             };
@@ -1468,13 +1505,12 @@
             resultDiv.classList.add('show');
         }
 
-        function expandBarrier(num) {
+        function expandBarrier(num, evt) {
             const detail = document.getElementById(`barrier-${num}-detail`);
-            if (detail.style.display === 'none') {
-                detail.style.display = 'block';
-            } else {
-                detail.style.display = 'none';
-            }
+            if (!detail) return;
+            const target = evt && evt.target;
+            if (target && detail.contains(target)) return;
+            detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
         }
 
         function showBarrierPriority(choice) {
@@ -1490,13 +1526,12 @@
             resultDiv.classList.add('show');
         }
 
-        function expandStep(num) {
+        function expandStep(num, evt) {
             const detail = document.getElementById(`step-${num}-detail`);
-            if (detail.style.display === 'none') {
-                detail.style.display = 'block';
-            } else {
-                detail.style.display = 'none';
-            }
+            if (!detail) return;
+            const target = evt && evt.target;
+            if (target && detail.contains(target)) return;
+            detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
         }
 
         function showImplementation(choice) {
@@ -1527,27 +1562,43 @@
 
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 5;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
             alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
                   `${viewed === total ? 'Congratulations! You\'ve completed Chapter 2!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const target = Math.min(currentSlideIndex() + 1, slides.length - 1);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            const target = Math.max(currentSlideIndex() - 1, 0);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reading a section also counts toward progress. Each section is several screens tall,
+        // so a visible-ratio threshold can never be reached; mark a section once it crosses the
+        // middle band of the viewport instead.
+        if ('IntersectionObserver' in window) {
+            const viewedObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) markViewed(entry.target); });
+            }, { threshold: 0, rootMargin: '-40% 0px -40% 0px' });
+            document.querySelectorAll('.slide').forEach(slide => viewedObserver.observe(slide));
         }
     </script>
 </body>

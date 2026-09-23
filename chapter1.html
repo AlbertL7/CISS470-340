@@ -22,6 +22,10 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
+        .course-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; max-width: 1200px; margin: 0 auto; padding: 0.6rem 1rem; font-size: 0.9rem; color: white; }
+        .course-nav a { color: inherit; font-weight: 600; text-decoration: none; }
+        .course-nav a:hover, .course-nav a:focus-visible { text-decoration: underline; }
         
         .header {
             text-align: center;
@@ -427,6 +431,12 @@
     </style>
 </head>
 <body>
+    <nav class="course-nav" aria-label="Course navigation">
+        <a href="index.html#ciss470">&larr; Course portal</a>
+        <span>
+            <a href="chapter2.html">Chapter 2 &rarr;</a>
+        </span>
+    </nav>
     <div class="container">
         <div class="header">
             <h1>🛡️ THE CYBER RISK HANDBOOK</h1>
@@ -438,7 +448,7 @@
 
         <!-- SLIDE 1: The CEO's Dilemma -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>The CEO's Dilemma: From IT Risk to Enterprise Risk</span>
                 <span class="slide-number">Part 1 of 5</span>
             </div>
@@ -461,12 +471,12 @@
                 </div>
 
                 <div class="two-column">
-                    <div class="stat-box" onclick="expandStat('stat1')">
+                    <div class="stat-box" onclick="expandStat('stat1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <div class="stat-number">88%</div>
                         <p>Companies believe their information security doesn't fully meet organizational needs</p>
                         <small style="color: #666;">EY Global Information Security Survey 2015</small>
                     </div>
-                    <div class="stat-box" onclick="expandStat('stat2')">
+                    <div class="stat-box" onclick="expandStat('stat2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <div class="stat-number">75%</div>
                         <p>Security professionals expect to fall prey to a cyber attack</p>
                         <small style="color: #666;">ISACA Report 2016</small>
@@ -475,7 +485,7 @@
                 <div id="stat-details" style="display:none; margin-top:20px;" class="highlight-box"></div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📊 Additional Survey Findings from the Chapter</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -500,7 +510,7 @@
                 <h3>🔄 The Fundamental Paradigm Shift</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Understanding Why Cyber Risk is No Longer Just an IT Issue</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -538,12 +548,12 @@
                         <li><strong>Target (2013):</strong> CEO Gregg Steinhafel resigned after 40 million credit cards compromised</li>
                         <li><strong>Equifax (2017):</strong> CEO Richard Smith stepped down following breach affecting 147 million people</li>
                         <li><strong>SolarWinds (2020):</strong> CEO Sudhakar Ramakrishna inherited massive supply chain attack response</li>
-                        <li><strong>Uber (2016):</strong> CEO Travis Kalanick's concealment of breach contributed to his departure</li>
+                        <li><strong>Uber (2016):</strong> Breach of 57 million records was concealed for a year under CEO Travis Kalanick; disclosed in 2017 by successor Dara Khosrowshahi, leading to a $148M multistate settlement and the criminal conviction of the CSO</li>
                     </ul>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📚 What Tara Told Tom: Key Insights from the Opening Scene</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -574,10 +584,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Test Your Understanding</div>
                     <p style="margin-bottom:15px;">According to the chapter, what percentage of companies don't believe their information security fully meets their organization's needs?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) 69%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) 75%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">C) 82%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">D) 88%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) 69%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) 75%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) 82%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) 88%</div>
                     <div id="quiz1-feedback" class="feedback"></div>
                 </div>
 
@@ -589,7 +599,7 @@
 
         <!-- SLIDE 2: The Modern Cyber Threat Landscape -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>The Modern Cyber Threat Landscape: Understanding the Challenge</span>
                 <span class="slide-number">Part 2 of 5</span>
             </div>
@@ -603,19 +613,19 @@
 
                 <h3>📈 Key Drivers of Increased Cyber Risk</h3>
                 <div class="capability-grid">
-                    <div class="capability-item" onclick="showTechDetail('bigdata')">Big Data & Analytics</div>
-                    <div class="capability-item" onclick="showTechDetail('cloud')">Cloud Computing</div>
-                    <div class="capability-item" onclick="showTechDetail('iot')">Internet of Things (IoT)</div>
-                    <div class="capability-item" onclick="showTechDetail('social')">Social Media</div>
-                    <div class="capability-item" onclick="showTechDetail('mobile')">Mobile Technology</div>
-                    <div class="capability-item" onclick="showTechDetail('ai')">AI & Machine Learning</div>
-                    <div class="capability-item" onclick="showTechDetail('remote')">Remote Access</div>
-                    <div class="capability-item" onclick="showTechDetail('digital')">Digital Assets</div>
+                    <div class="capability-item" onclick="showTechDetail('bigdata')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Big Data & Analytics</div>
+                    <div class="capability-item" onclick="showTechDetail('cloud')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Cloud Computing</div>
+                    <div class="capability-item" onclick="showTechDetail('iot')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Internet of Things (IoT)</div>
+                    <div class="capability-item" onclick="showTechDetail('social')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Social Media</div>
+                    <div class="capability-item" onclick="showTechDetail('mobile')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Mobile Technology</div>
+                    <div class="capability-item" onclick="showTechDetail('ai')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">AI & Machine Learning</div>
+                    <div class="capability-item" onclick="showTechDetail('remote')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Remote Access</div>
+                    <div class="capability-item" onclick="showTechDetail('digital')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Digital Assets</div>
                 </div>
                 <div id="tech-detail" style="display:none; margin-top:20px;" class="highlight-box"></div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🎭 Understanding Threat Actors: The "Baddies" in Detail</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -624,13 +634,14 @@
                         <ul>
                             <li><strong>Motivation:</strong> Financial gain through ransomware, data theft, fraud</li>
                             <li><strong>Methods:</strong> Social engineering as primary attack vector, phishing, malware</li>
-                            <li><strong>Evolution:</strong> Now operating as sophisticated business enterprises with:</li>
-                            <ul style="margin-left:20px;">
-                                <li>Ransomware-as-a-Service (RaaS) models</li>
-                                <li>Cryptocurrency laundering operations</li>
-                                <li>Professional negotiators for ransom payments</li>
-                                <li>Customer service desks for victims</li>
-                            </ul>
+                            <li><strong>Evolution:</strong> Now operating as sophisticated business enterprises with:
+                                <ul style="margin-left:20px;">
+                                    <li>Ransomware-as-a-Service (RaaS) models</li>
+                                    <li>Cryptocurrency laundering operations</li>
+                                    <li>Professional negotiators for ransom payments</li>
+                                    <li>Customer service desks for victims</li>
+                                </ul>
+                            </li>
                         </ul>
 
                         <h4 style="color:#9c27b0; margin-top:20px;">State-Level Actors - Advanced Persistent Threats</h4>
@@ -672,16 +683,16 @@
                 <h3>⚖️ Why "Do-Nothing" Is No Longer Viable</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Legislative and Regulatory Requirements Driving Action</span>
                         <span class="expand-icon">▶</span>
                     </div>
                     <div class="expandable-content">
                         <h4>Global Regulatory Landscape:</h4>
                         <ul>
-                            <li><strong>GDPR (Europe):</strong> Fines up to 4% of global annual revenue or €20 million</li>
+                            <li><strong>GDPR (Europe):</strong> Fines up to 4% of global annual revenue or €20 million; breach notification to the supervisory authority within 72 hours (Art. 33)</li>
                             <li><strong>CCPA (California):</strong> Penalties of $7,500 per intentional violation</li>
-                            <li><strong>PIPEDA (Canada):</strong> Mandatory breach notification within 72 hours</li>
+                            <li><strong>PIPEDA (Canada):</strong> Mandatory reporting to the Privacy Commissioner and notification of affected individuals "as soon as feasible" for breaches posing a real risk of significant harm (in force since November 2018)</li>
                             <li><strong>China's Cybersecurity Law:</strong> Data localization requirements</li>
                             <li><strong>Australia's Privacy Act:</strong> Notifiable data breach scheme</li>
                         </ul>
@@ -689,7 +700,7 @@
                         <h4 style="margin-top:20px;">Industry-Specific Requirements:</h4>
                         <ul>
                             <li><strong>Financial Services:</strong> SWIFT CSP, PCI DSS, Basel III operational risk</li>
-                            <li><strong>Healthcare:</strong> HIPAA with penalties up to $1.5 million per violation</li>
+                            <li><strong>Healthcare:</strong> HIPAA with civil penalties up to $50,000 per violation, capped at $1.5 million per calendar year for identical violations (both figures inflation-adjusted annually)</li>
                             <li><strong>Critical Infrastructure:</strong> National security implications and potential criminal liability</li>
                             <li><strong>Public Companies:</strong> SEC disclosure requirements for material cyber incidents</li>
                         </ul>
@@ -706,7 +717,7 @@
 
                 <div class="case-study">
                     <div class="case-study-title">📰 Media Attention and Insurance Industry Response</div>
-                    <p>The chapter notes increasing media and insurance industry attention to high-profile breaches:</p>
+                    <p>The chapter notes increasing media and insurance industry attention to high-profile breaches. Since publication, that has played out as:</p>
                     <ul style="margin-top:10px;">
                         <li><strong>Media Coverage:</strong> Breaches now make front-page news, not just tech sections</li>
                         <li><strong>Insurance Changes:</strong> Cyber insurance premiums increased 50-100% in recent years</li>
@@ -726,10 +737,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Knowledge Check</div>
                     <p style="margin-bottom:15px;">According to the ISACA report, what percentage of respondents expect to fall prey to a cyber attack?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) 69%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">B) Almost 75%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) 82%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) 88%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) 69%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Almost 75%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) 82%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) 88%</div>
                     <div id="quiz2-feedback" class="feedback"></div>
                 </div>
 
@@ -741,7 +752,7 @@
 
         <!-- SLIDE 3: Enterprise Framework for Cybersecurity -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Building an Enterprise Framework: The Seven Capabilities</span>
                 <span class="slide-number">Part 3 of 5</span>
             </div>
@@ -755,10 +766,10 @@
                 </div>
 
                 <h3>🎯 The Right Set of Capabilities: COBIT 5 Enablers</h3>
-                <p style="font-size:18px; margin-bottom:20px;">Tom adapted the COBIT 5 enablers to theme and modularize the right set of cyber risk management capabilities. COBIT 5 is an information security management system backed by ISACA, accepted by many assurance and governance professionals.</p>
+                <p style="font-size:18px; margin-bottom:20px;">Tom adapted the COBIT 5 enablers to theme and modularize the right set of cyber risk management capabilities. COBIT 5 is an information security management system backed by ISACA, accepted by many assurance and governance professionals (that is the book's wording; ISACA formally describes COBIT 5 as a business framework for the governance and management of enterprise IT, and ISO/IEC 27001 is the standard that defines an information security management system).</p>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📋 Capability 1: Principles, Policies, and Frameworks (Chapters 1-6)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -782,15 +793,15 @@
                             <li>Chapter 1: Introduction (this chapter)</li>
                             <li>Chapter 2: Board cyber risk oversight</li>
                             <li>Chapter 3: Principles behind cyber risk management</li>
-                            <li>Chapter 4: Setting the risk context</li>
-                            <li>Chapter 5: Cyber strategic performance</li>
-                            <li>Chapter 6: Risk appetite and tolerance</li>
+                            <li>Chapter 4: Cybersecurity policies and procedures</li>
+                            <li>Chapter 5: Cyber strategic performance management</li>
+                            <li>Chapter 6: Standards and frameworks for cybersecurity</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>⚙️ Capability 2: Processes (Chapters 7-13)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -809,19 +820,19 @@
                         
                         <h4>Chapter Coverage:</h4>
                         <ul>
-                            <li>Chapter 7: Identifying cyber risks</li>
-                            <li>Chapter 8: Assessing cyber risks</li>
-                            <li>Chapter 9: Evaluating cyber risks</li>
+                            <li>Chapter 7: Identifying, analyzing, and evaluating cyber risks</li>
+                            <li>Chapter 8: Treating cyber risks</li>
+                            <li>Chapter 9: Treating cyber risks using process capabilities</li>
                             <li>Chapter 10: Treating cyber risks using insurance and finance</li>
-                            <li>Chapter 11: Monitoring and review - KRIs</li>
+                            <li>Chapter 11: Monitoring and review using key risk indicators (KRIs)</li>
                             <li>Chapter 12: Cybersecurity incident and crisis management</li>
-                            <li>Chapter 13: Business continuity management</li>
+                            <li>Chapter 13: Business continuity management and cybersecurity</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🏢 Capability 3: Organizational Structures (Chapters 14-15)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -846,7 +857,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🌟 Capability 4: Culture, Ethics, and Behavior (Chapters 16-18)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -869,13 +880,13 @@
                         <ul>
                             <li>Chapter 16: Culture and human factors</li>
                             <li>Chapter 17: Legal and compliance</li>
-                            <li>Chapter 18: Assurance</li>
+                            <li>Chapter 18: Assurance and cyber risk management</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📊 Capability 5: Information (Chapter 19)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -898,7 +909,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>💻 Capability 6: Services, Infrastructure, and Applications (Chapters 20-23)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -922,15 +933,15 @@
                         <h4>Chapter Coverage:</h4>
                         <ul>
                             <li>Chapter 20: Physical security</li>
-                            <li>Chapter 21: Network security</li>
-                            <li>Chapter 22: Identity access management</li>
-                            <li>Chapter 23: Secure software development lifecycle</li>
+                            <li>Chapter 21: Cybersecurity for operations and communications</li>
+                            <li>Chapter 22: Access control</li>
+                            <li>Chapter 23: Cybersecurity systems: acquisition, development, and maintenance</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>👥 Capability 7: People, Skills, and Competencies (Chapters 24-26)</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -949,9 +960,9 @@
                         
                         <h4>Chapter Coverage:</h4>
                         <ul>
-                            <li>Chapter 24: Education and competency development</li>
-                            <li>Chapter 25: Communication and consultation</li>
-                            <li>Chapter 26: Recording and reporting</li>
+                            <li>Chapter 24: People risk management in the digital age</li>
+                            <li>Chapter 25: Cyber competencies and the cybersecurity officer</li>
+                            <li>Chapter 26: Human resources security</li>
                         </ul>
                     </div>
                 </div>
@@ -963,10 +974,10 @@
                         <h4 style="color: #667eea;">Efficiency</h4>
                         <p style="font-size:20px; margin:10px 0;">"Doing things right"</p>
                         <ul style="text-align: left; font-size: 16px; margin-top: 10px;">
-                            <li style="padding-left: 20px;">• Process optimization</li>
-                            <li style="padding-left: 20px;">• Cost reduction</li>
-                            <li style="padding-left: 20px;">• Speed improvement</li>
-                            <li style="padding-left: 20px;">• Resource utilization</li>
+                            <li style="padding-left: 20px;">Process optimization</li>
+                            <li style="padding-left: 20px;">Cost reduction</li>
+                            <li style="padding-left: 20px;">Speed improvement</li>
+                            <li style="padding-left: 20px;">Resource utilization</li>
                         </ul>
                         <p style="margin-top:15px; color:#666; font-size:14px;">Example: Patching servers monthly in 2 hours</p>
                     </div>
@@ -974,10 +985,10 @@
                         <h4 style="color: #764ba2;">Effectiveness ✓</h4>
                         <p style="font-size:20px; margin:10px 0;">"Doing the right things"</p>
                         <ul style="text-align: left; font-size: 16px; margin-top: 10px;">
-                            <li style="padding-left: 20px;">• Right capabilities</li>
-                            <li style="padding-left: 20px;">• Strategic alignment</li>
-                            <li style="padding-left: 20px;">• Risk reduction</li>
-                            <li style="padding-left: 20px;">• Threat relevance</li>
+                            <li style="padding-left: 20px;">Right capabilities</li>
+                            <li style="padding-left: 20px;">Strategic alignment</li>
+                            <li style="padding-left: 20px;">Risk reduction</li>
+                            <li style="padding-left: 20px;">Threat relevance</li>
                         </ul>
                         <p style="margin-top:15px; color:#666; font-size:14px;">Example: Patching critical vulnerabilities within 24 hours</p>
                     </div>
@@ -985,7 +996,7 @@
 
                 <div class="interactive-scenario">
                     <div class="scenario-title">💭 Scenario: Building Your Capabilities</div>
-                    <p>Your organization has budget to significantly strengthen ONE capability area this year. Based on the framework, which would provide the greatest risk reduction?</p>
+                    <p>Your organization has budget to significantly strengthen ONE capability area this year. Which would you strengthen first? Click each to see the trade-off.</p>
                     <button class="choice-button" onclick="showCapabilityChoice('tech')">Upgrade Technology (Capability 6)</button>
                     <button class="choice-button" onclick="showCapabilityChoice('people')">Invest in People & Training (Capability 7)</button>
                     <button class="choice-button" onclick="showCapabilityChoice('process')">Improve Processes (Capability 2)</button>
@@ -996,10 +1007,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Understanding Check</div>
                     <p style="margin-bottom:15px;">How many capability sets does Tom's adapted COBIT 5 framework include?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">A) 5</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">B) 6</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')">C) 7</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')">D) 9</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) 5</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) 6</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) 7</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz3')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) 9</div>
                     <div id="quiz3-feedback" class="feedback"></div>
                 </div>
 
@@ -1011,7 +1022,7 @@
 
         <!-- SLIDE 4: Enterprise-Wide Accountability -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Enterprise-Wide Accountability: The RASCI Matrix</span>
                 <span class="slide-number">Part 4 of 5</span>
             </div>
@@ -1037,7 +1048,7 @@
                 <h3>🏢 Key Stakeholder Groups and Their Roles</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🎩 Board & Executive Level Responsibilities</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1069,7 +1080,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>⚖️ Risk & Compliance Functions</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1101,7 +1112,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>💻 Operations & Technology Teams</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1133,7 +1144,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🤝 Support Functions Critical Role</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1208,10 +1219,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 RASCI Understanding</div>
                     <p style="margin-bottom:15px;">In a RASCI matrix, how many people/roles can be "Accountable" for a specific task or decision?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')">A) Only one</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">B) Up to three</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">C) As many as needed</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')">D) One per department</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Only one</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Up to three</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) As many as needed</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz4')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) One per department</div>
                     <div id="quiz4-feedback" class="feedback"></div>
                 </div>
 
@@ -1223,7 +1234,7 @@
 
         <!-- SLIDE 5: Maturity Model and Continuous Improvement -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>The Cyber Risk Maturity Journey: Measuring Progress</span>
                 <span class="slide-number">Part 5 of 5</span>
             </div>
@@ -1238,13 +1249,13 @@
                 <h3>🎯 Understanding Maturity Levels</h3>
                 <p style="font-size:18px; margin-bottom:20px;">Click each maturity level to understand its characteristics:</p>
 
-                <div style="background: linear-gradient(to right, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #667eea); height: 100px; border-radius: 10px; position: relative; margin: 30px 0; cursor: pointer;">
+                <div style="background: linear-gradient(to right, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #667eea); height: 100px; border-radius: 10px; position: relative; margin: 30px 0;">
                     <div style="position: absolute; bottom: -40px; left: 0; width: 100%; display: flex; justify-content: space-between; font-size: 16px; font-weight: bold;">
-                        <span onclick="showMaturityLevel('initial')" style="cursor: pointer; padding: 5px;">Initial</span>
-                        <span onclick="showMaturityLevel('developing')" style="cursor: pointer; padding: 5px;">Developing</span>
-                        <span onclick="showMaturityLevel('defined')" style="cursor: pointer; padding: 5px;">Defined</span>
-                        <span onclick="showMaturityLevel('managed')" style="cursor: pointer; padding: 5px;">Managed</span>
-                        <span onclick="showMaturityLevel('optimized')" style="cursor: pointer; padding: 5px;">Optimized</span>
+                        <span onclick="showMaturityLevel('initial')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer; padding: 5px;">Initial</span>
+                        <span onclick="showMaturityLevel('developing')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer; padding: 5px;">Developing</span>
+                        <span onclick="showMaturityLevel('defined')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer; padding: 5px;">Defined</span>
+                        <span onclick="showMaturityLevel('managed')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer; padding: 5px;">Managed</span>
+                        <span onclick="showMaturityLevel('optimized')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="cursor: pointer; padding: 5px;">Optimized</span>
                     </div>
                 </div>
                 <div id="maturity-detail" style="margin-top: 60px; display:none;" class="highlight-box"></div>
@@ -1257,7 +1268,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📊 From Risk Maturity Strategy to Risk Maturity Model</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1288,29 +1299,29 @@
                     <div class="framework-box">
                         <h4 style="color: #667eea;">Organizational Enablers</h4>
                         <ul style="font-size: 16px; text-align: left; margin-top:15px;">
-                            <li>• Executive sponsorship and tone from the top</li>
-                            <li>• Dedicated resources and budget allocation</li>
-                            <li>• Cross-functional collaboration mechanisms</li>
-                            <li>• Regular assessment and benchmarking</li>
-                            <li>• Clear accountability and ownership</li>
-                            <li>• Sustained leadership attention</li>
+                            <li>Executive sponsorship and tone from the top</li>
+                            <li>Dedicated resources and budget allocation</li>
+                            <li>Cross-functional collaboration mechanisms</li>
+                            <li>Regular assessment and benchmarking</li>
+                            <li>Clear accountability and ownership</li>
+                            <li>Sustained leadership attention</li>
                         </ul>
                     </div>
                     <div class="framework-box">
                         <h4 style="color: #764ba2;">Measurement Approaches</h4>
                         <ul style="font-size: 16px; text-align: left; margin-top:15px;">
-                            <li>• Capability maturity assessments</li>
-                            <li>• Key Risk Indicators (KRIs)</li>
-                            <li>• Security metrics and dashboards</li>
-                            <li>• Third-party audits and certifications</li>
-                            <li>• Penetration testing results</li>
-                            <li>• Incident response metrics</li>
+                            <li>Capability maturity assessments</li>
+                            <li>Key Risk Indicators (KRIs)</li>
+                            <li>Security metrics and dashboards</li>
+                            <li>Third-party audits and certifications</li>
+                            <li>Penetration testing results</li>
+                            <li>Incident response metrics</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🎯 Tom's Board Presentation: The Complete Package</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1396,7 +1407,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📖 Moving Up the Maturity Curve: Practical Steps</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1438,10 +1449,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Final Assessment</div>
                     <p style="margin-bottom:15px;">According to the chapter, how many chapters does the complete Cyber Risk Handbook contain?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 15 chapters</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) 20 chapters</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">C) 26 chapters plus epilogue</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">D) 30 chapters</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) 15 chapters</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) 20 chapters</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) 26 chapters plus epilogue</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) 30 chapters</div>
                     <div id="quiz5-feedback" class="feedback"></div>
                 </div>
 
@@ -1477,25 +1488,40 @@
         <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
             <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
             <p style="font-size: 14px; margin-top: 10px;">Chapter 1: Introduction | Edited by Domenic Antonucci</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Scroll through the sections or use the navigation buttons; the bar at the top tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 5) * 100;
+            const progress = (sectionsViewed.size / document.querySelectorAll('.slide').length) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
-        function toggleSlide(header) {
-            const slide = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            sectionsViewed.add(slideNumber);
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
             updateProgress();
+        }
+
+        function toggleSlide(header) {
+            const slide = header.closest('.slide') || header.parentElement;
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reading a section also counts toward progress.
+        if ('IntersectionObserver' in window) {
+            const viewedObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) markViewed(entry.target); });
+            }, { threshold: 0.35 });
+            document.querySelectorAll('.slide').forEach(slide => viewedObserver.observe(slide));
         }
 
         function toggleExpand(element) {
@@ -1529,9 +1555,9 @@
             let content = '';
             
             if (statId === 'stat1') {
-                content = '<h4>Why 88% of companies struggle with security:</h4><ul><li>• Rapidly evolving threat landscape outpaces security updates</li><li>• Lack of skilled cybersecurity professionals</li><li>• Insufficient budget allocation</li><li>• Siloed approach rather than enterprise-wide</li><li>• Focus on compliance rather than actual security</li></ul>';
+                content = '<h4>Why 88% of companies struggle with security:</h4><ul><li>Rapidly evolving threat landscape outpaces security updates</li><li>Lack of skilled cybersecurity professionals</li><li>Insufficient budget allocation</li><li>Siloed approach rather than enterprise-wide</li><li>Focus on compliance rather than actual security</li></ul>';
             } else {
-                content = '<h4>Why 75% expect to be breached:</h4><ul><li>• Sophisticated attack methods constantly evolving</li><li>• Human factor remains the weakest link</li><li>• Expanding attack surface with digital transformation</li><li>• Supply chain vulnerabilities</li><li>• Nation-state actors with unlimited resources</li></ul>';
+                content = '<h4>Why 75% expect to be breached:</h4><ul><li>Sophisticated attack methods constantly evolving</li><li>Human factor remains the weakest link</li><li>Expanding attack surface with digital transformation</li><li>Supply chain vulnerabilities</li><li>Nation-state actors with unlimited resources</li></ul>';
             }
             
             detailDiv.innerHTML = content;
@@ -1539,24 +1565,25 @@
         }
 
         function checkAnswer(element, isCorrect, quizId) {
+            if (element.getAttribute('aria-disabled') === 'true') return;
             const options = element.parentElement.querySelectorAll('.quiz-option');
             const feedbackDiv = document.getElementById(quizId + '-feedback');
-            
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
+                opt.setAttribute('aria-disabled', 'true');
                 opt.classList.remove('correct', 'incorrect');
+                if (/checkAnswer\(\s*this\s*,\s*true/.test(opt.getAttribute('onclick') || '')) {
+                    opt.classList.add('correct');
+                }
             });
-            
             if (isCorrect) {
-                element.classList.add('correct');
                 feedbackDiv.innerHTML = '✓ Correct! Well done!';
                 feedbackDiv.className = 'feedback correct';
             } else {
                 element.classList.add('incorrect');
-                feedbackDiv.innerHTML = '✗ Not quite. Try reviewing the section again.';
+                feedbackDiv.innerHTML = '✗ Not quite. The correct answer is highlighted above; review that section again.';
                 feedbackDiv.className = 'feedback incorrect';
             }
-            
             feedbackDiv.style.display = 'block';
         }
 
@@ -1593,10 +1620,10 @@
         function showCapabilityChoice(choice) {
             const resultDiv = document.getElementById('capability-choice-result');
             const results = {
-                'tech': '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><h4>Technology Alone?</h4><p>Common mistake! Technology is important but represents only 1 of 7 capabilities. Without proper processes, people, and culture, even the best technology fails. Remember: Technology is capability #6, not #1.</p></div>',
-                'people': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Smart Choice!</h4><p>People are often the weakest link but also your best defense. Investment in training, awareness, and skills development has high ROI. Humans operate all other capabilities.</p></div>',
-                'process': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Good Strategic Thinking!</h4><p>Processes turn policies into action. Well-defined processes ensure consistency, reduce errors, and enable scaling. This is often where organizations see quick wins.</p></div>',
-                'culture': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Excellent Long-term View!</h4><p>Culture eats strategy for breakfast. A strong security culture makes every employee a defender. This takes time but provides the most sustainable improvement.</p></div>'
+                'tech': '<div style="background:#e3f2fd; padding:15px; border-radius:8px; color:#0d47a1;"><h4>Technology first</h4><p>Technology is important, but it is only 1 of 7 capabilities (capability #6, not #1). Without the processes, people, and culture to operate it, even the best technology underperforms, so technology alone rarely delivers the biggest risk reduction.</p></div>',
+                'people': '<div style="background:#e3f2fd; padding:15px; border-radius:8px; color:#0d47a1;"><h4>People first</h4><p>People are often the weakest link but also your best defense. Investment in training, awareness, and skills development has high ROI, and humans operate all the other capabilities. The trade-off: skills fade without processes and culture to sustain them.</p></div>',
+                'process': '<div style="background:#e3f2fd; padding:15px; border-radius:8px; color:#0d47a1;"><h4>Process first</h4><p>Processes turn policies into action. Well-defined processes ensure consistency, reduce errors, and enable scaling, and this is often where organizations see quick wins. The trade-off: processes nobody believes in are followed only on paper.</p></div>',
+                'culture': '<div style="background:#e3f2fd; padding:15px; border-radius:8px; color:#0d47a1;"><h4>Culture first</h4><p>Culture eats strategy for breakfast. A strong security culture makes every employee a defender and provides the most sustainable improvement. The trade-off: it takes the longest to build and is the hardest to measure.</p></div>'
             };
             
             resultDiv.innerHTML = results[choice];
@@ -1634,11 +1661,11 @@
         function showMaturityLevel(level) {
             const detailDiv = document.getElementById('maturity-detail');
             const levels = {
-                'initial': '<h4>Level 1: Initial (Ad-hoc/Chaotic)</h4><ul><li>• Reactive, fire-fighting mode</li><li>• No documented processes</li><li>• Heroics-based response</li><li>• Inconsistent practices</li><li>• High dependency on individuals</li></ul><p><strong>Typical State:</strong> "We handle issues as they come up"</p>',
-                'developing': '<h4>Level 2: Developing (Repeatable)</h4><ul><li>• Some documented processes</li><li>• Basic controls in place</li><li>• Inconsistent implementation</li><li>• Limited metrics</li><li>• Departmental silos</li></ul><p><strong>Typical State:</strong> "We have some processes but they\'re not consistently followed"</p>',
-                'defined': '<h4>Level 3: Defined (Standardized)</h4><ul><li>• Standardized processes across organization</li><li>• Clear roles and responsibilities</li><li>• Regular training programs</li><li>• Basic metrics and reporting</li><li>• Proactive risk identification</li></ul><p><strong>Typical State:</strong> "We have standard practices everyone follows"</p>',
-                'managed': '<h4>Level 4: Managed (Quantified)</h4><ul><li>• Quantitative metrics drive decisions</li><li>• Predictive capabilities</li><li>• Automated controls</li><li>• Risk-based resource allocation</li><li>• Continuous monitoring</li></ul><p><strong>Typical State:</strong> "We measure, predict, and prevent issues"</p>',
-                'optimized': '<h4>Level 5: Optimized (Continuous Improvement)</h4><ul><li>• Continuous improvement culture</li><li>• Innovation and adaptation</li><li>• Industry leadership</li><li>• Resilience to unknown threats</li><li>• Integrated with business strategy</li></ul><p><strong>Typical State:</strong> "We continuously evolve ahead of threats"</p>'
+                'initial': '<h4>Level 1: Initial (Ad-hoc/Chaotic)</h4><ul><li>Reactive, fire-fighting mode</li><li>No documented processes</li><li>Heroics-based response</li><li>Inconsistent practices</li><li>High dependency on individuals</li></ul><p><strong>Typical State:</strong> "We handle issues as they come up"</p>',
+                'developing': '<h4>Level 2: Developing (Repeatable)</h4><ul><li>Some documented processes</li><li>Basic controls in place</li><li>Inconsistent implementation</li><li>Limited metrics</li><li>Departmental silos</li></ul><p><strong>Typical State:</strong> "We have some processes but they\'re not consistently followed"</p>',
+                'defined': '<h4>Level 3: Defined (Standardized)</h4><ul><li>Standardized processes across organization</li><li>Clear roles and responsibilities</li><li>Regular training programs</li><li>Basic metrics and reporting</li><li>Proactive risk identification</li></ul><p><strong>Typical State:</strong> "We have standard practices everyone follows"</p>',
+                'managed': '<h4>Level 4: Managed (Quantified)</h4><ul><li>Quantitative metrics drive decisions</li><li>Predictive capabilities</li><li>Automated controls</li><li>Risk-based resource allocation</li><li>Continuous monitoring</li></ul><p><strong>Typical State:</strong> "We measure, predict, and prevent issues"</p>',
+                'optimized': '<h4>Level 5: Optimized (Continuous Improvement)</h4><ul><li>Continuous improvement culture</li><li>Innovation and adaptation</li><li>Industry leadership</li><li>Resilience to unknown threats</li><li>Integrated with business strategy</li></ul><p><strong>Typical State:</strong> "We continuously evolve ahead of threats"</p>'
             };
             
             detailDiv.innerHTML = levels[level];
@@ -1649,9 +1676,9 @@
             const resultDiv = document.getElementById('maturity-gap-result');
             const gaps = {
                 'tech': '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><h4>Technology Gap?</h4><p>Actually, most organizations invest heavily in technology. The tools exist, but without proper processes and people to operate them, technology investments often underperform.</p></div>',
-                'process': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Process Gap</h4><p>Common weakness! Many organizations have ad-hoc processes. Documenting, standardizing, and enforcing processes often shows the biggest gaps and quickest improvement opportunities.</p></div>',
-                'culture': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Culture & Awareness - Correct!</h4><p>Studies consistently show culture and awareness as the lowest maturity area. It\'s the hardest to change, takes the longest, but provides the most sustainable improvement.</p></div>',
-                'metrics': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Measurement Gap</h4><p>Very common! "You can\'t manage what you don\'t measure." Most organizations lack meaningful metrics, KRIs, and dashboards to drive improvement.</p></div>'
+                'process': '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><h4>Process Gap - Close, but not the lowest</h4><p>Ad-hoc, undocumented processes are a common weakness and a quick win once standardized. But process gaps are usually easier to close than the cultural gap, so they are rarely the lowest-scoring area.</p></div>',
+                'culture': '<div style="background:#c8e6c9; padding:15px; border-radius:8px; color:#2e7d32;"><h4>Culture & Awareness - Correct!</h4><p>Culture and awareness is commonly the weakest area in maturity assessments. It\'s the hardest to change, takes the longest, but provides the most sustainable improvement.</p></div>',
+                'metrics': '<div style="background:#fff3e0; padding:15px; border-radius:8px; color:#e65100;"><h4>Measurement Gap - Not the lowest</h4><p>Very common: "You can\'t manage what you don\'t measure." Many organizations lack meaningful metrics, KRIs, and dashboards. But measurement usually improves as processes mature, so it is rarely the single lowest area.</p></div>'
             };
             
             resultDiv.innerHTML = gaps[area];
@@ -1660,27 +1687,33 @@
 
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 5;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
             alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
                   `${viewed === total ? 'Congratulations! You\'ve completed Chapter 1!' : 'Keep going! ' + (total - viewed) + ' sections remaining.'}`);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const target = Math.min(currentSlideIndex() + 1, slides.length - 1);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            const target = Math.max(currentSlideIndex() - 1, 0);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>
