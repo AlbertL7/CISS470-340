@@ -614,6 +614,11 @@
             transform: translateX(5px);
         }
 
+        .quiz-option.selected {
+            background: linear-gradient(135deg, #e0f2ff 0%, #caedfb 100%);
+            border-color: #00d2ff;
+        }
+
         .quiz-option.correct {
             background: linear-gradient(135deg, #d4f4dd 0%, #b8e6c1 100%);
             border-color: #38ef7d;
@@ -747,7 +752,7 @@
                     <div class="particle"></div>
 
                     <!-- Top row enablers -->
-                    <div class="enabler-box processes" onclick="showInfo('processes')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                    <div class="enabler-box processes" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showInfo('processes', event)" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
                         <div class="number">2</div>
                         <span>Processes</span>
                         <div class="tooltip">Click to explore process governance</div>
@@ -755,7 +760,7 @@
                             <circle cx="50" cy="50" r="45"/>
                         </svg>
                     </div>
-                    <div class="enabler-box org-structures" onclick="showInfo('orgStructures')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                    <div class="enabler-box org-structures" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showInfo('orgStructures', event)" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
                         <div class="number">3</div>
                         <span>Organisational<br>Structures</span>
                         <div class="tooltip">Learn about decision-making entities</div>
@@ -763,7 +768,7 @@
                             <circle cx="50" cy="50" r="45"/>
                         </svg>
                     </div>
-                    <div class="enabler-box culture" onclick="showInfo('culture')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                    <div class="enabler-box culture" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showInfo('culture', event)" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
                         <div class="number">4</div>
                         <span>Culture, Ethics<br>and Behaviour</span>
                         <div class="tooltip">Discover the human factor in IT governance</div>
@@ -786,7 +791,7 @@
                     <div class="connector-horizontal"></div>
 
                     <!-- Middle layer -->
-                    <div class="enabler-box principles" onclick="showInfo('principles')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                    <div class="enabler-box principles" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showInfo('principles', event)" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
                         <div class="number">1</div>
                         <span>Principles, Policies and Frameworks</span>
                         <div class="tooltip">Foundation of IT governance guidance</div>
@@ -797,7 +802,7 @@
 
                     <!-- Resources container -->
                     <div class="resources-container">
-                        <div class="enabler-box information" onclick="showInfo('information')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                        <div class="enabler-box information" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showInfo('information', event)" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
                             <div class="number">5</div>
                             <span>Information</span>
                             <div class="tooltip">Data as organizational asset</div>
@@ -805,7 +810,7 @@
                                 <circle cx="50" cy="50" r="45"/>
                             </svg>
                         </div>
-                        <div class="enabler-box services" onclick="showInfo('services')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                        <div class="enabler-box services" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showInfo('services', event)" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
                             <div class="number">6</div>
                             <span>Services,<br>Infrastructure<br>and Applications</span>
                             <div class="tooltip">Technology foundation & IT services</div>
@@ -813,7 +818,7 @@
                                 <circle cx="50" cy="50" r="45"/>
                             </svg>
                         </div>
-                        <div class="enabler-box people" onclick="showInfo('people')" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
+                        <div class="enabler-box people" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showInfo('people', event)" onmouseover="showTooltip(this)" onmouseout="hideTooltip()">
                             <div class="number">7</div>
                             <span>People, Skills<br>and Competencies</span>
                             <div class="tooltip">Human capital & expertise</div>
@@ -845,11 +850,11 @@
             <div class="info-panel">
                 <h2>COBIT Learning Center</h2>
                 <div class="tabs-container">
-                    <button class="tab-button active" onclick="showTab('overview')">Overview</button>
-                    <button class="tab-button" onclick="showTab('principles')">5 Principles</button>
-                    <button class="tab-button" onclick="showTab('domains')">Process Domains</button>
-                    <button class="tab-button" onclick="showTab('implementation')">Implementation</button>
-                    <button class="tab-button" onclick="showTab('benefits')">Benefits</button>
+                    <button class="tab-button active" onclick="showTab('overview', event)">Overview</button>
+                    <button class="tab-button" onclick="showTab('principles', event)">5 Principles</button>
+                    <button class="tab-button" onclick="showTab('domains', event)">Process Domains</button>
+                    <button class="tab-button" onclick="showTab('implementation', event)">Implementation</button>
+                    <button class="tab-button" onclick="showTab('benefits', event)">Benefits</button>
                 </div>
 
                 <div class="info-content">
@@ -939,16 +944,22 @@
                             <li>Develop improvement plan</li>
                         </ul>
 
-                        <h3>Phase 5-6: Execute and Monitor</h3>
+                        <h3>Phase 5: Execute Plan</h3>
                         <ul>
-                            <li>Implement improvements</li>
-                            <li>Monitor progress and performance</li>
+                            <li>Implement the improvements defined in the plan</li>
+                            <li>Operate and use the new processes and enablers</li>
                         </ul>
 
-                        <h3>Phase 7: Sustain</h3>
+                        <h3>Phase 6: Realise Benefits</h3>
                         <ul>
-                            <li>Embed new approaches</li>
-                            <li>Monitor and improve continuously</li>
+                            <li>Operate and measure the improved processes</li>
+                            <li>Embed the new approaches into day-to-day work</li>
+                        </ul>
+
+                        <h3>Phase 7: Review Effectiveness</h3>
+                        <ul>
+                            <li>Monitor and evaluate results against the targets</li>
+                            <li>Sustain the momentum and identify further improvements</li>
                         </ul>
                     </div>
 
@@ -996,10 +1007,10 @@
             <div class="quiz-question">
                 <h3>Question 1: How many enablers are defined in COBIT 5?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q1')">5 enablers</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q1')">6 enablers</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q1')" data-correct="true">7 enablers</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q1')">8 enablers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q1')">5 enablers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q1')">6 enablers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q1')" data-correct="true">7 enablers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q1')">8 enablers</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q1')">Check Answer</button>
                 <div id="feedback-q1" class="feedback"></div>
@@ -1008,10 +1019,10 @@
             <div class="quiz-question">
                 <h3>Question 2: Which of the following is NOT a COBIT 5 principle?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q2')">Meeting Stakeholder Needs</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q2')">Covering the Enterprise End-to-End</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q2')" data-correct="true">Maximizing IT Investment Returns</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q2')">Enabling a Holistic Approach</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q2')">Meeting Stakeholder Needs</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q2')">Covering the Enterprise End-to-End</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q2')" data-correct="true">Maximizing IT Investment Returns</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q2')">Enabling a Holistic Approach</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q2')">Check Answer</button>
                 <div id="feedback-q2" class="feedback"></div>
@@ -1020,10 +1031,10 @@
             <div class="quiz-question">
                 <h3>Question 3: What does the 'BAI' domain stand for in COBIT processes?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q3')">Business Alignment and Integration</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q3')" data-correct="true">Build, Acquire and Implement</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q3')">Business Analysis and Innovation</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q3')">Benchmark, Assess and Improve</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q3')">Business Alignment and Integration</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q3')" data-correct="true">Build, Acquire and Implement</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q3')">Business Analysis and Innovation</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q3')">Benchmark, Assess and Improve</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q3')">Check Answer</button>
                 <div id="feedback-q3" class="feedback"></div>
@@ -1032,10 +1043,10 @@
             <div class="quiz-question">
                 <h3>Question 4: Which enabler category includes "Information", "Services, Infrastructure and Applications", and "People, Skills and Competencies"?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q4')">Governance Enablers</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q4')" data-correct="true">Resources</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q4')">Management Enablers</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q4')">Organizational Enablers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q4')">Governance Enablers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q4')" data-correct="true">Resources</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q4')">Management Enablers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q4')">Organizational Enablers</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q4')">Check Answer</button>
                 <div id="feedback-q4" class="feedback"></div>
@@ -1044,10 +1055,10 @@
             <div class="quiz-question">
                 <h3>Question 5: What does EDM stand for in COBIT's governance domain?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q5')">Enterprise Data Management</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q5')">Execute, Deliver and Maintain</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q5')" data-correct="true">Evaluate, Direct and Monitor</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q5')">Enterprise Decision Making</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q5')">Enterprise Data Management</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q5')">Execute, Deliver and Maintain</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q5')" data-correct="true">Evaluate, Direct and Monitor</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q5')">Enterprise Decision Making</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q5')">Check Answer</button>
                 <div id="feedback-q5" class="feedback"></div>
@@ -1056,10 +1067,10 @@
             <div class="quiz-question">
                 <h3>Question 6: How many process domains are in the COBIT 5 framework?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q6')">3 domains</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q6')">4 domains</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q6')" data-correct="true">5 domains</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q6')">6 domains</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q6')">3 domains</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q6')">4 domains</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q6')" data-correct="true">5 domains</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q6')">6 domains</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q6')">Check Answer</button>
                 <div id="feedback-q6" class="feedback"></div>
@@ -1068,10 +1079,10 @@
             <div class="quiz-question">
                 <h3>Question 7: Which COBIT principle emphasizes the distinction between governance and management?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q7')">Principle 2: Covering the Enterprise End-to-End</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q7')">Principle 3: Applying a Single Integrated Framework</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q7')">Principle 4: Enabling a Holistic Approach</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q7')" data-correct="true">Principle 5: Separating Governance From Management</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q7')">Principle 2: Covering the Enterprise End-to-End</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q7')">Principle 3: Applying a Single Integrated Framework</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q7')">Principle 4: Enabling a Holistic Approach</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q7')" data-correct="true">Principle 5: Separating Governance From Management</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q7')">Check Answer</button>
                 <div id="feedback-q7" class="feedback"></div>
@@ -1080,10 +1091,10 @@
             <div class="quiz-question">
                 <h3>Question 8: Which management domain focuses on service delivery and support?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q8')">APO (Align, Plan and Organize)</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q8')">BAI (Build, Acquire and Implement)</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q8')" data-correct="true">DSS (Deliver, Service and Support)</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q8')">MEA (Monitor, Evaluate and Assess)</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q8')">APO (Align, Plan and Organize)</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q8')">BAI (Build, Acquire and Implement)</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q8')" data-correct="true">DSS (Deliver, Service and Support)</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q8')">MEA (Monitor, Evaluate and Assess)</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q8')">Check Answer</button>
                 <div id="feedback-q8" class="feedback"></div>
@@ -1092,10 +1103,10 @@
             <div class="quiz-question">
                 <h3>Question 9: What is the primary purpose of the "Principles, Policies and Frameworks" enabler?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q9')">To define organizational structure</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q9')" data-correct="true">To translate desired behavior into practical guidance</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q9')">To manage IT infrastructure</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q9')">To measure performance metrics</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q9')">To define organizational structure</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q9')" data-correct="true">To translate desired behavior into practical guidance</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q9')">To manage IT infrastructure</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q9')">To measure performance metrics</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q9')">Check Answer</button>
                 <div id="feedback-q9" class="feedback"></div>
@@ -1104,10 +1115,10 @@
             <div class="quiz-question">
                 <h3>Question 10: Which stakeholder group would primarily benefit from COBIT's RACI charts and clear accountability structures?</h3>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectOption(this, 'q10')">External customers</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q10')" data-correct="true">IT Management</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q10')">Software vendors</div>
-                    <div class="quiz-option" onclick="selectOption(this, 'q10')">Regulatory bodies</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q10')">External customers</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q10')" data-correct="true">IT Management</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q10')">Software vendors</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="selectOption(this, 'q10')">Regulatory bodies</div>
                 </div>
                 <button class="check-answer-btn" onclick="checkAnswer('q10')">Check Answer</button>
                 <div id="feedback-q10" class="feedback"></div>
@@ -1137,13 +1148,17 @@
             });
         }
 
-        function showInfo(enabler) {
+        function showInfo(enabler, evt) {
             // Remove active class from all enablers
             const allEnablers = document.querySelectorAll('.enabler-box');
             allEnablers.forEach(e => e.classList.remove('active'));
-            
+
             // Add active class to clicked enabler
-            event.target.closest('.enabler-box').classList.add('active');
+            const target = evt && evt.target;
+            const clickedBox = target && target.closest('.enabler-box');
+            if (clickedBox) {
+                clickedBox.classList.add('active');
+            }
             
             // Add visual feedback to connectors
             animateConnectors();
@@ -1178,7 +1193,7 @@
                             <li><strong>Work Products:</strong> Inputs and outputs (ingredients and finished dishes)</li>
                             <li><strong>RACI Charts:</strong> Who does what (like kitchen staff assignments)</li>
                             <li><strong>Goals and Metrics:</strong> Success measurements (customer satisfaction, food quality scores)</li>
-                            <li><strong>Capability Levels:</strong> Process maturity from 0 (incomplete) to 5 (optimizing)</li>
+                            <li><strong>Capability Levels:</strong> Process capability, not maturity, from 0 (Incomplete) to 5 (Optimizing), based on ISO/IEC 15504. COBIT 5 replaced the COBIT 4.1 maturity model with this capability model</li>
                         </ul>
 
                         <h3>37 COBIT Processes Across 5 Domains:</h3>
@@ -1206,10 +1221,10 @@
                 case 'orgStructures':
                     content = `
                         <h3>🏛️ Enabler 3: Organisational Structures</h3>
-                        <p>Organizational structures are the key decision-making entities in an enterprise. They define who makes decisions, who is accountable, and how different groups interact to govern and manage IT effectively.</p>
+                        <p>Organisational structures are the key decision-making entities in an enterprise. They define who makes decisions, who is accountable, and how different groups interact to govern and manage IT effectively.</p>
                         
                         <h3>🌟 Real-World Analogy:</h3>
-                        <p><strong>Think of organizational structures like a city government.</strong> Just as a city has a mayor (CEO), city council (Board), planning commission (Architecture Board), police department (Security), and various committees for different needs, an organization needs different structures for IT governance. Each has specific authority and responsibilities - the planning commission can't arrest people, and the police can't approve building permits. Similarly, IT structures have distinct roles that work together but maintain separation of duties.</p>
+                        <p><strong>Think of organisational structures like a city government.</strong> Just as a city has a mayor (CEO), city council (Board), planning commission (Architecture Board), police department (Security), and various committees for different needs, an organization needs different structures for IT governance. Each has specific authority and responsibilities - the planning commission can't arrest people, and the police can't approve building permits. Similarly, IT structures have distinct roles that work together but maintain separation of duties.</p>
 
                         <h3>Key Decision-Making Entities:</h3>
                         <ul>
@@ -1249,14 +1264,14 @@
                         </ul>
 
                         <h3>Why This Matters:</h3>
-                        <p>Without proper organizational structures, IT decisions become political battles or fall through cracks. Clear structures ensure rapid, informed decisions with appropriate oversight - preventing both rogue IT projects and analysis paralysis.</p>
+                        <p>Without proper organisational structures, IT decisions become political battles or fall through cracks. Clear structures ensure rapid, informed decisions with appropriate oversight - preventing both rogue IT projects and analysis paralysis.</p>
                     `;
                     break;
                     
                 case 'culture':
                     content = `
                         <h3>🤝 Enabler 4: Culture, Ethics and Behaviour</h3>
-                        <p>Culture, ethics and behavior are often the "make or break" factors in IT governance. They represent the unwritten rules, shared values, and behavioral norms that influence how people actually work versus how policies say they should work.</p>
+                        <p>Culture, ethics and behaviour are often the "make or break" factors in IT governance. They represent the unwritten rules, shared values, and behavioral norms that influence how people actually work versus how policies say they should work.</p>
                         
                         <h3>🌟 Real-World Analogy:</h3>
                         <p><strong>Culture is like the personality of a sports team.</strong> Two teams can have the same playbook (processes), same coaching structure (organization), and same equipment (technology), but their culture determines success. A team with a "winning culture" shows accountability, continuous improvement, and mutual support. They follow plays not because of rules, but because "that's how we do things here." Similarly, IT culture determines whether governance succeeds or exists only on paper.</p>
@@ -1301,7 +1316,7 @@
                         </ul>
 
                         <h3>Why This Matters:</h3>
-                        <p>Peter Drucker said "Culture eats strategy for breakfast." The best governance framework fails if culture opposes it. When culture aligns with governance goals, compliance becomes natural rather than forced, and the organization achieves sustainable excellence rather than temporary compliance.</p>
+                        <p>As the saying goes (often attributed to Peter Drucker), "Culture eats strategy for breakfast." The best governance framework fails if culture opposes it. When culture aligns with governance goals, compliance becomes natural rather than forced, and the organization achieves sustainable excellence rather than temporary compliance.</p>
                     `;
                     break;
                     
@@ -1414,8 +1429,7 @@
                         <h3>Real-World Information Disasters:</h3>
                         <ul>
                             <li><strong>Equifax Breach (2017):</strong> 147 million people's data exposed - poor information security</li>
-                            <li><strong>NASA Mars Orbiter (1999):</strong> Crashed due to metric/imperial confusion - information quality failure</li>
-                            <li><strong>Knight Capital (2012):</strong> Lost $440M in 45 minutes - old test data in production</li>
+                            <li><strong>NASA Mars Climate Orbiter (1999):</strong> Crashed due to metric/imperial confusion - information quality failure</li>
                             <li><strong>Target Breach (2013):</strong> 40 million cards compromised - third-party information sharing failure</li>
                         </ul>
 
@@ -1500,6 +1514,7 @@
                             <li><strong>Facebook Outage (2021):</strong> 6-hour global outage - configuration error</li>
                             <li><strong>British Airways (2017):</strong> Power failure grounded 75,000 passengers - no DR plan</li>
                             <li><strong>TSB Bank (2018):</strong> Migration failure locked out 1.9M customers for weeks</li>
+                            <li><strong>Knight Capital (2012):</strong> Lost $440M in 45 minutes - an incomplete deployment reactivated dormant legacy code, a change-management failure</li>
                         </ul>
 
                         <h3>Emerging Technologies to Govern:</h3>
@@ -1637,7 +1652,7 @@
             });
         }
 
-        function showTab(tabName) {
+        function showTab(tabName, evt) {
             // Hide all sections
             const allSections = document.querySelectorAll('.info-section');
             allSections.forEach(section => section.classList.remove('active'));
@@ -1661,21 +1676,21 @@
             }
             
             // Add active to clicked tab
-            event.target.classList.add('active');
+            const target = evt && evt.target;
+            const clickedTab = target && target.closest('.tab-button');
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
         }
 
         function selectOption(element, questionId) {
-            // Remove previous selection for this question
+            // Reset the group so a retry after checking starts clean
             const options = element.parentElement.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.style.background = 'white';
-                opt.style.borderColor = '#e2e8f0';
-            });
-            
+            options.forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
+
             // Highlight selected option
-            element.style.background = 'linear-gradient(135deg, #e0f2ff 0%, #caedfb 100%)';
-            element.style.borderColor = '#00d2ff';
-            
+            element.classList.add('selected');
+
             // Store selection
             selectedOptions[questionId] = element;
         }
@@ -1720,6 +1735,12 @@
             enablerBoxes.forEach((box, index) => {
                 setTimeout(() => {
                     box.style.animation = 'fadeIn 0.5s ease-in';
+                    // Clear the inline value afterwards so .enabler-box.active can run its glow
+                    box.addEventListener('animationend', function onFadeEnd(e) {
+                        if (e.target !== box) return;
+                        box.style.animation = '';
+                        box.removeEventListener('animationend', onFadeEnd);
+                    });
                 }, index * 100);
             });
             
@@ -1735,7 +1756,7 @@
                 const enablerMap = {
                     '1': 'principles',
                     '2': 'processes',
-                    '3': 'orgStructures',
+                    '3': 'org-structures',
                     '4': 'culture',
                     '5': 'information',
                     '6': 'services',

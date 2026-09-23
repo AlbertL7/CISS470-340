@@ -84,7 +84,7 @@
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
-            width: 25%;
+            width: 0%;
             transition: width 0.5s ease;
         }
         
@@ -366,6 +366,33 @@
             border-color: #dc3545;
         }
         
+        .quiz-option:focus-visible {
+            outline: 3px solid #27ae60;
+            outline-offset: 2px;
+        }
+        
+        .quiz-feedback {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            display: none;
+        }
+        
+        .quiz-feedback.show {
+            display: block;
+        }
+        
+        .quiz-feedback.correct {
+            color: #155724;
+        }
+        
+        .quiz-feedback.incorrect {
+            color: #721c24;
+        }
+        
+        .quiz-question.answered .quiz-option {
+            pointer-events: none;
+        }
+        
         .button-group {
             display: flex;
             gap: 15px;
@@ -456,10 +483,10 @@
             <h2>Understanding the Four Pillars</h2>
             <p>
                 Effective governance and risk management rest on four fundamental pillars that must work in harmony. 
-                Each component brings unique capabilities and perspectives to the organization's risk posture.
+                Each component brings unique capabilities and perspectives to the organisation's risk posture.
             </p>
             <p>
-                These pillars are not isolated silos but interconnected elements that create organizational resilience 
+                These pillars are not isolated silos but interconnected elements that create organisational resilience 
                 through their integration. Click on each pillar below to explore its role in governance and risk management.
             </p>
         </div>
@@ -467,7 +494,7 @@
         <!-- Pillars Grid -->
         <div class="pillars-grid">
             <!-- Organisation Pillar -->
-            <div class="pillar-card" onclick="showDetail('organisation')">
+            <div class="pillar-card" onclick="showDetail('organisation', this)">
                 <div class="pillar-header organisation">
                     <div class="pillar-icon">🏢</div>
                     <div class="pillar-title">Organisation</div>
@@ -475,7 +502,7 @@
                 </div>
                 <div class="pillar-content">
                     <p class="pillar-description">
-                        The apex of governance, providing strategic vision, risk appetite, and organizational structure.
+                        The apex of governance, providing strategic vision, risk appetite, and organisational structure.
                     </p>
                     <div class="key-points">
                         <h4>Key Areas</h4>
@@ -491,7 +518,7 @@
             </div>
             
             <!-- People Pillar -->
-            <div class="pillar-card" onclick="showDetail('people')">
+            <div class="pillar-card" onclick="showDetail('people', this)">
                 <div class="pillar-header people">
                     <div class="pillar-icon">👥</div>
                     <div class="pillar-title">People</div>
@@ -515,7 +542,7 @@
             </div>
             
             <!-- Process Pillar -->
-            <div class="pillar-card" onclick="showDetail('process')">
+            <div class="pillar-card" onclick="showDetail('process', this)">
                 <div class="pillar-header process">
                     <div class="pillar-icon">⚙️</div>
                     <div class="pillar-title">Process</div>
@@ -539,7 +566,7 @@
             </div>
             
             <!-- Technology Pillar -->
-            <div class="pillar-card" onclick="showDetail('technology')">
+            <div class="pillar-card" onclick="showDetail('technology', this)">
                 <div class="pillar-header technology">
                     <div class="pillar-icon">💻</div>
                     <div class="pillar-title">Technology</div>
@@ -575,11 +602,11 @@
             
             <h3>Core Responsibilities</h3>
             <ul>
-                <li><strong>Vision & Strategy:</strong> Setting long-term organizational direction and strategic objectives that align with stakeholder expectations</li>
+                <li><strong>Vision & Strategy:</strong> Setting long-term organisational direction and strategic objectives that align with stakeholder expectations</li>
                 <li><strong>Governance Structure:</strong> Establishing board committees, reporting lines, and accountability frameworks</li>
                 <li><strong>Risk Appetite:</strong> Defining acceptable risk levels and tolerance thresholds across the enterprise</li>
                 <li><strong>Resource Allocation:</strong> Strategic distribution of capital, human resources, and technology investments</li>
-                <li><strong>Performance Oversight:</strong> Monitoring organizational performance against strategic objectives and risk tolerances</li>
+                <li><strong>Performance Oversight:</strong> Monitoring organisational performance against strategic objectives and risk tolerances</li>
             </ul>
             
             <h3>Risk Management Role</h3>
@@ -608,7 +635,7 @@
             
             <h3>Overview</h3>
             <p>
-                The People pillar encompasses all human elements within the organization, from individual competencies 
+                The People pillar encompasses all human elements within the organisation, from individual competencies 
                 to collective culture, driving execution and innovation while managing behavioral risks.
             </p>
             
@@ -616,9 +643,9 @@
             <ul>
                 <li><strong>Workforce Composition:</strong> Employees, contractors, management, and board members with diverse skills and perspectives</li>
                 <li><strong>Competency Management:</strong> Skills assessment, capability development, and succession planning</li>
-                <li><strong>Cultural Development:</strong> Values, beliefs, and behaviors that characterize the organization</li>
+                <li><strong>Cultural Development:</strong> Values, beliefs, and behaviors that characterize the organisation</li>
                 <li><strong>Performance Management:</strong> Goal setting, evaluation, feedback, and recognition systems</li>
-                <li><strong>Change Leadership:</strong> Guiding organizational transformation and adaptation</li>
+                <li><strong>Change Leadership:</strong> Guiding organisational transformation and adaptation</li>
             </ul>
             
             <h3>Risk Culture Elements</h3>
@@ -648,7 +675,7 @@
             <h3>Overview</h3>
             <p>
                 The Process pillar provides the operational framework through which strategy is executed, 
-                ensuring consistency, efficiency, and control across all organizational activities.
+                ensuring consistency, efficiency, and control across all organisational activities.
             </p>
             
             <h3>Process Architecture</h3>
@@ -725,11 +752,11 @@
             <div class="matrix-grid">
                 <div class="interaction-card">
                     <h4>Organisation ↔ People</h4>
-                    <p>Creates organizational culture through tone at the top, values alignment, and leadership modeling.</p>
+                    <p>Creates organisational culture through tone at the top, values alignment, and leadership modeling.</p>
                 </div>
                 <div class="interaction-card">
                     <h4>Organisation ↔ Process</h4>
-                    <p>Establishes governance through policies, procedures, and performance management systems.</p>
+                    <p>Establishes governing through policies, procedures, and performance management systems.</p>
                 </div>
                 <div class="interaction-card">
                     <h4>Organisation ↔ Technology</h4>
@@ -754,34 +781,37 @@
         <div class="quiz-section">
             <h2>✓ Knowledge Check</h2>
             
-            <div class="quiz-question">
-                <h4>1. Which pillar is responsible for setting the organization's risk appetite?</h4>
+            <div class="quiz-question" data-explanation="The Organisation pillar defines acceptable risk levels and tolerance thresholds across the enterprise, so it sets the risk appetite.">
+                <h4>1. Which pillar is responsible for setting the organisation's risk appetite?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Organisation</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">People</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Process</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Technology</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'correct')">Organisation</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">People</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">Process</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">Technology</div>
                 </div>
+                <div class="quiz-feedback" aria-live="polite"></div>
             </div>
             
-            <div class="quiz-question">
-                <h4>2. What creates the connection between People and Process pillars?</h4>
+            <div class="quiz-question" data-explanation="The People and Process interaction is labelled Emergence: human creativity enhancing structured processes.">
+                <h4>2. Which term describes the interaction between the People and Process pillars?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Architecture</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Emergence</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Governance</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Culture</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">Architecture</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'correct')">Emergence</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">Governing</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">Culture</div>
                 </div>
+                <div class="quiz-feedback" aria-live="polite"></div>
             </div>
             
-            <div class="quiz-question">
+            <div class="quiz-question" data-explanation="The Process pillar owns the control framework and the standard operating procedures that turn strategy into consistent operations.">
                 <h4>3. Which pillar focuses on control frameworks and standard operating procedures?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Organisation</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">People</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct')">Process</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect')">Technology</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">Organisation</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">People</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'correct')">Process</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, 'incorrect')">Technology</div>
                 </div>
+                <div class="quiz-feedback" aria-live="polite"></div>
             </div>
         </div>
         
@@ -794,7 +824,7 @@
     
     <script>
         // Detail section management
-        function showDetail(pillar) {
+        function showDetail(pillar, card) {
             // Hide all details
             document.querySelectorAll('.detail-section').forEach(section => {
                 section.classList.remove('active');
@@ -808,10 +838,10 @@
             }
             
             // Update pillar cards
-            document.querySelectorAll('.pillar-card').forEach(card => {
-                card.classList.remove('active');
+            document.querySelectorAll('.pillar-card').forEach(other => {
+                other.classList.remove('active');
             });
-            event.currentTarget.classList.add('active');
+            if (card) card.classList.add('active');
             
             // Update progress
             updateProgress();
@@ -826,13 +856,30 @@
         
         // Quiz functionality
         function checkAnswer(element, result) {
-            // Remove previous selections
-            element.parentElement.querySelectorAll('.quiz-option').forEach(option => {
-                option.classList.remove('selected', 'correct', 'incorrect');
-            });
+            const question = element.closest('.quiz-question');
+            if (!question || question.classList.contains('answered')) return;
+            const isCorrect = result === 'correct';
             
-            // Add result class
-            element.classList.add(result);
+            // Reveal the keyed option and lock the question
+            question.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+                option.setAttribute('aria-disabled', 'true');
+                if (/checkAnswer\(\s*this\s*,\s*'correct'/.test(option.getAttribute('onclick') || '')) {
+                    option.classList.add('correct');
+                }
+            });
+            if (!isCorrect) element.classList.add('incorrect');
+            question.classList.add('answered');
+            
+            // Explain the answer
+            const feedback = question.querySelector('.quiz-feedback');
+            if (feedback) {
+                const explanation = question.dataset.explanation || '';
+                feedback.textContent = (isCorrect
+                    ? '\u2713 Correct. '
+                    : '\u2717 Not quite. The correct answer is highlighted above. ') + explanation;
+                feedback.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+            }
             
             // Update progress
             updateProgress();
@@ -849,7 +896,7 @@
             
             // Track answered questions
             const totalQuestions = document.querySelectorAll('.quiz-question').length;
-            const answeredQuestions = document.querySelectorAll('.quiz-option.correct, .quiz-option.incorrect').length;
+            const answeredQuestions = document.querySelectorAll('.quiz-question.answered').length;
             
             // Calculate progress
             const sectionProgress = (viewedSections.size / 4) * 50; // 50% for viewing all sections

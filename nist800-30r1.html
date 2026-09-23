@@ -1059,85 +1059,6 @@
             color: var(--text-secondary);
         }
 
-        /* Interactive Risk Matrix */
-        .interactive-matrix .matrix-cell.clickable {
-            cursor: pointer;
-            position: relative;
-        }
-
-        .interactive-matrix .matrix-cell.clickable:hover::after {
-            content: '👆 Click me';
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-
-        /* Modal for Risk Details */
-        .risk-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .risk-modal.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .close-modal {
-            font-size: 32px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: var(--text-primary);
-            transform: rotate(90deg);
-        }
-
         @media (max-width: 768px) {
             .calculator-inputs {
                 grid-template-columns: 1fr;
@@ -1181,13 +1102,13 @@
     <!-- Table of Contents Sidebar -->
     <div class="toc-sidebar" id="tocSidebar">
         <div class="toc-title">📚 Table of Contents</div>
-        <div class="toc-item" data-section="slide1">Part 1: Risk Assessment Fundamentals</div>
-        <div class="toc-item" data-section="slide2">Part 2: Four-Step Process</div>
-        <div class="toc-item" data-section="slide3">Part 3: Threats & Vulnerabilities</div>
-        <div class="toc-item" data-section="slide4">Part 4: Risk Analysis</div>
-        <div class="toc-item" data-section="slide5">Part 5: Risk Response</div>
-        <div class="toc-item" data-section="slide6">Part 6: Continuous Assessment</div>
-        <div class="toc-item" data-section="slide7">Part 7: Practical Resources & Case Studies</div>
+        <div class="toc-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-section="slide1">Part 1: Risk Assessment Fundamentals</div>
+        <div class="toc-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-section="slide2">Part 2: Four-Step Process</div>
+        <div class="toc-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-section="slide3">Part 3: Threats & Vulnerabilities</div>
+        <div class="toc-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-section="slide4">Part 4: Risk Analysis</div>
+        <div class="toc-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-section="slide5">Part 5: Risk Response</div>
+        <div class="toc-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-section="slide6">Part 6: Continuous Assessment</div>
+        <div class="toc-item" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" data-section="slide7">Part 7: Practical Resources & Case Studies</div>
     </div>
 
     <!-- Notes Panel -->
@@ -1386,11 +1307,11 @@
                         <h4>Risk Flows Through Your Organization</h4>
                         <div style="margin: 20px 0;">
                             <h5 style="color: #667eea;">📊 Tier 1: Organization Level (The Roof)</h5>
-                            <p><strong>Governance and Strategy</strong> - Risk tolerance, investment priorities, enterprise architecture</p>
+                            <p><strong>Governance and Strategy</strong> - Risk tolerance, investment priorities, risk management strategy</p>
                         </div>
                         <div style="margin: 20px 0;">
                             <h5 style="color: #4facfe;">📈 Tier 2: Mission/Business Process Level (The Floors)</h5>
-                            <p><strong>Core Business Functions</strong> - Business line risks, common controls, information flow</p>
+                            <p><strong>Core Business Functions</strong> - Business line risks, enterprise architecture, common controls, information flow</p>
                         </div>
                         <div style="margin: 20px 0;">
                             <h5 style="color: #43e97b;">💻 Tier 3: Information System Level (The Rooms)</h5>
@@ -1402,8 +1323,9 @@
 
                     <div class="concept-box">
                         <div style="text-align: center; font-size: 32px; margin: 30px 0; padding: 30px; background: var(--primary-gradient); border-radius: 15px; color: white; font-weight: 800;">
-                            RISK = THREAT × VULNERABILITY × IMPACT
+                            RISK = f(LIKELIHOOD, IMPACT)
                         </div>
+                        <p style="text-align: center; margin: 0 0 25px; color: var(--text-secondary);">Threats and vulnerabilities feed likelihood. "Threat × Vulnerability × Impact" is a common industry mnemonic, not NIST's definition.</p>
 
                         <div class="threat-card">
                             <h5>🎯 THREAT</h5>
@@ -1430,20 +1352,20 @@
                             ✅ Knowledge Check #1
                         </div>
                         <div class="quiz-question">
-                            What is the correct risk equation according to NIST 800-30r1?
+                            According to NIST SP 800-30r1, risk is a function of which two factors?
                         </div>
                         <div class="quiz-options">
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">
-                                A) Risk = Vulnerability + Impact
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 1)">
+                                A) Threat × Vulnerability × Impact
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, true, 1)">
-                                B) Risk = Threat × Vulnerability × Impact
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 1)">
+                                B) The likelihood of a threat event occurring and its potential adverse impact
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">
-                                C) Risk = Threat - Controls
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 1)">
+                                C) Threat minus controls
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">
-                                D) Risk = Likelihood + Impact
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 1)">
+                                D) Vulnerability count plus asset value
                             </div>
                         </div>
                         <div class="quiz-feedback" id="feedback1"></div>
@@ -1500,6 +1422,8 @@
                             <li><strong>Define Scope:</strong> What systems, data, and processes are included?</li>
                             <li><strong>Document Assumptions:</strong> What are you assuming to be true?</li>
                             <li><strong>Identify Constraints:</strong> Budget, time, technology, political limitations</li>
+                            <li><strong>Identify Information Sources:</strong> Where will threat, vulnerability, and impact information come from?</li>
+                            <li><strong>Identify Risk Model and Analytic Approach:</strong> Which risk factors, assessment scales, and analysis method will you use?</li>
                         </ul>
                     </div>
 
@@ -1529,6 +1453,11 @@
                         <div class="process-step">
                             <strong>2.5</strong>
                             <p>Determine Impact</p>
+                        </div>
+                        <span class="process-arrow">→</span>
+                        <div class="process-step">
+                            <strong>2.6</strong>
+                            <p>Determine Risk</p>
                         </div>
                     </div>
 
@@ -1587,16 +1516,16 @@
                             What are the four steps of the NIST 800-30r1 risk assessment process?
                         </div>
                         <div class="quiz-options">
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 2)">
                                 A) Identify, Analyze, Evaluate, Treat
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, true, 2)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 2)">
                                 B) Prepare, Conduct, Communicate, Maintain
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 2)">
                                 C) Plan, Do, Check, Act
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 2)">
                                 D) Assess, Design, Implement, Monitor
                             </div>
                         </div>
@@ -1674,7 +1603,7 @@
                     <h3>🔓 Vulnerability Assessment</h3>
 
                     <div class="expandable">
-                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                        <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                             <span>💻 Technical Vulnerabilities</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -1690,7 +1619,7 @@
                     </div>
 
                     <div class="expandable">
-                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                        <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                             <span>👥 Human and Process Vulnerabilities</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -1715,16 +1644,16 @@
                             Which threat actor typically has the highest capability but may have low motivation for most targets?
                         </div>
                         <div class="quiz-options">
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 3)">
                                 A) Cybercriminals
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 3)">
                                 B) Hacktivists
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, true, 3)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 3)">
                                 C) Nation-State Actors
                             </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                            <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 3)">
                                 D) Insiders
                             </div>
                         </div>
@@ -1757,7 +1686,7 @@
                         <h4>Three Methods for Likelihood Assessment:</h4>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>📈 Quantitative Method (Data-Driven)</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -1799,11 +1728,12 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <p><em>Note: these percentage bands and frequencies are an illustrative course scale. NIST's own semi-quantitative values are in the third method below.</em></p>
                             </div>
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>📝 Qualitative Method (Expert Judgment)</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -1815,6 +1745,58 @@
                                     <li><strong>Vulnerability Exposure:</strong> How easy to exploit?</li>
                                     <li><strong>Control Effectiveness:</strong> Will defenses stop it?</li>
                                 </ul>
+                            </div>
+                        </div>
+
+                        <div class="expandable">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
+                                <span>🔢 Semi-Quantitative Method (NIST's Bins and Scales)</span>
+                                <span class="expand-icon">▶</span>
+                            </div>
+                            <div class="expandable-content">
+                                <p>NIST SP 800-30r1 pairs each qualitative level with a 0-10 value and a 0-100 range (Tables G-2 and G-3). This is the approach the standard's own assessment scales use, so it is the one to know for the exam.</p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Likelihood Level</th>
+                                            <th>Semi-Quantitative Values</th>
+                                            <th>Adversarial (Table G-2)</th>
+                                            <th>Non-Adversarial (Table G-3)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background: #ffcdd2;">
+                                            <td>Very High</td>
+                                            <td>96-100 / 10</td>
+                                            <td>Adversary is almost certain to initiate the threat event</td>
+                                            <td>Almost certain to occur, or more than 100 times a year</td>
+                                        </tr>
+                                        <tr style="background: #ffccbc;">
+                                            <td>High</td>
+                                            <td>80-95 / 8</td>
+                                            <td>Adversary is highly likely to initiate the threat event</td>
+                                            <td>Highly likely to occur, or 10 to 100 times a year</td>
+                                        </tr>
+                                        <tr style="background: #ffe0b2;">
+                                            <td>Moderate</td>
+                                            <td>21-79 / 5</td>
+                                            <td>Adversary is somewhat likely to initiate the threat event</td>
+                                            <td>Somewhat likely to occur, or 1 to 10 times a year</td>
+                                        </tr>
+                                        <tr style="background: #fff9c4;">
+                                            <td>Low</td>
+                                            <td>5-20 / 2</td>
+                                            <td>Adversary is unlikely to initiate the threat event</td>
+                                            <td>Unlikely to occur, or less than once a year but more than once every 10 years</td>
+                                        </tr>
+                                        <tr style="background: #c8e6c9;">
+                                            <td>Very Low</td>
+                                            <td>0-4 / 0</td>
+                                            <td>Adversary is highly unlikely to initiate the threat event</td>
+                                            <td>Highly unlikely to occur, or less than once every 10 years</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -1867,14 +1849,14 @@
 
                         <div class="calculator-inputs">
                             <div class="input-group">
-                                <label for="likelihood">Likelihood</label>
+                                <label for="likelihood">Likelihood (NIST semi-quantitative value)</label>
                                 <select id="likelihood">
                                     <option value="">-- Select Likelihood --</option>
-                                    <option value="1">Very Low (0-10%)</option>
-                                    <option value="2">Low (11-25%)</option>
-                                    <option value="3">Moderate (26-50%)</option>
-                                    <option value="4">High (51-75%)</option>
-                                    <option value="5">Very High (76-100%)</option>
+                                    <option value="1">Very Low (0-4)</option>
+                                    <option value="2">Low (5-20)</option>
+                                    <option value="3">Moderate (21-79)</option>
+                                    <option value="4">High (80-95)</option>
+                                    <option value="5">Very High (96-100)</option>
                                 </select>
                             </div>
 
@@ -1883,10 +1865,10 @@
                                 <select id="impact">
                                     <option value="">-- Select Impact --</option>
                                     <option value="1">Very Low (Negligible)</option>
-                                    <option value="2">Low (Minor)</option>
-                                    <option value="3">Moderate (Limited)</option>
-                                    <option value="4">High (Serious)</option>
-                                    <option value="5">Very High (Catastrophic)</option>
+                                    <option value="2">Low (Limited)</option>
+                                    <option value="3">Moderate (Serious)</option>
+                                    <option value="4">High (Severe or Catastrophic)</option>
+                                    <option value="5">Very High (Multiple Severe or Catastrophic)</option>
                                 </select>
                             </div>
                         </div>
@@ -1927,8 +1909,8 @@
                                     <td>Insider data theft</td>
                                     <td>Moderate</td>
                                     <td>High</td>
-                                    <td style="background:#ffccbc;">High</td>
-                                    <td>2 - Urgent</td>
+                                    <td style="background:#ffe0b2;">Moderate</td>
+                                    <td>2 - Planned</td>
                                 </tr>
                                 <tr>
                                     <td>DDoS attack</td>
@@ -1941,7 +1923,7 @@
                                     <td>Physical theft</td>
                                     <td>Low</td>
                                     <td>Low</td>
-                                    <td style="background:#c8e6c9;">Very Low</td>
+                                    <td style="background:#fff9c4;">Low</td>
                                     <td>4 - Monitor</td>
                                 </tr>
                             </tbody>
@@ -2049,7 +2031,7 @@
                             <strong>Model Answer - Key Vulnerabilities:</strong>
                             <ul>
                                 <li><strong>Technical:</strong> Unpatched systems, insufficient email security filtering, no network segmentation between clinical and business systems</li>
-                                <li><strong>Process:</strong> Untested backups (ACC-5 threat), inadequate incident response plan, no security awareness training</li>
+                                <li><strong>Process:</strong> Untested backups (no proven recovery once ransomware, ADV-4, strikes), inadequate incident response plan, no security awareness training</li>
                                 <li><strong>Human:</strong> Low security awareness (phishing susceptibility), no MFA on critical systems</li>
                                 <li><strong>Detective:</strong> 12-hour delay in detection indicates lack of security monitoring, no EDR/SIEM alerting</li>
                             </ul>
@@ -2156,7 +2138,7 @@
                             <ul>
                                 <li>AC-6: Least Privilege - Implement role-based access, just-in-time privileged access</li>
                                 <li>AU-6: Audit Review - Deploy UBA/SIEM for anomaly detection</li>
-                                <li>MP-7: Media Protection - Disable removable media on critical systems</li>
+                                <li>MP-7: Media Use - Disable removable media on critical systems</li>
                                 <li>PS-4: Personnel Termination - Automated access revocation process</li>
                             </ul>
                         </div>
@@ -2343,13 +2325,14 @@
                         <p>Understanding NIST 800-30r1 conceptually is one thing—applying it to real-world scenarios is another. This section provides practical tools, real breach case studies, and integration guidance to make you immediately effective.</p>
                     </div>
 
-                    <h3>📋 NIST Appendix D: Threat Event Examples</h3>
+                    <h3>📋 NIST Appendix E: Threat Event Examples</h3>
 
                     <div class="concept-box">
-                        <h4>Sample Threat Events by Category (from Appendix D)</h4>
+                        <h4>Sample Threat Events by Category (from Appendix E)</h4>
+                        <p><em>Note: the ADV-, ACC-, STR- and ENV- codes are this course's own labels for easy reference. NIST SP 800-30r1 Appendix E does not number threat events.</em></p>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🔴 Adversarial Threat Events</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -2357,7 +2340,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Threat ID</th>
+                                            <th>Course ID</th>
                                             <th>Threat Event</th>
                                             <th>Example Scenario</th>
                                         </tr>
@@ -2398,13 +2381,18 @@
                                             <td>Supply chain compromise</td>
                                             <td>Malicious code injected into third-party library update</td>
                                         </tr>
+                                        <tr>
+                                            <td><strong>ADV-8</strong></td>
+                                            <td>Exploit known vulnerability</td>
+                                            <td>Attacker uses a public exploit against a server whose patch was never applied</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🟡 Accidental Threat Events</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -2412,7 +2400,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Threat ID</th>
+                                            <th>Course ID</th>
                                             <th>Threat Event</th>
                                             <th>Example Scenario</th>
                                         </tr>
@@ -2449,7 +2437,7 @@
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🟠 Structural Threat Events</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -2457,7 +2445,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Threat ID</th>
+                                            <th>Course ID</th>
                                             <th>Threat Event</th>
                                             <th>Example Scenario</th>
                                         </tr>
@@ -2489,7 +2477,7 @@
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🟢 Environmental Threat Events</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -2497,7 +2485,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Threat ID</th>
+                                            <th>Course ID</th>
                                             <th>Threat Event</th>
                                             <th>Example Scenario</th>
                                         </tr>
@@ -2541,37 +2529,37 @@
                         <p style="text-align: center; color: var(--text-secondary);">Click any card to download practical resources you can use immediately</p>
 
                         <div class="download-grid">
-                            <div class="download-card" onclick="downloadNotes()">
+                            <div class="download-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="downloadNotes()">
                                 <div class="download-icon">📝</div>
                                 <div class="download-title">Your Notes</div>
                                 <div class="download-desc">Export all your saved notes as JSON</div>
                             </div>
 
-                            <div class="download-card" onclick="downloadRiskRegister()">
+                            <div class="download-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="downloadRiskRegister()">
                                 <div class="download-icon">📊</div>
                                 <div class="download-title">Risk Register Template</div>
                                 <div class="download-desc">CSV template ready for Excel/Google Sheets</div>
                             </div>
 
-                            <div class="download-card" onclick="downloadChecklist()">
+                            <div class="download-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="downloadChecklist()">
                                 <div class="download-icon">✅</div>
                                 <div class="download-title">Assessment Checklist</div>
                                 <div class="download-desc">Step-by-step preparation checklist</div>
                             </div>
 
-                            <div class="download-card" onclick="downloadCheatsheet()">
+                            <div class="download-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="downloadCheatsheet()">
                                 <div class="download-icon">🎯</div>
                                 <div class="download-title">Quick Reference Guide</div>
                                 <div class="download-desc">One-page NIST 800-30r1 cheatsheet</div>
                             </div>
 
-                            <div class="download-card" onclick="downloadThreatTaxonomy()">
+                            <div class="download-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="downloadThreatTaxonomy()">
                                 <div class="download-icon">🔴</div>
                                 <div class="download-title">Threat Taxonomy</div>
-                                <div class="download-desc">Complete Appendix D threat events</div>
+                                <div class="download-desc">Complete Appendix E threat events</div>
                             </div>
 
-                            <div class="download-card" onclick="downloadRiskMatrix()">
+                            <div class="download-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="downloadRiskMatrix()">
                                 <div class="download-icon">📈</div>
                                 <div class="download-title">Risk Matrix Template</div>
                                 <div class="download-desc">Editable 5x5 risk matrix</div>
@@ -2583,7 +2571,7 @@
 
                     <div class="concept-box">
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>📄 Template 1: Risk Assessment Planning Checklist</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -2607,7 +2595,7 @@
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>📄 Template 2: Risk Register</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -2647,7 +2635,7 @@
                                             <td>No DLP solution</td>
                                             <td>Moderate</td>
                                             <td>High</td>
-                                            <td style="background:#ffccbc;">High</td>
+                                            <td style="background:#ffe0b2;">Moderate</td>
                                             <td>Mitigate</td>
                                             <td>CISO</td>
                                             <td>In Progress</td>
@@ -2671,7 +2659,7 @@
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>📄 Template 3: Risk Assessment Report Outline</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -2740,7 +2728,7 @@
                     </div>
 
                     <div class="expandable">
-                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                        <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                             <span>🎯 Case Study 1: Target Corporation (2013)</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -2761,7 +2749,7 @@
                                     <tr>
                                         <th>Risk Component</th>
                                         <th>What Happened</th>
-                                        <th>NIST Classification</th>
+                                        <th>Course Shorthand (maps to NIST App. E event)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2818,7 +2806,7 @@
                     </div>
 
                     <div class="expandable">
-                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                        <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                             <span>🎯 Case Study 2: Equifax (2017)</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -2826,7 +2814,7 @@
                             <div class="warning-box">
                                 <h5>The Breach:</h5>
                                 <ul>
-                                    <li><strong>Date:</strong> May-July 2017 (discovered September)</li>
+                                    <li><strong>Date:</strong> May 13 - July 30, 2017 (detected internally July 29; publicly disclosed September 7)</li>
                                     <li><strong>Impact:</strong> 147 million Americans' personal data exposed (SSNs, DOB, addresses, driver's licenses)</li>
                                     <li><strong>Cost:</strong> $1.4 billion+ (settlements, remediation, criminal charges)</li>
                                 </ul>
@@ -2839,7 +2827,7 @@
                                     <tr>
                                         <th>Risk Component</th>
                                         <th>What Happened</th>
-                                        <th>NIST Classification</th>
+                                        <th>Course Shorthand (maps to NIST App. E event)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2851,7 +2839,7 @@
                                     <tr>
                                         <td><strong>Threat Event</strong></td>
                                         <td>Exploit known Apache Struts vulnerability (CVE-2017-5638)</td>
-                                        <td>ADV-3 (Exploit known vulnerability)</td>
+                                        <td>ADV-8 (Exploit known vulnerability)</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Vulnerabilities</strong></td>
@@ -2898,7 +2886,7 @@
                     </div>
 
                     <div class="expandable">
-                        <div class="expandable-header" onclick="toggleExpandable(this)">
+                        <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                             <span>🎯 Case Study 3: SolarWinds (2020)</span>
                             <span class="expand-icon">▶</span>
                         </div>
@@ -2919,7 +2907,7 @@
                                     <tr>
                                         <th>Risk Component</th>
                                         <th>What Happened</th>
-                                        <th>NIST Classification</th>
+                                        <th>Course Shorthand (maps to NIST App. E event)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -3030,8 +3018,8 @@
 
                         <div class="process-flow" style="flex-direction: column; align-items: stretch;">
                             <div class="process-step" style="background: linear-gradient(135deg, #42A5F5 0%, #1976D2 100%); color: white;">
-                                <strong>FIPS 199</strong>
-                                <p style="margin-top: 10px;">Categorize your system risk</p>
+                                <strong>FIPS 199 + NIST SP 800-60</strong>
+                                <p style="margin-top: 10px;">Categorize your system; use 800-60 to map information types to impact levels</p>
                                 <p style="margin-top: 5px; font-weight: 600;">Output: LOW, MODERATE, or HIGH</p>
                             </div>
 
@@ -3045,26 +3033,18 @@
 
                             <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
 
+                            <div class="process-step" style="background: linear-gradient(135deg, #EC407A 0%, #C2185B 100%); color: white; border: 3px solid #fff;">
+                                <strong>NIST SP 800-30 (Initial Assessment)</strong>
+                                <p style="margin-top: 10px;">Conduct your first risk assessment</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Identify threats, vulnerabilities, and initial risk levels</p>
+                            </div>
+
+                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
+
                             <div class="process-step" style="background: linear-gradient(135deg, #AB47BC 0%, #7B1FA2 100%); color: white;">
                                 <strong>NIST SP 800-53</strong>
                                 <p style="margin-top: 10px;">Select specific controls</p>
-                                <p style="margin-top: 5px; font-weight: 600;">Choose from catalog based on impact level</p>
-                            </div>
-
-                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
-
-                            <div class="process-step" style="background: linear-gradient(135deg, #EC407A 0%, #C2185B 100%); color: white; border: 3px solid #fff;">
-                                <strong>NIST SP 800-30</strong>
-                                <p style="margin-top: 10px;">Conduct risk assessment</p>
-                                <p style="margin-top: 5px; font-weight: 600;">Identify threats, vulnerabilities, and risk levels</p>
-                            </div>
-
-                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
-
-                            <div class="process-step" style="background: linear-gradient(135deg, #66BB6A 0%, #388E3C 100%); color: white;">
-                                <strong>NIST SP 800-60</strong>
-                                <p style="margin-top: 10px;">Map information types</p>
-                                <p style="margin-top: 5px; font-weight: 600;">Detailed guidance for categorization</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Start from the baseline for your impact level, then add or tailor based on the risk assessment</p>
                             </div>
 
                             <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
@@ -3073,6 +3053,14 @@
                                 <strong>NIST SP 800-70</strong>
                                 <p style="margin-top: 10px;">Apply security configuration checklists</p>
                                 <p style="margin-top: 5px; font-weight: 600;">Implement using SCAP, STIGs, CIS Benchmarks</p>
+                            </div>
+
+                            <div style="text-align: center; font-size: 28px; color: #667eea; margin: 10px 0;">↓</div>
+
+                            <div class="process-step" style="background: linear-gradient(135deg, #EC407A 0%, #C2185B 100%); color: white; border: 3px solid #fff;">
+                                <strong>NIST SP 800-30 (Reassessment)</strong>
+                                <p style="margin-top: 10px;">Calculate residual risk after controls</p>
+                                <p style="margin-top: 5px; font-weight: 600;">Is the remaining risk acceptable?</p>
                             </div>
                         </div>
 
@@ -3092,7 +3080,7 @@
                         <h4>📋 Detailed Standard-by-Standard Integration (Click to Expand)</h4>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🔵 FIPS 199: Standards for Security Categorization</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -3159,7 +3147,7 @@
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🟢 NIST 800-60: Guide for Mapping Information Types</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -3215,7 +3203,7 @@
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🟠 FIPS 200: Minimum Security Requirements</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -3255,20 +3243,20 @@
 
                                 <div class="warning-box">
                                     <p><strong>FIPS 200 RA (Risk Assessment) Requirement:</strong></p>
-                                    <p>"Organizations must periodically assess the risk to organizational operations, assets, individuals, other organizations, and the Nation..."</p>
+                                    <p>"Organizations must periodically assess the risk to organizational operations (including mission, functions, image, or reputation), organizational assets, and individuals, resulting from the operation of organizational information systems and the associated processing, storage, or transmission of organizational information."</p>
                                     <p style="margin-top: 15px;"><strong>→ NIST 800-30r1 is HOW you meet this FIPS 200 requirement!</strong></p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🟣 NIST 800-53: Security and Privacy Controls</span>
                                 <span class="expand-icon">▶</span>
                             </div>
                             <div class="expandable-content">
                                 <h5>What It Does:</h5>
-                                <p>Comprehensive catalog of security controls organized into the same 17 families from FIPS 200. Includes control baselines for Low, Moderate, and High impact systems.</p>
+                                <p>Comprehensive catalog of security and privacy controls organized into 20 control families (Rev. 5): the 17 FIPS 200 security areas plus Program Management (PM), PII Processing and Transparency (PT), and Supply Chain Risk Management (SR). Includes control baselines for Low, Moderate, and High impact systems.</p>
 
                                 <h5>Control Baselines by FIPS 199 Category:</h5>
                                 <table>
@@ -3323,7 +3311,7 @@
                         </div>
 
                         <div class="expandable">
-                            <div class="expandable-header" onclick="toggleExpandable(this)">
+                            <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpandable(this)">
                                 <span>🔵 NIST 800-70: Security Configuration Checklists</span>
                                 <span class="expand-icon">▶</span>
                             </div>
@@ -3374,10 +3362,10 @@
                                     <strong>800-30r1 Assessment:</strong>
                                     <ul>
                                         <li>Vulnerability: Weak server configuration</li>
-                                        <li>Threat: Remote exploitation (ADV-3)</li>
+                                        <li>Threat: Remote exploitation of a known weakness (ADV-8)</li>
                                         <li>Likelihood: HIGH (easy targets)</li>
                                         <li>Impact: HIGH (business systems)</li>
-                                        <li>Risk: VERY HIGH</li>
+                                        <li>Risk: HIGH</li>
                                     </ul>
                                     <strong>Mitigation:</strong> Apply 800-70 STIG baselines → Reassess → Risk: LOW
                                 </div>
@@ -3484,7 +3472,7 @@
                             <div>✓ Effective risk communication</div>
                             <div>✓ Continuous assessment techniques</div>
                             <div>✓ RMF integration</div>
-                            <div>✓ Appendix D threat event taxonomy</div>
+                            <div>✓ Appendix E threat event taxonomy</div>
                             <div>✓ Practical templates and checklists</div>
                             <div>✓ Real-world breach case studies</div>
                             <div>✓ NIST standards ecosystem integration</div>
@@ -3505,17 +3493,6 @@
         <button class="fab" onclick="toggleNotes()" title="Toggle Notes">
             📝
         </button>
-    </div>
-
-    <!-- Risk Details Modal -->
-    <div class="risk-modal" id="riskModal" onclick="closeRiskModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Risk Details</div>
-                <div class="close-modal" onclick="closeRiskModal()">×</div>
-            </div>
-            <div id="modalBody"></div>
-        </div>
     </div>
 
     <script>
@@ -3556,7 +3533,7 @@
 
         // Progress Tracking
         function updateProgress() {
-            const progress = (sectionsViewed.size / 7) * 100;
+            const progress = (sectionsViewed.size / document.querySelectorAll('.slide').length) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
@@ -3690,8 +3667,10 @@
 
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
-                if (opt === element) {
-                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                opt.setAttribute('aria-disabled', 'true');
+                opt.classList.remove('correct', 'incorrect');
+                if (/checkAnswer\(\s*this\s*,\s*true/.test(opt.getAttribute('onclick') || '')) {
+                    opt.classList.add('correct');
                 }
             });
 
@@ -3700,7 +3679,8 @@
                 feedback.style.background = 'linear-gradient(135deg, rgba(67, 233, 123, 0.2) 0%, rgba(56, 249, 215, 0.2) 100%)';
                 feedback.style.border = '2px solid #43e97b';
             } else {
-                feedback.innerHTML = '❌ Not quite. Review the material and try to understand the correct answer.';
+                element.classList.add('incorrect');
+                feedback.innerHTML = '❌ Not quite. The correct answer is highlighted above; review that section again.';
                 feedback.style.background = 'linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 111, 0.2) 100%)';
                 feedback.style.border = '2px solid #ff6b6b';
             }
@@ -3784,8 +3764,15 @@
                 return;
             }
 
-            // Risk calculation: take the higher of (likelihood + impact) / 2 or max(likelihood, impact)
-            const riskScore = Math.max(likelihood, impact);
+            // NIST SP 800-30r1 Table I-2: rows = likelihood, columns = impact (Very Low .. Very High = 1..5)
+            const riskMatrix = [
+                [1, 1, 1, 2, 2], // Very Low likelihood
+                [1, 2, 2, 2, 3], // Low
+                [1, 2, 3, 3, 4], // Moderate
+                [1, 2, 3, 4, 5], // High
+                [1, 2, 3, 4, 5]  // Very High
+            ];
+            const riskScore = riskMatrix[likelihood - 1][impact - 1];
 
             let riskLevel, riskColor, riskAction;
 
@@ -3819,7 +3806,7 @@
             resultDiv.innerHTML = `
                 <div style="font-size: 32px; margin-bottom: 15px;">🎯 Risk Level: ${riskLevel}</div>
                 ${scenario ? `<div style="font-size: 18px; margin-bottom: 15px; opacity: 0.9;">Scenario: ${scenario}</div>` : ''}
-                <div style="font-size: 16px; margin-bottom: 10px;">Likelihood: ${likelihoodText} | Impact: ${impactText}</div>
+                <div style="font-size: 16px; margin-bottom: 10px;">Likelihood: ${likelihoodText} | Impact: ${impactText} (NIST SP 800-30r1 Table I-2)</div>
                 <div style="font-size: 16px; font-weight: normal; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.3); border-radius: 10px;">
                     <strong>Recommended Action:</strong><br>${riskAction}
                 </div>
@@ -3852,10 +3839,10 @@
         function downloadRiskRegister() {
             const csv = `Risk ID,Threat Source,Threat Event,Vulnerability,Likelihood,Impact,Risk Level,Response Strategy,Owner,Status,Due Date,Notes
 R-001,Cybercriminals,Ransomware attack,Unpatched servers,High,Very High,Very High,Mitigate,IT Director,Open,2025-11-01,Emergency patching required
-R-002,Insider,Data exfiltration,No DLP solution,Moderate,High,High,Mitigate,CISO,In Progress,2025-11-15,DLP procurement underway
+R-002,Insider,Data exfiltration,No DLP solution,Moderate,High,Moderate,Mitigate,CISO,In Progress,2025-11-15,DLP procurement underway
 R-003,Employee,Phishing attack,Low security awareness,High,Moderate,Moderate,Mitigate,HR Manager,Planned,2025-12-01,Security awareness training
-R-004,Nation-State,APT intrusion,No EDR solution,Low,Very High,High,Mitigate,CISO,Open,2025-11-30,EDR evaluation needed
-R-005,Accidental,Data deletion,No backup testing,Moderate,High,High,Mitigate,IT Manager,Open,2025-11-10,Quarterly backup tests
+R-004,Nation-State,APT intrusion,No EDR solution,Low,Very High,Moderate,Mitigate,CISO,Open,2025-11-30,EDR evaluation needed
+R-005,Accidental,Data deletion,No backup testing,Moderate,High,Moderate,Mitigate,IT Manager,Open,2025-11-10,Quarterly backup tests
 R-006,[Your Risk],[Threat Event],[Vulnerability],[Level],[Level],[Level],[Strategy],[Name],[Status],[Date],[Notes]`;
 
             const blob = new Blob([csv], {type: 'text/csv'});
@@ -3893,7 +3880,7 @@ Task 2-1: Identify Threat Sources
 ☐ Environmental threats (natural disasters, infrastructure)
 
 Task 2-2: Identify Threat Events
-☐ Map threat sources to specific threat events (Appendix D)
+☐ Map threat sources (Appendix D) to specific threat events (Appendix E)
 ☐ Document threat event descriptions
 ☐ Assess relevance to organization
 
@@ -3960,11 +3947,13 @@ Date: _______________`;
             const content = `NIST SP 800-30r1 QUICK REFERENCE GUIDE
 ===========================================
 
-RISK EQUATION: Risk = Threat × Vulnerability × Impact
+RISK DEFINITION: Risk = f(Likelihood, Impact)
+(Threats and vulnerabilities feed likelihood. "Threat × Vulnerability × Impact"
+is a common industry mnemonic, not NIST's definition.)
 
 FOUR-STEP PROCESS:
 1. PREPARE    → Context, scope, methodology
-2. CONDUCT    → Identify threats/vulnerabilities, assess likelihood/impact
+2. CONDUCT    → Identify threats/vulnerabilities, assess likelihood/impact, determine risk
 3. COMMUNICATE → Tailor message to audience, provide recommendations
 4. MAINTAIN   → Ongoing monitoring, periodic updates
 
@@ -3979,18 +3968,18 @@ THREAT CATEGORIES:
 • Structural: Hardware failures, software bugs, design flaws
 • Environmental: Natural disasters, power failures, infrastructure
 
-LIKELIHOOD SCALE:
-Very High (76-100%) → Very likely to occur
-High (51-75%)      → Likely to occur
-Moderate (26-50%)  → May occur
-Low (11-25%)       → Unlikely to occur
-Very Low (0-10%)   → Very unlikely to occur
+LIKELIHOOD SCALE (semi-quantitative values, Tables G-2 and G-3):
+Very High (96-100 / 10) → Almost certain; more than 100 times a year
+High (80-95 / 8)        → Highly likely; 10 to 100 times a year
+Moderate (21-79 / 5)    → Somewhat likely; 1 to 10 times a year
+Low (5-20 / 2)          → Unlikely; less than once a year, more than once per 10 years
+Very Low (0-4 / 0)      → Highly unlikely; less than once every 10 years
 
-IMPACT SCALE:
-Very High → Catastrophic adverse effect
-High      → Serious adverse effect
-Moderate  → Limited adverse effect
-Low       → Minor adverse effect
+IMPACT SCALE (Table H-3):
+Very High → Multiple severe or catastrophic adverse effects
+High      → Severe or catastrophic adverse effect
+Moderate  → Serious adverse effect
+Low       → Limited adverse effect
 Very Low  → Negligible adverse effect
 
 RISK RESPONSE OPTIONS:
@@ -4007,11 +3996,15 @@ INTEGRATION WITH OTHER NIST STANDARDS:
 CSF 2.0 → Cybersecurity Framework (business-friendly)
 
 KEY APPENDICES:
-Appendix D → Threat event taxonomy
-Appendix E → Vulnerability assessment
-Appendix F → Likelihood determination
-Appendix G → Impact assessment
-Appendix H → Risk assessment report template
+Appendix D → Threat sources
+Appendix E → Threat events
+Appendix F → Vulnerabilities and predisposing conditions
+Appendix G → Likelihood of occurrence
+Appendix H → Impact
+Appendix I → Risk determination
+Appendix J → Informing risk response
+Appendix K → Risk assessment reports
+Appendix L → Summary of tasks
 
 BEST PRACTICES:
 ✓ Conduct at all three tiers
@@ -4035,7 +4028,7 @@ Official Publication: https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/
         }
 
         function downloadThreatTaxonomy() {
-            const csv = `Threat Category,Threat ID,Threat Event,Example Scenario
+            const csv = `Threat Category,Course ID,Threat Event,Example Scenario
 Adversarial,ADV-1,Perform reconnaissance/surveillance,Attacker scans network for open ports and maps infrastructure
 Adversarial,ADV-2,Craft spear phishing attacks,Targeted email to CFO impersonating CEO requesting wire transfer
 Adversarial,ADV-3,Exploit zero-day vulnerability,Nation-state uses unknown Windows exploit for initial access
@@ -4043,6 +4036,7 @@ Adversarial,ADV-4,Deploy ransomware,Encrypt critical databases and demand Bitcoi
 Adversarial,ADV-5,Exfiltrate sensitive data,Insider copies customer PII to USB drive before resignation
 Adversarial,ADV-6,Conduct DDoS attack,Botnet floods e-commerce site during Black Friday
 Adversarial,ADV-7,Supply chain compromise,Malicious code injected into third-party library update
+Adversarial,ADV-8,Exploit known vulnerability,Attacker uses a public exploit against a server whose patch was never applied
 Accidental,ACC-1,User error in data entry,Employee enters wrong account number and transfers $100K to wrong recipient
 Accidental,ACC-2,Misconfiguration of security settings,Admin accidentally exposes S3 bucket to public internet
 Accidental,ACC-3,Loss or theft of equipment,Laptop with unencrypted patient data stolen from car
@@ -4071,14 +4065,14 @@ Environmental,ENV-5,Telecommunications failure,Fiber optic cable cut and interne
             const content = `NIST 800-30r1 Risk Matrix Template
 ====================================
 
-Likelihood/Impact Matrix:
+Likelihood/Impact Matrix (NIST SP 800-30r1 Table I-2; rows = likelihood, columns = impact):
 
                 Very Low    Low        Moderate   High       Very High
-Very High       Low        Moderate   High       Very High  Very High
-High            Low        Moderate   Moderate   High       Very High
+Very High       Very Low   Low        Moderate   High       Very High
+High            Very Low   Low        Moderate   High       Very High
 Moderate        Very Low   Low        Moderate   Moderate   High
-Low             Very Low   Low        Low        Moderate   Moderate
-Very Low        Very Low   Very Low   Low        Low        Moderate
+Low             Very Low   Low        Low        Low        Moderate
+Very Low        Very Low   Very Low   Very Low   Low        Low
 
 RISK LEVEL DEFINITIONS:
 
@@ -4123,7 +4117,7 @@ Risk 1: Ransomware Attack
 Risk 2: Insider Data Theft
 - Likelihood: Moderate (privileged users exist)
 - Impact: High (data breach, regulatory fines)
-- Risk Level: HIGH
+- Risk Level: MODERATE
 - Response: DLP solution, access monitoring, least privilege
 
 Risk 3: Phishing Attack
@@ -4135,7 +4129,7 @@ Risk 3: Phishing Attack
 Risk 4: Physical Theft
 - Likelihood: Low (secured facility)
 - Impact: Low (device encryption, remote wipe)
-- Risk Level: VERY LOW
+- Risk Level: LOW
 - Response: Accept with physical security controls
 
 Use this template to create your own risk matrix for your organization!`;
@@ -4149,94 +4143,10 @@ Use this template to create your own risk matrix for your organization!`;
             URL.revokeObjectURL(url);
         }
 
-        // Risk Modal Functions
-        function openRiskModal(likelihood, impact) {
-            const modal = document.getElementById('riskModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-
-            const riskExamples = {
-                '5-5': {
-                    title: 'Very High Likelihood × Very High Impact',
-                    level: 'VERY HIGH',
-                    color: '#ffcdd2',
-                    examples: [
-                        'Ransomware attack on healthcare with no backups',
-                        'Unpatched critical vulnerability actively exploited in wild',
-                        'Insider with admin access planning data theft'
-                    ],
-                    action: 'DROP EVERYTHING - This is a crisis requiring immediate executive intervention and emergency resources.'
-                },
-                '4-5': {
-                    title: 'High Likelihood × Very High Impact',
-                    level: 'VERY HIGH',
-                    color: '#ffcdd2',
-                    examples: [
-                        'Phishing campaign targeting executives with access to funds',
-                        'DDoS threat against e-commerce site during peak season',
-                        'Supply chain attack on critical software vendor'
-                    ],
-                    action: 'URGENT - Requires immediate senior leadership attention and rapid response plan.'
-                },
-                '3-4': {
-                    title: 'Moderate Likelihood × High Impact',
-                    level: 'MODERATE',
-                    color: '#ffe0b2',
-                    examples: [
-                        'SQL injection vulnerability in customer-facing application',
-                        'Weak password policy on systems with sensitive data',
-                        'Inadequate vendor security controls'
-                    ],
-                    action: 'PLANNED - Include in next quarterly security roadmap with dedicated resources.'
-                },
-                '2-2': {
-                    title: 'Low Likelihood × Low Impact',
-                    level: 'VERY LOW',
-                    color: '#c8e6c9',
-                    examples: [
-                        'Physical theft of encrypted laptop from secured office',
-                        'Minor website defacement with no data access',
-                        'Spam email reaching employee inbox'
-                    ],
-                    action: 'ACCEPT - Document risk acceptance decision and maintain basic controls.'
-                }
-            };
-
-            const key = `${likelihood}-${impact}`;
-            const riskInfo = riskExamples[key] || {
-                title: 'Risk Scenario',
-                level: 'MODERATE',
-                color: '#ffe0b2',
-                examples: ['Click different matrix cells to see specific risk scenarios'],
-                action: 'Assess based on specific threat, vulnerability, and impact context.'
-            };
-
-            modalTitle.textContent = riskInfo.title;
-            modalBody.innerHTML = `
-                <div style="text-align: center; padding: 20px; background: ${riskInfo.color}; border-radius: 10px; margin-bottom: 20px;">
-                    <div style="font-size: 28px; font-weight: 700; color: #1a202c;">Risk Level: ${riskInfo.level}</div>
-                </div>
-                <h4 style="margin-top: 20px;">Example Scenarios:</h4>
-                <ul>
-                    ${riskInfo.examples.map(ex => `<li style="margin: 10px 0;">${ex}</li>`).join('')}
-                </ul>
-                <div style="margin-top: 25px; padding: 20px; background: var(--bg-accent); border-radius: 10px; border-left: 4px solid #667eea;">
-                    <strong>Recommended Action:</strong><br><br>
-                    ${riskInfo.action}
-                </div>
-            `;
-
-            modal.classList.add('show');
-        }
-
-        function closeRiskModal() {
-            document.getElementById('riskModal').classList.remove('show');
-        }
-
-        // Add keyboard shortcut for closing modal
+        // Escape closes the keyboard shortcuts overlay
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeRiskModal();
+                hideShortcuts();
             }
         });
     </script>

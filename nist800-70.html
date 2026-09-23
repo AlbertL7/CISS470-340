@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NIST SP 800-70 - Configuration Checklists Program</title>
+    <title>NIST SP 800-70 - National Checklist Program</title>
     <style>
         * {
             margin: 0;
@@ -285,10 +285,6 @@
         }
         
         .tier-card.tier3::before {
-            background: #3498db;
-        }
-        
-        .tier-card.tier4::before {
             background: #2ecc71;
         }
         
@@ -1112,8 +1108,8 @@
                         <span>Machine-readable security configurations</span>
                     </div>
                     <div class="concept-item">
-                        <strong>Tier System</strong>
-                        <span>Four-tier checklist complexity model</span>
+                        <strong>Content Types</strong>
+                        <span>Prose, Automated, and SCAP Content checklists</span>
                     </div>
                 </div>
             </div>
@@ -1123,7 +1119,7 @@
         <div class="framework-flow">
             <h2>🔄 The Complete Security Framework Flow</h2>
             <div class="flow-container">
-                <div class="flow-step fips199" onclick="expandStep(this)">
+                <div class="flow-step fips199" onclick="expandStep(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3>Step 1: FIPS 199 - Security Categorization</h3>
                     <p>Determine your system's impact level (Low/Moderate/High) based on potential harm to CIA</p>
                     <p style="margin-top: 10px; font-size: 12px;">Example: ERP System = {(C, M), (I, H), (A, M)} = HIGH</p>
@@ -1131,7 +1127,7 @@
                 
                 <div class="flow-arrow">↓</div>
                 
-                <div class="flow-step fips200" onclick="expandStep(this)">
+                <div class="flow-step fips200" onclick="expandStep(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3>Step 2: FIPS 200 - Minimum Requirements</h3>
                     <p>Address 17 security control families mandated for federal systems</p>
                     <p style="margin-top: 10px; font-size: 12px;">AC, AT, AU, CA, CM, CP, IA, IR, MA, MP, PE, PL, PS, RA, SA, SC, SI</p>
@@ -1139,7 +1135,7 @@
                 
                 <div class="flow-arrow">↓</div>
                 
-                <div class="flow-step nist800-53" onclick="expandStep(this)">
+                <div class="flow-step nist800-53" onclick="expandStep(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3>Step 3: NIST 800-53 - Select Controls</h3>
                     <p>Choose specific controls from the catalog based on your impact level</p>
                     <p style="margin-top: 10px; font-size: 12px;">High baseline = 325+ controls across all families</p>
@@ -1147,7 +1143,7 @@
                 
                 <div class="flow-arrow">↓</div>
                 
-                <div class="flow-step nist800-70" onclick="expandStep(this)">
+                <div class="flow-step nist800-70" onclick="expandStep(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3>Step 4: NIST 800-70 - Configure Systems ⭐</h3>
                     <p>Apply standardized configuration checklists to implement selected controls on your IT products</p>
                     <p style="margin-top: 10px; font-size: 12px;">Windows Server 2019 STIG, Oracle 19c Baseline, Apache 2.4 Hardening Guide</p>
@@ -1159,52 +1155,42 @@
         <div class="ncp-overview">
             <h2>📚 National Checklist Program (NCP) Structure</h2>
             <p style="color: #666; margin-bottom: 20px;">
-                The NCP uses a tiered approach to categorize checklists based on their automation level and complexity. 
-                This helps organizations select appropriate checklists based on their technical capabilities and requirements.
+                SP 800-70 Rev. 4 categorizes NCP checklists by content type, based on how automated and standards-based they are:
+                Prose, Automated (non-SCAP), and SCAP Content. This helps organizations select appropriate checklists based on
+                their technical capabilities and requirements. (Earlier revisions used a four-tier model; Rev. 4 removed it.)
             </p>
-            
+
             <div class="tier-system">
                 <div class="tier-card tier1">
-                    <h3>Tier I - Prose</h3>
+                    <h3>Prose</h3>
                     <p>Human-readable guidance in narrative form</p>
                     <ul>
                         <li>PDF or Word documents</li>
                         <li>Manual implementation required</li>
                         <li>Good for small organizations</li>
-                        <li>Example: CIS Benchmarks PDFs</li>
+                        <li>Example: CIS Benchmarks PDFs, vendor hardening guides</li>
                     </ul>
                 </div>
-                
+
                 <div class="tier-card tier2">
-                    <h3>Tier II - Generalized</h3>
-                    <p>Configuration files with manual review needed</p>
+                    <h3>Automated (non-SCAP)</h3>
+                    <p>Machine-readable settings in a product-specific or non-standard format</p>
                     <ul>
-                        <li>XML, INI, or config files</li>
-                        <li>Some automation possible</li>
-                        <li>Requires customization</li>
-                        <li>Example: Group Policy templates</li>
+                        <li>Scripts, GPO/ADMX templates, .inf security templates, kickstart files</li>
+                        <li>Applied with the product's own tooling</li>
+                        <li>Not portable between scanners</li>
+                        <li>Example: Microsoft Security Compliance Toolkit GPO baselines</li>
                     </ul>
                 </div>
-                
+
                 <div class="tier-card tier3">
-                    <h3>Tier III - Technology Specific</h3>
-                    <p>Automated scripts for specific products</p>
+                    <h3>SCAP Content</h3>
+                    <p>Standards-based XCCDF/OVAL data streams for automated scanning</p>
                     <ul>
-                        <li>PowerShell, Bash scripts</li>
-                        <li>Direct implementation</li>
-                        <li>Product-specific automation</li>
-                        <li>Example: DISA STIG scripts</li>
-                    </ul>
-                </div>
-                
-                <div class="tier-card tier4">
-                    <h3>Tier IV - SCAP Enabled</h3>
-                    <p>Fully automated scanning and remediation</p>
-                    <ul>
-                        <li>XCCDF, OVAL content</li>
-                        <li>Automated compliance checking</li>
-                        <li>Continuous monitoring capable</li>
-                        <li>Example: SCAP data streams</li>
+                        <li>Validated with SCAPVal before acceptance</li>
+                        <li>Runs in any SCAP-validated tool</li>
+                        <li>Automated compliance checking, continuous monitoring capable</li>
+                        <li>Example: DISA STIG SCAP benchmarks</li>
                     </ul>
                 </div>
             </div>
@@ -1214,7 +1200,7 @@
         <div class="checklist-types">
             <h2>📋 Comprehensive Checklist Categories</h2>
             <div class="checklist-grid">
-                <div class="checklist-card" onclick="selectChecklist(this, 'os')">
+                <div class="checklist-card" onclick="selectChecklist(this, 'os')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3><span class="checklist-icon">💻</span> Operating Systems</h3>
                     <p>Windows, Linux, macOS hardening guides with specific security settings and policies</p>
                     <div class="checklist-examples">
@@ -1228,7 +1214,7 @@
                     </div>
                 </div>
                 
-                <div class="checklist-card" onclick="selectChecklist(this, 'db')">
+                <div class="checklist-card" onclick="selectChecklist(this, 'db')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3><span class="checklist-icon">🗄️</span> Databases</h3>
                     <p>Database configurations for data protection, access control, and audit logging</p>
                     <div class="checklist-examples">
@@ -1242,7 +1228,7 @@
                     </div>
                 </div>
                 
-                <div class="checklist-card" onclick="selectChecklist(this, 'app')">
+                <div class="checklist-card" onclick="selectChecklist(this, 'app')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3><span class="checklist-icon">🌐</span> Web Applications</h3>
                     <p>Web servers, application servers, and browser security configurations</p>
                     <div class="checklist-examples">
@@ -1256,7 +1242,7 @@
                     </div>
                 </div>
                 
-                <div class="checklist-card" onclick="selectChecklist(this, 'network')">
+                <div class="checklist-card" onclick="selectChecklist(this, 'network')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3><span class="checklist-icon">🔌</span> Network Devices</h3>
                     <p>Routers, switches, firewalls with hardened network security settings</p>
                     <div class="checklist-examples">
@@ -1270,7 +1256,7 @@
                     </div>
                 </div>
                 
-                <div class="checklist-card" onclick="selectChecklist(this, 'mobile')">
+                <div class="checklist-card" onclick="selectChecklist(this, 'mobile')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3><span class="checklist-icon">📱</span> Mobile Devices</h3>
                     <p>iOS, Android configurations for enterprise mobile security</p>
                     <div class="checklist-examples">
@@ -1284,7 +1270,7 @@
                     </div>
                 </div>
                 
-                <div class="checklist-card" onclick="selectChecklist(this, 'virtual')">
+                <div class="checklist-card" onclick="selectChecklist(this, 'virtual')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <h3><span class="checklist-icon">☁️</span> Cloud & Virtual</h3>
                     <p>Cloud platforms, containers, and virtualization security</p>
                     <div class="checklist-examples">
@@ -1346,7 +1332,7 @@
                         <tr>
                             <td class="feature">Cost</td>
                             <td class="check">Free</td>
-                            <td class="partial">Membership</td>
+                            <td class="partial">Free PDFs; membership for Build Kits / CIS-CAT</td>
                             <td class="check">Free</td>
                             <td class="cross">Development cost</td>
                         </tr>
@@ -1409,20 +1395,20 @@
             
             <div class="stig-categories">
                 <div class="stig-cat cat1">
-                    <h4>CAT I (Critical)</h4>
-                    <p>Fix immediately</p>
+                    <h4>CAT I (High)</h4>
+                    <p>Directly and immediately results in loss of confidentiality, integrity, or availability. Must be fixed or mitigated before an ATO.</p>
                     <p style="font-size: 12px; margin-top: 10px;">Examples: Default passwords, critical patches missing</p>
                 </div>
-                
+
                 <div class="stig-cat cat2">
-                    <h4>CAT II (High)</h4>
-                    <p>Fix within 30 days</p>
+                    <h4>CAT II (Medium)</h4>
+                    <p>Has the potential to result in loss of confidentiality, integrity, or availability. Fix per organizational POA&amp;M timelines.</p>
                     <p style="font-size: 12px; margin-top: 10px;">Examples: Weak encryption, insufficient logging</p>
                 </div>
-                
+
                 <div class="stig-cat cat3">
-                    <h4>CAT III (Medium)</h4>
-                    <p>Fix within 90 days</p>
+                    <h4>CAT III (Low)</h4>
+                    <p>Degrades measures that protect against loss of confidentiality, integrity, or availability. Fix per organizational POA&amp;M timelines.</p>
                     <p style="font-size: 12px; margin-top: 10px;">Examples: Banner messages, documentation</p>
                 </div>
             </div>
@@ -1433,9 +1419,9 @@
             <h2>🚀 Real-World Implementation Scenarios</h2>
             
             <div class="implementation-tabs">
-                <div class="impl-tab active" onclick="showImplementation('enterprise')">Enterprise Network</div>
-                <div class="impl-tab" onclick="showImplementation('cloud')">Cloud Migration</div>
-                <div class="impl-tab" onclick="showImplementation('zerotrust')">Zero Trust</div>
+                <div class="impl-tab active" onclick="showImplementation('enterprise', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Enterprise Network</div>
+                <div class="impl-tab" onclick="showImplementation('cloud', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Cloud Migration</div>
+                <div class="impl-tab" onclick="showImplementation('zerotrust', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Zero Trust</div>
             </div>
             
             <div id="enterprise-impl" class="impl-content active">
@@ -1508,6 +1494,9 @@ Set-ADDefaultDomainPasswordPolicy -Identity "corp.example.com" `
 
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
+  LoggingBucket:
+    Type: AWS::S3::Bucket
+    # CloudTrail also needs a bucket policy that lets it write here
   CloudTrail:
     Type: AWS::CloudTrail::Trail
     Properties:
@@ -1584,10 +1573,10 @@ Resources:
             <h2>💡 Step-by-Step Implementation Examples</h2>
             
             <div class="example-tabs">
-                <div class="example-tab active" onclick="showExample('password')">Password Policy</div>
-                <div class="example-tab" onclick="showExample('audit')">Audit Logging</div>
-                <div class="example-tab" onclick="showExample('access')">Access Control</div>
-                <div class="example-tab" onclick="showExample('encryption')">Encryption</div>
+                <div class="example-tab active" onclick="showExample('password', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Password Policy</div>
+                <div class="example-tab" onclick="showExample('audit', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Audit Logging</div>
+                <div class="example-tab" onclick="showExample('access', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Access Control</div>
+                <div class="example-tab" onclick="showExample('encryption', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">Encryption</div>
             </div>
             
             <div id="password-example" class="example-content active">
@@ -1705,11 +1694,10 @@ DROP USER OE CASCADE;
 
 -- Implement least privilege
 REVOKE CREATE SESSION FROM PUBLIC;
-REVOKE CREATE TABLE FROM CONNECT;
+REVOKE CREATE TABLE FROM RESOURCE;
 REVOKE CREATE PROCEDURE FROM RESOURCE;
 
--- Enable unified auditing
-ALTER SYSTEM SET unified_audit_trail=DB,EXTENDED SCOPE=SPFILE;
+-- Unified auditing (mixed mode is on by default in 19c)
 CREATE AUDIT POLICY logon_policy ACTIONS LOGON,LOGOFF;
 AUDIT POLICY logon_policy;
 
@@ -1777,7 +1765,7 @@ END;</pre>
             <h2>🔧 SCAP: Automation Protocol for NIST 800-70</h2>
             <p style="color: #666; margin-bottom: 20px;">
                 The Security Content Automation Protocol (SCAP) enables automated vulnerability management, security measurement, 
-                and policy compliance evaluation. It's the technical foundation for Tier IV checklists in NIST 800-70.
+                and policy compliance evaluation. It's the technical foundation for SCAP Content checklists in the NCP.
             </p>
             
             <div class="scap-components">
@@ -1788,7 +1776,7 @@ END;</pre>
                 
                 <div class="scap-card">
                     <h4>OVAL</h4>
-                    <p>Open Vulnerability Assessment Language - Defines system states and configurations</p>
+                    <p>Open Vulnerability and Assessment Language - Defines system states and configurations</p>
                 </div>
                 
                 <div class="scap-card">
@@ -1829,7 +1817,7 @@ END;</pre>
                         
                         <div class="tool-card free">
                             <h4>SCC (SCAP Compliance Checker)</h4>
-                            <p>DISA's automated scanning tool</p>
+                            <p>NIWC Atlantic's SCAP-validated scanner (distributed via DISA)</p>
                             <span class="tool-badge">FREE</span>
                         </div>
                         
@@ -1885,16 +1873,16 @@ END;</pre>
             <div class="quiz-question">
                 <h4>1. What is the primary purpose of NIST SP 800-70?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Not quite. That\'s FIPS 199\'s role.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Not quite. That\'s FIPS 199\'s role.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         Categorize information systems by impact level
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s NIST 800-53\'s function.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s NIST 800-53\'s function.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         Provide a catalog of security controls
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! NIST 800-70 provides standardized configuration checklists.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! NIST 800-70 provides standardized configuration checklists.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         Bridge the gap between controls and technical implementation
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s FIPS 200\'s purpose.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s FIPS 200\'s purpose.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         Define minimum security requirements
                     </div>
                 </div>
@@ -1902,19 +1890,19 @@ END;</pre>
             </div>
             
             <div class="quiz-question">
-                <h4>2. Which tier of NCP checklists provides fully automated scanning?</h4>
+                <h4>2. Which NCP checklist content type can be processed directly by SCAP-validated tools?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Tier I is prose/narrative guidance.')">
-                        Tier I - Prose
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Prose checklists are narrative guidance that must be read and applied by hand.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        Prose
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Tier II has configuration files but limited automation.')">
-                        Tier II - Generalized
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Non-SCAP automated content such as scripts and GPO templates runs in product-specific tooling, not in SCAP-validated scanners.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        Automated (non-SCAP)
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Tier III has scripts but not full SCAP support.')">
-                        Tier III - Technology Specific
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'A vendor PDF is prose content; it has to be implemented manually.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        Vendor PDF
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! Tier IV uses SCAP for full automation.')">
-                        Tier IV - SCAP Enabled
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! SCAP Content is expressed in XCCDF/OVAL and can be processed by any SCAP-validated tool.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        SCAP Content
                     </div>
                 </div>
                 <div class="feedback"></div>
@@ -1923,17 +1911,17 @@ END;</pre>
             <div class="quiz-question">
                 <h4>3. Which severity level of STIG findings must be fixed immediately?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! CAT I findings pose immediate threat.')">
-                        CAT I (Critical)
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! CAT I findings directly and immediately result in loss of confidentiality, integrity, or availability, so they are the highest priority.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        CAT I (High)
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'CAT II should be fixed within 30 days.')">
-                        CAT II (High)
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'CAT II findings, rated Medium, have the potential to cause loss; they are remediated on organizational POA&amp;M timelines.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        CAT II (Medium)
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'CAT III can be fixed within 90 days.')">
-                        CAT III (Medium)
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'CAT III findings, rated Low, degrade protective measures; they are the lowest STIG severity.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        CAT III (Low)
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'There is no CAT IV in STIGs.')">
-                        CAT IV (Low)
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'There is no CAT IV. DISA STIGs use only three severity categories: CAT I is High, CAT II is Medium, and CAT III is Low.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                        CAT IV (Informational)
                     </div>
                 </div>
                 <div class="feedback"></div>
@@ -1942,16 +1930,16 @@ END;</pre>
             <div class="quiz-question">
                 <h4>4. What does SCAP stand for?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Close, but not quite right.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Close, but not quite right.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         Security Configuration Assessment Protocol
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! SCAP is the Security Content Automation Protocol.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Correct! SCAP is the Security Content Automation Protocol.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         Security Content Automation Protocol
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s not the correct expansion.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'That\'s not the correct expansion.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         System Compliance Automation Platform
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Incorrect expansion of the acronym.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'Incorrect expansion of the acronym.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         Security Checklist Application Program
                     </div>
                 </div>
@@ -1961,16 +1949,16 @@ END;</pre>
             <div class="quiz-question">
                 <h4>5. How does NIST 800-70 relate to the other standards?</h4>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It actually comes after all three.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It actually comes after all three.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         It replaces FIPS 199, FIPS 200, and NIST 800-53
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It\'s actually the implementation layer.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It\'s actually the implementation layer.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         It's an optional supplement for advanced users
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Exactly! It provides the HOW after the others define the WHAT.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'correct', 'Exactly! It provides the HOW after the others define the WHAT.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         It provides implementation guidance for controls selected through the other standards
                     </div>
-                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It\'s actually for configuration, not categorization.')">
+                    <div class="quiz-option" onclick="checkAnswer(this, 'incorrect', 'It\'s actually for configuration, not categorization.')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         It's an alternative to FIPS 199 for categorization
                     </div>
                 </div>
@@ -1985,19 +1973,19 @@ END;</pre>
                 <div class="resource-card">
                     <h4>Official NIST NCP Repository</h4>
                     <p>Access the complete National Checklist Program database</p>
-                    <a href="#" class="resource-link">nvd.nist.gov/ncp/repository</a>
+                    <a href="https://ncp.nist.gov/repository" target="_blank" rel="noopener noreferrer" class="resource-link">ncp.nist.gov/repository</a>
                 </div>
                 
                 <div class="resource-card">
                     <h4>DISA STIG Library</h4>
                     <p>Download all current STIGs and implementation guides</p>
-                    <a href="#" class="resource-link">public.cyber.mil</a>
+                    <a href="https://public.cyber.mil/stigs/" target="_blank" rel="noopener noreferrer" class="resource-link">public.cyber.mil/stigs</a>
                 </div>
                 
                 <div class="resource-card">
                     <h4>CIS Benchmarks</h4>
                     <p>Access consensus-developed secure configuration guides</p>
-                    <a href="#" class="resource-link">cisecurity.org/benchmarks</a>
+                    <a href="https://www.cisecurity.org/cis-benchmarks" target="_blank" rel="noopener noreferrer" class="resource-link">cisecurity.org/cis-benchmarks</a>
                 </div>
             </div>
         </div>
@@ -2012,11 +2000,11 @@ END;</pre>
     
     <script>
         // Progress tracking
+        const sectionKeys = ['introduction', 'framework-flow', 'checklists', 'implementation', 'examples', 'quiz', 'ncp', 'stig', 'scap', 'tools', 'resources'];
         let sectionsViewed = new Set();
-        let totalSections = 10;
-        
+
         function updateProgress() {
-            const progress = (sectionsViewed.size / totalSections) * 100;
+            const progress = Math.min(100, (sectionsViewed.size / sectionKeys.length) * 100);
             document.getElementById('progress').style.width = progress + '%';
         }
         
@@ -2055,12 +2043,14 @@ END;</pre>
         }
         
         // Implementation tabs
-        function showImplementation(type) {
+        function showImplementation(type, evt) {
             trackSection('implementation');
+            const target = evt && evt.target;
             // Update tabs
             const tabs = document.querySelectorAll('.impl-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
+            const activeTab = target && target.closest('.impl-tab');
+            if (activeTab) activeTab.classList.add('active');
             
             // Update content
             const contents = document.querySelectorAll('.impl-content');
@@ -2069,12 +2059,14 @@ END;</pre>
         }
         
         // Example tabs
-        function showExample(type) {
+        function showExample(type, evt) {
             trackSection('examples');
+            const target = evt && evt.target;
             // Update tabs
             const tabs = document.querySelectorAll('.example-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
+            const activeTab = target && target.closest('.example-tab');
+            if (activeTab) activeTab.classList.add('active');
             
             // Update content
             const contents = document.querySelectorAll('.example-content');
@@ -2085,16 +2077,20 @@ END;</pre>
         // Quiz functionality
         function checkAnswer(element, result, feedback) {
             trackSection('quiz');
-            // Clear previous selections in this question
             const options = element.parentElement.querySelectorAll('.quiz-option');
             options.forEach(option => {
                 option.classList.remove('correct', 'incorrect');
+                // Always reveal the keyed answer so a wrong guess still teaches it
+                if (/checkAnswer\(\s*this\s*,\s*'correct'/.test(option.getAttribute('onclick') || '')) {
+                    option.classList.add('correct');
+                }
                 option.onclick = null;
+                option.style.pointerEvents = 'none';
+                option.setAttribute('aria-disabled', 'true');
             });
-            
-            // Mark the selected answer
-            element.classList.add(result);
-            
+
+            if (result === 'incorrect') element.classList.add('incorrect');
+
             // Show feedback
             const feedbackDiv = element.parentElement.nextElementSibling;
             feedbackDiv.className = 'feedback show ' + result;
@@ -2115,11 +2111,11 @@ THE SECURITY FRAMEWORK FLOW:
 3. NIST 800-53: Select specific controls from catalog
 4. NIST 800-70: Apply configuration checklists to implement controls
 
-NATIONAL CHECKLIST PROGRAM (NCP) TIERS:
-- Tier I (Prose): Human-readable narrative guidance
-- Tier II (Generalized): Configuration files with manual review
-- Tier III (Technology Specific): Automated scripts for products
-- Tier IV (SCAP Enabled): Fully automated scanning and remediation
+NATIONAL CHECKLIST PROGRAM (NCP) CONTENT TYPES (SP 800-70 Rev. 4):
+- Prose: Human-readable narrative guidance, applied manually
+- Automated (non-SCAP): Scripts, GPO/ADMX templates, .inf files; product-specific tooling
+- SCAP Content: XCCDF/OVAL data streams that run in any SCAP-validated tool
+(Earlier revisions used a four-tier model; Rev. 4 removed it.)
 
 CHECKLIST CATEGORIES:
 1. Operating Systems (Windows, Linux, macOS)
@@ -2130,17 +2126,19 @@ CHECKLIST CATEGORIES:
 6. Cloud & Virtual (AWS, Azure, VMware, Docker)
 
 STIG SEVERITY CATEGORIES:
-- CAT I (Critical): Fix immediately - Direct threat
-- CAT II (High): Fix within 30 days - Potential threat
-- CAT III (Medium): Fix within 90 days - Degraded security
+- CAT I (High): Directly and immediately results in loss of C/I/A; fix or mitigate before ATO
+- CAT II (Medium): Potential to result in loss of C/I/A
+- CAT III (Low): Degrades measures that protect against loss of C/I/A
+Remediation deadlines are set by organizational policy and tracked in the POA&M.
 
 COMPARISON OF SOURCES:
                     STIGs   CIS     Vendor  Custom
 Stringency:         High    High    Medium  Variable
 DoD Mandatory:      Yes     No      No      No
 Automation:         SCAP    Various Limited Custom
-Cost:              Free    Member  Free    Dev Cost
+Cost:              Free    Free*   Free    Dev Cost
 Flexibility:       Rigid   Moderate Flex    Maximum
+* CIS Benchmark PDFs are free; SecureSuite membership covers Build Kits and CIS-CAT Pro.
 
 SCAP COMPONENTS:
 - XCCDF: Checklist descriptions

@@ -79,7 +79,15 @@
         
         .node {
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+        
+        .node:focus-visible,
+        .connection-line:focus-visible {
+            outline: 3px solid #2c3e50;
+            outline-offset: 2px;
         }
         
         .node:hover {
@@ -250,8 +258,9 @@
 </head>
 <body>
     <div class="header">
-        <h1>Integrated Governance & Risk Management Framework From Book, Get a Better Understanding.</h1>
-        <p>Interactive Model for Strategic Alignment and Risk Management</p>
+        <h1>Integrated Governance & Risk Management Framework</h1>
+        <p>Interactive Model for Strategic Alignment and Risk Management, based on the Chapter 1 model in The Cyber Risk Handbook (Antonucci, 2017)</p>
+        <p style="font-size:0.9em; opacity:0.85; margin-top:6px;">This diagram is ISACA's Business Model for Information Security (BMIS, 2010), later adopted by COBIT 5 for Information Security. The four circles are its elements and the six bars are its dynamic interconnections (DIs).</p>
     </div>
     
     <div class="container">
@@ -259,47 +268,47 @@
             <div class="framework-visual">
                 <svg class="svg-container" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
                     <!-- Connection Lines -->
-                    <!-- Organisation to People (Culture) -->
-                    <line class="connection-line" data-connection="culture" x1="250" y1="60" x2="125" y2="300" />
+                    <!-- Organization to People (Culture) -->
+                    <line class="connection-line" data-connection="culture" role="button" tabindex="0" aria-label="Culture link between Organization and People" x1="250" y1="60" x2="125" y2="300" />
                     <text class="connection-text" x="187" y="170" transform="rotate(-60 187 170)">CULTURE</text>
                     
-                    <!-- Organisation to Process (Governing) -->
-                    <line class="connection-line" data-connection="governing" x1="250" y1="60" x2="250" y2="200" />
+                    <!-- Organization to Process (Governing) -->
+                    <line class="connection-line" data-connection="governing" role="button" tabindex="0" aria-label="Governing link between Organization and Process" x1="250" y1="60" x2="250" y2="200" />
                     <text class="connection-text" x="250" y="130" transform="rotate(-90 250 130)">GOVERNING</text>
                     
-                    <!-- Organisation to Technology (Architecture) -->
-                    <line class="connection-line" data-connection="architecture" x1="250" y1="60" x2="375" y2="300" />
+                    <!-- Organization to Technology (Architecture) -->
+                    <line class="connection-line" data-connection="architecture" role="button" tabindex="0" aria-label="Architecture link between Organization and Technology" x1="250" y1="60" x2="375" y2="300" />
                     <text class="connection-text" x="312" y="170" transform="rotate(60 312 170)">ARCHITECTURE</text>
                     
                     <!-- People to Process (Emergence) -->
-                    <line class="connection-line" data-connection="emergence" x1="125" y1="300" x2="250" y2="200" />
+                    <line class="connection-line" data-connection="emergence" role="button" tabindex="0" aria-label="Emergence link between People and Process" x1="125" y1="300" x2="250" y2="200" />
                     <text class="connection-text" x="187" y="255" transform="rotate(35 187 255)">EMERGENCE</text>
                     
                     <!-- Process to Technology (Enabling) -->
-                    <line class="connection-line" data-connection="enabling" x1="250" y1="200" x2="375" y2="300" />
+                    <line class="connection-line" data-connection="enabling" role="button" tabindex="0" aria-label="Enabling and Support link between Process and Technology" x1="250" y1="200" x2="375" y2="300" />
                     <text class="connection-text" x="312" y="255" transform="rotate(-35 312 255)">ENABLING</text>
                     
                     <!-- People to Technology (Human Factors) -->
-                    <line class="connection-line" data-connection="humanfactors" x1="125" y1="300" x2="375" y2="300" />
+                    <line class="connection-line" data-connection="humanfactors" role="button" tabindex="0" aria-label="Human Factors link between People and Technology" x1="125" y1="300" x2="375" y2="300" />
                     <text class="connection-text" x="250" y="305">HUMAN FACTORS</text>
                     
                     <!-- Nodes -->
-                    <g class="node" data-node="organisation">
+                    <g class="node" data-node="organisation" role="button" tabindex="0" aria-label="Organization">
                         <circle class="node-circle" cx="250" cy="60" r="45" />
-                        <text class="node-text" x="250" y="65">ORGANISATION</text>
+                        <text class="node-text" x="250" y="65">ORGANIZATION</text>
                     </g>
                     
-                    <g class="node" data-node="people">
+                    <g class="node" data-node="people" role="button" tabindex="0" aria-label="People">
                         <circle class="node-circle" cx="125" cy="300" r="45" />
                         <text class="node-text" x="125" y="305">PEOPLE</text>
                     </g>
                     
-                    <g class="node" data-node="process">
+                    <g class="node" data-node="process" role="button" tabindex="0" aria-label="Process">
                         <circle class="node-circle" cx="250" cy="200" r="45" />
                         <text class="node-text" x="250" y="205">PROCESS</text>
                     </g>
                     
-                    <g class="node" data-node="technology">
+                    <g class="node" data-node="technology" role="button" tabindex="0" aria-label="Technology">
                         <circle class="node-circle" cx="375" cy="300" r="45" />
                         <text class="node-text" x="375" y="305">TECHNOLOGY</text>
                     </g>
@@ -336,25 +345,25 @@
         </div>
         
         <div class="controls">
-            <button class="btn" onclick="showInfo('organisation')">Organisation</button>
-            <button class="btn" onclick="showInfo('people')">People</button>
-            <button class="btn" onclick="showInfo('process')">Process</button>
-            <button class="btn" onclick="showInfo('technology')">Technology</button>
-            <button class="btn" onclick="showInfo('culture')">Culture Link</button>
-            <button class="btn" onclick="showInfo('governing')">Governing Link</button>
-            <button class="btn" onclick="showInfo('architecture')">Architecture Link</button>
-            <button class="btn" onclick="showInfo('emergence')">Emergence Link</button>
-            <button class="btn" onclick="showInfo('enabling')">Enabling Link</button>
-            <button class="btn" onclick="showInfo('humanfactors')">Human Factors Link</button>
-            <button class="btn" onclick="showInfo('implementation')">Implementation Guide</button>
-            <button class="btn" onclick="showInfo('risks')">Risk Categories</button>
+            <button class="btn" data-key="organisation" onclick="showInfo('organisation', this)">Organization</button>
+            <button class="btn" data-key="people" onclick="showInfo('people', this)">People</button>
+            <button class="btn" data-key="process" onclick="showInfo('process', this)">Process</button>
+            <button class="btn" data-key="technology" onclick="showInfo('technology', this)">Technology</button>
+            <button class="btn" data-key="culture" onclick="showInfo('culture', this)">Culture Link</button>
+            <button class="btn" data-key="governing" onclick="showInfo('governing', this)">Governing Link</button>
+            <button class="btn" data-key="architecture" onclick="showInfo('architecture', this)">Architecture Link</button>
+            <button class="btn" data-key="emergence" onclick="showInfo('emergence', this)">Emergence Link</button>
+            <button class="btn" data-key="enabling" onclick="showInfo('enabling', this)">Enabling Link</button>
+            <button class="btn" data-key="humanfactors" onclick="showInfo('humanfactors', this)">Human Factors Link</button>
+            <button class="btn" data-key="implementation" onclick="showInfo('implementation', this)">Implementation Guide</button>
+            <button class="btn" data-key="risks" onclick="showInfo('risks', this)">Risk Categories</button>
         </div>
     </div>
     
     <script>
         const content = {
             organisation: {
-                title: "Organisation Component",
+                title: "Organization Component (BMIS: Organization Design and Strategy)",
                 content: `
                     <h3>Strategic Leadership & Governance</h3>
                     <ul>
@@ -409,7 +418,7 @@
                     <ul>
                         <li>Diversity and inclusion initiatives</li>
                         <li>Employee engagement and satisfaction</li>
-                        <li>Health, safety, and wellbeing programs</li>
+                        <li>Health, safety, and well-being programs</li>
                         <li>Change management and communication</li>
                         <li>Knowledge management and retention</li>
                     </ul>
@@ -432,7 +441,8 @@
                         <li>Preventive controls to avoid risks</li>
                         <li>Detective controls to identify issues</li>
                         <li>Corrective controls to address problems</li>
-                        <li>Compensating controls for residual risks</li>
+                        <li>Compensating controls used in place of a primary control that cannot be implemented, providing equivalent protection</li>
+                        <li>Residual risk accepted, transferred, or further treated after controls are applied</li>
                         <li>Monitoring and testing of control effectiveness</li>
                     </ul>
                     
@@ -478,7 +488,7 @@
                 `
             },
             culture: {
-                title: "Culture (Organisation ↔ People)",
+                title: "Culture (Organization ↔ People)",
                 content: `
                     <h3>Cultural Integration</h3>
                     <ul>
@@ -493,7 +503,7 @@
                     <ul>
                         <li>Willingness to report problems and near-misses</li>
                         <li>Balance between risk-taking and control</li>
-                        <li>Ethical decision-making in grey areas</li>
+                        <li>Ethical decision-making in gray areas</li>
                         <li>Collective ownership of risk outcomes</li>
                         <li>Learning orientation vs. blame culture</li>
                     </ul>
@@ -509,7 +519,7 @@
                 `
             },
             governing: {
-                title: "Governing (Organisation ↔ Process)",
+                title: "Governing (Organization ↔ Process)",
                 content: `
                     <h3>Strategic Process Alignment</h3>
                     <ul>
@@ -540,7 +550,7 @@
                 `
             },
             architecture: {
-                title: "Architecture (Organisation ↔ Technology)",
+                title: "Architecture (Organization ↔ Technology)",
                 content: `
                     <h3>Enterprise Architecture Alignment</h3>
                     <ul>
@@ -754,7 +764,7 @@
             }
         };
         
-        function showInfo(key) {
+        function showInfo(key, btn) {
             const infoDisplay = document.getElementById('info-display');
             const data = content[key];
             
@@ -765,8 +775,9 @@
                 `;
                 
                 // Update active states
-                document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
+                document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+                const activeBtn = btn || document.querySelector(`.btn[data-key="${key}"]`);
+                if (activeBtn) activeBtn.classList.add('active');
                 
                 // Update visual elements
                 document.querySelectorAll('.node-circle, .connection-line').forEach(el => {
@@ -787,19 +798,23 @@
             }
         }
         
-        // Add click handlers to SVG elements
-        document.querySelectorAll('.node').forEach(node => {
-            node.addEventListener('click', () => {
-                const nodeType = node.dataset.node;
-                showInfo(nodeType);
+        // Add click and keyboard handlers to SVG elements
+        function activateOn(el, handler) {
+            el.addEventListener('click', handler);
+            el.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handler();
+                }
             });
+        }
+        
+        document.querySelectorAll('.node').forEach(node => {
+            activateOn(node, () => showInfo(node.dataset.node));
         });
         
         document.querySelectorAll('.connection-line').forEach(line => {
-            line.addEventListener('click', () => {
-                const connectionType = line.dataset.connection;
-                showInfo(connectionType);
-            });
+            activateOn(line, () => showInfo(line.dataset.connection));
         });
     </script>
 </body>

@@ -225,6 +225,29 @@
         .baseline-button.selected {
             background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
         }
+
+        .baseline-button.quiz-correct {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        }
+
+        .baseline-button.quiz-incorrect {
+            background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+        }
+
+        .baseline-button:disabled,
+        .baseline-button:disabled:hover {
+            cursor: default;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .quiz-verdict {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .quiz-verdict.correct { color: #2e7d32; }
+        .quiz-verdict.incorrect { color: #c62828; }
         
         .control-display {
             padding: 20px;
@@ -471,7 +494,7 @@
 
         <!-- SLIDE 1: Introduction & Relationship to FIPS 199 -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Understanding NIST SP 800-53 and Its Connection to FIPS 199</span>
                 <span class="slide-number">Part 1 of 6</span>
             </div>
@@ -514,7 +537,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📚 Why SP 800-53 is Revolutionary</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -552,8 +575,8 @@
                         <p><strong>The Economy Package</strong></p>
                         <p style="font-size: 14px; margin-top: 10px;">Basic locks on all doors, smoke detectors, simple alarm</p>
                         <div class="control-count-box" style="margin-top: 15px;">
-                            <div style="font-size: 24px; font-weight: bold;">~120</div>
-                            <div style="font-size: 12px;">Base Controls</div>
+                            <div style="font-size: 24px; font-weight: bold;">~150</div>
+                            <div style="font-size: 12px;">Controls + Enhancements</div>
                         </div>
                         <p style="font-size: 12px; margin-top: 10px; color: #666;">Perfect for: Public websites, training systems, non-sensitive data</p>
                     </div>
@@ -562,7 +585,7 @@
                         <p><strong>The Standard Package</strong></p>
                         <p style="font-size: 14px; margin-top: 10px;">Deadbolts, motion sensors, cameras at entrances, monitoring service</p>
                         <div class="control-count-box" style="margin-top: 15px;">
-                            <div style="font-size: 24px; font-weight: bold;">~260</div>
+                            <div style="font-size: 24px; font-weight: bold;">~290</div>
                             <div style="font-size: 12px;">Controls + Enhancements</div>
                         </div>
                         <p style="font-size: 12px; margin-top: 10px; color: #666;">Perfect for: Business systems, PII, financial records</p>
@@ -572,7 +595,7 @@
                         <p><strong>The Premium Package</strong></p>
                         <p style="font-size: 14px; margin-top: 10px;">Biometric locks, 24/7 guards, panic room, full camera coverage</p>
                         <div class="control-count-box" style="margin-top: 15px;">
-                            <div style="font-size: 24px; font-weight: bold;">~420</div>
+                            <div style="font-size: 24px; font-weight: bold;">~370</div>
                             <div style="font-size: 12px;">Maximum Protection</div>
                         </div>
                         <p style="font-size: 12px; margin-top: 10px; color: #666;">Perfect for: National security, healthcare, critical infrastructure</p>
@@ -590,7 +613,7 @@
                     </ul>
                     <p style="margin-top: 15px;"><strong>Step 2:</strong> System Categorization = {(C:HIGH), (I:HIGH), (A:MODERATE)}</p>
                     <p style="margin-top: 10px;"><strong>Step 3:</strong> Required Baseline = HIGH (always use the highest impact level)</p>
-                    <p style="margin-top: 10px;"><strong>Result:</strong> Must implement ~420 security controls to adequately protect patient data!</p>
+                    <p style="margin-top: 10px;"><strong>Result:</strong> Must implement ~370 security controls to adequately protect patient data!</p>
                 </div>
 
                 <div class="warning-box">
@@ -612,7 +635,7 @@
 
         <!-- SLIDE 2: Control Structure and Families -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Control Families and Structure</span>
                 <span class="slide-number">Part 2 of 6</span>
             </div>
@@ -637,7 +660,7 @@
 
                 <h3>📁 Understanding Each Security Control Family</h3>
                 
-                <div class="control-family-card" onclick="expandFamily('AC')">
+                <div class="control-family-card" onclick="expandFamily('AC', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <span class="family-code">AC</span>
                     <h4 style="margin-top:25px;">Access Control - The Gatekeepers</h4>
                     <p style="margin-top:15px;">Controls who gets in, what they can see, and what they can do. Like bouncers at different doors of your organization.</p>
@@ -647,7 +670,7 @@
                             <li><strong>AC-2 Account Management:</strong> Creating/deleting user accounts (like employee onboarding/offboarding)</li>
                             <li><strong>AC-3 Access Enforcement:</strong> Making sure permissions actually work (can't access HR files without HR role)</li>
                             <li><strong>AC-7 Unsuccessful Logon Attempts:</strong> Lock account after 3 failed passwords</li>
-                            <li><strong>AC-11 Session Lock:</strong> Screen locks after 15 minutes idle</li>
+                            <li><strong>AC-11 Device Lock:</strong> Screen locks after 15 minutes idle</li>
                         </ul>
                         <div class="real-world-box" style="margin-top: 15px;">
                             <strong>Real Implementation:</strong> When an employee is promoted from junior to senior analyst, AC controls ensure their system access is updated to match their new responsibilities.
@@ -655,16 +678,16 @@
                     </div>
                 </div>
 
-                <div class="control-family-card" onclick="expandFamily('AU')">
+                <div class="control-family-card" onclick="expandFamily('AU', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <span class="family-code">AU</span>
                     <h4 style="margin-top:25px;">Audit and Accountability - The Record Keepers</h4>
                     <p style="margin-top:15px;">Creates a paper trail of everything that happens. Your security cameras and visitor logs.</p>
                     <div id="AU-details" class="expandable-content" style="display:none; margin-top:15px;">
                         <strong>What This Family Tracks:</strong>
                         <ul>
-                            <li><strong>AU-2 Audit Events:</strong> What to record (logins, file access, configuration changes)</li>
+                            <li><strong>AU-2 Event Logging:</strong> What to record (logins, file access, configuration changes)</li>
                             <li><strong>AU-3 Content of Audit Records:</strong> What details to capture (who, what, when, where, result)</li>
-                            <li><strong>AU-4 Audit Storage Capacity:</strong> Ensuring you don't run out of log space</li>
+                            <li><strong>AU-4 Audit Log Storage Capacity:</strong> Ensuring you don't run out of log space</li>
                             <li><strong>AU-11 Audit Record Retention:</strong> How long to keep logs (often 90 days minimum)</li>
                         </ul>
                         <div class="example-box" style="margin-top: 15px;">
@@ -673,16 +696,16 @@
                     </div>
                 </div>
 
-                <div class="control-family-card" onclick="expandFamily('IA')">
+                <div class="control-family-card" onclick="expandFamily('IA', event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                     <span class="family-code">IA</span>
                     <h4 style="margin-top:25px;">Identification and Authentication - The Identity Verifiers</h4>
                     <p style="margin-top:15px;">Ensures people are who they claim to be. Your ID badge checkers and fingerprint scanners.</p>
                     <div id="IA-details" class="expandable-content" style="display:none; margin-top:15px;">
                         <strong>Modern Authentication Controls:</strong>
                         <ul>
-                            <li><strong>IA-2 Authentication:</strong> Basic login (username/password)</li>
-                            <li><strong>IA-2(1) Multi-Factor for Network:</strong> Adding phone verification for remote access</li>
-                            <li><strong>IA-2(2) Multi-Factor for All Users:</strong> Everyone needs two-factor, even on-site</li>
+                            <li><strong>IA-2 Identification and Authentication:</strong> Uniquely identify and verify every user before granting access</li>
+                            <li><strong>IA-2(1) Multi-factor Authentication to Privileged Accounts:</strong> Admins must use MFA (required in LOW, MODERATE, and HIGH)</li>
+                            <li><strong>IA-2(2) Multi-factor Authentication to Non-privileged Accounts:</strong> Everyone else must use MFA too (required in LOW, MODERATE, and HIGH)</li>
                             <li><strong>IA-5 Authenticator Management:</strong> Password rules, token distribution, biometric enrollment</li>
                         </ul>
                         <div class="warning-box" style="margin-top: 15px;">
@@ -692,7 +715,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📋 View All 20 Control Families with Real-World Examples</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -874,7 +897,7 @@
 
         <!-- SLIDE 3: Control Baselines in Detail -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Deep Dive: Control Baselines and FIPS 199 Impact Levels</span>
                 <span class="slide-number">Part 3 of 6</span>
             </div>
@@ -883,7 +906,7 @@
                 
                 <div class="highlight-box">
                     <h3>Understanding the Baseline Concept</h3>
-                    <p style="font-size: 18px;">Control baselines are like pre-configured security packages. Instead of choosing 420+ controls individually (which would be overwhelming), NIST gives you three pre-selected sets based on your FIPS 199 impact level. It's like choosing a car trim level—base, premium, or fully-loaded—each builds on the previous with more features.</p>
+                    <p style="font-size: 18px;">Control baselines are like pre-configured security packages. Instead of choosing ~370 controls individually (which would be overwhelming), NIST gives you three pre-selected sets based on your FIPS 199 impact level. It's like choosing a car trim level—base, premium, or fully-loaded—each builds on the previous with more features.</p>
                 </div>
 
                 <div class="analogy-box">
@@ -931,7 +954,7 @@
                     <ul style="list-style-type: disc; padding-left: 20px;">
                         <li><strong>LOW:</strong> 8 characters, change annually</li>
                         <li><strong>MODERATE:</strong> 12 characters, complexity requirements, change every 90 days, can't reuse last 5</li>
-                        <li><strong>HIGH:</strong> 15+ characters, high complexity, change every 60 days, can't reuse last 12, plus multi-factor required</li>
+                        <li><strong>HIGH:</strong> 15+ characters, high complexity, change every 60 days, can't reuse last 12 (multi-factor is required at every baseline in Rev 5, not just HIGH)</li>
                     </ul>
                 </div>
                 
@@ -959,7 +982,7 @@
                                 <td><strong>AC-2</strong></td>
                                 <td>Account Management</td>
                                 <td style="background:#c8e6c9; text-align:center;">Base only</td>
-                                <td style="background:#fff9c4; text-align:center;">+ 4 enhancements</td>
+                                <td style="background:#fff9c4; text-align:center;">+ 6 enhancements</td>
                                 <td style="background:#ffccbc; text-align:center;">+ 8 enhancements</td>
                             </tr>
                             <tr>
@@ -987,15 +1010,15 @@
                                 <td><strong>AC-6</strong></td>
                                 <td>Least Privilege</td>
                                 <td style="background:#ffcdd2; text-align:center;">Not Required</td>
-                                <td style="background:#fff9c4; text-align:center;">+ 5 enhancements</td>
-                                <td style="background:#ffccbc; text-align:center;">+ 6 enhancements</td>
+                                <td style="background:#fff9c4; text-align:center;">+ 6 enhancements</td>
+                                <td style="background:#ffccbc; text-align:center;">+ 7 enhancements</td>
                             </tr>
                             <tr>
                                 <td><strong>AC-11</strong></td>
-                                <td>Session Lock</td>
-                                <td style="background:#c8e6c9; text-align:center;">✓</td>
-                                <td style="background:#fff9c4; text-align:center;">+ (1) Pattern lock</td>
-                                <td style="background:#fff9c4; text-align:center;">+ (1) Pattern lock</td>
+                                <td>Device Lock</td>
+                                <td style="background:#ffcdd2; text-align:center;">Not Required</td>
+                                <td style="background:#fff9c4; text-align:center;">+ (1) Pattern-hiding displays</td>
+                                <td style="background:#fff9c4; text-align:center;">+ (1) Pattern-hiding displays</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1005,7 +1028,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🏥 Complete Scenario: Healthcare Electronic Records System</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1040,7 +1063,7 @@
                             <ul>
                                 <li><strong>AC-2 with 8 enhancements:</strong> Automated provisioning/deprovisioning tied to HR system</li>
                                 <li><strong>AU-2 through AU-12:</strong> Complete audit trail of who accessed which patient records when</li>
-                                <li><strong>IA-2(1),(2),(3):</strong> Multi-factor for all access, including workstations</li>
+                                <li><strong>IA-2(1),(2):</strong> Multi-factor for privileged and non-privileged accounts, including workstations</li>
                                 <li><strong>SC-8 and SC-28:</strong> Encryption for data in transit (between hospitals) and at rest (database)</li>
                                 <li><strong>PT family (Privacy):</strong> Consent management, data retention, patient rights</li>
                             </ul>
@@ -1066,7 +1089,7 @@
 
         <!-- SLIDE 4: Control Selection Process -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>The Control Selection Process</span>
                 <span class="slide-number">Part 4 of 6</span>
             </div>
@@ -1114,7 +1137,7 @@
                 <h3>✂️ Step 2: Tailoring (Customizing Your Controls)</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📐 Scoping Guidance - When Controls Don't Apply</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1125,7 +1148,7 @@
                             <strong>1. Technology-Related Considerations</strong>
                             <p>Control doesn't match your technology stack</p>
                             <ul style="margin-top: 10px;">
-                                <li><strong>Example:</strong> PE-3 (Physical Access) doesn't apply to serverless Lambda functions</li>
+                                <li><strong>Example:</strong> PE-3 (Physical Access) is inherited from the cloud provider for serverless Lambda functions rather than removed</li>
                                 <li><strong>Example:</strong> MA-4 (Nonlocal Maintenance) not relevant if everything is cloud-based</li>
                             </ul>
                         </div>
@@ -1160,7 +1183,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🔄 Compensating Controls - Alternative Approaches</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1301,7 +1324,7 @@
 
         <!-- SLIDE 5: Priority and Implementation -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Control Priorities and Implementation Strategy</span>
                 <span class="slide-number">Part 5 of 6</span>
             </div>
@@ -1310,7 +1333,7 @@
                 
                 <div class="highlight-box">
                     <h3>The Implementation Challenge</h3>
-                    <p style="font-size: 18px;">Imagine being handed a list of 420 security controls (HIGH baseline) and being told "implement these." Where do you start? Trying to do everything at once is a recipe for failure. Successful implementation requires a strategic, phased approach that builds security capabilities logically.</p>
+                    <p style="font-size: 18px;">Imagine being handed a list of 370 security controls (HIGH baseline) and being told "implement these." Where do you start? Trying to do everything at once is a recipe for failure. Successful implementation requires a strategic, phased approach that builds security capabilities logically.</p>
                 </div>
 
                 <div class="analogy-box">
@@ -1356,7 +1379,7 @@
                 <h3>🥈 Priority 2: Identity and Access (Months 2-4)</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Build Your Access Control Foundation</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1397,7 +1420,7 @@
                 <h3>🥉 Priority 3: Detection and Response (Months 4-6)</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Build Your Visibility and Response Capability</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1526,7 +1549,7 @@
 
                 <div class="real-world-box">
                     <h4>🏆 Success Story: Regional Bank Implementation</h4>
-                    <p><strong>Challenge:</strong> Implement MODERATE baseline (260 controls) for online banking platform</p>
+                    <p><strong>Challenge:</strong> Implement MODERATE baseline (~290 controls) for online banking platform</p>
                     <p><strong>Approach:</strong></p>
                     <ul>
                         <li>Month 1-2: Established policies and completed risk assessment</li>
@@ -1547,7 +1570,7 @@
 
         <!-- SLIDE 6: Summary and Integration -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" onclick="toggleSlide(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Bringing It All Together: FIPS 199 to Operational Security</span>
                 <span class="slide-number">Part 6 of 6</span>
             </div>
@@ -1611,21 +1634,21 @@
                         <tr>
                             <td><strong>LOW</strong></td>
                             <td>Low Baseline</td>
-                            <td>~120 controls</td>
+                            <td>~150 controls</td>
                             <td>3-6 months</td>
                             <td>$50K - $200K</td>
                         </tr>
                         <tr>
                             <td><strong>MODERATE</strong></td>
                             <td>Moderate Baseline</td>
-                            <td>~260 controls</td>
+                            <td>~290 controls</td>
                             <td>9-12 months</td>
                             <td>$200K - $1M</td>
                         </tr>
                         <tr>
                             <td><strong>HIGH</strong></td>
                             <td>High Baseline</td>
-                            <td>~420 controls</td>
+                            <td>~370 controls</td>
                             <td>15-18 months</td>
                             <td>$1M - $5M+</td>
                         </tr>
@@ -1646,7 +1669,7 @@
                 <h3>🎓 Key Lessons for Success</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📚 Top 10 Lessons from Successful Implementations</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1686,7 +1709,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" onclick="toggleExpand(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🛠️ Your Next Steps</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1780,25 +1803,42 @@
             <p style="font-size: 16px;">📖 Based on NIST Special Publication 800-53 Revision 5</p>
             <p style="font-size: 14px; margin-top: 10px;">Security and Privacy Controls for Information Systems and Organizations</p>
             <p style="font-size: 12px; margin-top: 10px;">National Institute of Standards and Technology | September 2020 (Updated 2023)</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Scroll through the sections or use the buttons below; the bar tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 6) * 100;
+            const progress = (sectionsViewed.size / document.querySelectorAll('.slide').length) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
-        function toggleSlide(header) {
-            const slide = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            sectionsViewed.add(slideNumber);
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
             updateProgress();
+        }
+
+        function toggleSlide(header) {
+            const slide = header.closest('.slide') || header.parentElement;
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reading a section also counts toward progress. The sections here are two to
+        // three screens tall, so a visible-fraction threshold would never fire for the
+        // longer ones; instead count a section once it crosses the middle of the viewport.
+        if ('IntersectionObserver' in window) {
+            const viewedObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) markViewed(entry.target); });
+            }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+            document.querySelectorAll('.slide').forEach(slide => viewedObserver.observe(slide));
         }
 
         function toggleExpand(element) {
@@ -1809,13 +1849,11 @@
             content.classList.toggle('active');
         }
 
-        function expandFamily(family) {
+        function expandFamily(family, evt) {
             const details = document.getElementById(family + '-details');
-            if (details.style.display === 'none') {
-                details.style.display = 'block';
-            } else {
-                details.style.display = 'none';
-            }
+            if (!details) return;
+            if (evt && details.contains(evt.target)) return;
+            details.style.display = details.style.display === 'block' ? 'none' : 'block';
         }
 
         function showControlDetail(type) {
@@ -1844,21 +1882,21 @@
                              <strong>LOW Baseline:</strong> Just the basic control - manual processes are OK
                          </div>
                          <div class="control-enhancement">
-                             <strong>MODERATE Baseline:</strong> Adds 4 enhancements:
+                             <strong>MODERATE Baseline:</strong> Adds 6 enhancements:
                              <ul style="margin-top:10px;">
-                                 <li>(1) Automated account management</li>
-                                 <li>(2) Remove temporary accounts automatically</li>
-                                 <li>(3) Disable inactive accounts after 90 days</li>
-                                 <li>(4) Automated audit of account actions</li>
+                                 <li>(1) Automated system account management</li>
+                                 <li>(2) Automated temporary and emergency account management (remove or disable automatically)</li>
+                                 <li>(3) Disable accounts (expired, inactive, or in violation of policy)</li>
+                                 <li>(4) Automated audit actions for account changes</li>
+                                 <li>(5) Inactivity logout (users log out after a defined period of expected inactivity)</li>
+                                 <li>(13) Disable accounts of high-risk individuals within a set time</li>
                              </ul>
                          </div>
                          <div class="control-enhancement">
-                             <strong>HIGH Baseline:</strong> Adds 4 more enhancements:
+                             <strong>HIGH Baseline:</strong> Adds 2 more enhancements (8 total):
                              <ul style="margin-top:10px;">
-                                 <li>(5) Inactivity logout after 30 days</li>
-                                 <li>(11) Lock accounts for specific time periods</li>
-                                 <li>(12) Monitor unusual account usage patterns</li>
-                                 <li>(13) Disable accounts of high-risk individuals immediately</li>
+                                 <li>(11) Usage conditions (limit when and how accounts can be used)</li>
+                                 <li>(12) Account monitoring for atypical usage</li>
                              </ul>
                          </div>`,
                 
@@ -1878,18 +1916,18 @@
                             
                             <p style="margin-top:20px;"><strong>Enhancement Progression:</strong></p>
                             <div class="control-enhancement">
-                                <strong>IA-2(1) - Multi-factor for Network Access</strong>
-                                <p>MODERATE and HIGH baselines require MFA for remote access</p>
-                                <p><em>Example: VPN requires password + SMS code</em></p>
+                                <strong>IA-2(1) - Multi-factor Authentication to Privileged Accounts</strong>
+                                <p>LOW, MODERATE and HIGH baselines - admins always need MFA</p>
+                                <p><em>Example: Domain admin login requires password + hardware token</em></p>
                             </div>
                             <div class="control-enhancement">
-                                <strong>IA-2(2) - Multi-factor for Non-Privileged Accounts</strong>
-                                <p>HIGH baseline only - everyone needs MFA, even regular users</p>
+                                <strong>IA-2(2) - Multi-factor Authentication to Non-privileged Accounts</strong>
+                                <p>LOW, MODERATE and HIGH baselines - everyone needs MFA, even regular users</p>
                                 <p><em>Example: Office workers need phone app to log into email</em></p>
                             </div>
                             <div class="control-enhancement">
-                                <strong>IA-2(3) - Multi-factor for Local Access</strong>
-                                <p>HIGH baseline - MFA even when sitting at the computer</p>
+                                <strong>IA-2(3) - Withdrawn in Rev 5</strong>
+                                <p>Local-access MFA was folded into IA-2(1) and IA-2(2), so MFA applies whether you connect remotely or sit at the computer</p>
                                 <p><em>Example: Desktop login requires password + fingerprint</em></p>
                             </div>
                             <div class="control-enhancement">
@@ -1899,7 +1937,7 @@
                             </div>
                             
                             <div class="warning-box" style="margin-top:20px;">
-                                <strong>Modern Reality:</strong> Most organizations now implement MODERATE-level authentication (MFA for remote) as a minimum, regardless of formal categorization, due to the prevalence of phishing attacks.
+                                <strong>Modern Reality:</strong> Rev 5 made MFA for every account a LOW baseline requirement, and most organizations already treat it as a minimum regardless of formal categorization, due to the prevalence of phishing attacks.
                             </div>`,
                 
                 'complex': `<h4>SC-7: Boundary Protection - Your Digital Fortress Walls</h4>
@@ -1939,7 +1977,7 @@
                            </div>
                            <div class="control-enhancement">
                                <strong>SC-7(5) - Deny by Default</strong>
-                               <p>Block all traffic except explicitly allowed (HIGH baseline)</p>
+                               <p>Block all traffic except explicitly allowed (MODERATE and HIGH baselines)</p>
                                <p><em>Whitelist approach - only approved applications can communicate</em></p>
                            </div>
                            
@@ -1963,7 +2001,7 @@
             const baselines = {
                 'low': `<h4>LOW Baseline - Essential Security for Public Information</h4>
                        <div class="control-count-box">
-                           <div class="control-count">~120</div>
+                           <div class="control-count">~150</div>
                            <div>Core Security Controls</div>
                        </div>
                        
@@ -1975,20 +2013,20 @@
                        <p style="margin-top:20px;"><strong>What You're Getting (Key Controls):</strong></p>
                        <ul>
                            <li><strong>Access Control:</strong> Basic user accounts, simple permissions (AC-2, AC-3, AC-7)</li>
-                           <li><strong>Authentication:</strong> Username/password only (IA-2 base, no MFA required)</li>
+                           <li><strong>Authentication:</strong> Unique user IDs plus multi-factor authentication for privileged and non-privileged accounts (IA-2, IA-2(1), IA-2(2), IA-2(8), IA-2(12); Rev 5 moved MFA into the LOW baseline)</li>
                            <li><strong>Audit:</strong> Log major events like logins and changes (AU-2, AU-3)</li>
                            <li><strong>Training:</strong> Annual security awareness for all users (AT-2)</li>
                            <li><strong>Incident Response:</strong> Basic ability to handle incidents (IR-4, IR-5)</li>
-                           <li><strong>Maintenance:</strong> Regular patching on a schedule (MA-2)</li>
+                           <li><strong>Flaw Remediation:</strong> Regular patching on a schedule (SI-2)</li>
                            <li><strong>Physical:</strong> Lock the server room (PE-2, PE-3)</li>
+                           <li><strong>Monitoring:</strong> Continuous monitoring strategy with risk monitoring (CA-7, CA-7(4))</li>
                        </ul>
                        
                        <div class="warning-box" style="margin-top:20px;">
                            <strong>What's NOT Included (Gaps to Consider):</strong>
                            <ul style="color: #d32f2f;">
-                               <li>No multi-factor authentication requirement</li>
                                <li>No encryption requirements (data could be readable if stolen)</li>
-                               <li>No continuous monitoring (attacks might go unnoticed)</li>
+                               <li>Continuous monitoring (CA-7, CA-7(4)) is required, but without the independent-assessor enhancement CA-7(1) that MODERATE and HIGH add</li>
                                <li>No separation of duties (one person could do everything)</li>
                                <li>Limited audit log retention (90 days typical)</li>
                            </ul>
@@ -2012,7 +2050,7 @@
                 
                 'moderate': `<h4>MODERATE Baseline - Professional Security for Business Operations</h4>
                             <div class="control-count-box">
-                                <div class="control-count">~260</div>
+                                <div class="control-count">~290</div>
                                 <div>Controls Including Enhancements</div>
                             </div>
                             
@@ -2023,8 +2061,10 @@
                             
                             <p style="margin-top:20px;"><strong>Major Upgrades from LOW:</strong></p>
                             <ul>
-                                <li><strong>Multi-factor Authentication:</strong> Required for all remote access (IA-2(1))</li>
+                                <li><strong>Multi-factor Authentication:</strong> Already required at LOW (IA-2(1), IA-2(2)); MODERATE adds a separate-device requirement for remote access (IA-2(6))</li>
                                 <li><strong>Encryption in Transit:</strong> TLS/SSL for all network communications (SC-8)</li>
+                                <li><strong>Encryption at Rest:</strong> Stored information protected with cryptography (SC-28, SC-28(1))</li>
+                                <li><strong>Integrity Verification:</strong> Integrity checks on software, firmware, and information (SI-7, SI-7(1), SI-7(7))</li>
                                 <li><strong>Separation of Duties:</strong> No single person can compromise the system (AC-5)</li>
                                 <li><strong>Least Privilege:</strong> Users only get exactly what they need (AC-6 + enhancements)</li>
                                 <li><strong>Vulnerability Scanning:</strong> Regular automated security scans (RA-5)</li>
@@ -2069,7 +2109,7 @@
                 
                 'high': `<h4>HIGH Baseline - Maximum Security for Critical Operations</h4>
                         <div class="control-count-box">
-                            <div class="control-count">~420</div>
+                            <div class="control-count">~370</div>
                             <div>Comprehensive Control Set</div>
                         </div>
                         
@@ -2081,12 +2121,12 @@
                         <p style="margin-top:20px;"><strong>Critical Additions Beyond MODERATE:</strong></p>
                         <ul>
                             <li><strong>Continuous Monitoring:</strong> Real-time 24/7 security operations center (CA-7 enhanced)</li>
-                            <li><strong>Universal MFA:</strong> Multi-factor for ALL users, ALL access, including local (IA-2 full)</li>
-                            <li><strong>Encryption at Rest:</strong> All stored data encrypted with strong keys (SC-28)</li>
+                            <li><strong>Individual Accountability:</strong> Individual authentication even when shared or group accounts are used (IA-2(5))</li>
+                            <li><strong>Fail Secure and Isolation:</strong> Boundary devices fail closed and security functions run isolated from other code (SC-7(18), SC-3)</li>
                             <li><strong>Advanced Threat Detection:</strong> Behavioral analysis, UEBA, deception technology</li>
                             <li><strong>Penetration Testing:</strong> Regular professional red team exercises (CA-8)</li>
-                            <li><strong>Supply Chain Security:</strong> Full vendor risk management program (SR family)</li>
-                            <li><strong>Integrity Monitoring:</strong> Cryptographic verification of all critical files (SI-7)</li>
+                            <li><strong>Supply Chain Security:</strong> Tamper resistance and detection added to the SR program every baseline requires (SR-9, SR-9(1))</li>
+                            <li><strong>Integrity Monitoring:</strong> Automated alerts and automated response to integrity violations (SI-7(2), SI-7(5))</li>
                             <li><strong>Advanced Audit:</strong> Correlation, automated response, long retention (AU-6 enhanced)</li>
                         </ul>
                         
@@ -2146,9 +2186,15 @@
                               <h5>Tailoring Decisions:</h5>
                               
                               <div class="control-item">
+                                  <strong>🔗 Inherited from AWS (Common Controls):</strong>
+                                  <ul>
+                                      <li>PE-2, PE-3: Physical access to data centers (documented in the AWS FedRAMP package; the startup verifies coverage under the shared responsibility model)</li>
+                                  </ul>
+                              </div>
+
+                              <div class="control-item" style="margin-top:15px;">
                                   <strong>✂️ Removed Controls (Not Applicable):</strong>
                                   <ul>
-                                      <li>PE-2, PE-3: Physical access (AWS handles data centers)</li>
                                       <li>MP-2: Media protection (no physical media)</li>
                                       <li>MA-4: Nonlocal maintenance (everything is remote)</li>
                                   </ul>
@@ -2157,7 +2203,7 @@
                               <div class="control-item" style="margin-top:15px;">
                                   <strong>➕ Added Controls (Business Needs):</strong>
                                   <ul>
-                                      <li>SC-28: Encryption at rest (handling payment data)</li>
+                                      <li>SC-12(1): Cryptographic key availability plus PCI-DSS key management (the MODERATE baseline already requires SC-28 encryption at rest)</li>
                                       <li>Additional AU controls: PCI-DSS requirements</li>
                                       <li>Enhanced IR: 24/7 response for payment systems</li>
                                   </ul>
@@ -2234,7 +2280,7 @@
                                      <ul>
                                          <li>IA-2(12): PIV card authentication for all employees</li>
                                          <li>SC-13: FIPS 140-2 validated cryptography</li>
-                                         <li>SI-2: USGCB configurations required</li>
+                                         <li>CM-6: USGCB configuration settings required</li>
                                          <li>AU-2: Specific events per federal guidelines</li>
                                      </ul>
                                  </div>
@@ -2593,7 +2639,7 @@
                                 
                                 <h5 style="margin-top:20px;">Step 2: Control Selection & Tailoring</h5>
                                 <ul>
-                                    <li><strong>Baseline:</strong> HIGH (~420 controls)</li>
+                                    <li><strong>Baseline:</strong> HIGH (~370 controls)</li>
                                     <li><strong>Additions:</strong> FFIEC requirements, state regulations</li>
                                     <li><strong>Modifications:</strong> Enhanced fraud detection, transaction monitoring</li>
                                 </ul>
@@ -2780,9 +2826,9 @@
                       </div>
                       
                       <div style="margin-top: 20px;">
-                          <button class="baseline-button" onclick="checkAnswer('q1', 'low')">LOW Baseline</button>
-                          <button class="baseline-button" onclick="checkAnswer('q1', 'moderate')">MODERATE Baseline</button>
-                          <button class="baseline-button" onclick="checkAnswer('q1', 'high')">HIGH Baseline</button>
+                          <button class="baseline-button" onclick="checkAnswer('q1', 'low', event)">LOW Baseline</button>
+                          <button class="baseline-button" onclick="checkAnswer('q1', 'moderate', event)">MODERATE Baseline</button>
+                          <button class="baseline-button" onclick="checkAnswer('q1', 'high', event)">HIGH Baseline</button>
                       </div>
                       
                       <div id="q1-answer" style="display:none; margin-top:20px;" class="success-box">
@@ -2796,10 +2842,10 @@
                       </div>
                       
                       <div style="margin-top: 20px;">
-                          <button class="baseline-button" onclick="checkAnswer('q2', 'ac')">AC - Access Control</button>
-                          <button class="baseline-button" onclick="checkAnswer('q2', 'au')">AU - Audit and Accountability</button>
-                          <button class="baseline-button" onclick="checkAnswer('q2', 'si')">SI - System and Information Integrity</button>
-                          <button class="baseline-button" onclick="checkAnswer('q2', 'sc')">SC - System and Communications Protection</button>
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'ac', event)">AC - Access Control</button>
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'au', event)">AU - Audit and Accountability</button>
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'si', event)">SI - System and Information Integrity</button>
+                          <button class="baseline-button" onclick="checkAnswer('q2', 'sc', event)">SC - System and Communications Protection</button>
                       </div>
                       
                       <div id="q2-answer" style="display:none; margin-top:20px;" class="success-box">
@@ -2813,10 +2859,10 @@
                       </div>
                       
                       <div style="margin-top: 20px;">
-                          <button class="baseline-button" onclick="checkAnswer('q3', 'encryption')">Encryption at rest (SC-28)</button>
-                          <button class="baseline-button" onclick="checkAnswer('q3', 'monitoring')">Continuous monitoring (CA-7)</button>
-                          <button class="baseline-button" onclick="checkAnswer('q3', 'policies')">Security policies (all -1 controls)</button>
-                          <button class="baseline-button" onclick="checkAnswer('q3', 'scanning')">Vulnerability scanning (RA-5)</button>
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'encryption', event)">Encryption at rest (SC-28)</button>
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'monitoring', event)">Continuous monitoring (CA-7)</button>
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'policies', event)">Security policies (all -1 controls)</button>
+                          <button class="baseline-button" onclick="checkAnswer('q3', 'scanning', event)">Vulnerability scanning (RA-5)</button>
                       </div>
                       
                       <div id="q3-answer" style="display:none; margin-top:20px;" class="success-box">
@@ -2830,10 +2876,10 @@
                       </div>
                       
                       <div style="margin-top: 20px;">
-                          <button class="baseline-button" onclick="checkAnswer('q4', 'implement')">Implement them as written</button>
-                          <button class="baseline-button" onclick="checkAnswer('q4', 'remove')">Remove as not applicable with justification</button>
-                          <button class="baseline-button" onclick="checkAnswer('q4', 'inherit')">Inherit from cloud provider with shared responsibility</button>
-                          <button class="baseline-button" onclick="checkAnswer('q4', 'ignore')">Ignore without documentation</button>
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'implement', event)">Implement them as written</button>
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'remove', event)">Remove as not applicable with justification</button>
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'inherit', event)">Inherit from cloud provider with shared responsibility</button>
+                          <button class="baseline-button" onclick="checkAnswer('q4', 'ignore', event)">Ignore without documentation</button>
                       </div>
                       
                       <div id="q4-answer" style="display:none; margin-top:20px;" class="success-box">
@@ -2846,29 +2892,52 @@
             display.style.display = 'block';
         }
         
-        function checkAnswer(question, answer) {
-            document.getElementById(question + '-answer').style.display = 'block';
+        const quizKeys = { q1: 'high', q2: 'au', q3: 'policies', q4: 'inherit' };
+
+        function checkAnswer(question, answer, evt) {
+            const answerBox = document.getElementById(question + '-answer');
+            if (!answerBox) return;
+            const key = quizKeys[question];
+            const correct = answer === key;
+            const clicked = evt && evt.target ? evt.target.closest('.baseline-button') : null;
+            answerBox.parentElement.querySelectorAll('.baseline-button').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('quiz-correct', 'quiz-incorrect');
+                const choice = (btn.getAttribute('onclick') || '').match(/checkAnswer\('q\d',\s*'(\w+)'/);
+                if (choice && choice[1] === key) btn.classList.add('quiz-correct');
+            });
+            if (!correct && clicked) clicked.classList.add('quiz-incorrect');
+            let verdict = answerBox.querySelector('.quiz-verdict');
+            if (!verdict) {
+                verdict = document.createElement('p');
+                answerBox.insertBefore(verdict, answerBox.firstChild);
+            }
+            verdict.className = 'quiz-verdict ' + (correct ? 'correct' : 'incorrect');
+            verdict.textContent = correct
+                ? '✓ Correct!'
+                : '✗ Not quite. The correct answer is highlighted above and explained below.';
+            answerBox.style.display = 'block';
         }
         
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 6;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
-            let message = `Progress: ${viewed}/${total} sections viewed (${percentage}%)\\n\\n`;
+            let message = `Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n`;
             
             if (viewed === total) {
-                message += 'Excellent! You\'ve completed the NIST SP 800-53 learning module!\\n\\n';
-                message += 'Key Concepts Mastered:\\n';
-                message += '✓ Connection between FIPS 199 and SP 800-53\\n';
-                message += '✓ Understanding control families and structure\\n';
-                message += '✓ Control baseline selection\\n';
-                message += '✓ Tailoring and implementation\\n';
-                message += '✓ Priority-based deployment\\n';
+                message += 'Excellent! You\'ve completed the NIST SP 800-53 learning module!\n\n';
+                message += 'Key Concepts Mastered:\n';
+                message += '✓ Connection between FIPS 199 and SP 800-53\n';
+                message += '✓ Understanding control families and structure\n';
+                message += '✓ Control baseline selection\n';
+                message += '✓ Tailoring and implementation\n';
+                message += '✓ Priority-based deployment\n';
                 message += '✓ Complete risk-to-protection journey';
             } else {
-                message += `Keep exploring! ${total - viewed} sections remaining.\\n\\n`;
-                message += 'Sections to review:\\n';
+                message += `Keep exploring! ${total - viewed} sections remaining.\n\n`;
+                message += 'Sections to review:\n';
                 for (let i = 1; i <= total; i++) {
                     if (!sectionsViewed.has(i)) {
                         const topics = [
@@ -2879,7 +2948,7 @@
                             '5: Priority and Implementation',
                             '6: Integration and Summary'
                         ];
-                        message += `• Part ${topics[i-1]}\\n`;
+                        message += `• Part ${topics[i-1]}\n`;
                     }
                 }
             }
@@ -2887,26 +2956,27 @@
             alert(message);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const target = Math.min(currentSlideIndex() + 1, slides.length - 1);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            const target = Math.max(currentSlideIndex() - 1, 0);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
-        // Initialize on load
-        window.addEventListener('load', function() {
-            // Any initialization code
-        });
     </script>
 </body>
 </html>

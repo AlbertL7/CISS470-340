@@ -435,6 +435,17 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
+
+        a.download-card {
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+
+        a.download-card:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 2px;
+        }
         
         .practice-scenario {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
@@ -567,7 +578,7 @@
             
             <div class="alert alert-danger">
                 <span class="emoji">🚨</span>
-                <strong>MANDATORY:</strong> FIPS 199 is a Federal Information Processing Standard - it's LAW for federal agencies. NIST 800-60 shows you HOW to implement it.
+                <strong>MANDATORY:</strong> FIPS 199 is a Federal Information Processing Standard that FISMA makes mandatory for federal agencies. NIST 800-60 shows you HOW to implement it.
             </div>
 
             <h3>FIPS 199 Security Objectives (The CIA Triad)</h3>
@@ -649,7 +660,7 @@
                 <h4>The Problem It Solves:</h4>
                 <ul>
                     <li><strong>Without 800-60:</strong> "We have customer data" → ??? → "How much security?"</li>
-                    <li><strong>With 800-60:</strong> "We have customer data" → "Maps to Personal Identity Information type" → "Recommended: Moderate/Moderate/Low" → "Apply moderate security baseline"</li>
+                    <li><strong>With 800-60:</strong> "We have customer data" → "Maps to Personal Identity and Authentication information type" → "Provisional: Moderate/Moderate/Moderate" → "Apply moderate security baseline"</li>
                 </ul>
                 <p style="margin-top: 1rem;"><strong>Result:</strong> Consistent, defensible security categorization across all federal agencies!</p>
             </div>
@@ -729,7 +740,7 @@
                             <td><span class="impact-level impact-moderate">MODERATE</span></td>
                             <td>Unauthorized disclosure would have <strong>serious</strong> adverse effect</td>
                             <td>
-                                • Personal identifiable information (PII)<br>
+                                • Personally identifiable information (PII)<br>
                                 • Financial records<br>
                                 • Proprietary information<br>
                                 • Law enforcement sensitive
@@ -1061,16 +1072,16 @@
             
             <div class="alert alert-info">
                 <span class="emoji">📖</span>
-                <strong>Volume II Reference:</strong> These are the major categories from NIST 800-60 Volume II. Each contains dozens of specific information types with recommended impact levels.
+                <strong>Volume II Reference:</strong> These are the four groupings of information types in NIST 800-60 Volume II: mission-based types (Appendix D) and management and support types (Appendix C). Each grouping contains dozens of specific information types with provisional impact levels.
             </div>
 
             <div class="grid">
                 <div class="category-box">
-                    <h4>🏛️ Services Delivery</h4>
-                    <p>Direct services to citizens</p>
+                    <h4>🏛️ Services for Citizens</h4>
+                    <p>Mission-based: direct services to citizens (Vol. II Appendix D.1-D.19)</p>
                     <ul style="text-align: left; list-style: none; margin-top: 1rem;">
-                        <li>• Defense and Security</li>
-                        <li>• Healthcare</li>
+                        <li>• Defense and National Security</li>
+                        <li>• Health</li>
                         <li>• Transportation</li>
                         <li>• Education</li>
                     </ul>
@@ -1078,34 +1089,35 @@
 
                 <div class="category-box">
                     <h4>📋 Mode of Delivery</h4>
-                    <p>How services are provided</p>
+                    <p>Mission-based: how services are provided (Vol. II Appendix D)</p>
                     <ul style="text-align: left; list-style: none; margin-top: 1rem;">
-                        <li>• Knowledge Creation</li>
-                        <li>• Public Goods</li>
-                        <li>• Federal Financial</li>
+                        <li>• Knowledge Creation and Management</li>
+                        <li>• Public Goods Creation and Management</li>
+                        <li>• Federal Financial Assistance</li>
                         <li>• Credit and Insurance</li>
                     </ul>
                 </div>
 
                 <div class="category-box">
-                    <h4>⚖️ Government Resources</h4>
-                    <p>Administrative functions</p>
+                    <h4>🔧 Services Delivery Support</h4>
+                    <p>Management and support: functions that keep services running (Vol. II Appendix C.2)</p>
                     <ul style="text-align: left; list-style: none; margin-top: 1rem;">
-                        <li>• Administrative Management</li>
-                        <li>• Human Resources</li>
-                        <li>• Financial Management</li>
-                        <li>• Information Management</li>
+                        <li>• Planning and Budgeting</li>
+                        <li>• Revenue Collection</li>
+                        <li>• Public Affairs</li>
+                        <li>• General Government</li>
                     </ul>
                 </div>
 
                 <div class="category-box">
-                    <h4>🔧 Support Functions</h4>
-                    <p>Infrastructure and operations</p>
+                    <h4>⚖️ Government Resource Management</h4>
+                    <p>Management and support: back-office administration (Vol. II Appendix C.3)</p>
                     <ul style="text-align: left; list-style: none; margin-top: 1rem;">
-                        <li>• Supply Chain</li>
-                        <li>• IT Infrastructure</li>
-                        <li>• Security Management</li>
-                        <li>• Planning and Budgeting</li>
+                        <li>• Administrative Management</li>
+                        <li>• Financial Management</li>
+                        <li>• Human Resource Management</li>
+                        <li>• Supply Chain Management</li>
+                        <li>• Information and Technology Management</li>
                     </ul>
                 </div>
             </div>
@@ -1143,12 +1155,12 @@
                         <tr>
                             <td>Patient medical records</td>
                             <td>Health Care Delivery</td>
-                            <td>Services Delivery</td>
+                            <td>Services for Citizens</td>
                         </tr>
                         <tr>
                             <td>Employee payroll data</td>
                             <td>Compensation Management</td>
-                            <td>Human Resources</td>
+                            <td>Government Resource Management (Human Resource Management)</td>
                         </tr>
                         <tr>
                             <td>Insurance claims</td>
@@ -1158,7 +1170,7 @@
                         <tr>
                             <td>Network logs</td>
                             <td>System and Network Monitoring</td>
-                            <td>IT Infrastructure</td>
+                            <td>Government Resource Management (Information and Technology Management)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1417,7 +1429,7 @@
                 <div id="info-types">
                     <div class="calculator-input">
                         <label>Information Type 1:</label>
-                        <input type="text" id="type1-name" placeholder="e.g., Customer PII" style="width: 100%; padding: 0.75rem; border-radius: 6px; border: none; margin-bottom: 0.5rem;">
+                        <input type="text" id="type1-name" placeholder="e.g., Customer PII" oninput="calculateCategory()" style="width: 100%; padding: 0.75rem; border-radius: 6px; border: none; margin-bottom: 0.5rem;">
                         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
                             <select id="type1-c" onchange="calculateCategory()">
                                 <option value="">Confidentiality</option>
@@ -1456,7 +1468,7 @@
             
             <div class="alert alert-info">
                 <span class="emoji">💡</span>
-                These are the most frequently encountered information types with NIST 800-60 recommended baselines
+                Illustrative quick reference for commonly encountered information categories. Rows that name an SP 800-60 Volume II information type in the Notes column show that type's provisional baseline; rows marked "teaching example" are not Vol. II values. Always confirm against Vol. II and adjust the provisional levels for your organization.
             </div>
 
             <table>
@@ -1471,60 +1483,60 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Personal Identity Information (PII)</strong></td>
+                        <td><strong>Personally Identifiable Information (PII)</strong></td>
                         <td><span class="impact-level impact-moderate">MOD</span></td>
                         <td><span class="impact-level impact-moderate">MOD</span></td>
-                        <td><span class="impact-level impact-low">LOW</span></td>
-                        <td>Privacy Act applies; may be HIGH if aggregated</td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td>Vol. II type: Personal Identity and Authentication. Privacy Act applies; may be HIGH if aggregated</td>
                     </tr>
                     <tr>
                         <td><strong>Financial Transactions</strong></td>
                         <td><span class="impact-level impact-moderate">MOD</span></td>
                         <td><span class="impact-level impact-high">HIGH</span></td>
                         <td><span class="impact-level impact-moderate">MOD</span></td>
-                        <td>Integrity critical for fraud prevention</td>
+                        <td>Teaching example; integrity critical for fraud prevention</td>
                     </tr>
                     <tr>
                         <td><strong>Healthcare Records</strong></td>
-                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
                         <td><span class="impact-level impact-high">HIGH</span></td>
-                        <td><span class="impact-level impact-moderate">MOD</span></td>
-                        <td>HIPAA compliance; patient safety</td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td>Vol. II type: Health Care Delivery Services. Patient safety drives integrity; adjust C upward for patient-identifiable records (HIPAA, Privacy Act)</td>
                     </tr>
                     <tr>
                         <td><strong>Emergency Services</strong></td>
                         <td><span class="impact-level impact-low">LOW</span></td>
                         <td><span class="impact-level impact-high">HIGH</span></td>
                         <td><span class="impact-level impact-high">HIGH</span></td>
-                        <td>Life safety critical</td>
+                        <td>Vol. II type: Emergency Response. Life safety critical</td>
                     </tr>
                     <tr>
                         <td><strong>Public Website Content</strong></td>
                         <td><span class="impact-level impact-low">LOW</span></td>
                         <td><span class="impact-level impact-low">LOW</span></td>
                         <td><span class="impact-level impact-low">LOW</span></td>
-                        <td>Already public; reputational impact only</td>
+                        <td>Teaching example; already public; reputational impact only</td>
                     </tr>
                     <tr>
                         <td><strong>Law Enforcement</strong></td>
-                        <td><span class="impact-level impact-high">HIGH</span></td>
-                        <td><span class="impact-level impact-high">HIGH</span></td>
                         <td><span class="impact-level impact-moderate">MOD</span></td>
-                        <td>Officer/witness safety; case integrity</td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td>Vol. II type: Criminal Investigation and Surveillance. Adjust upward where disclosure endangers officers, witnesses, or informants; case integrity</td>
                     </tr>
                     <tr>
                         <td><strong>Intellectual Property</strong></td>
                         <td><span class="impact-level impact-high">HIGH</span></td>
                         <td><span class="impact-level impact-moderate">MOD</span></td>
                         <td><span class="impact-level impact-low">LOW</span></td>
-                        <td>Competitive advantage; trade secrets</td>
+                        <td>Teaching example; competitive advantage; trade secrets</td>
                     </tr>
                     <tr>
                         <td><strong>Audit Logs</strong></td>
-                        <td><span class="impact-level impact-low">LOW</span></td>
-                        <td><span class="impact-level impact-high">HIGH</span></td>
                         <td><span class="impact-level impact-moderate">MOD</span></td>
-                        <td>Critical for forensics and compliance</td>
+                        <td><span class="impact-level impact-moderate">MOD</span></td>
+                        <td><span class="impact-level impact-low">LOW</span></td>
+                        <td>Vol. II type: System and Network Monitoring. Critical for forensics and compliance</td>
                     </tr>
                 </tbody>
             </table>
@@ -1584,7 +1596,7 @@
                                 <td>HIGH</td>
                                 <td>HIGH</td>
                                 <td>MOD</td>
-                                <td>HIPAA; sensitive mental health data</td>
+                                <td>FERPA education/treatment records (campus clinic records on students are excluded from HIPAA); highly sensitive mental health data</td>
                             </tr>
                             <tr>
                                 <td>Emergency Alerts</td>
@@ -1876,8 +1888,8 @@
                     <tr>
                         <td><strong>NIST 800-70</strong></td>
                         <td>Security configuration checklists</td>
-                        <td>800-60 category determines baseline stringency</td>
-                        <td>HIGH = DISA STIG Cat I, CIS Level 1</td>
+                        <td>Impact level picks the 800-53 baseline (incl. CM-6 Configuration Settings); 800-70 checklists, chosen by operational environment, supply the actual settings</td>
+                        <td>HIGH systems typically apply the most restrictive checklist profiles (e.g., CIS Level 2, full STIG)</td>
                     </tr>
                     <tr>
                         <td><strong>NIST 800-53A</strong></td>
@@ -1892,6 +1904,7 @@
             <div class="card">
                 <h4>🔧 What is NIST 800-70?</h4>
                 <p>NIST 800-70 provides guidance on implementing security configuration baselines through standardized checklists. It bridges the gap between selecting controls (800-53) and actually configuring your systems securely.</p>
+                <p style="margin-top: 1rem;"><strong>Instructor heuristic, not an 800-70 rule:</strong> 800-70 organizes checklists by operational environment, not by impact level. In practice, though, the higher your 800-53 baseline, the more restrictive the checklist profile you will typically tailor to.</p>
                 
                 <table style="margin-top: 1rem;">
                     <thead>
@@ -1906,30 +1919,28 @@
                             <td><span class="impact-level impact-low">LOW</span></td>
                             <td>Basic security settings</td>
                             <td>• CIS Level 1 Benchmarks<br>
-                                • DISA STIG CAT III findings<br>
                                 • Basic Windows/Linux hardening</td>
                         </tr>
                         <tr>
                             <td><span class="impact-level impact-moderate">MODERATE</span></td>
                             <td>Enhanced configurations</td>
                             <td>• CIS Level 1 + select Level 2<br>
-                                • DISA STIG CAT II & III<br>
                                 • SCAP validated settings</td>
                         </tr>
                         <tr>
                             <td><span class="impact-level impact-high">HIGH</span></td>
                             <td>Maximum security hardening</td>
                             <td>• Full CIS Level 2 Benchmarks<br>
-                                • DISA STIG CAT I, II, III<br>
                                 • NSA hardening guides<br>
                                 • Custom restrictive baselines</td>
                         </tr>
                     </tbody>
                 </table>
+                <p style="margin-top: 0.75rem;"><strong>Note:</strong> DISA STIG findings are rated by severity as CAT I (most severe) through CAT III. All three categories apply to every system, and CAT I findings must be remediated regardless of FIPS 199 impact level.</p>
                 
                 <div class="alert alert-info" style="margin-top: 1rem;">
                     <span class="emoji">💡</span>
-                    <strong>Key Point:</strong> Your 800-60 categorization directly determines which security configuration baseline you must implement. A HIGH system can't use LOW security settings!
+                    <strong>Key Point:</strong> SP 800-70 checklists are selected by operational environment (Standalone, Managed, Specialized Security-Limited Functionality, Legacy), not by impact level. Your 800-53 baseline, driven by categorization, tells you how strictly to tailor and enforce those settings.
                 </div>
             </div>
 
@@ -1940,10 +1951,10 @@
                     <li><strong>800-60:</strong> Healthcare records = HIGH integrity (patient safety)</li>
                     <li><strong>FIPS 200:</strong> Must implement all 17 families at maximum level</li>
                     <li><strong>800-53:</strong> Must implement ~350+ security controls</li>
-                    <li><strong>800-70:</strong> Must apply most restrictive security baselines (DISA STIGs Level I)</li>
-                    <li><strong>800-30:</strong> Risk assessments quarterly (not annually)</li>
-                    <li><strong>800-53A:</strong> Continuous monitoring required (not periodic)</li>
-                    <li><strong>800-37:</strong> ATO valid for only 1 year (not 3 years)</li>
+                    <li><strong>800-70:</strong> Must apply the most restrictive checklist profiles (e.g., full CIS Level 2, DISA STIGs with all CAT I findings closed)</li>
+                    <li><strong>800-30:</strong> Risk assessments must address the higher-impact consequences and are updated more frequently per agency policy (the RA-3 frequency is organization-defined, not fixed by 800-30)</li>
+                    <li><strong>800-53A:</strong> Assessments use greater depth and coverage (more rigorous procedures) for the HIGH baseline; continuous monitoring (800-137) is required for every system, with frequencies set by risk</li>
+                    <li><strong>800-37:</strong> The authorizing official applies greater rigor and typically a shorter authorization horizon under ongoing authorization (800-37 sets no fixed ATO term)</li>
                 </ol>
                 <p style="margin-top: 1rem;"><strong>Result:</strong> One categorization decision affects EVERYTHING!</p>
             </div>
@@ -2013,8 +2024,8 @@
                 </div>
                 <div style="text-align: center; font-size: 2rem; color: var(--primary);">↓</div>
                 <div class="card">
-                    <h4>Step 4: 800-30 Risk Assessment</h4>
-                    <p>Assess risks and tailor controls accordingly</p>
+                    <h4>Step 4: Update the 800-30 Risk Assessment and Tailor Controls</h4>
+                    <p>Refresh the risk assessment begun in the RMF Prepare step and tailor the baseline controls accordingly</p>
                 </div>
             </div>
         </section>
@@ -2170,28 +2181,28 @@ SC [system name] = {(confidentiality, impact), (integrity, impact), (availabilit
             </table>
         </section>
 
-        <!-- Downloadable Resources -->
+        <!-- Official NIST Resources -->
         <section class="section">
-            <h2><span class="emoji">📥</span>Downloadable Resources and Templates</h2>
-            
+            <h2><span class="emoji">📥</span>Official NIST Resources</h2>
+
             <div class="grid">
-                <div class="download-card" onclick="alert('In a real implementation, this would download an Excel template')">
-                    <h4>📊 Information Type Mapping Worksheet</h4>
-                    <p>Excel template with 800-60 categories and impact guidance</p>
-                    <small>Click to download</small>
-                </div>
-                
-                <div class="download-card" onclick="alert('In a real implementation, this would download a Word template')">
-                    <h4>📄 System Categorization Document Template</h4>
-                    <p>Complete template for documenting your categorization decisions</p>
-                    <small>Click to download</small>
-                </div>
-                
-                <div class="download-card" onclick="alert('In a real implementation, this would download a checklist')">
-                    <h4>✅ Categorization Review Checklist</h4>
-                    <p>Step-by-step checklist to ensure complete categorization</p>
-                    <small>Click to download</small>
-                </div>
+                <a class="download-card" href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-60v1r1.pdf" target="_blank" rel="noopener">
+                    <h4>📘 NIST SP 800-60 Vol. 1 Rev. 1 (PDF)</h4>
+                    <p>Guide for Mapping Types of Information and Information Systems to Security Categories: the mapping process and how to adjust provisional levels</p>
+                    <small>Opens nvlpubs.nist.gov in a new tab</small>
+                </a>
+
+                <a class="download-card" href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-60v2r1.pdf" target="_blank" rel="noopener">
+                    <h4>📗 NIST SP 800-60 Vol. 2 Rev. 1 (PDF)</h4>
+                    <p>Appendices C and D: the provisional impact levels for every information type</p>
+                    <small>Opens nvlpubs.nist.gov in a new tab</small>
+                </a>
+
+                <a class="download-card" href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.199.pdf" target="_blank" rel="noopener">
+                    <h4>📕 FIPS 199 (PDF)</h4>
+                    <p>Standards for Security Categorization of Federal Information and Information Systems</p>
+                    <small>Opens nvlpubs.nist.gov in a new tab</small>
+                </a>
             </div>
         </section>
 
@@ -2272,7 +2283,7 @@ SC [system name] = {(confidentiality, impact), (integrity, impact), (availabilit
                         <li>Get data owner sign-offs</li>
                         <li>Obtain AO concurrence</li>
                         <li>Select 800-53 controls baseline</li>
-                        <li>Begin risk assessment (800-30)</li>
+                        <li>Update risk assessment (800-30)</li>
                         <li>Schedule annual review</li>
                     </ul>
                 </div>
@@ -2411,7 +2422,7 @@ SC [system name] = {(confidentiality, impact), (integrity, impact), (availabilit
             newType.className = 'calculator-input';
             newType.innerHTML = `
                 <label>Information Type ${infoTypeCount}:</label>
-                <input type="text" id="type${infoTypeCount}-name" placeholder="Enter information type" style="width: 100%; padding: 0.75rem; border-radius: 6px; border: none; margin-bottom: 0.5rem;">
+                <input type="text" id="type${infoTypeCount}-name" placeholder="Enter information type" oninput="calculateCategory()" style="width: 100%; padding: 0.75rem; border-radius: 6px; border: none; margin-bottom: 0.5rem;">
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
                     <select id="type${infoTypeCount}-c" onchange="calculateCategory()">
                         <option value="">Confidentiality</option>
@@ -2476,6 +2487,9 @@ SC [system name] = {(confidentiality, impact), (integrity, impact), (availabilit
                 
                 document.getElementById('result-details').innerHTML = details;
                 document.getElementById('calculation-result').classList.add('show');
+            } else {
+                document.getElementById('result-details').innerHTML = '';
+                document.getElementById('calculation-result').classList.remove('show');
             }
         }
 

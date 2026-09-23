@@ -444,7 +444,7 @@
 
         <!-- SLIDE 1: Introduction and Purpose -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Understanding FIPS 200: The Missing Link</span>
                 <span class="slide-number">Part 1 of 6</span>
             </div>
@@ -502,7 +502,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📜 Legal Authority and Compliance</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -556,7 +556,7 @@
 
         <!-- SLIDE 2: The 17 Security Requirements -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>The 17 Minimum Security Requirements</span>
                 <span class="slide-number">Part 2 of 6</span>
             </div>
@@ -599,7 +599,7 @@
                 
                 <div class="concept-box">
                     <h4>The Security Ecosystem</h4>
-                    <p>No requirement works in isolation. They form an interconnected security ecosystem:</p>
+                    <p>No requirement works in isolation. They form an interconnected security ecosystem. Some families serve more than one purpose, so MP, MA, and SI appear in two rows:</p>
                     
                     <table style="margin-top: 15px;">
                         <thead>
@@ -645,7 +645,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🎯 Quick Reference: All 17 Requirements</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -789,7 +789,7 @@
 
         <!-- SLIDE 3: Impact Levels and Baseline Selection -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>From Impact Level to Control Selection</span>
                 <span class="slide-number">Part 3 of 6</span>
             </div>
@@ -835,7 +835,7 @@
                                 <th>Impact Level</th>
                                 <th>When Used</th>
                                 <th>Security Focus</th>
-                                <th>Typical Controls</th>
+                                <th>Typical Controls (SP 800-53B Rev 5, incl. enhancements)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -843,19 +843,19 @@
                                 <td><strong>LOW</strong></td>
                                 <td>Limited adverse effect</td>
                                 <td>Basic security</td>
-                                <td>~120 controls</td>
+                                <td>~150 controls</td>
                             </tr>
                             <tr>
                                 <td><strong>MODERATE</strong></td>
                                 <td>Serious adverse effect</td>
                                 <td>Balanced security</td>
-                                <td>~260 controls</td>
+                                <td>~290 controls</td>
                             </tr>
                             <tr>
                                 <td><strong>HIGH</strong></td>
                                 <td>Severe/catastrophic effect</td>
                                 <td>Maximum security</td>
-                                <td>~420 controls</td>
+                                <td>~370 controls</td>
                             </tr>
                         </tbody>
                     </table>
@@ -863,7 +863,7 @@
 
                 <div class="interactive-selector">
                     <div class="selector-title">📊 See How Requirements Scale</div>
-                    <p>Select a requirement area to see how it changes across impact levels:</p>
+                    <p>Select a requirement area to see how it typically changes across impact levels. Values shown are illustrative; NIST SP 800-53 leaves specific frequencies, time periods, and thresholds to each organization as organization-defined parameters:</p>
                     <button class="action-button" onclick="showScaling('access')">Access Control Scaling</button>
                     <button class="action-button" onclick="showScaling('audit')">Audit Requirements</button>
                     <button class="action-button" onclick="showScaling('incident')">Incident Response</button>
@@ -883,7 +883,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📋 Example: How One Requirement Scales</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -893,34 +893,37 @@
                         <div style="margin-top: 20px;">
                             <strong>LOW Impact Requirements:</strong>
                             <ul>
-                                <li>Basic incident response capability</li>
-                                <li>Documented procedures</li>
-                                <li>Incident reporting to management</li>
-                                <li>Track and document incidents</li>
+                                <li>Incident response policy and procedures (IR-1)</li>
+                                <li>Incident response training (IR-2)</li>
+                                <li>Incident handling capability (IR-4)</li>
+                                <li>Incident monitoring and tracking (IR-5)</li>
+                                <li>Incident reporting to management and authorities (IR-6)</li>
+                                <li>Incident response assistance, such as a help desk (IR-7)</li>
+                                <li>Documented incident response plan (IR-8)</li>
                             </ul>
                         </div>
                         
                         <div style="margin-top: 20px;">
                             <strong>MODERATE Impact Additions:</strong>
                             <ul>
-                                <li>Incident response training</li>
-                                <li>Test incident response capability</li>
-                                <li>Incident monitoring tools</li>
-                                <li>Coordination with external organizations</li>
-                                <li>Incident analysis and correlation</li>
+                                <li>Test the incident response capability (IR-3)</li>
+                                <li>Coordinate testing with related plans such as contingency plans (IR-3(2))</li>
+                                <li>Automated incident handling processes (IR-4(1))</li>
+                                <li>Automated incident reporting (IR-6(1))</li>
+                                <li>Supply chain incident coordination (IR-6(3))</li>
+                                <li>Automation support for incident response assistance (IR-7(1))</li>
                             </ul>
                         </div>
                         
                         <div style="margin-top: 20px;">
                             <strong>HIGH Impact Additions:</strong>
                             <ul>
-                                <li>24/7 incident response team</li>
-                                <li>Advanced forensics capability</li>
-                                <li>Automated incident response</li>
-                                <li>Insider threat program</li>
-                                <li>Information spillage response</li>
-                                <li>Supply chain incident coordination</li>
+                                <li>Simulated events and automated training environments (IR-2(1), IR-2(2))</li>
+                                <li>Incident information correlation across the organization (IR-4(4))</li>
+                                <li>Integrated incident response team with forensic and malware analysis skills (IR-4(11))</li>
+                                <li>Automated incident tracking, data collection, and analysis (IR-5(1))</li>
                             </ul>
+                            <p style="margin-top: 15px; font-size: 14px; color: #666;">Source: NIST SP 800-53B, Table 3-8. Enhancements such as an insider threat program (IR-4(6)) and information spillage response (IR-9) are not in any baseline; organizations add them through tailoring when their risk calls for it.</p>
                         </div>
                     </div>
                 </div>
@@ -944,7 +947,7 @@
 
         <!-- SLIDE 4: Implementation Approach -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Implementation Strategy and Compliance</span>
                 <span class="slide-number">Part 4 of 6</span>
             </div>
@@ -961,7 +964,8 @@
                 <h3>📋 The Implementation Process</h3>
                 
                 <div class="concept-box">
-                    <h4>Four Phases of FIPS 200 Implementation</h4>
+                    <h4>A Simple Four-Phase Approach (simplified from the NIST RMF)</h4>
+                    <p>FIPS 200 itself defines no implementation phases. The federal process is the seven-step Risk Management Framework in NIST SP 800-37 (Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor), and FIPS 200 governs the bridge from Categorize to Select. The phases below are a simplified study view:</p>
                     
                     <ol style="font-size: 18px; line-height: 2.5;">
                         <li><strong>Initiate:</strong> Categorize system (FIPS 199) and identify requirements</li>
@@ -1025,7 +1029,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>🎯 Priority Order for Implementation</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1121,7 +1125,7 @@
 
         <!-- SLIDE 5: Real-World Application -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Real-World Application and Case Studies</span>
                 <span class="slide-number">Part 5 of 6</span>
             </div>
@@ -1148,7 +1152,7 @@
                 <h3>🔧 Practical Solutions to Common Challenges</h3>
                 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Challenge 1: Multiple Systems, Different Impacts</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1171,7 +1175,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Challenge 2: Cloud and Shared Responsibility</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1219,7 +1223,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>Challenge 3: Budget Constraints</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1288,7 +1292,7 @@
 
         <!-- SLIDE 6: Integration and Summary -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onclick="toggleSlide(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                 <span>Complete Integration: FIPS 199 → 200 → 800-53</span>
                 <span class="slide-number">Part 6 of 6</span>
             </div>
@@ -1355,7 +1359,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onclick="toggleExpand(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
                         <span>📚 Resources for Implementation</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1455,39 +1459,42 @@
             <p style="font-size: 16px;">📖 Based on Federal Information Processing Standards Publication 200</p>
             <p style="font-size: 14px; margin-top: 10px;">Minimum Security Requirements for Federal Information and Information Systems</p>
             <p style="font-size: 12px; margin-top: 10px;">National Institute of Standards and Technology | March 2006</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click a section header to open it or use the buttons below; the bar tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
 
-        // Initialize first slide as open
+        // Initialize first slide as open (routed through toggleSlide so Part 1 counts)
         window.addEventListener('DOMContentLoaded', function() {
-            const firstSlideContent = document.querySelector('.slide-content');
-            if (firstSlideContent) {
-                firstSlideContent.classList.add('active');
+            const firstHeader = document.querySelector('.slide-header');
+            if (firstHeader) {
+                toggleSlide(firstHeader);
             }
         });
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 6) * 100;
+            const total = document.querySelectorAll('.slide').length;
+            const progress = (sectionsViewed.size / total) * 100;
             document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
+            updateProgress();
         }
 
         function toggleSlide(header) {
             const content = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            
-            // Toggle the slide content
             content.classList.toggle('active');
-            
-            // Track viewed sections
             if (content.classList.contains('active')) {
-                sectionsViewed.add(slideNumber);
-                updateProgress();
+                markViewed(header.closest('.slide') || header.parentElement);
             }
         }
 
@@ -1560,6 +1567,7 @@
                           </ul>
                           <p style="margin-top: 15px;"><strong>Real Example:</strong> Annual assessments, Authority to Operate process, ongoing authorization</p>
                           <p style="margin-top: 15px;"><strong>Common Gap:</strong> One-time authorization without continuous monitoring</p>
+                          <p style="margin-top: 15px;"><strong>Name Change:</strong> SP 800-53 Rev 5 now calls this family Assessment, Authorization, and Monitoring (CA). Look for that name when you cross-reference the catalog.</p>
                       </div>`,
                       
                 'CM': `<h4>5. Configuration Management (CM)</h4>
@@ -1765,6 +1773,7 @@
             const display = document.getElementById('scaling-display');
             const scaling = {
                 'access': `<h4>Access Control Requirements Across Impact Levels</h4>
+                          <p style="font-size: 14px; color: #666; margin: 5px 0 10px;"><em>Illustrative values only. SP 800-53 leaves these frequencies, time periods, and thresholds as organization-defined parameters and does not tie them to impact level.</em></p>
                           <table>
                               <thead>
                                   <tr>
@@ -1809,6 +1818,7 @@
                           </table>`,
                 
                 'audit': `<h4>Audit Requirements Scaling</h4>
+                          <p style="font-size: 14px; color: #666; margin: 5px 0 10px;"><em>Illustrative values only. SP 800-53 leaves these frequencies, time periods, and thresholds as organization-defined parameters and does not tie them to impact level.</em></p>
                          <table>
                              <thead>
                                  <tr>
@@ -1853,6 +1863,7 @@
                          </table>`,
                 
                 'incident': `<h4>Incident Response Scaling</h4>
+                          <p style="font-size: 14px; color: #666; margin: 5px 0 10px;"><em>Illustrative values only. SP 800-53 leaves these frequencies, time periods, and thresholds as organization-defined parameters and does not tie them to impact level.</em></p>
                            <table>
                                <thead>
                                    <tr>
@@ -1883,7 +1894,7 @@
                                    </tr>
                                    <tr>
                                        <td><strong>Testing</strong></td>
-                                       <td>Annual walkthrough</td>
+                                       <td>Not required (IR-3 testing begins at MODERATE)</td>
                                        <td>Quarterly tabletops</td>
                                        <td>Monthly drills + red team</td>
                                    </tr>
@@ -1897,6 +1908,7 @@
                            </table>`,
                 
                 'contingency': `<h4>Contingency Planning Requirements</h4>
+                          <p style="font-size: 14px; color: #666; margin: 5px 0 10px;"><em>Illustrative values only. SP 800-53 leaves these frequencies, time periods, and thresholds as organization-defined parameters and does not tie them to impact level.</em></p>
                               <table>
                                   <thead>
                                       <tr>
@@ -2287,7 +2299,7 @@
 
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 6;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
             let message = `Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n`;
@@ -2322,20 +2334,29 @@
             alert(message);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
+        function openSlide(slide) {
+            if (!slide) return;
+            slide.querySelector('.slide-content').classList.add('active');
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            openSlide(slides[Math.min(currentSlideIndex() + 1, slides.length - 1)]);
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            openSlide(slides[Math.max(currentSlideIndex() - 1, 0)]);
         }
     </script>
 </body>

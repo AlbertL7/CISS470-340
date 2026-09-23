@@ -22,6 +22,10 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
+        .course-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; max-width: 1200px; margin: 0 auto; padding: 0.6rem 1rem; font-size: 0.9rem; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .course-nav a { color: inherit; font-weight: 600; text-decoration: none; }
+        .course-nav a:hover, .course-nav a:focus-visible { text-decoration: underline; }
         
         .header {
             text-align: center;
@@ -477,6 +481,12 @@
     </style>
 </head>
 <body>
+    <nav class="course-nav" aria-label="Course navigation">
+        <a href="index.html#ciss470">&larr; Course portal</a>
+        <span>
+            <a href="chapter3.html">&larr; Chapter 3</a> &nbsp;|&nbsp; <a href="chapter5.html">Chapter 5 &rarr;</a>
+        </span>
+    </nav>
     <div class="container">
         <div class="header">
             <h1>📋 CYBERSECURITY POLICIES AND PROCEDURES</h1>
@@ -488,7 +498,7 @@
 
         <!-- SLIDE 1: Opening & Overview -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Tom's Surprise: Six Essential Cyber Policies</span>
                 <span class="slide-number">Part 1 of 6</span>
             </div>
@@ -502,38 +512,38 @@
 
                 <div class="highlight-box">
                     <h3>Why Six Separate Policies?</h3>
-                    <p style="font-size: 18px; line-height: 1.8;">Each technology and practice introduces unique risks that require tailored approaches. A one-size-fits-all policy won't address the specific threats, compliance requirements, and operational considerations of each area.</p>
+                    <p style="font-size: 18px; line-height: 1.8;">Each technology and practice introduces unique risks that require tailored approaches. A one-size-fits-all policy won't address the specific threats, compliance requirements, and operational considerations of each area. Smaller organizations may fold some of these into fewer documents, but each of the six areas still needs its own clear coverage.</p>
                 </div>
 
                 <h3>🎯 The Six Critical Policy Areas</h3>
                 
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0;">
-                    <div class="policy-card" onclick="showPolicyOverview(1)">
+                    <div class="policy-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showPolicyOverview(1)">
                         <span class="policy-number">1</span>
                         <h4 style="margin-top:25px; color:#ee0979;">Social Media</h4>
                         <p style="margin-top:10px;">2 billion+ users, reputation risks, data leakage</p>
                     </div>
-                    <div class="policy-card" onclick="showPolicyOverview(2)">
+                    <div class="policy-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showPolicyOverview(2)">
                         <span class="policy-number">2</span>
                         <h4 style="margin-top:25px; color:#ee0979;">Ransomware</h4>
                         <p style="margin-top:10px;">Tenfold increase in 2016, $200M+ in damages</p>
                     </div>
-                    <div class="policy-card" onclick="showPolicyOverview(3)">
+                    <div class="policy-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showPolicyOverview(3)">
                         <span class="policy-number">3</span>
                         <h4 style="margin-top:25px; color:#ee0979;">Cloud Computing</h4>
                         <p style="margin-top:10px;">Third-party dependencies, contract risks</p>
                     </div>
-                    <div class="policy-card" onclick="showPolicyOverview(4)">
+                    <div class="policy-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showPolicyOverview(4)">
                         <span class="policy-number">4</span>
                         <h4 style="margin-top:25px; color:#ee0979;">Big Data Analytics</h4>
                         <p style="margin-top:10px;">Privacy breaches, GDPR fines up to 4% revenue</p>
                     </div>
-                    <div class="policy-card" onclick="showPolicyOverview(5)">
+                    <div class="policy-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showPolicyOverview(5)">
                         <span class="policy-number">5</span>
                         <h4 style="margin-top:25px; color:#ee0979;">Internet of Things</h4>
                         <p style="margin-top:10px;">50 billion devices by 2020, expanded attack surface</p>
                     </div>
-                    <div class="policy-card" onclick="showPolicyOverview(6)">
+                    <div class="policy-card" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="showPolicyOverview(6)">
                         <span class="policy-number">6</span>
                         <h4 style="margin-top:25px; color:#ee0979;">BYOD/Mobile</h4>
                         <p style="margin-top:10px;">85% of companies allow BYOD, control challenges</p>
@@ -552,7 +562,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>📊 Key Statistics Driving Policy Needs</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -588,10 +598,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Opening Check</div>
                     <p style="margin-bottom:15px;">According to the chapter, how many active social media users existed at the time of writing?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">A) 500 million</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">B) 1 billion</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz1')">C) Over 2 billion</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz1')">D) 5 billion</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz1')">A) 500 million</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz1')">B) 1 billion</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz1')">C) Over 2 billion</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz1')">D) 5 billion</div>
                     <div id="quiz1-feedback" class="feedback"></div>
                 </div>
 
@@ -603,7 +613,7 @@
 
         <!-- SLIDE 2: Social Media Policy -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Policy 1: Social Media Risk Management</span>
                 <span class="slide-number">Part 2 of 6</span>
             </div>
@@ -642,7 +652,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>📝 Six Steps to Prepare Your Social Media Policy</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -661,7 +671,7 @@
                 <h3>📋 Two Essential Policies Recommended</h3>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>Policy 1: Personal Social Media Use by Employees</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -700,7 +710,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>Policy 2: Corporate Social Media Accounts</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -747,7 +757,7 @@
 
         <!-- SLIDE 3: Ransomware Policy -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Policy 2: Ransomware Risk Policies and Procedures</span>
                 <span class="slide-number">Part 3 of 6</span>
             </div>
@@ -767,12 +777,12 @@
                     <ul>
                         <li><strong>U.S. Police Departments:</strong> Lost data on open cases</li>
                         <li><strong>University of Calgary:</strong> Forced to pay C$20,000 after all emails/files encrypted</li>
-                        <li><strong>Hollywood Hospital, LA:</strong> Paid $17,000 after facing $3.4M extortion demand</li>
+                        <li><strong>Hollywood Presbyterian Medical Center, LA (Feb 2016):</strong> Paid 40 bitcoin (about $17,000) to restore systems; early news reports of a $3.4M demand were later corrected by the hospital</li>
                     </ul>
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>🦠 How Cybercriminals Spread Ransomware</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -831,7 +841,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>🎓 Education, Education, Education</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -860,10 +870,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Policy Understanding</div>
                     <p style="margin-bottom:15px;">According to the chapter, how often should organizations run phishing email tests?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">A) Annually</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz2')">B) Every 3-6 months minimum</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">C) Monthly</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz2')">D) Only after incidents</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz2')">A) Annually</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz2')">B) Every 3-6 months minimum</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz2')">C) Monthly</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz2')">D) Only after incidents</div>
                     <div id="quiz2-feedback" class="feedback"></div>
                 </div>
 
@@ -875,7 +885,7 @@
 
         <!-- SLIDE 4: Cloud & Big Data Policies -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Policies 3 & 4: Cloud Computing and Big Data Analytics</span>
                 <span class="slide-number">Part 4 of 6</span>
             </div>
@@ -906,13 +916,13 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>📋 Procuring Cloud Services Effectively</span>
                         <span class="expand-icon">▶</span>
                     </div>
                     <div class="expandable-content">
                         <ol>
-                            <li><strong>Identify desired outcomes:</strong> Issue clear ITT with objectives</li>
+                            <li><strong>Identify desired outcomes:</strong> Issue a clear ITT (Invitation to Tender) with objectives</li>
                             <li><strong>Review standard contracts:</strong> Rank by favorability with legal help</li>
                             <li><strong>Be selective:</strong> Only providers meeting your conditions</li>
                             <li><strong>Scope precontract:</strong> Agree transition plan and scenarios</li>
@@ -928,7 +938,7 @@
                         <strong>Limitations of Liability:</strong> Ensure aggregate limit isn't capped too low, protect against gross negligence
                     </div>
                     <div class="policy-section">
-                        <strong>Disaster Recovery:</strong> Provider aware of your RTO, data in multiple locations
+                        <strong>Disaster Recovery:</strong> Provider aware of your RTO (Recovery Time Objective), data in multiple locations
                     </div>
                     <div class="policy-section">
                         <strong>Terms & Termination:</strong> 30+ days notice, data retention during transition
@@ -949,10 +959,11 @@
                 <h2>📊 Big Data Analytics Policy</h2>
 
                 <div class="stat-box" style="background:#ffebee; margin:20px auto; max-width:600px;">
-                    <p style="font-size:20px; color:#c62828;">EU GDPR Coming May 2018</p>
+                    <p style="font-size:20px; color:#c62828;">EU GDPR (in force since 25 May 2018)</p>
                     <div class="stat-number">4%</div>
-                    <p>Maximum fine of global turnover for violations</p>
+                    <p>Maximum fine: 4% of global annual turnover or €20M, whichever is higher</p>
                 </div>
+                <p style="font-size:14px; color:#666; text-align:center; max-width:600px; margin:0 auto 20px;">Note: the 2017 handbook was written before GDPR took effect, which is why the chapter describes it as upcoming.</p>
 
                 <h3>🎯 Two Main Big Data Threats</h3>
                 
@@ -968,7 +979,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>🔐 Big Data "Privacy by Design" Key Content</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -990,7 +1001,7 @@
                                 <strong>Lawful Collection:</strong> Ensure explicit consent and cross-border compliance
                             </div>
                             <div class="policy-section">
-                                <strong>PCI Compliance:</strong> For payment data - avoid costly assessments
+                                <strong>PCI DSS:</strong> Minimize stored cardholder data (tokenize or outsource processing) to shrink compliance scope and assessment cost
                             </div>
                             <div class="policy-section">
                                 <strong>Third-Party Vendors:</strong> Due diligence on security, tight contracts
@@ -1000,7 +1011,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>👥 Employee Policy Amendments for Big Data</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1032,7 +1043,7 @@
 
         <!-- SLIDE 5: IoT and BYOD Policies -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Policies 5 & 6: Internet of Things and BYOD/Mobile</span>
                 <span class="slide-number">Part 5 of 6</span>
             </div>
@@ -1043,7 +1054,7 @@
                     <p style="font-size:20px;">McKinsey Global Estimates</p>
                     <div class="stat-number">$6.2T</div>
                     <p>Potential IoT value by 2025</p>
-                    <p style="margin-top:10px; font-size:16px;">50 billion connected devices by 2020</p>
+                    <p style="margin-top:10px; font-size:16px;">Cisco (2011) forecast at the time: 50 billion connected devices by 2020</p>
                 </div>
 
                 <h3>🚨 IoT Attack Examples</h3>
@@ -1057,7 +1068,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>⚠️ Categories of IoT Threats</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1125,7 +1136,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>📋 BYOD Policy Options Spectrum</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1140,7 +1151,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>🔑 BYOD Policy Key Content</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1194,10 +1205,10 @@
                 <div class="quiz-container">
                     <div class="quiz-question">🎯 Statistics Check</div>
                     <p style="margin-bottom:15px;">What percentage of companies now allow BYOD according to the chapter?</p>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">A) 50%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">B) 65%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, false, 'quiz5')">C) 75%</div>
-                    <div class="quiz-option" onclick="checkAnswer(this, true, 'quiz5')">D) 85%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz5')">A) 50%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz5')">B) 65%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, false, 'quiz5')">C) 75%</div>
+                    <div class="quiz-option" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="checkAnswer(this, true, 'quiz5')">D) 85%</div>
                     <div id="quiz5-feedback" class="feedback"></div>
                 </div>
 
@@ -1209,7 +1220,7 @@
 
         <!-- SLIDE 6: Conclusion and Integration -->
         <div class="slide">
-            <div class="slide-header" onclick="toggleSlide(this)">
+            <div class="slide-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleSlide(this)">
                 <span>Bringing It All Together: Integrated Policy Management</span>
                 <span class="slide-number">Part 6 of 6</span>
             </div>
@@ -1251,7 +1262,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>🔗 Common Themes Across All Six Policies</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1270,7 +1281,7 @@
                 </div>
 
                 <div class="expandable">
-                    <div class="expandable-header" onclick="toggleExpand(this)">
+                    <div class="expandable-header" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="toggleExpand(this)">
                         <span>📊 Maturity Considerations</span>
                         <span class="expand-icon">▶</span>
                     </div>
@@ -1317,7 +1328,7 @@
                     <p><strong>Elliot Bryan, BA (Hons), ACII</strong></p>
                     <ul style="margin-top:10px;">
                         <li>Associate at Willis Towers Watson, London</li>
-                        <li>Specializes in cyber, TMT, and IP insurance</li>
+                        <li>Specializes in cyber, TMT (technology, media and telecom), and IP insurance</li>
                         <li>Graduate of University of Sheffield</li>
                     </ul>
                     
@@ -1326,7 +1337,7 @@
                         <li>President of Baldwin Global Risk Services</li>
                         <li>Fellow of Institute of Risk Management</li>
                         <li>15 years experience across UK, Middle East, Asia</li>
-                        <li>Expert in ERM, PRM, and BCM processes</li>
+                        <li>Expert in ERM, PRM (Project Risk Management), and BCM processes</li>
                     </ul>
                 </div>
 
@@ -1353,25 +1364,40 @@
         <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
             <p style="font-size: 16px;">📖 Based on "The Cyber Risk Handbook: Creating and Measuring Effective Cybersecurity Capabilities"</p>
             <p style="font-size: 14px; margin-top: 10px;">Chapter 4: Cybersecurity Policies and Procedures | By Elliot Bryan & Alexander Larsen</p>
-            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Click sections to explore</p>
+            <p style="font-size: 12px; margin-top: 20px;">Interactive Learning Module | Scroll through the sections or use the buttons below; the bar tracks your progress</p>
         </div>
     </div>
 
     <script>
         // Track progress
         let sectionsViewed = new Set();
-        let currentSlide = 0;
 
         function updateProgress() {
-            const progress = (sectionsViewed.size / 6) * 100;
+            const progress = (sectionsViewed.size / document.querySelectorAll('.slide').length) * 100;
             document.getElementById('progress').style.width = progress + '%';
         }
 
-        function toggleSlide(header) {
-            const slide = header.nextElementSibling;
-            const slideNumber = parseInt(header.querySelector('.slide-number').textContent.match(/\d+/)[0]);
-            sectionsViewed.add(slideNumber);
+        function markViewed(slideEl) {
+            if (!slideEl) return;
+            const label = slideEl.querySelector('.slide-number');
+            const match = label && label.textContent.match(/\d+/);
+            if (!match) return;
+            sectionsViewed.add(parseInt(match[0], 10));
             updateProgress();
+        }
+
+        function toggleSlide(header) {
+            const slide = header.closest('.slide') || header.parentElement;
+            markViewed(slide);
+            slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reading a section also counts toward progress.
+        if ('IntersectionObserver' in window) {
+            const viewedObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) markViewed(entry.target); });
+            }, { threshold: 0.35 });
+            document.querySelectorAll('.slide').forEach(slide => viewedObserver.observe(slide));
         }
 
         function toggleExpand(element) {
@@ -1385,22 +1411,22 @@
         function checkAnswer(element, isCorrect, quizId) {
             const options = element.parentElement.querySelectorAll('.quiz-option');
             const feedbackDiv = document.getElementById(quizId + '-feedback');
-            
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
+                opt.setAttribute('aria-disabled', 'true');
                 opt.classList.remove('correct', 'incorrect');
+                if (/checkAnswer\(\s*this\s*,\s*true/.test(opt.getAttribute('onclick') || '')) {
+                    opt.classList.add('correct');
+                }
             });
-            
             if (isCorrect) {
-                element.classList.add('correct');
                 feedbackDiv.innerHTML = '✓ Correct! Well done!';
                 feedbackDiv.className = 'feedback correct';
             } else {
                 element.classList.add('incorrect');
-                feedbackDiv.innerHTML = '✗ Not quite. Review the section for the correct answer.';
+                feedbackDiv.innerHTML = '✗ Not quite. The correct answer is highlighted above; review that section again.';
                 feedbackDiv.className = 'feedback incorrect';
             }
-            
             feedbackDiv.style.display = 'block';
         }
 
@@ -1451,7 +1477,7 @@
                 'pay': '<div style="background:#ffcdd2; padding:15px; border-radius:8px;"><h4>Dangerous precedent</h4><p>No guarantee of getting data back. Encourages repeat attacks. May be illegal in some jurisdictions.</p></div>',
                 'negotiate': '<div style="background:#fff3cd; padding:15px; border-radius:8px;"><h4>Risky delay</h4><p>Loses critical time. Still may end up paying with additional operational losses.</p></div>',
                 'restore': '<div style="background:#c8e6c9; padding:15px; border-radius:8px;"><h4>✓ If viable</h4><p>Best option if backups are recent enough. Accept 2 weeks of data loss vs. paying ransom. Investigate attack vector.</p></div>',
-                'law': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Important step</h4><p>Should be done regardless. FBI/law enforcement can help but cannot recover data. Combine with restoration efforts.</p></div>'
+                'law': '<div style="background:#e8f4fd; padding:15px; border-radius:8px;"><h4>Important step</h4><p>Should be done regardless. FBI/law enforcement can help and occasionally recover keys or funds, but you should not count on it. Combine with restoration efforts.</p></div>'
             };
             
             resultDiv.innerHTML = results[choice];
@@ -1499,27 +1525,33 @@
 
         function showProgress() {
             const viewed = sectionsViewed.size;
-            const total = 6;
+            const total = document.querySelectorAll('.slide').length;
             const percentage = Math.round((viewed / total) * 100);
             
             alert(`Progress: ${viewed}/${total} sections viewed (${percentage}%)\n\n` +
                   `${viewed === total ? 'Congratulations! You\'ve completed Chapter 4!' : 'Keep exploring! ' + (total - viewed) + ' sections remaining.'}`);
         }
 
+        function currentSlideIndex() {
+            const slides = document.querySelectorAll('.slide');
+            const marker = window.innerHeight / 2;
+            let index = 0;
+            slides.forEach((slide, i) => { if (slide.getBoundingClientRect().top <= marker) index = i; });
+            return index;
+        }
+
         function nextSlide() {
             const slides = document.querySelectorAll('.slide');
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const target = Math.min(currentSlideIndex() + 1, slides.length - 1);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                const slides = document.querySelectorAll('.slide');
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const slides = document.querySelectorAll('.slide');
+            const target = Math.max(currentSlideIndex() - 1, 0);
+            markViewed(slides[target]);
+            slides[target].scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>
