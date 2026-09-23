@@ -59,14 +59,14 @@ MIN_QUIZ_QUESTIONS = {
     "chapter8.html": 4,
     "chapter9.html": 4,
     "nist800-70.html": 5,
-    "cobit.html": 10,
     "core-components.html": 3,
 }
+# cobit.html keys its 10-question quiz through selectOption()/checkAnswer(id) rather than per-option flags.
 
 REGRESSION_GUARDS = {
     "index.html": {
         "forbidden": ("Remidiate", "Frameworks into context"),
-        "required": ("#ciss470", "chapter9.html", "nist800-30r1.html", "core-components.html"),
+        "required": ('id="ciss470"', "chapter9.html", "nist800-30r1.html", "core-components.html"),
     },
     "nist800-53.html": {
         "forbidden": ("function showBaseline(",),
@@ -80,6 +80,7 @@ REGRESSION_GUARDS = {
 
 BANNED_COPY = ("Remidiate", "Retreive", "Summerize", "Lorem ipsum", "TODO:")
 JS_GLOBALS = {
+    "if", "for", "while", "switch", "catch", "return", "typeof", "function",
     "event", "alert", "confirm", "prompt", "window", "document", "location", "this", "parseInt",
     "parseFloat", "setTimeout", "clearTimeout", "console", "history", "print", "open", "close",
     "stopPropagation", "preventDefault", "Number", "String", "Math", "JSON", "Date",
@@ -149,19 +150,52 @@ def called_functions(handlers: list[str]) -> set[str]:
 
 
 def quiz_keys(text: str) -> dict[str, int]:
-    """Map checkAnswer quiz id -> number of options keyed correct (checkAnswer(this, bool, 'id') style)."""
+    """Map quiz id -> number of options keyed correct.
+
+    Handles checkAnswer(this, true|false, 'id') and, for pages that key options with a
+    string instead, checkAnswer(this, 'correct'|'incorrect', ...), where each 'correct'
+    option is treated as its own question.
+    """
     keys: dict[str, int] = {}
-    for is_correct, quiz_id in re.findall(r"checkAnswer\(\s*this\s*,\s*(true|false)\s*,\s*['\"]([^'\"]+)['\"]\s*\)", text):
+    for is_correct, quiz_id in re.findall(r"checkAnswer\(\s*this\s*,\s*(true|false)\s*,\s*['\"]([^'\"]+)['\"]", text):
         keys.setdefault(quiz_id, 0)
         if is_correct == "true":
             keys[quiz_id] += 1
+    for index, _ in enumerate(re.findall(r"checkAnswer\(\s*this\s*,\s*['\"]correct['\"]", text)):
+        keys[f"string-keyed-{index + 1}"] = 1
     return keys
 
 
-def main() -> int:
-    errors: list[str] = []
+def js_syntax_errors(label: str, script: str) -> list[str]:
+    """Run each page's inline JavaScript through `node --check` when Node is available."""
+    import shutil
+    import subprocess
+    import tempfile
 
-    for page in PAGES:
+    node = shutil.which("node")
+    if not node or not script.strip():
+        return []
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as handle:
+        handle.write(script)
+        temp_path = handle.name
+    try:
+        result = subprocess.run([node, "--check", temp_path], capture_output=True, text=True, timeout=30)
+    finally:
+        Path(temp_path).unlink(missing_ok=True)
+    if result.returncode == 0:
+        return []
+    first_line = (result.stderr.strip().splitlines() or ["syntax error"])[-1]
+    return [f"{label}: inline JavaScript does not parse ({first_line[:160]})"]
+
+
+def main() -> int:
+    import sys
+
+    errors: list[str] = []
+    selected = set(sys.argv[1:])
+    pages = [page for page in PAGES if not selected or page.name in selected]
+
+    for page in pages:
         label = page.name
         if not page.is_file():
             errors.append(f"missing required page: {label}")
@@ -177,8 +211,9 @@ def main() -> int:
             errors.append(f"{label}: missing title")
         if not parser.has_viewport:
             errors.append(f"{label}: missing viewport meta")
-        if parser.h1_count != 1:
-            errors.append(f"{label}: expected exactly one h1, found {parser.h1_count}")
+        expected_h1 = 2 if label == "index.html" else 1  # the portal has one h1 per course tab
+        if parser.h1_count != expected_h1:
+            errors.append(f"{label}: expected {expected_h1} h1 element(s), found {parser.h1_count}")
         duplicates = sorted({item for item in parser.ids if parser.ids.count(item) > 1})
         if duplicates:
             errors.append(f"{label}: duplicate ids {duplicates}")
@@ -189,6 +224,8 @@ def main() -> int:
 
         if label in EXPECTED_CHAPTER_TITLES and EXPECTED_CHAPTER_TITLES[label] not in text:
             errors.append(f"{label}: missing chapter title {EXPECTED_CHAPTER_TITLES[label]!r}")
+
+        errors.extend(js_syntax_errors(label, script))
 
         defined = defined_functions(script)
         for name in sorted(called_functions(parser.handlers)):
@@ -229,7 +266,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print(f"CISS 470 smoke checks passed for {len(PAGES)} pages.")
+    print(f"CISS 470 smoke checks passed for {len(pages)} pages.")
     return 0
 
 
