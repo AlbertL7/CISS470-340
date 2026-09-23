@@ -345,6 +345,19 @@
                 gap: 1rem;
             }
         }
+    
+        /* Knowledge check */
+        .quiz-container { background: var(--surface-light); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; border-left: 4px solid var(--accent); }
+        .quiz-question { font-weight: 600; color: var(--accent); margin-bottom: 1rem; font-size: 1.05rem; }
+        .quiz-option { background: var(--surface); border: 2px solid transparent; border-radius: 8px; padding: 0.85rem 1rem; margin: 0.5rem 0; cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; }
+        .quiz-option:hover { border-color: var(--accent); transform: translateX(4px); }
+        .quiz-option:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+        .quiz-option.correct { background: rgba(34, 197, 94, 0.18); border-color: #22c55e; }
+        .quiz-option.incorrect { background: rgba(239, 68, 68, 0.18); border-color: #ef4444; }
+        .quiz-option[aria-disabled="true"] { cursor: default; transform: none; }
+        .feedback { display: none; margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; line-height: 1.5; color: var(--text); }
+        .feedback.correct { display: block; background: rgba(34, 197, 94, 0.15); border-left: 4px solid #22c55e; }
+        .feedback.incorrect { display: block; background: rgba(239, 68, 68, 0.15); border-left: 4px solid #ef4444; }
     </style>
 </head>
 <body>
@@ -368,6 +381,7 @@
             <div class="nav-item" data-section="frameworks">🏗️ Common Frameworks</div>
             <div class="nav-item" data-section="selection">✅ Selecting Frameworks</div>
             <div class="nav-item" data-section="constraints">⚠️ Constraints</div>
+            <div class="nav-item" data-section="knowledge-check">🎯 Knowledge Check</div>
             <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
         </nav>
 
@@ -1013,6 +1027,42 @@
                 <p style="margin-top: 1.5rem;">Obviously, it is prudent to prioritize and close obvious or already previously identified gaps quickly, rather than waiting for the end of a more comprehensive cybersecurity transformation project.</p>
             </section>
 
+            <section class="section" id="knowledge-check">
+                <h2>🎯 Knowledge Check</h2>
+                <p>Four quick questions drawn from this chapter. Choose an answer to see the explanation.</p>
+                <div class="quiz-container">
+                    <div class="quiz-question">1. According to the chapter, which statement about cybersecurity standards and frameworks is correct?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) ISO 27001 is the best standard for every organization.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch6q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) There is no single “best” cybersecurity standard or framework, but there are many good tools for the job at hand.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) NIST SP 800-53 is legally required for all private companies.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Adopting a framework removes the need for a security strategy.</div>
+                    <div id="ch6q1-feedback" class="feedback" data-why="The chapter states that there is no “best” standard or framework; the right choice depends on the organization’s objectives, context, and risk profile."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">2. What does the chapter say CEO Tom should do first, before selecting any framework or standard?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Buy a governance, risk, and compliance software tool.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch6q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Clarify the organization’s objectives or purpose regarding the risks and issues to address or mitigate.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Hire an external audit firm.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Schedule a penetration test.</div>
+                    <div id="ch6q2-feedback" class="feedback" data-why="The first step is to clarify the organization’s objectives or purpose; the objectives then drive which framework fits."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">3. Which framework does the chapter describe as “deliberately not a complete framework” but a widely adopted list of specific, actionable cyber defense controls?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) The ISO/IEC 27000 family</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) COBIT 5 for Information Security</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch6q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) The SANS/CIS Top 20 Critical Security Controls</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) The World Economic Forum Cyber Risk Framework</div>
+                    <div id="ch6q3-feedback" class="feedback" data-why="The SANS/CIS Top 20 is presented as a prioritized list of actionable controls, and as an excellent first step for Tom’s board preparation."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">4. What is the chapter’s bottom-line principle about applying standards and frameworks?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Best practice in a few key areas beats good practice everywhere.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch6q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Consistently applied good practice beats sporadic pockets of “best” practice.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Compliance with one framework guarantees security.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch6q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) The newest framework is always the right choice.</div>
+                    <div id="ch6q4-feedback" class="feedback" data-why="The chapter repeats it in the conclusion: good practice, consistently applied, still beats sporadic pockets of best practice."></div>
+                </div>
+            </section>
             <section class="section" id="conclusion">
                 <h2>🎓 Conclusion</h2>
                 
@@ -1179,6 +1229,26 @@
                 }
             });
         });
+    
+        // Knowledge check
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById(quizId + '-feedback');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                option.setAttribute('aria-disabled', 'true');
+                option.classList.remove('correct', 'incorrect');
+                if (option.dataset.correct === 'true') {
+                    option.classList.add('correct');
+                }
+            });
+            if (!isCorrect) {
+                element.classList.add('incorrect');
+            }
+            feedback.textContent = (isCorrect ? '\u2713 Correct. ' : '\u2717 Not quite. ') + feedback.dataset.why;
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.setAttribute('role', 'status');
+        }
     </script>
 </body>
 </html>

@@ -403,6 +403,19 @@
                 gap: 1rem;
             }
         }
+    
+        /* Knowledge check */
+        .quiz-container { background: var(--surface-light); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; border-left: 4px solid var(--accent); }
+        .quiz-question { font-weight: 600; color: var(--accent); margin-bottom: 1rem; font-size: 1.05rem; }
+        .quiz-option { background: var(--surface); border: 2px solid transparent; border-radius: 8px; padding: 0.85rem 1rem; margin: 0.5rem 0; cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; }
+        .quiz-option:hover { border-color: var(--accent); transform: translateX(4px); }
+        .quiz-option:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+        .quiz-option.correct { background: rgba(34, 197, 94, 0.18); border-color: #22c55e; }
+        .quiz-option.incorrect { background: rgba(239, 68, 68, 0.18); border-color: #ef4444; }
+        .quiz-option[aria-disabled="true"] { cursor: default; transform: none; }
+        .feedback { display: none; margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; line-height: 1.5; color: var(--text); }
+        .feedback.correct { display: block; background: rgba(34, 197, 94, 0.15); border-left: 4px solid #22c55e; }
+        .feedback.incorrect { display: block; background: rgba(239, 68, 68, 0.15); border-left: 4px solid #ef4444; }
     </style>
 </head>
 <body>
@@ -429,6 +442,7 @@
             <div class="nav-item" data-section="compliance">⚖️ Compliance</div>
             <div class="nav-item" data-section="maturity">📈 Maturing Security</div>
             <div class="nav-item" data-section="prioritizing">🎯 Prioritizing Protection</div>
+            <div class="nav-item" data-section="knowledge-check">🎯 Knowledge Check</div>
             <div class="nav-item" data-section="conclusion">🎓 Conclusion</div>
         </nav>
 
@@ -891,6 +905,42 @@
                 </div>
             </section>
 
+            <section class="section" id="knowledge-check">
+                <h2>🎯 Knowledge Check</h2>
+                <p>Four quick questions drawn from this chapter. Choose an answer to see the explanation.</p>
+                <div class="quiz-container">
+                    <div class="quiz-question">1. According to the ISF survey cited in the chapter, the vast majority of network openings used by attackers were created by:</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) State-sponsored hacking groups.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Malicious insiders selling sensitive data.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch7q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Insiders acting accidentally or inadvertently, with no intention of harming their employer.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Third-party software vendors.</div>
+                    <div id="ch7q1-feedback" class="feedback" data-why="The chapter’s ISF survey finding is that most openings were created innocently, often by a trusted employee doing something ordinary such as taking files home."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">2. How many phases does the ISF’s IRAM2 methodology identify?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Three</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) Four</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Five</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch7q2')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Six</div>
+                    <div id="ch7q2-feedback" class="feedback" data-why="IRAM2 has six phases: integrated view, business impact, threat mapping, vulnerability assessment, risk evaluation, and practical approaches."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">3. What is the “compliance trap” described in the chapter?</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Compliance guarantees protection against innovative attacks.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch7q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) A compliance-driven strategy may satisfy regulators but does little to discourage a creative hacker, so organizations must also do everything reasonable to protect mission-critical information.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Being compliant is unnecessary for regulated firms.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q3')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Regulations are always ahead of attackers.</div>
+                    <div id="ch7q3-feedback" class="feedback" data-why="The chapter’s balancing act: you really do have to be compliant, and you also have to do everything reasonable to protect mission-critical information."></div>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-question">4. The “new paradigm” for protection described in the chapter shifts the focus from:</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="true" onclick="checkAnswer(this, true, 'ch7q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">A) Devices and perimeters to the organization’s mission-critical information.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">B) People to technology.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">C) Data to perimeter firewalls.</div>
+                    <div class="quiz-option" role="button" tabindex="0" data-correct="false" onclick="checkAnswer(this, false, 'ch7q4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">D) Insiders to outsiders.</div>
+                    <div id="ch7q4-feedback" class="feedback" data-why="With so many devices and users touching data, the approach to security now begins and ends with the organization’s data, regardless of device or location."></div>
+                </div>
+            </section>
             <section class="section" id="conclusion">
                 <h2>🎓 Conclusion</h2>
                 
@@ -1059,6 +1109,26 @@
                 }
             });
         });
+    
+        // Knowledge check
+        function checkAnswer(element, isCorrect, quizId) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById(quizId + '-feedback');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                option.setAttribute('aria-disabled', 'true');
+                option.classList.remove('correct', 'incorrect');
+                if (option.dataset.correct === 'true') {
+                    option.classList.add('correct');
+                }
+            });
+            if (!isCorrect) {
+                element.classList.add('incorrect');
+            }
+            feedback.textContent = (isCorrect ? '\u2713 Correct. ' : '\u2717 Not quite. ') + feedback.dataset.why;
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.setAttribute('role', 'status');
+        }
     </script>
 </body>
 </html>
