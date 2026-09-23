@@ -222,6 +222,12 @@ def main() -> int:
             if typo in text:
                 errors.append(f"{label}: contains banned copy {typo!r}")
 
+        # House style: no em-dashes or en-dashes in student-facing CISS 470 copy.
+        dash_scope = text[: text.find('id="ciss340"')] if label == "index.html" else text
+        for dash, name in (("—", "em-dash"), ("–", "en-dash")):
+            if dash in dash_scope:
+                errors.append(f"{label}: contains {name} ({dash_scope.count(dash)}x); use a comma, period, or hyphen")
+
         if label in EXPECTED_CHAPTER_TITLES and EXPECTED_CHAPTER_TITLES[label] not in text:
             errors.append(f"{label}: missing chapter title {EXPECTED_CHAPTER_TITLES[label]!r}")
 
