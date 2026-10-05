@@ -2,7 +2,7 @@
 """Fast, dependency-free structural checks for the public CISS 470 pages.
 
 Run: python3 scripts/check_ciss470.py
-Checks every CISS 470 page (Antonucci chapters 1-9 and the standards pages) for:
+Checks every CISS 470 page (Antonucci chapters 1-9, standards, and classroom modules) for:
   - basic document hygiene (lang, title, viewport, single h1, unique ids)
   - inline handlers that call functions the page does not define
   - getElementById / querySelector('#...') targets that do not exist
@@ -31,6 +31,7 @@ STANDARDS = [
         "governance-framework.html",
         "cobit.html",
         "core-components.html",
+        "stig.html",
     )
 ]
 PAGES = [ROOT / "index.html", *CHAPTERS, *STANDARDS]
@@ -66,7 +67,7 @@ MIN_QUIZ_QUESTIONS = {
 REGRESSION_GUARDS = {
     "index.html": {
         "forbidden": ("Remidiate", "Frameworks into context"),
-        "required": ('id="ciss470"', "chapter9.html", "nist800-30r1.html", "core-components.html"),
+        "required": ('id="ciss470"', "chapter9.html", "nist800-30r1.html", "core-components.html", "stig.html"),
     },
     "nist800-53.html": {
         "forbidden": ("function showBaseline(",),
